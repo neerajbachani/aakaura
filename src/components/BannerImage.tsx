@@ -23,7 +23,7 @@ export default function BannerImage({
   };
 
   return (
-    <div className={`relative w-full ${heightClasses[height]} mt-20`}>
+    <div className={`relative w-full ${heightClasses[height]}`}>
       {/* Image with overlay */}
       <div className="absolute inset-0">
         <Image
@@ -45,8 +45,6 @@ export default function BannerImage({
           transition={{ duration: 0.6 }}
           className="max-w-4xl mx-auto"
         >
-
-          
           <h1
             className={`${fonts.specialElite} text-3xl md:text-5xl lg:text-6xl text-primaryBeige mb-4 md:mb-6`}
           >

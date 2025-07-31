@@ -1,42 +1,79 @@
 import SplashScreen from "@/components/SplashScreen";
-import Blogs from "@/components/Blogs";
 import env from "@/config/env";
 import { ApiResponse } from "@/types/Api";
+import { Product } from "@/types/Product";
 import { Blog } from "@/types/Blog";
+import BannerImage from "@/components/BannerImage";
 import OurPath from "@/components/OurPath";
-import Fortune from "@/components/Fortune";
-import { generateSEO } from "@/lib/seo";
+import Blogs from "@/components/Blogs";
+import HomeBottomCTA from "@/components/HomeBottomCTA";
+import ProductsSwiper from "@/components/ProductsSwiper";
+import Container from "@/components/ui/Container";
+
 export const dynamic = "force-dynamic";
 
-export const metadata = generateSEO({
-  title: "Aakaura - Elevate Your Spiritual Journey & Inner Peace",
-  description:
-    "Aakaura is a peaceful space for spirituality, self-healing, and energy awareness. Through thoughtful blogs and handcrafted wellness products, we explore auras, chakras, and mindful living — gently guiding you to embrace life's energies with curiosity and compassion.",
-});
-
-const getFeaturedBlogs = async () => {
+const getFeaturedProducts = async (): Promise<Product[]> => {
   try {
-    const res = await fetch(`${env.API_URL}/api/blogs/featured`);
-    const result: ApiResponse<Blog[]> = await res.json();
-
+    const res = await fetch(`${env.WEB_CLIENT_URL}/api/products/featured`, {
+      cache: "no-store",
+    });
+    const result: ApiResponse<Product[]> = await res.json();
     if (!res.ok) throw new Error(result.message);
     return result.data;
   } catch (error) {
-    console.error("Error fetching blogs:", error);
-    return null;
+    console.error("Error fetching featured products:", error);
+    return [];
+  }
+};
+
+const getFeaturedBlogs = async (): Promise<Blog[]> => {
+  try {
+    const res = await fetch(`${env.WEB_CLIENT_URL}/api/blogs/featured`, {
+      cache: "no-store",
+    });
+    const result: ApiResponse<Blog[]> = await res.json();
+    if (!res.ok) throw new Error(result.message);
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching featured blogs:", error);
+    return [];
   }
 };
 
 export default async function Home() {
-  const featuredBlogs = await getFeaturedBlogs();
-
+  const [featuredProducts, featuredBlogs] = await Promise.all([
+    getFeaturedProducts(),
+    getFeaturedBlogs(),
+  ]);
   return (
     <>
       <SplashScreen />
-      <Fortune />
-      <OurPath />
+      {/* Hero Banner */}
+      <BannerImage
+        heading={
+          <>
+            Discover Unique Products
+            <br />
+            for Your Spiritual Journey
+          </>
+        }
+        subheading="Handpicked, meaningful, and crafted with care. Elevate your space and spirit."
+        src="/images/banner.jpg"
+        height="large"
+      />
+
+      {/* Featured Products Section */}
+      <Container>
+        <ProductsSwiper products={featuredProducts} title="Featured Products" />
+      </Container>
+      {/* Featured Blogs Section */}
       {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />}
-      {/* <ChakraAlignment chakras={chakras} title="Chakra Alignment" /> */}
+
+      {/* About/Our Story Section */}
+      <OurPath />
+
+      {/* Secondary CTA Section */}
+      <HomeBottomCTA />
     </>
   );
 }
