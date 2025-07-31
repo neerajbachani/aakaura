@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -40,7 +40,7 @@ export default function SplashScreen() {
   };
 
   // Letter animation
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 20,
