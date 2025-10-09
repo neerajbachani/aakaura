@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product, ProductVariation } from "@/types/Product";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import fonts from "@/config/fonts";
 
 interface ProductCardProps {
@@ -203,29 +204,48 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </span>
             )}
           </div>
-          {/* CTA Button */}
-          <Link
-            href={`/products/${product.id}`}
-            tabIndex={0}
-            aria-label={`View details for ${product.name}`}
-            className={`${styles.button} ${fonts.merriweather}`}
-          >
-            View Details
-            <svg
-              className={styles.icon}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
+          
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {/* Quick Add to Cart - only show if no variations or single variation */}
+            {product.variations.length <= 1 && (
+              <AddToCartButton
+                productId={product.id}
+                variationId={product.variations[0]?.id}
+                quantity={1}
+                className="flex-1"
+                variant="outline"
+                size={size === "large" ? "md" : "sm"}
+                disabled={product.variations[0] ? !product.variations[0].inStock : false}
+              >
+                {product.variations[0] && !product.variations[0].inStock ? 'Out of Stock' : 'Add to Cart'}
+              </AddToCartButton>
+            )}
+            
+            {/* View Details Button */}
+            <Link
+              href={`/products/${product.id}`}
+              tabIndex={0}
+              aria-label={`View details for ${product.name}`}
+              className={`${product.variations.length <= 1 ? 'flex-1' : 'w-full'} inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-4 py-2 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 text-center ${size === 'large' ? 'text-base py-3' : 'text-sm'} ${fonts.merriweather}`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
-          </Link>
+              {product.variations.length > 1 ? 'Choose Options' : 'View Details'}
+              <svg
+                className={size === 'large' ? 'w-5 h-5' : 'w-4 h-4'}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

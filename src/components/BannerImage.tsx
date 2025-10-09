@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import fonts from "@/config/fonts";
 
 interface BannerImageProps {
@@ -8,6 +9,8 @@ interface BannerImageProps {
   subheading: string;
   src: string;
   height?: "small" | "medium" | "large";
+  buttonText?: string;
+  buttonHref?: string;
 }
 
 export default function BannerImage({
@@ -15,6 +18,8 @@ export default function BannerImage({
   subheading,
   src,
   height = "medium",
+  buttonText,
+  buttonHref,
 }: BannerImageProps) {
   const heightClasses = {
     small: "h-[40vh] md:h-[50vh]",
@@ -55,6 +60,22 @@ export default function BannerImage({
           >
             {subheading}
           </div>
+          
+          {buttonText && buttonHref && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="mt-8"
+            >
+              <Link
+                href={buttonHref}
+                className="inline-block px-8 py-3 bg-primaryRed hover:bg-primaryRed/90 text-primaryBeige font-medium rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl"
+              >
+                {buttonText}
+              </Link>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Decorative elements */}

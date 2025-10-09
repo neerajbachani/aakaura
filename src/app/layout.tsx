@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { SplashScreenProvider } from "@/context/SplashScreenProvider";
+import { QueryProvider } from "@/providers/QueryProvider";
 import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
@@ -23,11 +24,13 @@ export default function RootLayout({
       </head>
       <body className="bg-secondaryBeige">
         <Toaster />
-        <SplashScreenProvider>
-          {!isAdminRoute && <Navbar />}
-          <main className={`${!isAdminRoute && "pt-20"}`}>{children}</main>
-          {!isAdminRoute && <Footer />}
-        </SplashScreenProvider>
+        <QueryProvider>
+          <SplashScreenProvider>
+            {!isAdminRoute && <Navbar />}
+            <main className={`${!isAdminRoute && "pt-20"}`}>{children}</main>
+            {!isAdminRoute && <Footer />}
+          </SplashScreenProvider>
+        </QueryProvider>
       </body>
     </html>
   );

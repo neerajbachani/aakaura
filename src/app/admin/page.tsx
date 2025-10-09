@@ -1,154 +1,193 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { FiPlus } from "react-icons/fi";
-import { FaStar, FaEdit, FaRegStar } from "react-icons/fa";
-import { BiCalendarAlt } from "react-icons/bi";
-import { Blog } from "@/types/Blog";
-import { getAllBlogs } from "@/lib/api";
-import { Metadata } from "next";
+"use client";
+import { useDashboardStats } from "@/hooks/admin/useAdminDashboard";
 import AdminTabs from "@/components/ui/AdminTabs";
-export const dynamic = "force-dynamic";
+import StatsCard from "@/components/admin/Dashboard/StatsCard";
+import LoadingSpinner from "@/components/admin/Shared/LoadingSpinner";
+import OrderStatusBadge from "@/components/admin/Orders/OrderStatusBadge";
+import { FaDollarSign, FaShoppingBag, FaUsers, FaBox, FaEye } from "react-icons/fa";
+import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Admin | Aakaura",
-  description: "Manage your blog posts and content.",
-};
+export default function AdminDashboard() {
+  const { data: dashboardData, isLoading, error } = useDashboardStats();
 
-export default async function Admin() {
-  const blogs = await getAllBlogs();
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-7xl mx-auto">
+          <AdminTabs activeTab="dashboard" />
+          <div className="flex items-center justify-center h-64">
+            <LoadingSpinner size="lg" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-7xl mx-auto">
+          <AdminTabs activeTab="dashboard" />
+          <div className="text-center py-12">
+            <p className="text-red-600">Failed to load dashboard data</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const { stats, pendingOrders, recentOrders } = dashboardData!;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondaryBeige to-secondaryBeige/50 p-3 md:p-8">
+    <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:justify-between items-center mb-8 gap-6 md:gap-0">
-          <div>
-            <h1 className="text-4xl font-bold text-primaryBrown mb-2">
-              Admin Dashboard
-            </h1>
-            <p className="text-primaryBrown/60">
-              Manage your blog posts and content
-            </p>
+        <AdminTabs activeTab="dashboard" />
+        
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600 mt-2">Welcome back! Here's what's happening with your store.</p>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatsCard
+            title="Total Revenue"
+            value={`₹${stats.revenue.current.toLocaleString()}`}
+            change={{
+              value: stats.revenue.change,
+              type: stats.revenue.change >= 0 ? "increase" : "decrease"
+            }}
+            icon={FaDollarSign}
+            color="green"
+          />
+          <StatsCard
+            title="Total Orders"
+            value={stats.orders.current}
+            change={{
+              value: stats.orders.change,
+              type: stats.orders.change >= 0 ? "increase" : "decrease"
+            }}
+            icon={FaShoppingBag}
+            color="blue"
+          />
+          <StatsCard
+            title="New Users"
+            value={stats.users.current}
+            change={{
+              value: stats.users.change,
+              type: stats.users.change >= 0 ? "increase" : "decrease"
+            }}
+            icon={FaUsers}
+            color="purple"
+          />
+          <StatsCard
+            title="Total Products"
+            value={stats.products.total}
+            icon={FaBox}
+            color="yellow"
+          />
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Stats</h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Pending Orders</span>
+                <Link 
+                  href="/admin/orders?status=PENDING"
+                  className="text-orange-600 hover:text-orange-700 font-medium"
+                >
+                  {pendingOrders}
+                </Link>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Products In Stock</span>
+                <span className="text-green-600 font-medium">{stats.products.inStock}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Out of Stock</span>
+                <span className="text-red-600 font-medium">{stats.products.outOfStock}</span>
+              </div>
+            </div>
           </div>
 
-          <Link
-            href="/admin/blogs/new"
-            className="inline-flex items-center gap-2 bg-primaryRed text-white px-6 py-3 rounded-lg hover:bg-primaryRed/90 transition-all duration-300 font-medium shadow-sm hover:shadow-md active:scale-[0.98]"
-          >
-            <FiPlus className="text-xl" />
-            New Blog
-          </Link>
+          {/* Recent Orders */}
+          <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Recent Orders</h3>
+              <Link 
+                href="/admin/orders"
+                className="text-primaryRed hover:text-primaryRed/80 text-sm font-medium"
+              >
+                View All
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {recentOrders.slice(0, 5).map((order) => (
+                <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3">
+                      <span className="font-medium text-gray-900">{order.orderNumber}</span>
+                      <OrderStatusBadge status={order.status as any} />
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">{order.customerName}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium text-gray-900">₹{order.total.toLocaleString()}</p>
+                    <p className="text-sm text-gray-600">{order.itemsCount} items</p>
+                  </div>
+                  <Link
+                    href={`/admin/orders/${order.id}`}
+                    className="ml-4 p-2 text-gray-400 hover:text-primaryRed transition-colors"
+                  >
+                    <FaEye />
+                  </Link>
+                </div>
+              ))}
+              {recentOrders.length === 0 && (
+                <p className="text-gray-500 text-center py-4">No recent orders</p>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Admin Tabs */}
-        <AdminTabs activeTab="blogs" />
-
-        {/* Content Card */}
-        <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-          {!blogs ? (
-            <div className="p-8 text-center text-primaryBrown/70">
-              <p className="text-lg">No blogs found.</p>
-              <p className="mt-2">
-                Create your first blog post to get started!
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[600px] sm:min-w-full">
-                <thead>
-                  <tr className="border-b border-primaryBeige/30">
-                    <th className="px-4 sm:px-6 py-4 text-left text-primaryBrown font-medium">
-                      Post
-                    </th>
-                    <th className="px-4 sm:px-6 py-4 text-left text-primaryBrown font-medium">
-                      Status
-                    </th>
-                    <th className="px-4 sm:px-6 py-4 text-left text-primaryBrown font-medium">
-                      Created
-                    </th>
-                    <th className="px-4 sm:px-6 py-4 text-right text-primaryBrown font-medium">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {blogs.map((blog: Blog) => (
-                    <tr
-                      key={blog.id}
-                      className="border-b border-primaryBeige/10 hover:bg-primaryBeige/5 transition-colors text-sm sm:text-base"
-                    >
-                      {/* Post Column */}
-                      <td className="px-4 sm:px-6 py-3">
-                        <div className="flex items-center gap-3 sm:gap-4">
-                          <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden flex-shrink-0">
-                            <Image
-                              src={blog.coverImage}
-                              alt={blog.title}
-                              fill
-                              className="object-cover hover:scale-110 transition-transform duration-300"
-                            />
-                          </div>
-                          <div className="max-w-[150px] sm:max-w-none">
-                            <Link
-                              href={`/admin/blogs/${blog.id}`}
-                              className="text-primaryBrown font-medium hover:text-primaryRed transition-colors line-clamp-2"
-                            >
-                              {blog.title}
-                            </Link>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Status Column */}
-                      <td className="px-4 sm:px-6 py-3">
-                        <div className="flex items-center gap-1 sm:gap-2">
-                          {blog.isFeatured ? (
-                            <FaStar className="text-yellow-500 text-base sm:text-lg" />
-                          ) : (
-                            <FaRegStar className="text-primaryBrown/40 text-base sm:text-lg" />
-                          )}
-                          <span className="text-xs sm:text-sm text-primaryBrown/70">
-                            {blog.isFeatured ? "Featured" : "Standard"}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Date Column */}
-                      <td className="px-4 sm:px-6 py-3">
-                        <div className="flex items-center gap-1 sm:gap-2 text-primaryBrown/70">
-                          <BiCalendarAlt className="text-base sm:text-lg" />
-                          <span className="text-xs sm:text-sm">
-                            {new Date(blog.createdAt).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Actions Column */}
-                      <td className="px-4 sm:px-6 py-3">
-                        <div className="flex items-center justify-end gap-2">
-                          <Link
-                            href={`/admin/blogs/${blog.id}`}
-                            className="p-2 text-primaryBrown/70 hover:text-primaryRed hover:bg-primaryRed/10 rounded-lg transition-colors"
-                          >
-                            <FaEdit className="text-base sm:text-lg" />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+        {/* Quick Actions */}
+        {/* <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link
+              href="/admin/orders?status=PENDING"
+              className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
+            >
+              <FaShoppingBag className="text-orange-600" />
+              <span className="font-medium text-orange-700">Pending Orders</span>
+            </Link>
+            <Link
+              href="/admin/products/new"
+              className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+            >
+              <FaBox className="text-blue-600" />
+              <span className="font-medium text-blue-700">Add Product</span>
+            </Link>
+            <Link
+              href="/admin/users"
+              className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+            >
+              <FaUsers className="text-purple-600" />
+              <span className="font-medium text-purple-700">Manage Users</span>
+            </Link>
+            <Link
+              href="/admin/analytics"
+              className="flex items-center gap-3 p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+            >
+              <FaDollarSign className="text-green-600" />
+              <span className="font-medium text-green-700">View Analytics</span>
+            </Link>
+          </div>
+        </div> */}
       </div>
     </div>
   );

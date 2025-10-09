@@ -60,6 +60,8 @@ export default async function Home() {
         subheading="Handpicked, meaningful, and crafted with care. Elevate your space and spirit."
         src="/images/banner.jpg"
         height="large"
+        buttonText="Start Your Journey"
+        buttonHref="/journey"
       />
 
       {/* Featured Products Section */}

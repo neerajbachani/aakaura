@@ -1,31 +1,60 @@
-import env from "@/config/env";
-import { ApiError } from "@/middleware/errorHandler";
+import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
+import { prisma } from "@/lib/prisma";
 
-const SECRET_KEY = env.JWT_SECRET || "YOURJWTTOKEN"; // Store this securely
-
-export const authenticate = async (req: Request) => {
-  const authHeader = req.headers.get("authorization");
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new ApiError("Unauthorized: No token provided", 401);
-  }
-
-  const token = authHeader.split(" ")[1];
-
+export async function verifyAdminToken(request: NextRequest) {
   try {
-    const decoded = jwt.verify(token, SECRET_KEY) as {
-      role: string;
-      email: string;
-    };
+    const token = request.cookies.get("admin_token")?.value;
     
-
-    if (decoded.role !== "admin" || decoded.email !== env.ADMIN_EMAIL) {
-      throw new ApiError("Forbidden: Admin access required", 403);
+    if (!token) {
+      return null;
     }
 
-    return decoded;
-  } catch {
-    throw new ApiError("Unauthorized: Invalid token", 401);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { email: string; role: string };
+    
+    // For admin login, we don't need to check database since it's env-based
+    if (decoded.role === "admin") {
+      return {
+        id: "admin",
+        email: decoded.email,
+        name: "Admin",
+        role: "ADMIN"
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Admin token verification failed:", error);
+    return null;
   }
-};
+}
+
+export async function verifyUserToken(request: NextRequest) {
+  try {
+    const token = request.cookies.get("auth-token")?.value;
+    
+    if (!token) {
+      return null;
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+    
+    const user = await prisma.user.findFirst({
+      where: { 
+        id: decoded.userId,
+        isActive: true
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true
+      }
+    });
+
+    return user;
+  } catch (error) {
+    console.error("User token verification failed:", error);
+    return null;
+  }
+}

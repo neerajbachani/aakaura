@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Product, ProductVariation } from "@/types/Product";
 import fonts from "@/config/fonts";
 import Image from "next/image";
@@ -11,18 +11,20 @@ import "swiper/css";
 import "swiper/css/pagination";
 import BackButton from "@/components/ui/BackButton";
 import Container from "@/components/ui/Container";
-import { FaShoppingCart } from "react-icons/fa";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { BsLightning } from "react-icons/bs";
 import { Swiper as SwiperType } from "swiper";
 
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [selectedVariation, setSelectedVariation] =
     useState<ProductVariation | null>(null);
+  const [quantity, setQuantity] = useState(1);
 
   // Fetch product and recommendations
   useEffect(() => {
@@ -351,17 +353,53 @@ const ProductPage: React.FC = () => {
                 </div>
               )}
 
+              {/* Quantity Selector */}
+              <div className="flex items-center gap-4">
+                <span className={`${fonts.mulish} font-medium text-primaryBrown`}>
+                  Quantity:
+                </span>
+                <div className="flex items-center border border-neutral-200 rounded-lg">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="px-3 py-2 hover:bg-gray-100 transition-colors"
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <span className="px-4 py-2 font-medium min-w-[3rem] text-center">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(Math.min(99, quantity + 1))}
+                    className="px-3 py-2 hover:bg-gray-100 transition-colors"
+                    disabled={quantity >= 99}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <button
-                  className={`flex-1 inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-6 py-3 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 ${fonts.merriweather}`}
+                <AddToCartButton
+                  productId={product.id}
+                  variationId={selectedVariation?.id}
+                  quantity={quantity}
+                  className={`flex-1 ${fonts.merriweather}`}
+                  variant="primary"
+                  size="lg"
+                  disabled={selectedVariation ? !selectedVariation.inStock : false}
                 >
-                  <FaShoppingCart className="w-4 h-4" />
-                  Add to Cart
-                </button>
+                  {selectedVariation && !selectedVariation.inStock ? 'Out of Stock' : 'Add to Cart'}
+                </AddToCartButton>
 
                 <button
-                  className={`flex-1 inline-flex items-center justify-center gap-2 bg-primaryRed text-white px-6 py-3 rounded-lg font-semibold hover:bg-primaryRed/90 transition-colors duration-200 ${fonts.merriweather}`}
+                  onClick={() => {
+                    // For now, just redirect to checkout - you could implement buy now functionality
+                    router.push('/checkout');
+                  }}
+                  disabled={selectedVariation ? !selectedVariation.inStock : false}
+                  className={`flex-1 inline-flex items-center justify-center gap-2 bg-primaryRed text-white px-6 py-3 rounded-lg font-semibold hover:bg-primaryRed/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${fonts.merriweather}`}
                 >
                   <BsLightning className="w-4 h-4" />
                   Buy Now
