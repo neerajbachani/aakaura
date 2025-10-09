@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
 const prisma = new PrismaClient();
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE() {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;

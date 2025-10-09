@@ -35,7 +35,7 @@ export function SignupForm({ onSwitchToLogin, onClose }: SignupFormProps) {
         guestCart: guestCart.length > 0 ? guestCart : undefined,
       });
       onClose?.();
-    } catch (error) {
+    } catch {
       // Error is handled by the mutation
     }
   };

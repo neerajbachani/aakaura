@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 const prisma = new PrismaClient();
 
 // Get user cart
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
-    
+
     const cartItems = await prisma.cartItem.findMany({
       where: { userId: decoded.userId },
       include: {
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
 
     // Calculate totals
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    
+
     const totalPrice = cartItems.reduce((sum, item) => {
       const itemPrice = item.variation?.price || item.product.price;
       return sum + (itemPrice * item.quantity);

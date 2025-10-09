@@ -34,7 +34,7 @@ export function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps) {
         guestCart: guestCart.length > 0 ? guestCart : undefined,
       });
       onClose?.();
-    } catch (error) {
+    } catch {
       // Error is handled by the mutation
     }
   };
@@ -107,7 +107,7 @@ export function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps) {
         {onSwitchToSignup && (
           <div className="text-center">
             <p className="text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <button
                 type="button"
                 onClick={onSwitchToSignup}

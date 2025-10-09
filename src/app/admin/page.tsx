@@ -46,7 +46,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600 mt-2">Welcome back! Here's what's happening with your store.</p>
+          <p className="text-gray-600 mt-2">Welcome back! Here&apos;s what&apos;s happening with your store.</p>
         </div>
 
         {/* Stats Cards */}
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
                       <span className="font-medium text-gray-900">{order.orderNumber}</span>
-                      <OrderStatusBadge status={order.status as any} />
+                      <OrderStatusBadge status={order.status as "PENDING" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED"} />
                     </div>
                     <p className="text-sm text-gray-600 mt-1">{order.customerName}</p>
                   </div>

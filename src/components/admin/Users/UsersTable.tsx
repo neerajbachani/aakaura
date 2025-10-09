@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useUsers, useToggleUserStatus } from "@/hooks/admin/useAdminUsers";
 import UserStatusBadge from "./UserStatusBadge";
 import LoadingSpinner from "../Shared/LoadingSpinner";
-import { FaEye, FaEdit, FaToggleOn, FaToggleOff, FaSearch, FaFilter } from "react-icons/fa";
+import { FaEye, FaToggleOn, FaToggleOff, FaSearch, FaFilter } from "react-icons/fa";
 
 interface UserFilters {
   page: number;

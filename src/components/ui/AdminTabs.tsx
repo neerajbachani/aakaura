@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FaNewspaper, FaBox, FaHome, FaShoppingBag, FaUsers, FaChartBar } from "react-icons/fa";
+import { FaNewspaper, FaBox, FaHome, FaShoppingBag, FaUsers } from "react-icons/fa";
 
 interface AdminTabsProps {
   activeTab: "dashboard" | "orders" | "users" | "products" | "blogs" | "analytics";

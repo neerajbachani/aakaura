@@ -87,7 +87,7 @@ export default function CheckoutPage() {
       
       // Redirect to order confirmation
       router.push(`/orders/${order.id}`);
-    } catch (error) {
+    } catch {
       // Error is handled by the mutation
     }
   };

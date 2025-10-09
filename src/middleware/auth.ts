@@ -58,3 +58,14 @@ export async function verifyUserToken(request: NextRequest) {
     return null;
   }
 }
+
+export async function authenticate(request: Request) {
+  const nextRequest = new NextRequest(request);
+  const user = await verifyAdminToken(nextRequest);
+  
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
+  
+  return user;
+}

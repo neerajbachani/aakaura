@@ -5,7 +5,7 @@ import UserStatusBadge from "@/components/admin/Users/UserStatusBadge";
 import OrderStatusBadge from "@/components/admin/Orders/OrderStatusBadge";
 import LoadingSpinner from "@/components/admin/Shared/LoadingSpinner";
 import Link from "next/link";
-import { FaArrowLeft, FaEdit, FaToggleOn, FaToggleOff, FaEye, FaMapMarkerAlt, FaPhone, FaEnvelope, FaCalendar, FaShoppingBag } from "react-icons/fa";
+import { FaArrowLeft, FaToggleOn, FaToggleOff, FaEye, FaMapMarkerAlt, FaPhone, FaCalendar, FaShoppingBag } from "react-icons/fa";
 
 interface UserDetailPageProps {
   params: {

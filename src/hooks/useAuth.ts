@@ -8,7 +8,7 @@ import {
   UpdateProfileInput, 
   ChangePasswordInput 
 } from '@/lib/validations/auth';
-import { formatGuestCartForAPI, clearGuestCart } from '@/lib/guestCart';
+import { clearGuestCart } from '@/lib/guestCart';
 
 export interface User {
   id: string;

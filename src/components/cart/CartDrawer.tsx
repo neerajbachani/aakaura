@@ -7,7 +7,7 @@ import { useCart, useClearCart } from '@/hooks/useCart';
 import { CartItem } from './CartItem';
 import { CartSummary } from './CartSummary';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 interface CartDrawerProps {
   isOpen: boolean;

@@ -13,11 +13,7 @@ import { toast } from 'react-hot-toast';
 import { useAuthStatus } from '@/hooks/useAuth';
 import { 
   getGuestCart, 
-  addToGuestCart as addToGuestCartUtil,
-  updateGuestCartItem,
-  removeFromGuestCart as removeFromGuestCartUtil,
-  clearGuestCart as clearGuestCartUtil,
-  getGuestCartItemCount
+  addToGuestCart as addToGuestCartUtil
 } from '@/lib/guestCart';
 
 // Guest cart utilities
@@ -327,7 +323,7 @@ export const useCreateOrder = () => {
 
   return useMutation({
     mutationFn: createOrder,
-    onSuccess: (order) => {
+    onSuccess: () => {
       toast.success('Order created successfully');
       // Clear cart cache since order creation clears the cart
       queryClient.setQueryData<Cart>(queryKeys.cart, {

@@ -6,11 +6,9 @@ import LoadingSpinner from "@/components/admin/Shared/LoadingSpinner";
 import Link from "next/link";
 import {
   FaArrowLeft,
-  FaEdit,
   FaPhone,
   FaEnvelope,
   FaMapMarkerAlt,
-  FaCalendar,
   FaBox,
 } from "react-icons/fa";
 import { useState } from "react";

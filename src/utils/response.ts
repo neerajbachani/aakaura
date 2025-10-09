@@ -1,4 +1,4 @@
-export const successResponse = (message: string, data: any = null, status: number = 200) => {
+export const successResponse = (message: string, data: unknown = null, status: number = 200) => {
   return Response.json(
     {
       status,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuthStatus, useLogin, useSignup, useLogout } from '@/hooks/useAuth';
+import { useAuthStatus, useLogout } from '@/hooks/useAuth';
 import { useCart, useAddToCart } from '@/hooks/useCart';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { CartDrawer } from '@/components/cart/CartDrawer';
@@ -15,7 +15,7 @@ export default function DemoPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [demoProduct, setDemoProduct] = useState<any>(null);
+  const [demoProduct, setDemoProduct] = useState<{ id: string; name: string; price: number } | null>(null);
 
   // Fetch a demo product
   useEffect(() => {

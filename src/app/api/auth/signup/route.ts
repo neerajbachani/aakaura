@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { signupSchema } from '@/lib/validations/auth';
 import { hashPassword, generateToken, setAuthCookie } from '@/lib/auth';
-import { formatGuestCartForAPI } from '@/lib/guestCart';
+
 
 const prisma = new PrismaClient();
 

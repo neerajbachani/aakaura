@@ -40,7 +40,7 @@ export function AddToCartButton({
       // Show success state briefly
       setIsAdded(true);
       setTimeout(() => setIsAdded(false), 2000);
-    } catch (error) {
+    } catch {
       // Error is handled by the mutation
     }
   };

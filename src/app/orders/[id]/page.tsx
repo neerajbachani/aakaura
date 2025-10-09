@@ -106,7 +106,7 @@ export default function OrderConfirmationPage() {
           <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
           <p className="text-gray-600 mb-4">
-            Thank you for your order. We'll send you a confirmation email shortly.
+            Thank you for your order. We&apos;ll send you a confirmation email shortly.
           </p>
           <div className="bg-gray-50 rounded-lg p-4 inline-block">
             <p className="text-sm text-gray-600">Order Number</p>
@@ -186,7 +186,7 @@ export default function OrderConfirmationPage() {
           transition={{ delay: 0.2 }}
           className="bg-white rounded-lg shadow-sm p-6"
         >
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">What's Next?</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">What&apos;s Next?</h2>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium">
@@ -194,7 +194,7 @@ export default function OrderConfirmationPage() {
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Order Confirmation</h3>
-                <p className="text-gray-600 text-sm">You'll receive an email confirmation shortly with your order details.</p>
+                <p className="text-gray-600 text-sm">You&apos;ll receive an email confirmation shortly with your order details.</p>
               </div>
             </div>
             
@@ -204,7 +204,7 @@ export default function OrderConfirmationPage() {
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Processing</h3>
-                <p className="text-gray-600 text-sm">We'll prepare your order for shipment within 1-2 business days.</p>
+                <p className="text-gray-600 text-sm">We&apos;ll prepare your order for shipment within 1-2 business days.</p>
               </div>
             </div>
             
@@ -214,7 +214,7 @@ export default function OrderConfirmationPage() {
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Shipping</h3>
-                <p className="text-gray-600 text-sm">You'll receive tracking information once your order ships.</p>
+                <p className="text-gray-600 text-sm">You&apos;ll receive tracking information once your order ships.</p>
               </div>
             </div>
           </div>
