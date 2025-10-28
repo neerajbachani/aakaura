@@ -6,6 +6,28 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
+import { Besley, Cormorant_Garamond, Montserrat } from "next/font/google";
+
+
+// const montserrat = Montserrat({
+//   subsets: ["latin"],
+//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+//   variable: "--font-montserrat",
+// });
+
+// const besley = Besley({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700", "800", "900"],
+//   variable: "--font-besley",
+// });
+
+const CormorantGaramond = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant-garamond",
+});
+
 
 export default function RootLayout({
   children,
@@ -22,12 +44,16 @@ export default function RootLayout({
           src="https://analytics.aakaura.in/js/script.js"
         ></script>
       </head>
-      <body className="bg-secondaryBeige">
+      <body className={`${CormorantGaramond.variable} bg-primaryBeige`}>
         <Toaster />
         <QueryProvider>
           <SplashScreenProvider>
             {!isAdminRoute && <Navbar />}
-            <main className={`${!isAdminRoute && "pt-20"}`}>{children}</main>
+            <main className={`${!isAdminRoute}`}>
+              <SmoothScroll>
+              {children}
+              </SmoothScroll>
+              </main>
             {!isAdminRoute && <Footer />}
           </SplashScreenProvider>
         </QueryProvider>

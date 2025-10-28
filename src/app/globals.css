@@ -8,3 +8,34 @@
   box-sizing: border-box;
 }
 
+
+/* Hide scrollbar for horizontal scroll sections */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+@theme Inline {
+  --font-cormorant-garamond: Cormorant Garamond, serif;
+}
+
+body{
+  .text-stroke-red{
+    -webkit-text-stroke: 1px #A01B04;
+  }
+  .text-stroke-brown{
+    -webkit-text-stroke: 1px #764640;
+  }
+  .text-stroke-blue{
+    -webkit-text-stroke: 1px #caf0f8;
+  }
+}
