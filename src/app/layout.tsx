@@ -7,20 +7,9 @@ import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
-import { Besley, Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
+import { ViewTransitions } from "next-view-transitions";
 
-
-// const montserrat = Montserrat({
-//   subsets: ["latin"],
-//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-//   variable: "--font-montserrat",
-// });
-
-// const besley = Besley({
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700", "800", "900"],
-//   variable: "--font-besley",
-// });
 
 const CormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -34,30 +23,33 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
+  const isHomePage = pathname === "/";
 
   return (
-    <html lang="en">
-      <head>
-        <script
-          defer
-          data-domain="aakaura.in"
-          src="https://analytics.aakaura.in/js/script.js"
-        ></script>
-      </head>
-      <body className={`${CormorantGaramond.variable} bg-primaryBeige`}>
-        <Toaster />
-        <QueryProvider>
-          <SplashScreenProvider>
-            {!isAdminRoute && <Navbar />}
-            <main className={`${!isAdminRoute}`}>
-              <SmoothScroll>
-              {children}
-              </SmoothScroll>
-              </main>
-            {!isAdminRoute && <Footer />}
-          </SplashScreenProvider>
-        </QueryProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <head>
+          <script
+            defer
+            data-domain="aakaura.in"
+            src="https://analytics.aakaura.in/js/script.js"
+          ></script>
+        </head>
+        <body className={`${CormorantGaramond.variable} bg-[#27190B]`}>
+          <Toaster />
+          <QueryProvider>
+            <SplashScreenProvider>
+              {!isAdminRoute && !isHomePage && <Navbar />}
+              <main className={`${!isAdminRoute}`}>
+                {/* <SmoothScroll> */}
+                {children}
+                {/* </SmoothScroll> */}
+                </main>
+              {!isAdminRoute && <Footer />}
+            </SplashScreenProvider>
+          </QueryProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

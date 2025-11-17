@@ -3,7 +3,7 @@ import env from "@/config/env";
 import { ApiResponse } from "@/types/Api";
 import { Product } from "@/types/Product";
 import { Blog } from "@/types/Blog";
-import BannerImage from "@/components/BannerImage";
+import HomeHeroSection from "@/components/HomeHeroSection";
 import OurPath from "@/components/OurPath";
 import Blogs from "@/components/Blogs";
 import HomeBottomCTA from "@/components/HomeBottomCTA";
@@ -48,21 +48,8 @@ export default async function Home() {
   return (
     <>
       <SplashScreen />
-      {/* Hero Banner */}
-      <BannerImage
-        heading={
-          <>
-            Discover Unique Products
-            <br />
-            for Your Spiritual Journey
-          </>
-        }
-        subheading="Handpicked, meaningful, and crafted with care. Elevate your space and spirit."
-        src="/images/banner.jpg"
-        height="large"
-        buttonText="Start Your Journey"
-        buttonHref="/journey"
-      />
+      {/* Hero Section with Navbar, Galaxy, and Chakras */}
+      <HomeHeroSection />
 
       {/* Featured Products Section */}
       <Container>

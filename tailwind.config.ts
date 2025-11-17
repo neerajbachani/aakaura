@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+       fontFamily: {
+        'cormorant': ['var(--font-cormorant-garamond)'],
+      },
       colors: {
         primaryRed: "#A61200",
         primaryBrown: "#764640",

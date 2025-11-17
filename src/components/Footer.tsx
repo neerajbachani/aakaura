@@ -5,7 +5,7 @@ import { FaThreads, FaInstagram } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="bg-primaryBrown text-primaryBeige py-16">
+    <footer className="bg-[#27190B] text-primaryBeige py-16">
       <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Contact Section */}
         <div>

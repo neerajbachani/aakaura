@@ -8,6 +8,9 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: var(--font-cormorant-garamond);
+}
 
 /* Hide scrollbar for horizontal scroll sections */
 .scrollbar-hide {
@@ -24,9 +27,9 @@ html {
   scroll-behavior: smooth;
 }
 
-@theme Inline {
-  --font-cormorant-garamond: Cormorant Garamond, serif;
-}
+/* @theme Inline {
+  --font-cormorant: var(--font-cormorant-garamond);
+} */
 
 body{
   .text-stroke-red{
@@ -38,4 +41,30 @@ body{
   .text-stroke-blue{
     -webkit-text-stroke: 1px #caf0f8;
   }
+}
+
+/* View Transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none !important;
+}
+
+::view-transition-group(root) {
+  z-index: auto !important;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  will-change: clip-path;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 10000;
+  animation: none !important;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none !important;
 }

@@ -1,98 +1,276 @@
 "use client";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import fonts from "@/config/fonts";
+import { useState } from "react";
+import { useTransitionRouter } from "next-view-transitions";
 
-interface BannerImageProps {
-  heading: string | React.ReactNode;
-  subheading: string;
-  src: string;
-  height?: "small" | "medium" | "large";
-  buttonText?: string;
-  buttonHref?: string;
+// Chakras configuration array with slug mapping
+const chakrasConfig = [
+  {
+    id: "expansion",
+    slug: "expansion",
+    name: "Crown",
+    color: "#9333ea",
+    shadow: "rgba(147,51,234,0.9)",
+    image: "/chakras/crown-symbol.svg",
+    position: "center",
+    info: "Connection to divine consciousness and spiritual enlightenment",
+  },
+  {
+    id: "insight",
+    slug: "insight",
+    name: "Third Eye",
+    color: "#3b82f6",
+    shadow: "rgba(59,130,246,0.6)",
+    image: "/chakras/third-eye-symbol.svg",
+    position: "upper-left",
+    info: "Intuition, insight, and inner wisdom",
+  },
+  {
+    id: "expression",
+    slug: "expression",
+    name: "Throat",
+    color: "#06b6d4",
+    shadow: "rgba(6,182,212,0.6)",
+    image: "/chakras/throat-symbol.svg",
+    position: "upper-right",
+    info: "Communication, self-expression, and truth",
+  },
+  {
+    id: "love",
+    slug: "love",
+    name: "Heart",
+    color: "#22c55e",
+    shadow: "rgba(34,197,94,0.6)",
+    image: "/chakras/heart-symbol.svg",
+    position: "middle-left",
+    info: "Love, compassion, and emotional balance",
+  },
+  {
+    id: "power",
+    slug: "power",
+    name: "Solar Plexus",
+    color: "#eab308",
+    shadow: "rgba(234,179,8,0.6)",
+    image: "/chakras/solar-plexus-symbol.svg",
+    position: "middle-right",
+    info: "Personal power, confidence, and self-esteem",
+  },
+  {
+    id: "flow",
+    slug: "flow",
+    name: "Sacral",
+    color: "#f97316",
+    shadow: "rgba(249,115,22,0.6)",
+    image: "/chakras/sacral-symbol.svg",
+    position: "lower-left",
+    info: "Creativity, pleasure, and emotional flow",
+  },
+  {
+    id: "grounding",
+    slug: "grounding",
+    name: "Root",
+    color: "#ef4444",
+    shadow: "rgba(239,68,68,0.6)",
+    image: "/chakras/root-symbol.svg",
+    position: "lower-right",
+    info: "Grounding, stability, and physical security",
+  },
+];
+
+// Chakra Circle Component
+function ChakraCircle({
+  chakra,
+  onNavigate,
+}: {
+  chakra: typeof chakrasConfig[0];
+  onNavigate: (slug: string) => void;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div className="flex flex-col items-center gap-2 relative group">
+      <div
+        className="relative w-[5.8rem] h-[5.8rem] flex items-center justify-center cursor-pointer"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => onNavigate(chakra.slug)}
+      >
+        {/* Glow effect behind SVG - always visible */}
+        <div
+          className="absolute inset-0 rounded-full transition-all duration-500"
+          style={{
+            backgroundColor: chakra.color,
+            filter: "blur(40px)",
+            opacity: 0.8,
+            transform: isHovered ? "scale(1.2)" : "scale(1.4)",
+          }}
+        />
+
+        {/* Additional hover glow */}
+        <div
+          className="absolute inset-0 rounded-full transition-all duration-500"
+          style={{
+            backgroundColor: chakra.color,
+            filter: "blur(60px)",
+            opacity: isHovered ? 0.6 : 0,
+            transform: "scale(1.5)",
+          }}
+        />
+
+        <div
+          className="relative w-24 h-24 transition-transform duration-500 group-hover:scale-110"
+          style={{ filter: "brightness(1.7) contrast(1.8)" }}
+        >
+          <Image
+            src={chakra.image}
+            alt={`${chakra.name} Chakra`}
+            fill
+            className="object-contain"
+          />
+        </div>
+      </div>
+      <p
+        className="text-xl leading-relaxed font-medium "
+        style={{ color: chakra.color }}
+      >
+        {chakra.name}
+      </p>
+
+      {/* Tooltip on hover */}
+      {isHovered && (
+        <div
+          className="absolute left-36 mt-4 bg-black/90 text-white text-md px-3 py-2 rounded-lg shadow-lg text-center text-nowrap z-10 animate-fadeIn"
+          style={{
+            borderColor: chakra.color,
+            borderWidth: "1px",
+          }}
+        >
+          {chakra.info}
+          <div
+            className="absolute left-0 top-[50%] transform -translate-x-1/2 w-2 h-2 -rotate-45 bg-black/90"
+            style={{
+              borderLeft: `1px solid ${chakra.color}`,
+              borderTop: `1px solid ${chakra.color}`,
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default function BannerImage({
-  heading,
-  subheading,
-  src,
-  height = "medium",
-  buttonText,
-  buttonHref,
-}: BannerImageProps) {
-  const heightClasses = {
-    small: "h-[40vh] md:h-[50vh]",
-    medium: "h-[60vh] md:h-[70vh]",
-    large: "h-[80vh] md:h-[90vh]",
+export default function BannerImage() {
+  const router = useTransitionRouter();
+
+  const centerChakra = chakrasConfig.find((c) => c.position === "center");
+  const upperChakras = chakrasConfig.filter((c) =>
+    c.position.startsWith("upper")
+  );
+  const middleChakras = chakrasConfig.filter((c) =>
+    c.position.startsWith("middle")
+  );
+  const lowerChakras = chakrasConfig.filter((c) =>
+    c.position.startsWith("lower")
+  );
+
+  const triggerPageTransition = () => {
+    document.documentElement.animate(
+      [
+        { clipPath: "polygon(25% 75%, 75% 75%, 75% 75%, 25% 75%)" },
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)" },
+      ],
+      {
+        duration: 2000,
+        easing: "cubic-bezier(0.9, 0, 0.1, 1)",
+        pseudoElement: "::view-transition-new(root)",
+      }
+    );
+  };
+
+  const handleNavigation = (slug: string) => {
+    router.push(`/journey/${slug}`, {
+      onTransitionReady: triggerPageTransition,
+    });
   };
 
   return (
-    <div className={`relative w-full ${heightClasses[height]}`}>
-      {/* Image with overlay */}
-      <div className="absolute inset-0">
-        <Image
-          src={src}
-          alt={heading as string}
-          fill
-          className="object-cover"
-          priority
-          quality={100}
-        />
-        <div className="absolute inset-0 bg-primaryBrown/30 backdrop-blur-[2px]" />
-      </div>
+    <section className="min-h-[90vh] bg-transparent flex items-center justify-center px-4 relative">
+        <style jsx>{`
+          @keyframes float {
+            0%,
+            100% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
+          }
 
-      {/* Text Content */}
-      <div className="relative h-full flex flex-col items-center justify-center px-4 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
-        >
-          <h1
-            className={`${fonts.specialElite} text-3xl md:text-5xl lg:text-6xl text-primaryBeige mb-4 md:mb-6`}
-          >
-            {heading}
-          </h1>
-          <div
-            className={`${fonts.dekko} text-lg md:text-xl lg:text-2xl text-secondaryBeige max-w-2xl mx-auto leading-relaxed`}
-          >
-            {subheading}
-          </div>
-          
-          {buttonText && buttonHref && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="mt-8"
-            >
-              <Link
-                href={buttonHref}
-                className="inline-block px-8 py-3 bg-primaryRed hover:bg-primaryRed/90 text-primaryBeige font-medium rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl"
-              >
-                {buttonText}
-              </Link>
-            </motion.div>
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .animate-float {
+            animation: float 6s ease-in-out infinite;
+          }
+
+          .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+          }
+        `}</style>
+
+        {/* Content Layer */}
+        <div className="flex flex-col items-center gap-2 w-full animate-float relative z-10">
+          {/* Center - Crown Chakra */}
+          {centerChakra && (
+            <div className="flex justify-center">
+              <ChakraCircle
+                chakra={centerChakra}
+                onNavigate={handleNavigation}
+              />
+            </div>
           )}
-        </motion.div>
 
-        {/* Decorative elements */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-        >
-          <div className="w-16 h-[1px] bg-primaryBeige/60" />
-          {/* Sacred Symbol with red accent */}
-          <div className="relative w-4 h-4 rotate-45">
-            <div className="absolute inset-0 border border-primaryBeige/40" />
-            <div className="absolute inset-[3px] border border-primaryRed/30" />
+          {/* Upper Row */}
+          <div className="flex justify-between w-full max-w-xl">
+            {upperChakras.map((chakra) => (
+              <ChakraCircle
+                key={chakra.id}
+                chakra={chakra}
+                onNavigate={handleNavigation}
+              />
+            ))}
           </div>
-        </motion.div>
-      </div>
-    </div>
+
+          {/* Middle Row */}
+          <div className="flex justify-between w-full max-w-[60rem]">
+            {middleChakras.map((chakra) => (
+              <ChakraCircle
+                key={chakra.id}
+                chakra={chakra}
+                onNavigate={handleNavigation}
+              />
+            ))}
+          </div>
+
+          {/* Lower Row */}
+          <div className="flex justify-between w-full max-w-[80rem]">
+            {lowerChakras.map((chakra) => (
+              <ChakraCircle
+                key={chakra.id}
+                chakra={chakra}
+                onNavigate={handleNavigation}
+              />
+            ))}
+          </div>
+        </div>
+    </section>
   );
 }

@@ -7,6 +7,7 @@ export interface ChakraProduct {
 export interface ChakraData {
   slug: string;
   name: string;
+  tagline: string;
   sanskritName: string;
   tone: string;
   colors: {
@@ -29,6 +30,7 @@ export const chakrasData: Record<string, ChakraData> = {
   grounding: {
     slug: "grounding",
     name: "Root Chakra",
+    tagline: "Stillness & Coherence",
     sanskritName: "Muladhara",
     tone: "Grounding",
     colors: {
@@ -82,6 +84,7 @@ export const chakrasData: Record<string, ChakraData> = {
   flow: {
     slug: "flow",
     name: "Sacral Chakra",
+    tagline: "Stillness & Coherence",
     sanskritName: "Svadhisthana",
     tone: "Flow",
     colors: {
@@ -135,6 +138,7 @@ export const chakrasData: Record<string, ChakraData> = {
   power: {
     slug: "power",
     name: "Solar Plexus Chakra",
+    tagline: "Stillness & Coherence",
     sanskritName: "Manipura",
     tone: "Power",
     colors: {
@@ -188,6 +192,7 @@ export const chakrasData: Record<string, ChakraData> = {
   love: {
     slug: "love",
     name: "Heart Chakra",
+    tagline: "Stillness & Coherence",
     sanskritName: "Anahata",
     tone: "Love",
     colors: {
@@ -241,6 +246,7 @@ export const chakrasData: Record<string, ChakraData> = {
   expression: {
     slug: "expression",
     name: "Throat Chakra",
+    tagline: "Stillness & Coherence",
     sanskritName: "Vishuddha",
     tone: "Expression",
     colors: {
@@ -294,6 +300,7 @@ export const chakrasData: Record<string, ChakraData> = {
   insight: {
     slug: "insight",
     name: "Third Eye Chakra",
+    tagline: "Stillness & Coherence",
     sanskritName: "Ajna",
     tone: "Insight",
     colors: {
@@ -348,6 +355,7 @@ export const chakrasData: Record<string, ChakraData> = {
     slug: "expansion",
     name: "Crown Chakra",
     sanskritName: "Sahasrara",
+    tagline: "Stillness & Coherence",
     tone: "Expansion",
     colors: {
       primary: "#9333EA",
