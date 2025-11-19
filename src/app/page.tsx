@@ -9,6 +9,7 @@ import Blogs from "@/components/Blogs";
 import HomeBottomCTA from "@/components/HomeBottomCTA";
 import ProductsSwiper from "@/components/ProductsSwiper";
 import Container from "@/components/ui/Container";
+import AboutHeader from "@/components/AboutHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -47,15 +48,19 @@ export default async function Home() {
   ]);
   return (
     <>
-      <SplashScreen />
+      {/* <SplashScreen /> */}
       {/* Hero Section with Navbar, Galaxy, and Chakras */}
       <HomeHeroSection />
 
       {/* Featured Products Section */}
-      <Container>
+      {/* <Container>
         <ProductsSwiper products={featuredProducts} title="Featured Products" />
-      </Container>
+      </Container> */}
       {/* Featured Blogs Section */}
+     
+
+      <AboutHeader/>
+
       {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />}
 
       {/* About/Our Story Section */}

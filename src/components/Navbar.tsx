@@ -548,7 +548,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ delay: 0.2, duration: 0.3 }}
-                className="sticky top-0 bg-primaryBeige z-10 flex items-center justify-between p-6 md:p-8 border-b border-primaryBrown/10"
+                className="sticky top-0 bg-primaryBeige z-20 flex items-center justify-between p-6 md:p-8 border-b border-primaryBrown/10"
               >
                 <h2 className={`text-2xl md:text-3xl text-[#27190b]`}>Menu</h2>
                 <div className="flex items-center gap-3">

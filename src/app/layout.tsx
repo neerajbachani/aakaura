@@ -38,7 +38,7 @@ export default function RootLayout({
         <body className={`${CormorantGaramond.variable} bg-[#27190B]`}>
           <Toaster />
           <QueryProvider>
-            <SplashScreenProvider>
+            {/* <SplashScreenProvider> */}
               {!isAdminRoute && !isHomePage && <Navbar />}
               <main className={`${!isAdminRoute}`}>
                 {/* <SmoothScroll> */}
@@ -46,7 +46,7 @@ export default function RootLayout({
                 {/* </SmoothScroll> */}
                 </main>
               {!isAdminRoute && <Footer />}
-            </SplashScreenProvider>
+            {/* </SplashScreenProvider> */}
           </QueryProvider>
         </body>
       </html>
