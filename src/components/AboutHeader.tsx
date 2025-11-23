@@ -87,23 +87,20 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 export default function AboutHeader() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Track scroll progress relative to this specific section
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // Map scroll progress (0 to 1) to horizontal movement (100% right to 0% center)
   const x = useTransform(scrollYProgress, [0, 1], ["100%", "0%"]);
 
   return (
-    // 1. Create a tall scroll track (300vh makes the scroll last longer)
-    <div ref={containerRef} className="relative h-[300vh]">
+    // CHANGED: Reduced height from 300vh to 200vh to make animation faster
+    <div ref={containerRef} className="relative h-[200vh]">
       
-      {/* 2. Make the content sticky so it pins to the screen */}
       <div className="sticky top-0 h-screen overflow-hidden">
         
-        {/* Aurora Background - Full Width & Height */}
+        {/* Aurora Background */}
         <div className="absolute inset-0 w-full h-full">
           <div className="w-full h-full opacity-30">
             <Aurora 
@@ -115,31 +112,31 @@ export default function AboutHeader() {
           </div>
         </div>
 
-        {/* Content Container (Your Original Code - Unchanged Design) */}
+        {/* Content Container */}
         <div className="relative z-10 h-full flex flex-col justify-between">
           <div className='container mx-auto px-4'>
             <div className="mb-6 flex w-full items-center justify-between">
               <div className='mt-20'>
                 <h1 className="font-sans text-white justify-center text-5xl font-medium leading-[1] tracking-tight md:text-6xl lg:text-9xl">
                   <span className="inline-block overflow-hidden">
-                    <span className="inline-block text-[#BD9958]">
-                      Se<span className="tracking-wide">rv</span>ices
+                    <span className="inline-block font-cormorant text-[#BD9958]">
+                      YO<span className="tracking-wide">U</span>TH
                     </span>
                   </span>
-                  <span className="block overflow-hidden">
-                    <span className="inline-block -translate-y-[8%] text-[#BD9958]">
-                      We provide
+                  <span className="block text-right overflow-hidden">
+                    <span className="inline-block font-cormorant  -translate-y-[8%] text-[#BD9958]">
+                      LED.
                     </span>
                   </span>
                 </h1>
                 
                 <a 
-                   className="hover:text-[#FFD700] group mt-16 hidden max-w-md pb-2 lg:block" 
+                   className="hover:text-[#FFD700] group mt-4 hidden max-w-md pb-2 lg:block" 
                    href="/services"
                 >
                   <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-2 h-[1px] w-full transition-colors duration-300" />
                   <div className="flex items-center justify-between">
-                    <p className="text-lg text-[#BD9958] group-hover:text-[#FFD700] transition-colors">
+                    <p className="text-lg font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors">
                       Learn More
                     </p>
                     <ArrowRightIcon 
@@ -151,30 +148,30 @@ export default function AboutHeader() {
               </div>
               
               <div className="hidden gap-10 text-lg text-white lg:flex">
-                <p className="text-[#BD9958]">[04] Summary:</p>
-                <ul className="space-y-2">
+                {/* <p className="text-[#BD9958]">[04] Summary:</p> */}
+                <ul className="space-y-2 font-cormorant">
                   <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Branding
+                    Content 1
                   </li>
                   <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    UI/UX Design
+                    Content 2
                   </li>
                   <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Development
+                    Content 3
                   </li>
                   <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Packaging
+                    Content 4
                   </li>
                 </ul>
               </div>
             </div>
           </div>
 
-          {/* 3. The REIMAGINED Text Animation */}
+          {/* REIMAGINED Text Animation */}
           <div className="w-full overflow-hidden pb-10">
             <motion.h2 
               style={{ x }}
-              className="whitespace-nowrap text-center text-[12vw] font-bold leading-none text-[#BD9958] opacity-90"
+              className="whitespace-nowrap text-center text-[12vw] font-bold leading-none text-[#BD9958] font-cormorant opacity-90"
             >
               REIMAGINED
             </motion.h2>

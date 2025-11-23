@@ -10,6 +10,8 @@ import HomeBottomCTA from "@/components/HomeBottomCTA";
 import ProductsSwiper from "@/components/ProductsSwiper";
 import Container from "@/components/ui/Container";
 import AboutHeader from "@/components/AboutHeader";
+import BlogSection from "@/components/BlogSection";
+import AnimatedText from "@/components/AnimatedText";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +62,8 @@ export default async function Home() {
      
 
       <AboutHeader/>
-
+      <BlogSection/>
+      <AnimatedText/>
       {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />}
 
       {/* About/Our Story Section */}

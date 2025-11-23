@@ -378,7 +378,7 @@ export const chakrasData: Record<string, ChakraData> = {
     ],
     products: [
       {
-        name: "Divine Connection Oil",
+        name: "Aamvarah Muffler",
         description: "Unite with universal consciousness",
         step: 1,
       },
