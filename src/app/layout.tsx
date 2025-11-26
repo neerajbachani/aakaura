@@ -41,9 +41,9 @@ export default function RootLayout({
             {/* <SplashScreenProvider> */}
               {!isAdminRoute && !isHomePage && <Navbar />}
               <main className={`${!isAdminRoute}`}>
-                {/* <SmoothScroll> */}
+                <SmoothScroll>
                 {children}
-                {/* </SmoothScroll> */}
+                </SmoothScroll>
                 </main>
               {!isAdminRoute && <Footer />}
             {/* </SplashScreenProvider> */}

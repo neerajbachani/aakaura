@@ -64,13 +64,13 @@ export default async function Home() {
       <AboutHeader/>
       <BlogSection/>
       <AnimatedText/>
-      {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />}
+      {/* {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />} */}
 
       {/* About/Our Story Section */}
-      <OurPath />
+      {/* <OurPath /> */}
 
       {/* Secondary CTA Section */}
-      <HomeBottomCTA />
+      {/* <HomeBottomCTA /> */}
     </>
   );
 }

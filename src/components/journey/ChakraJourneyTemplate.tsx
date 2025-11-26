@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useLenis } from "@/context/LenisContext";
 
 // Register GSAP plugin
 if (typeof window !== 'undefined') {
@@ -25,8 +26,14 @@ export default function ChakraJourneyTemplate({
   const [clientType, setClientType] = useState<ClientType>('soul-luxury');
   const section3Ref = useRef<HTMLElement>(null);
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
+  const { lenis } = useLenis();
   
   useRevealer();
+
+  // Close overlay when client type changes
+  useEffect(() => {
+    setExpandedCard(null);
+  }, [clientType]);
 
   // GSAP Horizontal Scroll Effect
   useEffect(() => {
@@ -126,7 +133,7 @@ export default function ChakraJourneyTemplate({
       price: "₹4,500",
       description: "Handcrafted Winter Muffler. Premium wool-blend yarn (soft-touch, breathable & skin-friendly). Traditional handwoven flat knit.",
       ethos: "Artisan-crafted in India. Small-batch, slow-made, supporting traditional craftsmanship.",
-      whatItsFor: "Aamvaraah isn’t made for fast fashion. It’s made for those who appreciate things that last — warm, dependable, and rooted. The kind of muffler your grandfather would approve of… but your wardrobe desperately needed an upgrade. Classic sense, modern soul.",
+      whatItsFor: "Aamvaraah isn't made for fast fashion. It's made for those who appreciate things that last — warm, dependable, and rooted. The kind of muffler your grandfather would approve of… but your wardrobe desperately needed an upgrade. Classic sense, modern soul.",
       features: [
         "Retains warmth without trapping excess heat",
         "Breathable weave for all-day comfort",
@@ -134,6 +141,18 @@ export default function ChakraJourneyTemplate({
       ]
     };
   };
+
+  // Block body scroll when overlay is open
+  useEffect(() => {
+    if (expandedCard !== null) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+    return () => {
+      lenis?.start();
+    };
+  }, [expandedCard, lenis]);
 
   return (
     <div className="min-h-screen bg-[#27190b]">
@@ -176,7 +195,7 @@ export default function ChakraJourneyTemplate({
               {/* Top Text */}
               <div className="absolute top-0 left-0 right-0 p-8">
                 <h2 
-                  className={` text-sm uppercase tracking-[0.3em] font-light text-white`}
+                  className={` text-lg uppercase tracking-[0.3em] font-light text-white`}
                 >
                   {product.name.toUpperCase()}
                 </h2>
@@ -188,14 +207,16 @@ export default function ChakraJourneyTemplate({
                   <div 
                     className={` flex justify-between items-center text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-4 `}
                   >
-                    <span>AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION</span>
-                    <span className=" max-w-md hidden md:block">{product.description.substring(0, 50)}...</span>
+                    <span className="max-w-sm">AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION</span>
                     <button 
                       onClick={() => setExpandedCard(index)}
                       className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1"
                     >
                       VIEW DETAILS
                     </button>
+
+                    <span className=" max-w-md hidden md:block">Add to Waitlist</span>
+                    
                   </div>
                 </div>
               </div>
@@ -230,7 +251,10 @@ export default function ChakraJourneyTemplate({
                       </button>
 
                       {/* Scrollable Content */}
-                      <div className="overflow-y-auto h-full p-8 md:p-16 custom-scrollbar">
+                      <div 
+                        className="overflow-y-auto h-full p-8 md:p-16 custom-scrollbar"
+                        data-lenis-prevent
+                      >
                         <div className="max-w-5xl mx-auto">
                           
                           {/* Client Type Toggle */}
@@ -271,9 +295,9 @@ export default function ChakraJourneyTemplate({
                                   {clientType === 'energy-curious' ? 'Energetic Shield & Warmth' : 'Handcrafted Winter Muffler'}
                                 </p>
                               </div>
-                              <div className="text-3xl md:text-4xl font-cormorant font-light text-[#27190b]">
+                              {/* <div className="text-3xl md:text-4xl font-cormorant font-light text-[#27190b]">
                                 {getContent(clientType).price}
-                              </div>
+                              </div> */}
                             </div>
                           </div>
 
@@ -345,7 +369,7 @@ export default function ChakraJourneyTemplate({
                                 </div>
 
                                 <div className="bg-[#27190b]/5 p-8 rounded-2xl mt-8">
-                                  <h3 className="font-cormorant text-2xl mb-4 italic">"What it’s really for"</h3>
+                                  <h3 className="font-cormorant text-2xl mb-4 italic">"What it's really for"</h3>
                                   <p className="font-light leading-relaxed opacity-90">
                                     {getContent(clientType).whatItsFor}
                                   </p>
@@ -359,13 +383,103 @@ export default function ChakraJourneyTemplate({
                              <button className="bg-[#27190b] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:scale-105">
                                Add to Waitlist • {getContent(clientType).price}
                              </button>
-                             
-                             <a 
-                               href={`/journey/${chakra.slug}/product/${product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')}?type=${clientType}`}
-                               className="text-[#27190b] border border-[#27190b]/20 px-12 py-4 rounded-full text-sm uppercase tracking-widest hover:bg-[#27190b]/5 transition-all"
-                             >
-                               View Full Page
-                             </a>
+                          </div>
+
+                          {/* Suggested Products */}
+                          <div className="py-16 border-t border-[#27190b]/20 mt-16">
+                            <h2 className="text-2xl md:text-3xl font-cormorant font-light mb-8 text-center text-[#27190b]">
+                              Complete Your {chakra.name} Journey
+                            </h2>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                              {chakra.products
+                                .filter(p => p.name !== product.name)
+                                .slice(0, 3)
+                                .map((p, i) => (
+                                  <button 
+                                    key={i}
+                                    onClick={() => {
+                                       const idx = chakra.products.findIndex(cp => cp.name === p.name);
+                                       if (idx !== -1) setExpandedCard(idx);
+                                    }}
+                                    className="group block bg-white/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
+                                  >
+                                    <div className="aspect-[4/5] relative overflow-hidden bg-[#27190b]/10">
+                                      <div 
+                                        className="absolute inset-0 opacity-20"
+                                        style={{ backgroundColor: chakra.colors.primary }}
+                                      />
+                                      <div className="absolute inset-0 flex items-center justify-center text-[#27190b]/20 font-cormorant text-4xl">
+                                        {p.step}
+                                      </div>
+                                    </div>
+                                    <div className="p-4">
+                                      <h3 className="font-cormorant text-lg mb-1 group-hover:text-[#27190b]/70 transition-colors text-[#27190b]">
+                                        {p.name}
+                                      </h3>
+                                      <p className="text-xs font-light opacity-60 line-clamp-2 text-[#27190b]">
+                                        {p.description}
+                                      </p>
+                                      <div className="mt-3 text-xs uppercase tracking-widest font-bold opacity-40 group-hover:opacity-100 transition-opacity text-[#27190b]">
+                                        View Product →
+                                      </div>
+                                    </div>
+                                  </button>
+                                ))}
+                            </div>
+                          </div>
+
+                          {/* Suggested Combo */}
+                          <div className="py-16 mt-8">
+                            <div className="bg-[#27190b] rounded-[24px] p-8 text-[#f4f1ea] relative overflow-hidden">
+                              <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+                                 <div className="w-full h-full bg-gradient-to-l from-white to-transparent" />
+                              </div>
+
+                              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                <div>
+                                  <span className="text-sm uppercase tracking-widest opacity-60 mb-4 block">
+                                    Curated for {clientType === 'energy-curious' ? 'Deep Healing' : 'Complete Care'}
+                                  </span>
+                                  <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-6">
+                                    The {chakra.tone} Ritual Set
+                                  </h2>
+                                  <p className="font-light text-base opacity-80 mb-8 leading-relaxed">
+                                    Enhance your experience by combining the {product.name} with our signature {chakra.name} Journal and Meditation Oil. Designed to work in harmony.
+                                  </p>
+                                  
+                                  <div className="flex flex-col gap-4">
+                                    <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                                      <div className="w-12 h-12 bg-white/10 rounded-lg flex-shrink-0" />
+                                      <div>
+                                        <div className="font-cormorant text-lg">{product.name}</div>
+                                        <div className="text-xs opacity-60">Included</div>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                                      <div className="w-12 h-12 bg-white/10 rounded-lg flex-shrink-0" />
+                                      <div>
+                                        <div className="font-cormorant text-lg">{chakra.name} Journal</div>
+                                        <div className="text-xs opacity-60">Guided reflections</div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="mt-10 flex flex-col sm:flex-row items-center gap-6">
+                                    <button className="bg-[#f4f1ea] text-[#27190b] px-8 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-white transition-all transform hover:scale-105 w-full sm:w-auto">
+                                      Add Bundle • ₹7,500
+                                    </button>
+                                    <span className="text-xs opacity-60">Save 15% when bought together</span>
+                                  </div>
+                                </div>
+
+                                <div className="hidden md:block relative h-[400px]">
+                                   <div className="absolute inset-0 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center">
+                                      <span className="font-cormorant text-3xl opacity-20">Ritual Bundle Image</span>
+                                   </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

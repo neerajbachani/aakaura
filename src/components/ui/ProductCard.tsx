@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Product, ProductVariation } from "@/types/Product";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import fonts from "@/config/fonts";
+import ProductOverlay from "@/components/ui/ProductOverlay";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +15,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product,
   size = "small",
 }) => {
+  const [isOverlayOpen, setIsOverlayOpen] = React.useState(false);
   const imageUrl = product.images[0] || "/images/placeholder.png";
 
   // Helper function to get the best price for a variation
@@ -121,134 +123,142 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const styles = cardStyles[size];
 
   return (
-    <div
-      className={styles.container}
-      tabIndex={0}
-      aria-label={`Product card for ${product.name}`}
-    >
-      {/* Product Image - Fixed height */}
-      <div className={styles.image}>
-        <Image
-          src={imageUrl}
-          alt={product.name}
-          width={size === "large" ? 400 : 320}
-          height={size === "large" ? 300 : 240}
-          className="object-cover w-full h-full transition-transform duration-200 group-hover:scale-105"
-        />
-      </div>
-
-      {/* Card Content - Flexible height with consistent spacing */}
-      <div className="flex flex-col flex-1 w-full space-y-4">
-        {/* Top Content Section */}
-        <div className="flex flex-col gap-y-2">
-          {/* Category Chip */}
-          {product.category?.name && (
-            <span
-              className={`self-start px-2 py-0.5 rounded-full bg-neutral-100 text-primaryBrown text-xs font-semibold tracking-wide uppercase ${fonts.mulish}`}
-            >
-              {product.category.name}
-            </span>
-          )}
-          {/* Product Name */}
-          <h3 className={styles.title}>{product.name}</h3>
-          {/* Description */}
-          <p className={styles.description}>{product.description}</p>
-
-          {/* Variations - Fixed height section */}
-          <div className="h-8 flex items-start mt-1">
-            {product.variations.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {product.variations.slice(0, 2).map((v) => (
-                  <span
-                    key={v.id}
-                    className={`px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-primaryBrown border border-neutral-200 ${fonts.mulish}`}
-                  >
-                    {v.name}
-                  </span>
-                ))}
-                {product.variations.length > 2 && (
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-200 text-primaryBrown border border-neutral-300 ${fonts.mulish}`}
-                  >
-                    +{product.variations.length - 2} more
-                  </span>
-                )}
-              </div>
-            ) : (
-              // Empty space to maintain consistent height
-              <div></div>
-            )}
-          </div>
+    <>
+      <div
+        className={styles.container}
+        tabIndex={0}
+        aria-label={`Product card for ${product.name}`}
+      >
+        {/* Product Image - Fixed height */}
+        <div className={styles.image}>
+          <Image
+            src={imageUrl}
+            alt={product.name}
+            width={size === "large" ? 400 : 320}
+            height={size === "large" ? 300 : 240}
+            className="object-cover w-full h-full transition-transform duration-200 group-hover:scale-105"
+          />
         </div>
 
-        {/* Bottom Section - Price and Button */}
-        <div className="flex flex-col gap-y-3 mt-2">
-          {/* Price & Offer */}
-          <div className="flex items-end gap-2">
-            {pricing.hasOffer ? (
-              <>
+        {/* Card Content - Flexible height with consistent spacing */}
+        <div className="flex flex-col flex-1 w-full space-y-4">
+          {/* Top Content Section */}
+          <div className="flex flex-col gap-y-2">
+            {/* Category Chip */}
+            {product.category?.name && (
+              <span
+                className={`self-start px-2 py-0.5 rounded-full bg-neutral-100 text-primaryBrown text-xs font-semibold tracking-wide uppercase ${fonts.mulish}`}
+              >
+                {product.category.name}
+              </span>
+            )}
+            {/* Product Name */}
+            <h3 className={styles.title}>{product.name}</h3>
+            {/* Description */}
+            <p className={styles.description}>{product.description}</p>
+
+            {/* Variations - Fixed height section */}
+            <div className="h-8 flex items-start mt-1">
+              {product.variations.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {product.variations.slice(0, 2).map((v) => (
+                    <span
+                      key={v.id}
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-primaryBrown border border-neutral-200 ${fonts.mulish}`}
+                    >
+                      {v.name}
+                    </span>
+                  ))}
+                  {product.variations.length > 2 && (
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-200 text-primaryBrown border border-neutral-300 ${fonts.mulish}`}
+                    >
+                      +{product.variations.length - 2} more
+                    </span>
+                  )}
+                </div>
+              ) : (
+                // Empty space to maintain consistent height
+                <div></div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Section - Price and Button */}
+          <div className="flex flex-col gap-y-3 mt-2">
+            {/* Price & Offer */}
+            <div className="flex items-end gap-2">
+              {pricing.hasOffer ? (
+                <>
+                  <span
+                    className={`text-primaryRed ${styles.price} ${fonts.merriweather}`}
+                  >
+                    ₹{pricing.currentPrice}
+                  </span>
+                  <span className={`${styles.originalPrice} ${fonts.mulish}`}>
+                    ₹{pricing.originalPrice}
+                  </span>
+                </>
+              ) : (
                 <span
-                  className={`text-primaryRed ${styles.price} ${fonts.merriweather}`}
+                  className={`text-primaryBrown ${styles.price} ${fonts.merriweather}`}
                 >
                   ₹{pricing.currentPrice}
                 </span>
-                <span className={`${styles.originalPrice} ${fonts.mulish}`}>
-                  ₹{pricing.originalPrice}
-                </span>
-              </>
-            ) : (
-              <span
-                className={`text-primaryBrown ${styles.price} ${fonts.merriweather}`}
-              >
-                ₹{pricing.currentPrice}
-              </span>
-            )}
-          </div>
-          
-          {/* Action Buttons */}
-          <div className="flex gap-2">
-            {/* Quick Add to Cart - only show if no variations or single variation */}
-            {product.variations.length <= 1 && (
-              <AddToCartButton
-                productId={product.id}
-                variationId={product.variations[0]?.id}
-                quantity={1}
-                className="flex-1"
-                variant="outline"
-                size={size === "large" ? "md" : "sm"}
-                disabled={product.variations[0] ? !product.variations[0].inStock : false}
-              >
-                {product.variations[0] && !product.variations[0].inStock ? 'Out of Stock' : 'Add to Cart'}
-              </AddToCartButton>
-            )}
+              )}
+            </div>
             
-            {/* View Details Button */}
-            <Link
-              href={`/products/${product.id}`}
-              tabIndex={0}
-              aria-label={`View details for ${product.name}`}
-              className={`${product.variations.length <= 1 ? 'flex-1' : 'w-full'} inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-4 py-2 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 text-center ${size === 'large' ? 'text-base py-3' : 'text-sm'} ${fonts.merriweather}`}
-            >
-              {product.variations.length > 1 ? 'Choose Options' : 'View Details'}
-              <svg
-                className={size === 'large' ? 'w-5 h-5' : 'w-4 h-4'}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+              {/* Quick Add to Cart - only show if no variations or single variation */}
+              {product.variations.length <= 1 && (
+                <AddToCartButton
+                  productId={product.id}
+                  variationId={product.variations[0]?.id}
+                  quantity={1}
+                  className="flex-1"
+                  variant="outline"
+                  size={size === "large" ? "md" : "sm"}
+                  disabled={product.variations[0] ? !product.variations[0].inStock : false}
+                >
+                  {product.variations[0] && !product.variations[0].inStock ? 'Out of Stock' : 'Add to Cart'}
+                </AddToCartButton>
+              )}
+              
+              {/* View Details Button */}
+              <button
+                onClick={() => setIsOverlayOpen(true)}
+                tabIndex={0}
+                aria-label={`View details for ${product.name}`}
+                className={`${product.variations.length <= 1 ? 'flex-1' : 'w-full'} inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-4 py-2 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 text-center ${size === 'large' ? 'text-base py-3' : 'text-sm'} ${fonts.merriweather}`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </Link>
+                {product.variations.length > 1 ? 'Choose Options' : 'View Details'}
+                <svg
+                  className={size === 'large' ? 'w-5 h-5' : 'w-4 h-4'}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      
+      <ProductOverlay 
+        product={product} 
+        isOpen={isOverlayOpen} 
+        onClose={() => setIsOverlayOpen(false)} 
+      />
+    </>
   );
 };
 

@@ -25,8 +25,8 @@ export default function HomeHeroSection() {
 
       {/* Content Layer */}
       <div className="">
-        <div className="relative z-0">
-        <Navbar />
+        <div className="relative z-50">
+        <Navbar className="bg-transparent" />
         </div>
         <div className="relative z-10">
         <BannerImage />

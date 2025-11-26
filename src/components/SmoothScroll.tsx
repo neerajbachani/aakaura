@@ -1,41 +1,49 @@
-'use client';
+"use client";
 
-import { ReactNode, useEffect, useRef } from 'react';
-import Lenis from 'lenis';
+import { ReactNode, useEffect, useRef } from "react";
+import Lenis from "lenis";
+import { LenisProvider, useLenis } from "@/context/LenisContext";
 
-interface SmoothScrollingProps {
+type Props = {
   children: ReactNode;
-}
+};
 
-export default function SmoothScroll({ children }: SmoothScrollingProps) {
+const LenisController = ({ children }: { children: ReactNode }) => {
+  const { setLenis } = useLenis();
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Initialize Lenis with optimized settings
-    lenisRef.current = new Lenis({
+    // Initialize
+    const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    //   smoothTouch: false, // Disable for better mobile performance
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      // You can pass other options: smoothWheel, smoothTouch, etc.
     });
+    lenisRef.current = lenis;
+    setLenis(lenis);
 
-    // Optimized RAF loop
-    let rafId: number;
     function raf(time: number) {
-      lenisRef.current?.raf(time);
-      rafId = requestAnimationFrame(raf);
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
 
-    rafId = requestAnimationFrame(raf);
+    requestAnimationFrame(raf);
 
-    // Cleanup
     return () => {
-      cancelAnimationFrame(rafId);
-      lenisRef.current?.destroy();
+      lenis.destroy();
+      setLenis(null as any);
     };
-  }, []);
+  }, [setLenis]);
 
   return <>{children}</>;
-}
+};
+
+const SmoothScroll = ({ children }: Props) => {
+  return (
+    <LenisProvider>
+      <LenisController>{children}</LenisController>
+    </LenisProvider>
+  );
+};
+
+export default SmoothScroll;

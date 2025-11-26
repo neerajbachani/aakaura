@@ -14,7 +14,7 @@ export default function AnimatedText({
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
   const lettersRef = useRef<HTMLSpanElement[]>([]);
-  const revealedRef = useRef<boolean[]>([]);
+
   const [mounted, setMounted] = useState(false);
 
   // Explicit direction sets
@@ -34,8 +34,7 @@ export default function AnimatedText({
 
     if (!pinWrapper || !textWrapper || letters.length === 0) return;
 
-    // Initialize revealed array
-    revealedRef.current = new Array(letters.length).fill(false);
+    // Initialize revealed array - REMOVED
     let scrollProgress = 0;
 
     function updateAnimation() {
@@ -57,8 +56,12 @@ export default function AnimatedText({
       }
 
       // Horizontal translate
-      const maxScroll = textWrapper.scrollWidth / 2;
-      const translateX = -scrollProgress * maxScroll;
+      // We want the end of the text to be centered at scrollProgress = 1
+      const totalWidth = textWrapper.scrollWidth;
+      // Target: translateX + totalWidth = windowWidth / 2
+      const targetTranslateX = (windowWidth / 2) - totalWidth;
+      const translateX = scrollProgress * targetTranslateX;
+      
       textWrapper.style.transform = `translate3d(${translateX}px, 0, 0)`;
 
       // Per-letter threshold: when the letter center crosses this X, lock it straight
@@ -75,13 +78,8 @@ export default function AnimatedText({
         const r = letter.getBoundingClientRect();
         const centerX = r.left + r.width / 2;
 
-        // If letter has crossed the threshold, mark revealed
-        if (!revealedRef.current[index] && centerX <= thresholdX) {
-          revealedRef.current[index] = true;
-        }
-
-        // If revealed, keep it straight forever
-        if (revealedRef.current[index]) {
+        // If letter has crossed the threshold, lock it straight
+        if (centerX <= thresholdX) {
           letter.style.transform = `translateY(0px) rotate(0deg)`;
           return;
         }

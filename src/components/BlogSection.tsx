@@ -201,8 +201,8 @@ export default function BlogSection() {
   });
 
   // Create transforms outside of the render loop
-  const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 1]);
-  const headerY = useTransform(scrollYProgress, [0, 0.2], [0, -30]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  const headerY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
 
   // DEEP WAVE with STRONG MOMENTUM and FLUID CURVES
   // More keyframes create smoother, more pronounced wave curves
@@ -261,18 +261,18 @@ export default function BlogSection() {
   ], [card0Y, card0Opacity, card1Y, card1Opacity, card2Y, card2Opacity, card3Y, card3Opacity]);
 
   return (
-    <div ref={containerRef} className="relative h-[250vh]">
+    <div ref={containerRef} className="relative h-[260vh]">
       {/* Sticky/Pinned Section */}
       <div className="sticky top-0 h-screen overflow-hidden">
         <section
           className="relative w-full h-full flex items-center bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/images/about-bannerhgc (2).jpg')" }}
+          style={{ backgroundImage: "url('/images/about-bannergh (2).jpg')" }}
         >
           {/* Dark overlay */}
           <div className="absolute inset-0 bg-[#BD9958] opacity-40"></div>
 
           {/* Content */}
-          <div className="relative z-10 w-full container mx-auto px-6 md:px-12 lg:px-16">
+          <div className="relative z-10 w-full container mt-28 mx-auto px-6 md:px-12 lg:px-16">
             {/* Header */}
             <motion.div 
               className="mb-12 md:mb-16 lg:mb-20 max-w-4xl"
