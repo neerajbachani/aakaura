@@ -33,4 +33,7 @@ export const queryKeys = {
   products: ['products'] as const,
   product: (id: string) => ['products', id] as const,
   addresses: ['addresses'] as const,
+  waitlist: ['waitlist'] as const,
+  adminWaitlist: ['admin', 'waitlist'] as const,
+  adminJourneyProducts: (slug: string) => ['admin', 'journeys', slug, 'products'] as const,
 } as const;

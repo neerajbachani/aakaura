@@ -176,8 +176,8 @@ export default function BannerImage() {
   const triggerPageTransition = () => {
     document.documentElement.animate(
       [
-        { clipPath: "polygon(25% 75%, 75% 75%, 75% 75%, 25% 75%)" },
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)" },
+        { clipPath: "circle(0% at 50% 50%)" },
+        { clipPath: "circle(150% at 50% 50%)" },
       ],
       {
         duration: 2000,

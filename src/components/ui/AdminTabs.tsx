@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import { FaNewspaper, FaBox, FaHome, FaShoppingBag, FaUsers } from "react-icons/fa";
+import { FaNewspaper, FaBox, FaHome, FaShoppingBag, FaUsers, FaMapSigns, FaClipboardList, FaCog } from "react-icons/fa";
 
 interface AdminTabsProps {
-  activeTab: "dashboard" | "orders" | "users" | "products" | "blogs" | "analytics";
+  activeTab: "dashboard" | "orders" | "users" | "products" | "blogs" | "analytics" | "journeys" | "waitlist" | "products-settings";
 }
 
 export default function AdminTabs({ activeTab }: AdminTabsProps) {
@@ -37,6 +37,24 @@ export default function AdminTabs({ activeTab }: AdminTabsProps) {
       href: "/admin/blogs",
       icon: FaNewspaper,
       active: activeTab === "blogs",
+    },
+    {
+      name: "Journeys",
+      href: "/admin/journeys",
+      icon: FaMapSigns,
+      active: activeTab === "journeys",
+    },
+    {
+      name: "Waitlist",
+      href: "/admin/waitlist",
+      icon: FaClipboardList,
+      active: activeTab === "waitlist",
+    },
+    {
+      name: "Product Settings",
+      href: "/admin/products-settings",
+      icon: FaCog,
+      active: activeTab === "products-settings",
     },
     // {
     //   name: "Analytics",

@@ -63,23 +63,24 @@ model ProductVariation {
 }
 
 model User {
-  id            String     @id @default(uuid())
-  email         String     @unique
+  id            String         @id @default(uuid())
+  email         String         @unique
   password      String
   name          String?
   phone         String?
   avatar        String?
-  emailVerified Boolean    @default(false)
-  role          UserRole   @default(USER)
-  isActive      Boolean    @default(true)
+  emailVerified Boolean        @default(false)
+  role          UserRole       @default(USER)
+  isActive      Boolean        @default(true)
   lastLoginAt   DateTime?
-  totalOrders   Int        @default(0)
-  totalSpent    Float      @default(0)
+  totalOrders   Int            @default(0)
+  totalSpent    Float          @default(0)
   addresses     Address[]
   cartItems     CartItem[]
   orders        Order[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  waitlistItems WaitlistItem[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Address {
@@ -206,4 +207,46 @@ enum PaymentMethod {
 enum UserRole {
   USER
   ADMIN
+}
+
+model Journey {
+  id           String   @id @default(uuid())
+  slug         String   @unique
+  name         String
+  tagline      String
+  sanskritName String
+  tone         String
+  location     String
+  element      String
+  mantra       String
+  symbol       String
+  description  String
+  
+  // JSON fields for complex/nested data
+  colors          Json     // { primary, dark, light, gradient }
+  crystals        String[]
+  benefits        String[]
+  products        Json     // Array of objects { name, description, step }
+  content         Json     // { 'soul-luxury': ..., 'energy-curious': ... }
+  productSettings Json?    // { "productId": { "isWaitlist": true/false } }
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WaitlistItem {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  journeySlug String   // e.g., "grounding", "love"
+  productId   String   // Product ID from journey content
+  productName String   // Snapshot of product name
+  clientType  String   // "soul-luxury" or "energy-curious"
+  
+  createdAt   DateTime @default(now())
+  
+  @@unique([userId, journeySlug, productId, clientType])
+  @@index([userId])
+  @@index([journeySlug])
 }

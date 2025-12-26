@@ -7,7 +7,7 @@ export default function HomeHeroSection() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Galaxy Background - Covers navbar + hero section */}
-      <div className="absolute inset-0 w-full h-full z-10 pointer-events-none">
+      {/* <div className="absolute inset-0 w-full h-full z-10 pointer-events-none">
         <Galaxy
           mouseInteraction={false}
           mouseRepulsion={false}
@@ -21,7 +21,7 @@ export default function HomeHeroSection() {
           speed={0.8}
           transparent={true}
         />
-      </div>
+      </div> */}
 
       {/* Content Layer */}
       <div className="">

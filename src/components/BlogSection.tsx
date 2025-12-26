@@ -261,7 +261,7 @@ export default function BlogSection() {
   ], [card0Y, card0Opacity, card1Y, card1Opacity, card2Y, card2Opacity, card3Y, card3Opacity]);
 
   return (
-    <div ref={containerRef} className="relative h-[260vh]">
+    <div ref={containerRef} className="relative h-[250vh]">
       {/* Sticky/Pinned Section */}
       <div className="sticky top-0 h-screen overflow-hidden">
         <section

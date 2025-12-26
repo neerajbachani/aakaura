@@ -1,50 +1,50 @@
 import { notFound } from "next/navigation";
-import { chakrasData, getAllChakraSlugs } from "@/data/chakras";
 import ChakraJourneyTemplate from "@/components/journey/ChakraJourneyTemplate";
+import { getAllChakraSlugs } from "@/data/chakras";
 import { Metadata } from "next";
+import { prisma } from "@/lib/prisma";
+import { ChakraData } from "@/data/chakras"; // Keep interface for props
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
-  return getAllChakraSlugs().map((slug) => ({
+  const slugs = getAllChakraSlugs();
+  return slugs.map((slug) => ({
     slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const chakra = chakrasData[params.slug];
+  const { slug } = await params;
+  const journey = await prisma.journey.findUnique({
+    where: { slug }
+  });
   
-  if (!chakra) {
+  if (!journey) {
     return {
-      title: "Journey Not Found",
+      title: "Journey Not Found | Aamvaraah",
     };
   }
 
   return {
-    title: `${chakra.name} - ${chakra.tone} Journey | Aakaura`,
-    description: chakra.description,
-    keywords: [
-      chakra.name,
-      chakra.sanskritName,
-      chakra.tone,
-      "chakra",
-      "spiritual journey",
-      "energy healing",
-      ...chakra.crystals,
-    ],
+    title: `${journey.name} Journey | Aamvaraah`,
+    description: journey.description,
   };
 }
 
-export default function ChakraJourneyPage({ params }: PageProps) {
-  const chakra = chakrasData[params.slug];
+export default async function ChakraJourneyPage({ params }: PageProps) {
+  const { slug } = await params;
+  const journey = await prisma.journey.findUnique({
+    where: { slug }
+  });
 
-  if (!chakra) {
+  if (!journey) {
     notFound();
   }
 
-  return <ChakraJourneyTemplate chakra={chakra} />;
+  return <ChakraJourneyTemplate chakra={journey as unknown as ChakraData} />;
 }

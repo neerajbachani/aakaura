@@ -12,6 +12,7 @@ import Container from "@/components/ui/Container";
 import AboutHeader from "@/components/AboutHeader";
 import BlogSection from "@/components/BlogSection";
 import AnimatedText from "@/components/AnimatedText";
+import ScrollTransition from "@/components/ScrollTransition";
 
 export const dynamic = "force-dynamic";
 
@@ -63,6 +64,7 @@ export default async function Home() {
 
       <AboutHeader/>
       <BlogSection/>
+      <ScrollTransition/>
       <AnimatedText/>
       {/* {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />} */}
 

@@ -120,7 +120,7 @@ export default function AboutHeader() {
                 <h1 className="font-sans text-white justify-center text-5xl font-medium leading-[1] tracking-tight md:text-6xl lg:text-9xl">
                   <span className="inline-block overflow-hidden">
                     <span className="inline-block font-cormorant text-[#BD9958]">
-                      YO<span className="tracking-wide">U</span>TH
+                      YOUTH
                     </span>
                   </span>
                   <span className="block text-right overflow-hidden">
