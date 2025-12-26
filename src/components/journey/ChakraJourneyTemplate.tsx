@@ -175,7 +175,7 @@ export default function ChakraJourneyTemplate({
                     <span className="max-w-sm">AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION</span>
                     <button 
                       onClick={() => setExpandedCard(index)}
-                      className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1"
+                      className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 "
                     >
                       VIEW DETAILS
                     </button>
