@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/queryClient';
-import { 
-  Cart, 
-  AddToCartRequest, 
-  UpdateCartItemRequest, 
+import {
+  Cart,
+  AddToCartRequest,
+  UpdateCartItemRequest,
   RemoveFromCartRequest,
   CreateOrderRequest,
   Order,
@@ -11,29 +11,13 @@ import {
 } from '@/types/Cart';
 import { toast } from 'react-hot-toast';
 import { useAuthStatus } from '@/hooks/useAuth';
-import { 
-  getGuestCart, 
-  addToGuestCart as addToGuestCartUtil
+import {
+  getGuestCart,
+  addToGuestCart as addToGuestCartUtil,
+  removeFromGuestCart as removeFromGuestCartUtil,
+  updateGuestCartItem as updateGuestCartItemUtil,
+  clearGuestCart as clearGuestCartUtil
 } from '@/lib/guestCart';
-
-// Guest cart utilities
-const GUEST_CART_KEY = 'aakaura_guest_cart';
-
-const getGuestCart = (): GuestCartItem[] => {
-  if (typeof window === 'undefined') return [];
-  const stored = localStorage.getItem(GUEST_CART_KEY);
-  return stored ? JSON.parse(stored) : [];
-};
-
-const setGuestCart = (items: GuestCartItem[]) => {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(GUEST_CART_KEY, JSON.stringify(items));
-};
-
-const clearGuestCart = () => {
-  if (typeof window === 'undefined') return;
-  localStorage.removeItem(GUEST_CART_KEY);
-};
 
 // API functions
 const fetchCart = async (): Promise<Cart> => {
@@ -165,8 +149,8 @@ export const useAddToCart = () => {
       // Optimistically update cart
       if (previousCart) {
         const existingItemIndex = previousCart.items.findIndex(
-          item => item.productId === newItem.productId && 
-                  item.variationId === newItem.variationId
+          item => item.productId === newItem.productId &&
+            item.variationId === newItem.variationId
         );
 
         let updatedItems;
@@ -183,7 +167,7 @@ export const useAddToCart = () => {
         }
 
         const newTotalItems = updatedItems.reduce((sum, item) => sum + item.quantity, 0);
-        
+
         queryClient.setQueryData<Cart>(queryKeys.cart, {
           ...previousCart,
           items: updatedItems,
@@ -226,7 +210,7 @@ export const useUpdateCartItem = () => {
         );
 
         const newTotalItems = updatedItems.reduce((sum, item) => sum + item.quantity, 0);
-        
+
         queryClient.setQueryData<Cart>(queryKeys.cart, {
           ...previousCart,
           items: updatedItems,
@@ -264,7 +248,7 @@ export const useRemoveFromCart = () => {
         );
 
         const newTotalItems = updatedItems.reduce((sum, item) => sum + item.quantity, 0);
-        
+
         queryClient.setQueryData<Cart>(queryKeys.cart, {
           ...previousCart,
           items: updatedItems,
@@ -343,54 +327,26 @@ export const useCreateOrder = () => {
 // Guest cart hooks (for non-authenticated users)
 export const useGuestCart = () => {
   const addToGuestCart = (item: GuestCartItem) => {
-    const currentCart = getGuestCart();
-    const existingIndex = currentCart.findIndex(
-      cartItem => cartItem.productId === item.productId && 
-                  cartItem.variationId === item.variationId
-    );
-
-    if (existingIndex >= 0) {
-      currentCart[existingIndex].quantity += item.quantity;
-    } else {
-      currentCart.push(item);
-    }
-
-    setGuestCart(currentCart);
+    addToGuestCartUtil(item);
     toast.success('Item added to cart');
   };
 
   const removeFromGuestCart = (productId: string, variationId?: string) => {
-    const currentCart = getGuestCart();
-    const updatedCart = currentCart.filter(
-      item => !(item.productId === productId && item.variationId === variationId)
-    );
-    setGuestCart(updatedCart);
+    removeFromGuestCartUtil(productId, variationId);
     toast.success('Item removed from cart');
   };
 
   const updateGuestCartQuantity = (productId: string, variationId: string | undefined, quantity: number) => {
-    const currentCart = getGuestCart();
-    const itemIndex = currentCart.findIndex(
-      item => item.productId === productId && item.variationId === variationId
-    );
-
-    if (itemIndex >= 0) {
-      if (quantity <= 0) {
-        currentCart.splice(itemIndex, 1);
-      } else {
-        currentCart[itemIndex].quantity = quantity;
-      }
-      setGuestCart(currentCart);
-    }
+    updateGuestCartItemUtil(productId, variationId, quantity);
   };
 
   const clearGuestCartItems = () => {
-    clearGuestCart();
+    clearGuestCartUtil();
     toast.success('Cart cleared');
   };
 
   return {
-    guestCart: getGuestCart(),
+    guestCart: getGuestCart().items,
     addToGuestCart,
     removeFromGuestCart,
     updateGuestCartQuantity,
