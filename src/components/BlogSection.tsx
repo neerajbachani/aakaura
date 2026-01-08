@@ -286,11 +286,11 @@ export default function BlogSection() {
                     className="bg-[#27190B] py-8 sm:py-10 md:py-12 lg:py-14 px-5 sm:px-6 md:px-8 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
                     // Desktop: Use Scroll Transforms
                     style={isDesktop ? cardTransforms[index] : {}}
-                    // Mobile: Use Standard Viewport Entry Animation
-                    initial={isDesktop ? {} : { opacity: 0, y: 50 }}
-                    whileInView={isDesktop ? {} : { opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    // Mobile: Static (No Animation)
+                    initial={{ opacity: 1, y: 0 }}
+                    whileInView={undefined}
+                    viewport={undefined}
+                    transition={{ duration: 0 }}
                   >
                     {/* Icon with glow effect */}
                     <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 relative">

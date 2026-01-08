@@ -92,13 +92,13 @@ export default function AboutHeader() {
     offset: ["start start", "end end"]
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["100%", "-150%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["20%", "-250%"]);
 
   return (
-    // CHANGED: Reduced height from 300vh to 200vh to make animation faster
-    <div ref={containerRef} className="relative h-[500vh]">
+    // CHANGED: Reduced height on mobile to speed up scroll-based animation
+    <div ref={containerRef} className="relative h-[250vh] sm:h-[400vh] lg:h-[500vh]">
       
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-screen min-h-[100dvh] overflow-hidden">
         
         {/* Aurora Background */}
         <div className="absolute inset-0 w-full h-full">
@@ -113,32 +113,32 @@ export default function AboutHeader() {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-10 h-full flex flex-col justify-between">
+        <div className="relative z-10 h-full flex flex-col justify-between pt-20 pb-10">
           <div className='container mx-auto px-4'>
-            <div className="mb-6 flex w-full items-center justify-between">
-              <div className='mt-20'>
-                <h1 className="font-sans text-white justify-center text-5xl font-medium leading-[1] tracking-tight md:text-6xl lg:text-7xl">
-                  <span className="inline-block overflow-hidden">
+            <div className="mb-6 flex flex-col w-full lg:flex-row lg:items-center justify-between">
+              <div className='mt-10 lg:mt-20 w-full lg:w-auto'>
+                <h1 className="font-sans text-white text-4xl sm:text-5xl font-medium leading-[0.9] tracking-tight md:text-6xl lg:text-7xl">
+                  <span className="block overflow-hidden">
                     <span className="inline-block font-cormorant text-[#BD9958]">
                       YOU ARE FINALLY
                     </span>
                   </span>
-                  <span className="block text-right overflow-hidden">
-                    <span className="inline-block font-cormorant  -translate-y-[8%] text-[#BD9958]">
+                  <span className="block text-right overflow-hidden mt-1 sm:mt-0">
+                    <span className="inline-block font-cormorant -translate-y-[8%] text-[#BD9958]">
                      HOME
                     </span>
                   </span>
                 </h1>
                 
                 <a 
-                   className="hover:text-[#FFD700] group mt-4 hidden max-w-xl pb-2 lg:block" 
+                   className="hover:text-[#FFD700] group mt-10 sm:mt-12 block max-w-xl pb-2" 
                    href="/services"
                 >
-                  <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-2 h-[1px] w-full transition-colors duration-300" />
-                  <div className="flex items-center justify-between">
-                    <p className="text-lg font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors">
-                      Not everything needs fixing.
-Some things need remembering.
+                  <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-3 h-[1px] w-full transition-colors duration-300" />
+                  <div className="flex items-start sm:items-center justify-between gap-4">
+                    <p className="text-base sm:text-lg font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors leading-relaxed">
+                      Not everything needs fixing. <br className="hidden sm:block" />
+                      Some things need remembering.
                     </p>
                     <ArrowRightIcon 
                        className="transition-transform text-[#BD9958] group-hover:text-[#FFD700] h-8 w-8 duration-300 group-hover:-rotate-45" 
@@ -148,20 +148,19 @@ Some things need remembering.
                 </a>
               </div>
               
-              <div className="hidden gap-10 text-lg text-white lg:flex">
-                {/* <p className="text-[#BD9958]">[04] Summary:</p> */}
-                <ul className="space-y-2 font-cormorant">
-                  <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 1
+              <div className="mt-16 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
+                <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg">
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    Branding
                   </li>
-                  <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 2
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    UI/UX Design
                   </li>
-                  <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 3
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    Development
                   </li>
-                  <li className="cursor-pointer opacity-50 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 4
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    Packaging
                   </li>
                 </ul>
               </div>
@@ -172,7 +171,7 @@ Some things need remembering.
           <div className="w-full overflow-hidden pb-10">
             <motion.h2 
               style={{ x }}
-              className="whitespace-nowrap text-center text-[10vw] font-bold leading-none text-[#BD9958] font-cormorant opacity-90"
+              className="whitespace-nowrap text-center text-[14vw] md:text-[10vw] font-bold leading-none text-[#BD9958]/20 font-cormorant"
             >
              NOT ANOTHER ESCAPE. THIS IS FINAL COMEBACK.
             </motion.h2>
