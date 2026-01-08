@@ -47,12 +47,16 @@ export default function ScrollTransition() {
         }
       });
 
+      // Detect mobile screen size for faster animations
+      const isMobile = window.innerWidth <= 768;
+      const scrubValue = isMobile ? 0 : 0.5;
+
       // --- SCROLL TRIGGER ---
       ScrollTrigger.create({
         trigger: ".scroll-grid-container",
         start: "top top",
         end: "bottom bottom",
-        scrub: 0,
+        scrub: scrubValue,
         onUpdate: (self) => {
           const p = self.progress;
           
