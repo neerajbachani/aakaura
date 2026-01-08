@@ -15,9 +15,9 @@ export default function ScrollTransition() {
   const wordsRefs = useRef<(HTMLSpanElement | null)[][]>([[], [], []]);
   
   const blocksContent = [
-    "I work in portrait photography with a focus on light, tone, and quiet expression. My approach is patient and intentional.",
-    "I try to build images that feel honest, with enough breathing room for personality to settle into the frame.",
-    "The final images aim to capture the shift between who they are and become the moment the shutter falls still."
+    "We work with form, earth, and silence. Not to change you, but to remove what never belonged.",
+    "Everything here is made slowly. Because energy doesn't respond to urgency.",
+    // "The final images aim to capture the shift between who they are and become the moment the shutter falls still."
   ];
 
   useLayoutEffect(() => {
@@ -168,11 +168,11 @@ export default function ScrollTransition() {
   const allMarqueeItems = [...imgItems, ...imgItems, ...imgItems];
 
   return (
-    <div className="st-wrapper" ref={containerRef}>
-      <div className="scroll-grid-container">
+    <div className="st-wrapper " ref={containerRef}>
+      <div className="scroll-grid-container  ">
         
         {/* Sticky Hero */}
-        <section className="sticky-hero">
+        <section className="sticky-hero ">
             
             {/* Nav positioned consistently with hero */}
             <nav className="st-nav">

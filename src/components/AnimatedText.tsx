@@ -8,7 +8,7 @@ interface AnimatedTextProps {
 }
 
 export default function AnimatedText({ 
-  text = "So, are you ready to Stand out?",
+  text = "Still searching? Your search ends now.",
   className = ""
 }: AnimatedTextProps) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);

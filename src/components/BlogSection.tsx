@@ -156,7 +156,7 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 
 interface BlogSection {
   title: string;
@@ -193,66 +193,43 @@ const blogSection: BlogSection[] = [
 
 export default function BlogSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Check if we are on desktop to enable the sticky scroll effect
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024); // lg breakpoint
+    };
+    
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
   
-  // Pin the section and track scroll progress
+  // Pin the section and track scroll progress (Only relevant for desktop)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
   });
 
-  // Create transforms outside of the render loop
+  // --- DESKTOP ANIMATIONS (Scroll Scrub) ---
   const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
   const headerY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
 
-  // DEEP WAVE with STRONG MOMENTUM and FLUID CURVES
-  // More keyframes create smoother, more pronounced wave curves
-  // Larger Y values create deeper wave motion with more force
-  
-  const card0Y = useTransform(
-    scrollYProgress, 
-    [0,    0,    0.06, 0.12, 0.18, 0.28, 0.5,  0.75, 0.9,  1], 
-    [400,  400,  150,  -80,  -30,  0,    0,    -200, -600, -600]
-  );
-  const card0Opacity = useTransform(
-    scrollYProgress, 
-    [0, 0, 0.06, 0.18, 0.5, 0.75, 0.9, 1], 
-    [0, 0, 1,    1,    1,   1,    0,   0]
-  );
+  // SMOOTH SLIDE-UP ANIMATION (No Momentum)
+  const card0Y = useTransform(scrollYProgress, [0, 0.05, 0.15, 0.5, 1], [200, 200, 0, 0, 0]);
+  const card0Opacity = useTransform(scrollYProgress, [0, 0.05, 0.15, 0.5, 1], [0, 0, 1, 1, 1]);
 
-  const card1Y = useTransform(
-    scrollYProgress, 
-    [0,    0.08, 0.14, 0.2,  0.26, 0.36, 0.55, 0.8,  0.92, 1], 
-    [400,  400,  180,  -100, -40,  0,    0,    -200, -600, -600]
-  );
-  const card1Opacity = useTransform(
-    scrollYProgress, 
-    [0, 0.08, 0.14, 0.26, 0.55, 0.8, 0.92, 1], 
-    [0, 0,    1,    1,    1,    1,   0,    0]
-  );
+  const card1Y = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.55, 1], [200, 200, 0, 0, 0]);
+  const card1Opacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.55, 1], [0, 0, 1, 1, 1]);
 
-  const card2Y = useTransform(
-    scrollYProgress, 
-    [0,    0.16, 0.22, 0.28, 0.34, 0.44, 0.6,  0.85, 0.94, 1], 
-    [400,  400,  200,  -120, -50,  0,    0,    -200, -600, -600]
-  );
-  const card2Opacity = useTransform(
-    scrollYProgress, 
-    [0, 0.16, 0.22, 0.34, 0.6, 0.85, 0.94, 1], 
-    [0, 0,    1,    1,    1,   1,    0,    0]
-  );
+  const card2Y = useTransform(scrollYProgress, [0, 0.15, 0.25, 0.6, 1], [200, 200, 0, 0, 0]);
+  const card2Opacity = useTransform(scrollYProgress, [0, 0.15, 0.25, 0.6, 1], [0, 0, 1, 1, 1]);
 
-  const card3Y = useTransform(
-    scrollYProgress, 
-    [0,    0.24, 0.3,  0.36, 0.42, 0.52, 0.65, 0.88, 0.96, 1], 
-    [400,  400,  220,  -140, -60,  0,    0,    -200, -600, -600]
-  );
-  const card3Opacity = useTransform(
-    scrollYProgress, 
-    [0, 0.24, 0.3, 0.42, 0.65, 0.88, 0.96, 1], 
-    [0, 0,    1,   1,    1,    1,    0,    0]
-  );
+  const card3Y = useTransform(scrollYProgress, [0, 0.2, 0.3, 0.65, 1], [200, 200, 0, 0, 0]);
+  const card3Opacity = useTransform(scrollYProgress, [0, 0.2, 0.3, 0.65, 1], [0, 0, 1, 1, 1]);
 
-  // Store transforms in an array for easy access
+  // Store transforms
   const cardTransforms = useMemo(() => [
     { y: card0Y, opacity: card0Opacity },
     { y: card1Y, opacity: card1Opacity },
@@ -261,9 +238,12 @@ export default function BlogSection() {
   ], [card0Y, card0Opacity, card1Y, card1Opacity, card2Y, card2Opacity, card3Y, card3Opacity]);
 
   return (
-    <div ref={containerRef} className="relative h-[250vh]">
-      {/* Sticky/Pinned Section */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <div 
+      ref={containerRef} 
+      className={`relative w-full ${isDesktop ? 'h-[150vh]' : 'h-auto py-16'}`}
+    >
+      {/* Sticky Wrapper - Only sticky on Desktop */}
+      <div className={`${isDesktop ? 'sticky top-0 h-screen overflow-hidden' : 'relative h-auto'}`}>
         <section
           className="relative w-full h-full flex items-center bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/about-bannergh (2).jpg')" }}
@@ -272,43 +252,49 @@ export default function BlogSection() {
           <div className="absolute inset-0 bg-[#BD9958] opacity-40"></div>
 
           {/* Content */}
-          <div className="relative z-10 w-full container mt-28 mx-auto px-6 md:px-12 lg:px-16">
+          <div className="relative z-10 w-full container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-10 lg:py-0">
             {/* Header */}
             <motion.div 
-              className="mb-12 md:mb-16 lg:mb-20 max-w-4xl"
-              style={{
-                opacity: headerOpacity,
-                y: headerY
-              }}
+              className="mb-8 md:mb-12 lg:mb-16 max-w-4xl"
+              style={isDesktop ? { opacity: headerOpacity, y: headerY } : {}}
+              initial={isDesktop ? {} : { opacity: 0, y: 30 }}
+              whileInView={isDesktop ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
               <p
-                className={`font-cormorant text-[#27190B] text-sm md:text-base lg:text-3xl font-medium tracking-wider mb-4 md:mb-6`}
+                className={`font-cormorant text-[#27190B] text-base sm:text-lg md:text-xl lg:text-3xl font-medium tracking-wider mb-2 sm:mb-3 md:mb-4 lg:mb-6`}
               >
-                Our Thoughts
+              AAKAURA SPEAKS
               </p>
               <h2
-                className={`font-cormorant  text-[#27190B] text-3xl md:text-4xl lg:text-6xl leading-tight mb-4 md:mb-6`}
+                className={`font-cormorant text-[#27190B] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight mb-3 sm:mb-4 md:mb-5 lg:mb-6`}
               >
                 Journey to Spiritual Awakening and Inner Peace.
               </h2>
-              <p className={`font-cormorant max-w-2xl text-[#27190B] text-sm md:text-base lg:text-lg font-normal leading-relaxed`}>
-                We believe that true transformation begins within. Explore our insights on
-                manifestation, chakra healing, and spiritual enlightenment.
+              <p className={`font-cormorant max-w-xl lg:max-w-2xl text-[#27190B] text-sm sm:text-base md:text-lg font-normal leading-relaxed`}>
+                Awakening isn't an event. It's a quiet remembering that happens when noise finally loses its grip
               </p>
             </motion.div>
 
-            {/* Cards Grid with Deep Wave Animation */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6">
+            {/* Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-6">
               {blogSection.map((item, index) => {
                 return (
                   <motion.div
                     key={index}
-                    className="bg-[#27190B] py-14 px-6 md:px-8 space-y-4 md:space-y-4 hover:shadow-xl transition-all duration-300 rounded-2xl cursor-pointer hover:scale-105"
-                    style={cardTransforms[index]}
+                    className="bg-[#27190B] py-8 sm:py-10 md:py-12 lg:py-14 px-5 sm:px-6 md:px-8 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
+                    // Desktop: Use Scroll Transforms
+                    style={isDesktop ? cardTransforms[index] : {}}
+                    // Mobile: Use Standard Viewport Entry Animation
+                    initial={isDesktop ? {} : { opacity: 0, y: 50 }}
+                    whileInView={isDesktop ? {} : { opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     {/* Icon with glow effect */}
-                    <div className="w-12 h-12 md:w-16 md:h-16 relative">
-                      <div className="absolute inset-0 bg-purple-400 blur-xl  opacity-50 rounded-full"></div>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 relative">
+                      <div className="absolute inset-0 bg-purple-400 blur-xl opacity-50 rounded-full"></div>
                       <Image
                         src={item.icon}
                         alt={item.title}
@@ -320,13 +306,13 @@ export default function BlogSection() {
 
                     {/* Title */}
                     <h3
-                      className={`font-cormorant text-[#BD9958] text-xl md:text-2xl`}
+                      className={`font-cormorant text-[#BD9958] text-xl sm:text-2xl font-semibold`}
                     >
                       {item.title}
                     </h3>
 
                     {/* Description */}
-                    <p className={`text-[#BD9958] text-sm md:text-base leading-relaxed font-cormorant`}>
+                    <p className={`text-[#BD9958] text-sm sm:text-base leading-relaxed font-cormorant`}>
                       {item.description}
                     </p>
                   </motion.div>

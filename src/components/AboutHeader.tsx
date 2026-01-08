@@ -92,11 +92,11 @@ export default function AboutHeader() {
     offset: ["start start", "end end"]
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["100%", "0%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["100%", "-150%"]);
 
   return (
     // CHANGED: Reduced height from 300vh to 200vh to make animation faster
-    <div ref={containerRef} className="relative h-[200vh]">
+    <div ref={containerRef} className="relative h-[500vh]">
       
       <div className="sticky top-0 h-screen overflow-hidden">
         
@@ -117,27 +117,28 @@ export default function AboutHeader() {
           <div className='container mx-auto px-4'>
             <div className="mb-6 flex w-full items-center justify-between">
               <div className='mt-20'>
-                <h1 className="font-sans text-white justify-center text-5xl font-medium leading-[1] tracking-tight md:text-6xl lg:text-9xl">
+                <h1 className="font-sans text-white justify-center text-5xl font-medium leading-[1] tracking-tight md:text-6xl lg:text-7xl">
                   <span className="inline-block overflow-hidden">
                     <span className="inline-block font-cormorant text-[#BD9958]">
-                      YOUTH
+                      YOU ARE FINALLY
                     </span>
                   </span>
                   <span className="block text-right overflow-hidden">
                     <span className="inline-block font-cormorant  -translate-y-[8%] text-[#BD9958]">
-                      LED.
+                     HOME
                     </span>
                   </span>
                 </h1>
                 
                 <a 
-                   className="hover:text-[#FFD700] group mt-4 hidden max-w-md pb-2 lg:block" 
+                   className="hover:text-[#FFD700] group mt-4 hidden max-w-xl pb-2 lg:block" 
                    href="/services"
                 >
                   <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-2 h-[1px] w-full transition-colors duration-300" />
                   <div className="flex items-center justify-between">
                     <p className="text-lg font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors">
-                      Learn More
+                      Not everything needs fixing.
+Some things need remembering.
                     </p>
                     <ArrowRightIcon 
                        className="transition-transform text-[#BD9958] group-hover:text-[#FFD700] h-8 w-8 duration-300 group-hover:-rotate-45" 
@@ -171,9 +172,9 @@ export default function AboutHeader() {
           <div className="w-full overflow-hidden pb-10">
             <motion.h2 
               style={{ x }}
-              className="whitespace-nowrap text-center text-[12vw] font-bold leading-none text-[#BD9958] font-cormorant opacity-90"
+              className="whitespace-nowrap text-center text-[10vw] font-bold leading-none text-[#BD9958] font-cormorant opacity-90"
             >
-              REIMAGINED
+             NOT ANOTHER ESCAPE. THIS IS FINAL COMEBACK.
             </motion.h2>
           </div>
         </div>

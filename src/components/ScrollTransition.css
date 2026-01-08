@@ -48,6 +48,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,12 +87,6 @@
 .st-wrapper .word {
     display: inline-block;
     margin-right: 0.3em;
-}
-
-@media (max-width: 768px) {
-    .st-wrapper .text-block p {
-        font-size: 1.5rem;
-    }
 }
 
 .st-wrapper .marquee-container {
@@ -149,4 +144,89 @@
     background: #fff;
     transform-origin: top;
     transform: scaleY(0);
+}
+
+@media (max-width: 1024px) {
+    .st-wrapper .text-wrapper {
+        max-width: 100%;
+        padding: 2rem;
+        gap: 1.5rem;
+    }
+
+    .st-wrapper .text-block p {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .st-wrapper .st-nav {
+        padding: 1.5rem;
+    }
+
+    .st-wrapper .text-wrapper {
+        flex-direction: column;
+        height: auto;
+        min-height: 40vh;
+        justify-content: center;
+        gap: 2.5rem;
+        margin-bottom: 4rem;
+        /* Account for marquee */
+    }
+
+    .st-wrapper .text-block {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0;
+        flex: 0 0 auto;
+    }
+
+    .st-wrapper .text-block p {
+        font-size: 1.35rem;
+        line-height: 1.3;
+    }
+
+    .st-wrapper .marquee-container {
+        bottom: 2rem;
+        height: 100px;
+    }
+
+    .st-wrapper .img-item {
+        width: 160px;
+        height: 100px;
+    }
+
+    .st-wrapper .progress-bar {
+        right: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .st-wrapper .st-nav {
+        padding: 1rem;
+        font-size: 11px;
+    }
+
+    .st-wrapper .text-wrapper {
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .st-wrapper .text-block p {
+        font-size: 1.15rem;
+    }
+
+    .st-wrapper .marquee-container {
+        height: 80px;
+        bottom: 5rem;
+    }
+
+    .st-wrapper .img-item {
+        width: 120px;
+        height: 80px;
+    }
+
+    .st-wrapper .progress-bar {
+        right: 1rem;
+        height: 80px;
+    }
 }
