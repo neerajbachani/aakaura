@@ -151,16 +151,16 @@ export default function AboutHeader() {
               <div className="mt-16 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
                 <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg">
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Branding
+                    Content 1
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    UI/UX Design
+                    Content 2
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Development
+                    Content 3
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Packaging
+                    Content 4
                   </li>
                 </ul>
               </div>

@@ -164,7 +164,7 @@ export default function AnimatedText({
         <div className="sticky top-0 w-screen h-screen flex items-center overflow-hidden bg-[#27190B] text-white">
           <div
             ref={textWrapperRef}
-            className={`flex whitespace-nowrap text-[16vw] lg:text-[12vw] font-bold leading-[0.9] tracking-[0.02em] pl-[100vw] will-change-transform ${className}`}
+            className={`flex whitespace-nowrap text-[25vw] md:text-[16vw] lg:text-[12vw] font-bold leading-[0.9] tracking-[0.02em] pl-[100vw] will-change-transform ${className}`}
           >
             {renderText()}
           </div>
