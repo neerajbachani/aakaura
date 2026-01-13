@@ -243,13 +243,13 @@ export default function BlogSection() {
       className={`relative w-full ${isDesktop ? 'h-[150vh]' : 'h-auto py-16'}`}
     >
       {/* Sticky Wrapper - Only sticky on Desktop */}
-      <div className={`${isDesktop ? 'sticky top-0 h-screen overflow-hidden' : 'relative h-auto'}`}>
+      <div className={`${isDesktop ? 'sticky bg-[#BD9958] top-0 h-screen overflow-hidden' : 'relative h-auto'}`}>
         <section
           className="relative w-full h-full flex items-center bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/about-bannergh (2).jpg')" }}
         >
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-[#BD9958] opacity-40"></div>
+          <div className="absolute inset-0 "></div>
 
           {/* Content */}
           <div className="relative z-10 w-full container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-10 lg:py-0">

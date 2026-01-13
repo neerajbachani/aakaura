@@ -82,6 +82,7 @@
 import React, { useRef } from 'react';
 import Aurora from './ui/Aurora';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function AboutHeader() {
@@ -92,7 +93,7 @@ export default function AboutHeader() {
     offset: ["start start", "end end"]
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["20%", "-250%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["20%", "-90%"]);
 
   return (
     // CHANGED: Reduced height on mobile to speed up scroll-based animation
@@ -130,7 +131,7 @@ export default function AboutHeader() {
                   </span>
                 </h1>
                 
-                <a 
+                <Link 
                    className="hover:text-[#FFD700] group mt-10 sm:mt-12 block max-w-xl pb-2" 
                    href="/services"
                 >
@@ -145,22 +146,28 @@ export default function AboutHeader() {
                        aria-hidden="true"
                     />
                   </div>
-                </a>
+                </Link>
               </div>
               
               <div className="mt-16 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
                 <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg">
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 1
+                    <Link href="/about" className="block w-full">
+                      About Aakaura
+                    </Link>
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     Content 2
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 3
+                    <Link href="/journey" className="block w-full">
+                      Journeys
+                    </Link>
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 4
+                    <Link href="/journey" className="block w-full">
+                      What Journey are you on
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -173,7 +180,7 @@ export default function AboutHeader() {
               style={{ x }}
               className="whitespace-nowrap text-center text-[14vw] md:text-[10vw] font-bold leading-none text-[#BD9958]/20 font-cormorant"
             >
-             NOT ANOTHER ESCAPE. THIS IS FINAL COMEBACK.
+             NOT ANOTHER ESCAPE.
             </motion.h2>
           </div>
         </div>
