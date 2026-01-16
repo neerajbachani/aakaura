@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { ChakraData, JourneyProduct, chakrasData } from "@/data/chakras";
 import { useRevealer } from "@/hooks/useRevealer";
 import gsap from "gsap";
@@ -27,6 +27,7 @@ export default function ChakraJourneyTemplate({
 }: ChakraJourneyTemplateProps) {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [clientType, setClientType] = useState<ClientType>('soul-luxury');
+  const [activeBgImage, setActiveBgImage] = useState<string>('');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const section3Ref = useRef<HTMLElement>(null);
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
@@ -63,71 +64,93 @@ export default function ChakraJourneyTemplate({
   }, [chakra, clientType]);
 
   // GSAP Horizontal Scroll Effect
-  useEffect(() => {
-    const horizontalContainer = horizontalContainerRef.current;
-    const section3 = section3Ref.current;
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const horizontalContainer = horizontalContainerRef.current;
+      const section3 = section3Ref.current;
 
-    if (!horizontalContainer || !section3) return;
+      if (!horizontalContainer || !section3) return;
 
-    // Calculate scroll width
-    const scrollWidth = horizontalContainer.scrollWidth;
-    const viewportWidth = window.innerWidth;
-    
-    // Only animate if content overflows
-    if (scrollWidth <= viewportWidth) return;
-
-    // Create horizontal scroll animation
-    const horizontalScroll = gsap.to(horizontalContainer, {
-      x: () => -(scrollWidth - viewportWidth),
-      ease: "none",
-      scrollTrigger: {
-        trigger: section3,
-        pin: true,
-        scrub: 1,
-        end: () => `+=${scrollWidth - viewportWidth}`,
-        invalidateOnRefresh: true,
-      }
-    });
-
-    // Animate images scaling to full size when panel is centered
-    const panels = gsap.utils.toArray('.panel') as HTMLElement[];
-    panels.forEach((panel: HTMLElement, index: number) => {
-      const image = panel.querySelector('.panel-image');
+      // Calculate scroll width
+      const scrollWidth = horizontalContainer.scrollWidth;
+      const viewportWidth = window.innerWidth;
       
-      gsap.fromTo(image, 
-        {
-          scale: 0.7,
-          borderRadius: '24px',
-        },
-        {
-          scale: 1,
-          borderRadius: '0px',
-          scrollTrigger: {
-            trigger: panel,
-            containerAnimation: horizontalScroll,
-            start: 'left center',
-            end: 'center center',
-            scrub: 1,
-          }
+      // Only animate if content overflows
+      if (scrollWidth <= viewportWidth) return;
+
+      // Create horizontal scroll animation
+      const horizontalScroll = gsap.to(horizontalContainer, {
+        x: () => -(scrollWidth - viewportWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section3,
+          pin: true,
+          scrub: 1,
+          end: () => `+=${scrollWidth - viewportWidth}`,
+          invalidateOnRefresh: true,
         }
-      );
+      });
+
+      // Animate images scaling to full size when panel is centered
+      const panels = gsap.utils.toArray('.panel') as HTMLElement[];
+      panels.forEach((panel: HTMLElement, index: number) => {
+        const image = panel.querySelector('.panel-image');
+        
+        gsap.fromTo(image, 
+          {
+            scale: 0.7,
+            borderRadius: '24px',
+          },
+          {
+            scale: 1,
+            borderRadius: '0px',
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: horizontalScroll,
+              start: 'left center',
+              end: 'center center',
+              scrub: 1,
+            }
+          }
+        );
+      });
     });
 
-    return () => {
-      horizontalScroll.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    return () => ctx.revert();
   }, [currentProducts]);
 
-  // Block body scroll when overlay is open
+  // Track previous expanded card state
+  const prevExpandedCardRef = useRef<number | null>(null);
+
+  // Block body scroll when overlay is open + scroll to top on first open
   useEffect(() => {
+    console.log('🔄 expandedCard changed:', expandedCard);
+    
     if (expandedCard !== null) {
+      console.log('✅ Modal OPENING for index:', expandedCard);
+      // Only scroll to top if opening from closed state (not switching between products)
+      const wasClosedBefore = prevExpandedCardRef.current === null;
+      console.log('   Was closed before?', wasClosedBefore);
+      
+      // Commented out temporarily to test
+      // if (wasClosedBefore) {
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: 'instant'
+      //   });
+      // }
+      
       lenis?.stop();
       document.body.style.overflow = "hidden";
     } else {
+      console.log('❌ Modal CLOSING');
       lenis?.start();
       document.body.style.overflow = "";
     }
+    
+    // Update previous state
+    prevExpandedCardRef.current = expandedCard;
+    
     return () => {
       lenis?.start();
       document.body.style.overflow = "";
@@ -137,7 +160,35 @@ export default function ChakraJourneyTemplate({
   return (
     <div className="min-h-screen bg-[#27190b]">
       {/* Revealer overlay for page entrance */}
-      <div className="revealer fixed inset-0 bg-[#BD9958] z-50 origin-top" />
+      <div className="revealer fixed inset-0 bg-[#BD9958] z-50 origin-top pointer-events-none" />
+      
+      {/* Fixed Background Overlay - Always rendered, controlled by CSS visibility */}
+      <div
+        className={`fixed inset-0 z-30 overflow-hidden transition-all duration-[600ms] ${
+          expandedCard !== null ? 'opacity-100 scale-105 pointer-events-none' : 'opacity-0 pointer-events-none scale-100'
+        }`}
+        style={{ willChange: 'opacity, transform' }}
+      >
+        <img
+          src={
+            expandedCard !== null && currentProducts[expandedCard]
+              ? (activeBgImage || currentProducts[expandedCard]?.variants?.[0]?.image || currentProducts[expandedCard]?.images?.[0] || '')
+              : ''
+          }
+          alt={expandedCard !== null && currentProducts[expandedCard] ? currentProducts[expandedCard]?.name : ''}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            expandedCard !== null ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ objectPosition: 'center center' }}
+        />
+        {/* Gradient Overlay */}
+        <div 
+          className="absolute inset-0 bg-[#27190b] bg-opacity-20"
+          style={{
+            background: `linear-gradient(to bottom, rgba(39,25,11,0.1) 0%, rgba(39,25,11,0.6) 100%)`,
+          }}
+        />
+      </div>
       
       {/* Section 3: Horizontal Scrolling Products - NOW AT TOP */}
       <section ref={section3Ref} className="relative h-screen overflow-hidden">
@@ -152,6 +203,7 @@ export default function ChakraJourneyTemplate({
               setClientType={setClientType}
               expandedCard={expandedCard}
               setExpandedCard={setExpandedCard}
+              setActiveBgImage={setActiveBgImage}
               currentProducts={currentProducts}
               isAuthenticated={isAuthenticated}
               authLoading={authLoading}
@@ -164,6 +216,278 @@ export default function ChakraJourneyTemplate({
           ))}
         </div>
       </section>
+
+      {/* Expanded Details Overlay - Moved to Parent to escape GSAP Transform Context */}
+      <AnimatePresence>
+      {expandedCard !== null && currentProducts[expandedCard] && (
+        (() => {
+          const product = currentProducts[expandedCard];
+          return (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => {
+                  setExpandedCard(null);
+                }}
+                className="fixed inset-0 z-[999]"
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)', // Restored standard backdrop
+                  backdropFilter: 'blur(8px)',
+                }}
+              />
+              
+              {/* Slide-up Panel */}
+              <motion.div
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="fixed bottom-0 left-0 right-0 h-[85vh] z-[9999] rounded-t-[32px] overflow-hidden flex flex-col bg-[#27190b]"
+                style={{
+                    boxShadow: '0 -20px 40px rgba(0,0,0,0.5)'
+                }}
+              >
+                  {/* Close Button */}
+                  <button 
+                    onClick={() => setExpandedCard(null)}
+                    className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/10 transition-colors z-50"
+                  >
+                    <XMarkIcon className="w-8 h-8 text-[#f4f1ea]" />
+                  </button>
+
+                  {/* Scrollable Content */}
+                  <div 
+                    className="overflow-y-auto h-full p-8 md:p-16 custom-scrollbar overscroll-y-contain"
+                    data-lenis-prevent
+                  >
+                    <div className="max-w-5xl mx-auto">
+                      
+                      {/* Client Type Toggle */}
+                      <div className="flex justify-center mb-8">
+                        <div className="bg-[#f4f1ea]/10 p-1 rounded-full flex relative">
+                          <motion.div 
+                            className="absolute top-1 bottom-1 bg-[#f4f1ea] rounded-full shadow-md"
+                            initial={false}
+                            animate={{ 
+                              left: clientType === 'soul-luxury' ? '4px' : '50%',
+                              width: 'calc(50% - 4px)'
+                            }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                          <button 
+                            onClick={() => setClientType('soul-luxury')}
+                            className={`relative z-10 px-6 py-2 rounded-full text-sm uppercase tracking-widest transition-colors duration-300 ${clientType === 'soul-luxury' ? 'text-[#27190b]' : 'text-[#f4f1ea]/60'}`}
+                          >
+                            Soul Luxury
+                          </button>
+                          <button 
+                            onClick={() => setClientType('energy-curious')}
+                            className={`relative z-10 px-6 py-2 rounded-full text-sm uppercase tracking-widest transition-colors duration-300 ${clientType === 'energy-curious' ? 'text-[#27190b]' : 'text-[#f4f1ea]/60'}`}
+                          >
+                            Energy Curious
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Header */}
+                      <div className="mb-12 border-b border-[#f4f1ea]/20 pb-8 text-center md:text-left">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                          <div>
+                            <h2 className="text-4xl md:text-6xl font-cormorant font-light mb-2 text-[#f4f1ea]">
+                              {product.name}
+                            </h2>
+                            <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
+                              {product.sanskritName || (clientType === 'energy-curious' ? 'Energetic Shield & Warmth' : 'Handcrafted Winter Muffler')}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+                        {/* Left Column - Specs */}
+                        <div className="space-y-8 text-[#f4f1ea]">
+                          <motion.div
+                            key={clientType}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">Description</h3>
+                            <p className="font-light text-lg leading-relaxed mb-8">
+                              {product.specificDescription || product.description}
+                            </p>
+
+                            <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">Specifications</h3>
+                            <div className="space-y-4 font-light">
+                            </div>
+                          </motion.div>
+                        </div>
+
+                        {/* Right Column - Story & Features */}
+                        <div className="space-y-8 text-[#f4f1ea]">
+                          <motion.div
+                            key={`${clientType}-right`}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: 0.1 }}
+                          >
+                            <div>
+                              <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">
+                                {clientType === 'energy-curious' ? 'Energetic Ethos' : 'Production Ethos'}
+                              </h3>
+                              <p className="font-light leading-relaxed opacity-80">
+                                {product.ethos}
+                              </p>
+                            </div>
+
+                            <div className="mt-8">
+                              <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">
+                                {clientType === 'energy-curious' ? 'Vibrational Benefits' : 'Functional Features'}
+                              </h3>
+                              <ul className="space-y-2 font-light opacity-80">
+                                {product.features.map((feature, i) => (
+                                  <li key={i} className="flex items-start gap-2">
+                                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#f4f1ea] flex-shrink-0" />
+                                    {feature}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            <div className="bg-[#f4f1ea]/5 p-8 rounded-2xl mt-8">
+                              <h3 className="font-cormorant text-2xl mb-4 italic">"What it's really for"</h3>
+                              <p className="font-light leading-relaxed opacity-90">
+                                {product.whatItsFor}
+                              </p>
+                            </div>
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      {/* Footer Action */}
+                      <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col md:flex-row gap-4 justify-center items-center">
+                        <WaitlistButtonLarge
+                          product={product}
+                          journeySlug={chakra.slug}
+                          clientType={clientType}
+                          isAuthenticated={isAuthenticated}
+                          authLoading={authLoading}
+                          onAuthRequired={() => setShowAuthModal(true)}
+                          addToWaitlist={addToWaitlist}
+                          removeFromWaitlist={removeFromWaitlist}
+                          useIsInWaitlist={useIsInWaitlist}
+                        />
+                      </div>
+
+                      {/* Suggested Products (Other products in the same journey/type) */}
+                      <div className="py-16 border-t border-[#f4f1ea]/20 mt-16">
+                        <h2 className="text-2xl md:text-3xl font-cormorant font-light mb-8 text-center text-[#f4f1ea]">
+                          Complete Your {chakra.name} Journey
+                        </h2>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          {currentProducts
+                            .filter(p => p.id !== product.id && p.name !== product.name)
+                            .slice(0, 3)
+                            .map((p, i) => (
+                              <button 
+                                key={i}
+                                onClick={() => {
+                                  // Find index in the SAME list
+                                  const idx = currentProducts.findIndex(cp => cp.name === p.name);
+                                  if (idx !== -1) setExpandedCard(idx);
+                                }}
+                                className="group block bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
+                              >
+                                <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10">
+                                  {/* Show product image if available */}
+                                  {(p.images && p.images[0]) || (p.variants && p.variants[0]?.image) ? (
+                                    <img 
+                                      src={p.variants?.[0]?.image || p.images?.[0] || ''}
+                                      alt={p.name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <>
+                                      <div 
+                                        className="absolute inset-0 opacity-20"
+                                        style={{ backgroundColor: chakra.colors.primary }}
+                                      />
+                                      <div className="absolute inset-0 flex items-center justify-center text-[#f4f1ea]/20 font-cormorant text-4xl">
+                                        {p.step}
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                                <div className="p-4">
+                                  <h3 className="font-cormorant text-lg mb-1 group-hover:text-[#f4f1ea]/70 transition-colors text-[#f4f1ea]">
+                                    {p.name}
+                                  </h3>
+                                  <p className="text-xs font-light opacity-60 line-clamp-2 text-[#f4f1ea]">
+                                    {p.description}
+                                  </p>
+                                  <div className="mt-3 text-xs uppercase tracking-widest font-bold opacity-40 group-hover:opacity-100 transition-opacity text-[#f4f1ea]">
+                                    View Product →
+                                  </div>
+                                </div>
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+
+                      {/* Suggested Combo */}
+                      <div className="py-16 mt-8">
+                        <div className="bg-[#f4f1ea] rounded-[24px] p-8 text-[#27190b] relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+                            <div className="w-full h-full bg-gradient-to-l from-[#27190b] to-transparent" />
+                          </div>
+
+                          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                            <div>
+                              <span className="text-sm uppercase tracking-widest opacity-60 mb-4 block">
+                                Curated for {clientType === 'energy-curious' ? 'Deep Healing' : 'Complete Care'}
+                              </span>
+                              <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-6">
+                                The {chakra.tone} Ritual Set
+                              </h2>
+                              <p className="font-light text-base opacity-80 mb-8 leading-relaxed">
+                                Enhance your experience by combining the {product.name} with our signature {chakra.name} Journal and Meditation Oil. Designed to work in harmony.
+                              </p>
+                              
+                              <div className="flex flex-col gap-4">
+                                <div className="flex items-center gap-4 p-4 bg-[#27190b]/5 rounded-xl border border-[#27190b]/10">
+                                  <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0" />
+                                  <div>
+                                    <div className="font-cormorant text-lg">{product.name}</div>
+                                    <div className="text-xs opacity-60">Included</div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="mt-10 flex flex-col sm:flex-row items-center gap-6">
+                                <button className="bg-[#27190b] text-[#f4f1ea] px-8 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:scale-105 w-full sm:w-auto">
+                                  Add Bundle • ₹7,500
+                                </button>
+                                <span className="text-xs opacity-60">Save 15% when bought together</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </motion.div>
+            </>
+          );
+        })()
+      )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -307,6 +631,7 @@ interface JourneyProductPanelProps {
   setClientType: (type: ClientType) => void;
   expandedCard: number | null;
   setExpandedCard: (index: number | null) => void;
+  setActiveBgImage: (image: string) => void;
   currentProducts: JourneyProduct[];
   isAuthenticated: boolean;
   authLoading: boolean;
@@ -325,6 +650,7 @@ function JourneyProductPanel({
   setClientType,
   expandedCard,
   setExpandedCard,
+  setActiveBgImage,
   currentProducts,
   isAuthenticated,
   authLoading,
@@ -344,14 +670,29 @@ function JourneyProductPanel({
     }
   }, [product]);
 
+  // Update centralized background when this panel's modal is open or variant changes
+  useEffect(() => {
+    if (expandedCard === index && activeVariant) {
+      setActiveBgImage(activeVariant.image);
+    } else if (expandedCard === index && product.images?.[0]) {
+      setActiveBgImage(product.images[0]);
+    }
+  }, [expandedCard, index, activeVariant, product.images, setActiveBgImage]);
+
   const displayImage = activeVariant ? activeVariant.image : (product.images?.[0] || "");
 
   return (
     <div 
       className="panel w-screen h-screen flex-shrink-0 relative"
     >
-      {/* Full Screen Background Image */}
-      <div className="panel-image absolute inset-0 overflow-hidden">
+      {/* Full Screen Background Image - Hidden when modal is open */}
+      <div 
+        className="panel-image absolute inset-0 overflow-hidden"
+        style={{
+          opacity: expandedCard !== null ? 0 : 1,
+          transition: 'opacity 0.3s ease-out',
+        }}
+      >
         <motion.div 
           className="absolute inset-0"
           initial={false}
@@ -362,7 +703,8 @@ function JourneyProductPanel({
           <img 
             src={displayImage} 
             alt={activeVariant ? activeVariant.name : product.name}
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover"
+            style={{ objectPosition: 'center center' }}
           />
         </motion.div>
         
@@ -421,7 +763,12 @@ function JourneyProductPanel({
             <h2 className="text-2xl md:text-xl text-center order-1 md:order-2">{product.name.toUpperCase()}</h2>
 
             <button 
-              onClick={() => setExpandedCard(index)}
+              onClick={(e) => {
+                console.log('🖱️ VIEW DESCRIPTION clicked for index:', index);
+                e.stopPropagation();
+                console.log('   Setting expandedCard to:', index);
+                setExpandedCard(index);
+              }}
               className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-3"
             >
               VIEW DESCRIPTION
@@ -429,250 +776,6 @@ function JourneyProductPanel({
           </div>
         </div>
       </div>
-
-      {/* Expanded Details Overlay */}
-      <AnimatePresence>
-        {expandedCard === index && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setExpandedCard(null)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm z-40"
-            />
-            
-            {/* Slide-up Panel */}
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-[#27190b] text-[#f4f1ea] z-50 rounded-t-[32px] overflow-hidden flex flex-col"
-            >
-              {/* Close Button */}
-              <button 
-                onClick={() => setExpandedCard(null)}
-                className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/10 transition-colors z-50"
-              >
-                <XMarkIcon className="w-8 h-8 text-[#f4f1ea]" />
-              </button>
-
-              {/* Scrollable Content */}
-              <div 
-                className="overflow-y-auto h-full p-8 md:p-16 custom-scrollbar overscroll-y-contain"
-                data-lenis-prevent
-              >
-                <div className="max-w-5xl mx-auto">
-                  
-                  {/* Client Type Toggle */}
-                  <div className="flex justify-center mb-8">
-                    <div className="bg-[#f4f1ea]/10 p-1 rounded-full flex relative">
-                      <motion.div 
-                        className="absolute top-1 bottom-1 bg-[#f4f1ea] rounded-full shadow-md"
-                        initial={false}
-                        animate={{ 
-                          left: clientType === 'soul-luxury' ? '4px' : '50%',
-                          width: 'calc(50% - 4px)'
-                        }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                      <button 
-                        onClick={() => setClientType('soul-luxury')}
-                        className={`relative z-10 px-6 py-2 rounded-full text-sm uppercase tracking-widest transition-colors duration-300 ${clientType === 'soul-luxury' ? 'text-[#27190b]' : 'text-[#f4f1ea]/60'}`}
-                      >
-                        Soul Luxury
-                      </button>
-                      <button 
-                        onClick={() => setClientType('energy-curious')}
-                        className={`relative z-10 px-6 py-2 rounded-full text-sm uppercase tracking-widest transition-colors duration-300 ${clientType === 'energy-curious' ? 'text-[#27190b]' : 'text-[#f4f1ea]/60'}`}
-                      >
-                        Energy Curious
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Header */}
-                  <div className="mb-12 border-b border-[#f4f1ea]/20 pb-8 text-center md:text-left">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                      <div>
-                        <h2 className="text-4xl md:text-6xl font-cormorant font-light mb-2 text-[#f4f1ea]">
-                          {product.name}
-                        </h2>
-                        <p className="text-lg font-light tracking-wide opacity-80">
-                          {product.sanskritName || (clientType === 'energy-curious' ? 'Energetic Shield & Warmth' : 'Handcrafted Winter Muffler')}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
-                    {/* Left Column - Specs */}
-                    <div className="space-y-8">
-                      <motion.div
-                        key={clientType}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">Description</h3>
-                        <p className="font-light text-lg leading-relaxed mb-8">
-                          {product.specificDescription || product.description}
-                        </p>
-
-                        <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">Specifications</h3>
-                        <div className="space-y-4 font-light">
-                        </div>
-                      </motion.div>
-                    </div>
-
-                    {/* Right Column - Story & Features */}
-                    <div className="space-y-8">
-                      <motion.div
-                        key={`${clientType}-right`}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
-                      >
-                        <div>
-                          <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">
-                            {clientType === 'energy-curious' ? 'Energetic Ethos' : 'Production Ethos'}
-                          </h3>
-                          <p className="font-light leading-relaxed opacity-80">
-                            {product.ethos}
-                          </p>
-                        </div>
-
-                        <div className="mt-8">
-                          <h3 className="text-sm uppercase tracking-widest font-bold mb-4 opacity-60">
-                            {clientType === 'energy-curious' ? 'Vibrational Benefits' : 'Functional Features'}
-                          </h3>
-                          <ul className="space-y-2 font-light opacity-80">
-                            {product.features.map((feature, i) => (
-                              <li key={i} className="flex items-start gap-2">
-                                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#f4f1ea] flex-shrink-0" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="bg-[#f4f1ea]/5 p-8 rounded-2xl mt-8">
-                          <h3 className="font-cormorant text-2xl mb-4 italic">"What it's really for"</h3>
-                          <p className="font-light leading-relaxed opacity-90">
-                            {product.whatItsFor}
-                          </p>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                  
-                  {/* Footer Action */}
-                  <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col md:flex-row gap-4 justify-center items-center">
-                     <WaitlistButtonLarge
-                       product={product}
-                       journeySlug={chakra.slug}
-                       clientType={clientType}
-                       isAuthenticated={isAuthenticated}
-                       authLoading={authLoading}
-                       onAuthRequired={onAuthRequired}
-                       addToWaitlist={addToWaitlist}
-                       removeFromWaitlist={removeFromWaitlist}
-                       useIsInWaitlist={useIsInWaitlist}
-                     />
-                  </div>
-
-                  {/* Suggested Products (Other products in the same journey/type) */}
-                  <div className="py-16 border-t border-[#f4f1ea]/20 mt-16">
-                    <h2 className="text-2xl md:text-3xl font-cormorant font-light mb-8 text-center text-[#f4f1ea]">
-                      Complete Your {chakra.name} Journey
-                    </h2>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {currentProducts
-                        .filter(p => p.id !== product.id && p.name !== product.name)
-                        .slice(0, 3)
-                        .map((p, i) => (
-                          <button 
-                            key={i}
-                            onClick={() => {
-                               // Find index in the SAME list
-                               const idx = currentProducts.findIndex(cp => cp.name === p.name);
-                               if (idx !== -1) setExpandedCard(idx);
-                            }}
-                            className="group block bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
-                          >
-                            <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10">
-                              <div 
-                                className="absolute inset-0 opacity-20"
-                                style={{ backgroundColor: chakra.colors.primary }}
-                              />
-                              <div className="absolute inset-0 flex items-center justify-center text-[#f4f1ea]/20 font-cormorant text-4xl">
-                                {p.step}
-                              </div>
-                            </div>
-                            <div className="p-4">
-                              <h3 className="font-cormorant text-lg mb-1 group-hover:text-[#f4f1ea]/70 transition-colors text-[#f4f1ea]">
-                                {p.name}
-                              </h3>
-                              <p className="text-xs font-light opacity-60 line-clamp-2 text-[#f4f1ea]">
-                                {p.description}
-                              </p>
-                              <div className="mt-3 text-xs uppercase tracking-widest font-bold opacity-40 group-hover:opacity-100 transition-opacity text-[#f4f1ea]">
-                                View Product →
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                    </div>
-                  </div>
-
-                  {/* Suggested Combo - Kept standard for now, could be dynamic */}
-                  <div className="py-16 mt-8">
-                    <div className="bg-[#f4f1ea] rounded-[24px] p-8 text-[#27190b] relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
-                         <div className="w-full h-full bg-gradient-to-l from-[#27190b] to-transparent" />
-                      </div>
-
-                      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div>
-                          <span className="text-sm uppercase tracking-widest opacity-60 mb-4 block">
-                            Curated for {clientType === 'energy-curious' ? 'Deep Healing' : 'Complete Care'}
-                          </span>
-                          <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-6">
-                            The {chakra.tone} Ritual Set
-                          </h2>
-                          <p className="font-light text-base opacity-80 mb-8 leading-relaxed">
-                            Enhance your experience by combining the {product.name} with our signature {chakra.name} Journal and Meditation Oil. Designed to work in harmony.
-                          </p>
-                          
-                          <div className="flex flex-col gap-4">
-                            <div className="flex items-center gap-4 p-4 bg-[#27190b]/5 rounded-xl border border-[#27190b]/10">
-                              <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0" />
-                              <div>
-                                <div className="font-cormorant text-lg">{product.name}</div>
-                                <div className="text-xs opacity-60">Included</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="mt-10 flex flex-col sm:flex-row items-center gap-6">
-                            <button className="bg-[#27190b] text-[#f4f1ea] px-8 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:scale-105 w-full sm:w-auto">
-                              Add Bundle • ₹7,500
-                            </button>
-                            <span className="text-xs opacity-60">Save 15% when bought together</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
