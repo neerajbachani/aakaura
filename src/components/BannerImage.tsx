@@ -9,71 +9,78 @@ const chakrasConfig = [
     id: "expansion",
     slug: "expansion",
     name: "Crown",
+    sanskrit: "Sahasrāra",
     color: "#9333ea",
     shadow: "rgba(147,51,234,0.9)",
     image: "/chakras/crown-symbol.svg",
     position: "center",
-    info: "Connection to divine consciousness and spiritual enlightenment",
+    info: "The right to know you are more.\nNot escape. Not superiority.\nUnion. Stillness. Witnessing.\nThis chakra dissolves the question of \"why me?\"\nHere, surrender becomes the highest form of power.",
   },
   {
     id: "insight",
     slug: "insight",
     name: "Third Eye",
+    sanskrit: "Ājñā",
     color: "#3b82f6",
     shadow: "rgba(59,130,246,0.6)",
     image: "/chakras/third-eye-symbol.svg",
     position: "upper-left",
-    info: "Intuition, insight, and inner wisdom",
+    info: "The right to see.\nBeyond logic. Beyond conditioning.\nĀjñā doesn't predict the future; it recognises patterns.\nOnce open, the illusion loses its grip.",
   },
   {
     id: "expression",
     slug: "expression",
     name: "Throat",
+    sanskrit: "Viśuddha",
     color: "#06b6d4",
     shadow: "rgba(6,182,212,0.6)",
     image: "/chakras/throat-symbol.svg",
     position: "upper-right",
-    info: "Communication, self-expression, and truth",
+    info: "The right to speak the truth.\nExpression without distortion. Silence without fear.\nThis chakra governs honesty—with others and with the self.\nWhen aligned, words carry weight, not noise.\nWhen blocked, truth suffocates into compliance.",
   },
   {
     id: "love",
     slug: "love",
     name: "Heart",
+    sanskrit: "Anāhata",
     color: "#22c55e",
     shadow: "rgba(34,197,94,0.6)",
     image: "/chakras/heart-symbol.svg",
     position: "middle-left",
-    info: "Love, compassion, and emotional balance",
+    info: "The right to love.\nNot romance. Not attachment.\nThis is love as frequency: steady, forgiving, expansive.\nAn open heart doesn't leak energy; it circulates it.",
   },
   {
     id: "power",
     slug: "power",
     name: "Solar Plexus",
+    sanskrit: "Maṇipūra",
     color: "#eab308",
     shadow: "rgba(234,179,8,0.6)",
     image: "/chakras/solar-plexus-symbol.svg",
     position: "middle-right",
-    info: "Personal power, confidence, and self-esteem",
+    info: "The right to act.\nFire of will. Seat of self-respect.\nThis is where intention turns into direction.\nA balanced Maṇipūra doesn't dominate; it decides.",
   },
   {
     id: "flow",
     slug: "flow",
     name: "Sacral",
+    sanskrit: "Svādhiṣṭhāna",
     color: "#f97316",
     shadow: "rgba(249,115,22,0.6)",
     image: "/chakras/sacral-symbol.svg",
     position: "lower-left",
-    info: "Creativity, pleasure, and emotional flow",
+    info: "The right to feel.\nCreation begins here; pleasure, emotion, intimacy, art.\nThis chakra doesn't beg permission to flow.\nIt knows that softness is not weakness; it is intelligence in motion.\nBlocked sacral energy dries life into routine.",
   },
   {
     id: "grounding",
     slug: "grounding",
     name: "Root",
+    sanskrit: "Mulādhāra",
     color: "#ef4444",
     shadow: "rgba(239,68,68,0.6)",
     image: "/chakras/root-symbol.svg",
     position: "lower-right",
-    info: "Grounding, stability, and physical security",
+    info: "The right to exist.\nThis is where survival becomes stillness.\nWhere fear learns discipline and chaos learns loyalty.\nWhen this chakra is awake, life stops feeling like a constant emergency.",
   },
 ];
 
@@ -81,18 +88,36 @@ const chakrasConfig = [
 function ChakraCircle({
   chakra,
   onNavigate,
+  onHover,
 }: {
   chakra: typeof chakrasConfig[0];
   onNavigate: (slug: string) => void;
+  onHover: (chakra: typeof chakrasConfig[0] | null) => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="flex flex-col items-center gap-2 relative group">
+      {/* Sanskrit Name - Above Icon */}
+      <p
+        className={`text-sm font-light italic tracking-wide transition-opacity duration-300 ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ color: chakra.color }}
+      >
+        {chakra.sanskrit}
+      </p>
+      
       <div
         className="relative w-[5.8rem] h-[5.8rem] flex items-center justify-center cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={() => {
+          setIsHovered(true);
+          onHover(chakra);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          onHover(null);
+        }}
         onClick={() => onNavigate(chakra.slug)}
       >
         {/* Glow effect behind SVG - always visible */}
@@ -135,32 +160,13 @@ function ChakraCircle({
       >
         {chakra.name}
       </p>
-
-      {/* Tooltip on hover */}
-      {isHovered && (
-        <div
-          className="absolute left-36 mt-4 bg-black/90 text-white text-md px-3 py-2 rounded-lg shadow-lg text-center text-nowrap z-10 animate-fadeIn"
-          style={{
-            borderColor: chakra.color,
-            borderWidth: "1px",
-          }}
-        >
-          {chakra.info}
-          <div
-            className="absolute left-0 top-[50%] transform -translate-x-1/2 w-2 h-2 -rotate-45 bg-black/90"
-            style={{
-              borderLeft: `1px solid ${chakra.color}`,
-              borderTop: `1px solid ${chakra.color}`,
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 }
 
 export default function BannerImage() {
   const router = useTransitionRouter();
+  const [hoveredChakra, setHoveredChakra] = useState<typeof chakrasConfig[0] | null>(null);
 
   const centerChakra = chakrasConfig.find((c) => c.position === "center");
   const upperChakras = chakrasConfig.filter((c) =>
@@ -217,12 +223,27 @@ export default function BannerImage() {
             }
           }
 
+          @keyframes pulseGlow {
+            0%, 100% {
+              opacity: 0.2;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 0.3;
+              transform: scale(1.05);
+            }
+          }
+
           .animate-float {
             animation: float 6s ease-in-out infinite;
           }
 
           .animate-fadeIn {
             animation: fadeIn 0.3s ease-out;
+          }
+
+          .animate-pulseGlow {
+            animation: pulseGlow 2s ease-in-out infinite;
           }
         `}</style>
 
@@ -234,6 +255,7 @@ export default function BannerImage() {
               <ChakraCircle
                 chakra={centerChakra}
                 onNavigate={handleNavigation}
+                onHover={setHoveredChakra}
               />
             </div>
           )}
@@ -245,19 +267,57 @@ export default function BannerImage() {
                 key={chakra.id}
                 chakra={chakra}
                 onNavigate={handleNavigation}
+                onHover={setHoveredChakra}
               />
             ))}
           </div>
 
-          {/* Middle Row */}
-          <div className="flex justify-between w-full max-w-[60rem]">
+          {/* Middle Row with Central Info Display */}
+          <div className="flex justify-between w-full max-w-[60rem] relative">
             {middleChakras.map((chakra) => (
               <ChakraCircle
                 key={chakra.id}
                 chakra={chakra}
                 onNavigate={handleNavigation}
+                onHover={setHoveredChakra}
               />
             ))}
+            
+            {/* Central Info Display */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+              {hoveredChakra && (
+                <div
+                  className="bg-black/95 backdrop-blur-xl text-white px-8 py-6 rounded-2xl shadow-2xl text-left min-w-[420px] max-w-xl animate-fadeIn"
+                  style={{
+                    borderColor: hoveredChakra.color,
+                    borderWidth: "2px",
+                    // boxShadow: `0 0 30px ${hoveredChakra.shadow}, 0 0 30px ${hoveredChakra.shadow}`,
+                  }}
+                >
+                  <h3
+                    className="text-2xl font-bold mb-4 text-center"
+                    style={{ color: hoveredChakra.color }}
+                  >
+                    {hoveredChakra.name} Chakra
+                  </h3>
+                  <p 
+                    className="text-gray-200 text-base leading-relaxed whitespace-pre-line"
+                    style={{ lineHeight: '1.8' }}
+                  >
+                    {hoveredChakra.info}
+                  </p>
+                  
+                  {/* Decorative glow */}
+                  <div
+                    className="absolute inset-0 rounded-2xl -z-10 animate-pulseGlow"
+                    style={{
+                      backgroundColor: hoveredChakra.color,
+                      filter: "blur(30px)",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Lower Row */}
@@ -267,6 +327,7 @@ export default function BannerImage() {
                 key={chakra.id}
                 chakra={chakra}
                 onNavigate={handleNavigation}
+                onHover={setHoveredChakra}
               />
             ))}
           </div>

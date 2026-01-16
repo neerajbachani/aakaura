@@ -240,7 +240,7 @@ export default function BlogSection() {
   return (
     <div 
       ref={containerRef} 
-      className={`relative w-full ${isDesktop ? 'h-[150vh]' : 'h-auto py-16'}`}
+      className={`relative bg-[#BD9958] w-full ${isDesktop ? 'h-[150vh]' : 'h-auto py-16'}`}
     >
       {/* Sticky Wrapper - Only sticky on Desktop */}
       <div className={`${isDesktop ? 'sticky bg-[#BD9958] top-0 h-screen overflow-hidden' : 'relative h-auto'}`}>

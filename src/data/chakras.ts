@@ -9,6 +9,11 @@ export interface JourneyProduct {
   whatItsFor: string;
   features: string[];
   images: string[];
+  variants?: {
+    color: string; // Hex code
+    name: string;
+    image: string;
+  }[];
   step: number;
 }
 
@@ -51,6 +56,11 @@ const TEMPLATE_SL_PRODUCT = {
     "Can be styled as muffler, stole or wrap"
   ],
   images: ["/images/aamvaraah-muffler2.png"],
+  variants: [
+    { color: '#8B4513', name: 'Saddle Brown', image: '/images/aamvaraah-muffler2.png' },
+    { color: '#A0522D', name: 'Sienna', image: '/images/aamvaraah-muffler.jpeg' },
+    { color: '#CD853F', name: 'Peru', image: '/images/aamvaraah-muffler2.png' }
+  ],
   step: 1
 };
 
@@ -68,6 +78,11 @@ const TEMPLATE_EC_PRODUCT = {
     "Mindfully woven to support grounding"
   ],
   images: ["/images/aamvaraah-muffler.jpeg"],
+  variants: [
+    { color: '#2F4F4F', name: 'Dark Slate Gray', image: '/images/aamvaraah-muffler.jpeg' },
+    { color: '#556B2F', name: 'Dark Olive Green', image: '/images/aamvaraah-muffler.jpeg' },
+    { color: '#808000', name: 'Olive', image: '/images/aamvaraah-muffler.jpeg' }
+  ],
   step: 1
 };
 
