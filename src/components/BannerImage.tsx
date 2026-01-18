@@ -4,50 +4,29 @@ import { useState } from "react";
 import { useTransitionRouter } from "next-view-transitions";
 
 // Chakras configuration array with slug mapping
+// Chakras configuration array with slug mapping
 const chakrasConfig = [
   {
-    id: "expansion",
-    slug: "expansion",
-    name: "Crown",
-    sanskrit: "Sahasrāra",
-    color: "#9333ea",
-    shadow: "rgba(147,51,234,0.9)",
-    image: "/chakras/crown-symbol.svg",
-    position: "center",
-    info: "The right to know you are more.\nNot escape. Not superiority.\nUnion. Stillness. Witnessing.\nThis chakra dissolves the question of \"why me?\"\nHere, surrender becomes the highest form of power.",
+    id: "grounding",
+    slug: "grounding",
+    name: "Root",
+    sanskrit: "Mulādhāra",
+    color: "#ef4444",
+    shadow: "rgba(239,68,68,0.6)",
+    image: "/chakras/root-symbol.svg",
+    position: "lower-right",
+    info: "The right to exist.\nThis is where survival becomes stillness.\nWhere fear learns discipline and chaos learns loyalty.\nWhen this chakra is awake, life stops feeling like a constant emergency.",
   },
   {
-    id: "insight",
-    slug: "insight",
-    name: "Third Eye",
-    sanskrit: "Ājñā",
-    color: "#3b82f6",
-    shadow: "rgba(59,130,246,0.6)",
-    image: "/chakras/third-eye-symbol.svg",
-    position: "upper-left",
-    info: "The right to see.\nBeyond logic. Beyond conditioning.\nĀjñā doesn't predict the future; it recognises patterns.\nOnce open, the illusion loses its grip.",
-  },
-  {
-    id: "expression",
-    slug: "expression",
-    name: "Throat",
-    sanskrit: "Viśuddha",
-    color: "#06b6d4",
-    shadow: "rgba(6,182,212,0.6)",
-    image: "/chakras/throat-symbol.svg",
-    position: "upper-right",
-    info: "The right to speak the truth.\nExpression without distortion. Silence without fear.\nThis chakra governs honesty—with others and with the self.\nWhen aligned, words carry weight, not noise.\nWhen blocked, truth suffocates into compliance.",
-  },
-  {
-    id: "love",
-    slug: "love",
-    name: "Heart",
-    sanskrit: "Anāhata",
-    color: "#22c55e",
-    shadow: "rgba(34,197,94,0.6)",
-    image: "/chakras/heart-symbol.svg",
-    position: "middle-left",
-    info: "The right to love.\nNot romance. Not attachment.\nThis is love as frequency: steady, forgiving, expansive.\nAn open heart doesn't leak energy; it circulates it.",
+    id: "flow",
+    slug: "flow",
+    name: "Sacral",
+    sanskrit: "Svādhiṣṭhāna",
+    color: "#f97316",
+    shadow: "rgba(249,115,22,0.6)",
+    image: "/chakras/sacral-symbol.svg",
+    position: "lower-left",
+    info: "The right to feel.\nThis chakra doesn't beg permission to flow.\nBlocked sacral energy dries life into routine.\nCreation begins here; pleasure, emotion, intimacy, art.\nIt knows that softness is not weakness; it is intelligence in motion.",
   },
   {
     id: "power",
@@ -61,26 +40,48 @@ const chakrasConfig = [
     info: "The right to act.\nFire of will. Seat of self-respect.\nThis is where intention turns into direction.\nA balanced Maṇipūra doesn't dominate; it decides.",
   },
   {
-    id: "flow",
-    slug: "flow",
-    name: "Sacral",
-    sanskrit: "Svādhiṣṭhāna",
-    color: "#f97316",
-    shadow: "rgba(249,115,22,0.6)",
-    image: "/chakras/sacral-symbol.svg",
-    position: "lower-left",
-    info: "The right to feel.\nCreation begins here; pleasure, emotion, intimacy, art.\nThis chakra doesn't beg permission to flow.\nIt knows that softness is not weakness; it is intelligence in motion.\nBlocked sacral energy dries life into routine.",
+    id: "love",
+    slug: "love",
+    name: "Heart",
+    sanskrit: "Anāhata",
+    color: "#22c55e",
+    shadow: "rgba(34,197,94,0.6)",
+    image: "/chakras/heart-symbol.svg",
+    position: "middle-left",
+    info: "The right to love.\nNot romance. Not attachment.\nAn open heart doesn't leak energy; it circulates it.\nThis is love as frequency: steady, forgiving, expansive.",
   },
   {
-    id: "grounding",
-    slug: "grounding",
-    name: "Root",
-    sanskrit: "Mulādhāra",
-    color: "#ef4444",
-    shadow: "rgba(239,68,68,0.6)",
-    image: "/chakras/root-symbol.svg",
-    position: "lower-right",
-    info: "The right to exist.\nThis is where survival becomes stillness.\nWhere fear learns discipline and chaos learns loyalty.\nWhen this chakra is awake, life stops feeling like a constant emergency.",
+    id: "expression",
+    slug: "expression",
+    name: "Throat",
+    sanskrit: "Viśuddha",
+    color: "#06b6d4",
+    shadow: "rgba(6,182,212,0.6)",
+    image: "/chakras/throat-symbol.svg",
+    position: "upper-right",
+    info: "The right to speak the truth.\nWhen aligned, words carry weight, not noise.\nWhen blocked, truth suffocates into compliance.\nExpression without distortion. Silence without fear.\nThis chakra governs honesty—with others and with the self.",
+  },
+  {
+    id: "insight",
+    slug: "insight",
+    name: "Third Eye",
+    sanskrit: "Ājñā",
+    color: "#3b82f6",
+    shadow: "rgba(59,130,246,0.6)",
+    image: "/chakras/third-eye-symbol.svg",
+    position: "upper-left",
+    info: "The right to see.\nBeyond logic. Beyond conditioning.\nOnce open, the illusion loses its grip.\nĀjñā doesn't predict the future; it recognises patterns.",
+  },
+  {
+    id: "expansion",
+    slug: "expansion",
+    name: "Crown",
+    sanskrit: "Sahasrāra",
+    color: "#9333ea",
+    shadow: "rgba(147,51,234,0.9)",
+    image: "/chakras/crown-symbol.svg",
+    position: "center",
+    info: "Not escape. Not superiority.\nUnion. Stillness. Witnessing.\nThe right to know you are more.\nThis chakra dissolves the question of \"why me?\"\nHere, surrender becomes the highest form of power.",
   },
 ];
 
@@ -100,7 +101,7 @@ function ChakraCircle({
     <div className="flex flex-col items-center gap-2 relative group">
       {/* Sanskrit Name - Above Icon */}
       <p
-        className={`text-sm font-light italic tracking-wide transition-opacity duration-300 ${
+        className={`text-2xl font-light italic tracking-wide transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`}
         style={{ color: chakra.color }}
@@ -169,15 +170,15 @@ export default function BannerImage() {
   const [hoveredChakra, setHoveredChakra] = useState<typeof chakrasConfig[0] | null>(null);
 
   const centerChakra = chakrasConfig.find((c) => c.position === "center");
-  const upperChakras = chakrasConfig.filter((c) =>
-    c.position.startsWith("upper")
-  );
-  const middleChakras = chakrasConfig.filter((c) =>
-    c.position.startsWith("middle")
-  );
-  const lowerChakras = chakrasConfig.filter((c) =>
-    c.position.startsWith("lower")
-  );
+  const upperChakras = chakrasConfig
+    .filter((c) => c.position.startsWith("upper"))
+    .sort((a, b) => (a.position.includes("left") ? -1 : 1));
+  const middleChakras = chakrasConfig
+    .filter((c) => c.position.startsWith("middle"))
+    .sort((a, b) => (a.position.includes("left") ? -1 : 1));
+  const lowerChakras = chakrasConfig
+    .filter((c) => c.position.startsWith("lower"))
+    .sort((a, b) => (a.position.includes("left") ? -1 : 1));
 
   const triggerPageTransition = () => {
     document.documentElement.animate(
@@ -287,34 +288,23 @@ export default function BannerImage() {
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
               {hoveredChakra && (
                 <div
-                  className="bg-black/95 backdrop-blur-xl text-white px-8 py-6 rounded-2xl shadow-2xl text-left min-w-[420px] max-w-xl animate-fadeIn"
-                  style={{
-                    borderColor: hoveredChakra.color,
-                    borderWidth: "2px",
-                    // boxShadow: `0 0 30px ${hoveredChakra.shadow}, 0 0 30px ${hoveredChakra.shadow}`,
-                  }}
+                  className="text-white text-center min-w-[420px] max-w-xl animate-fadeIn flex flex-col items-center justify-center"
                 >
-                  <h3
-                    className="text-2xl font-bold mb-4 text-center"
-                    style={{ color: hoveredChakra.color }}
+                  {/* <h3
+                    className="text-3xl font-bold mb-4 drop-shadow-lg"
+                    style={{ 
+                      color: hoveredChakra.color,
+                      textShadow: `0 0 20px ${hoveredChakra.shadow}`
+                    }}
                   >
                     {hoveredChakra.name} Chakra
-                  </h3>
+                  </h3> */}
                   <p 
-                    className="text-gray-200 text-base leading-relaxed whitespace-pre-line"
-                    style={{ lineHeight: '1.8' }}
+                    className="text-[#bd9958] text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
+                    style={{ lineHeight: '2.8' }}
                   >
                     {hoveredChakra.info}
                   </p>
-                  
-                  {/* Decorative glow */}
-                  <div
-                    className="absolute inset-0 rounded-2xl -z-10 animate-pulseGlow"
-                    style={{
-                      backgroundColor: hoveredChakra.color,
-                      filter: "blur(30px)",
-                    }}
-                  />
                 </div>
               )}
             </div>

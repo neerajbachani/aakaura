@@ -124,9 +124,9 @@ export default function AboutHeader() {
                       YOU ARE FINALLY
                     </span>
                   </span>
-                  <span className="block text-right overflow-hidden mt-1 sm:mt-0">
+                  <span className="block text-left overflow-hidden mt-1 sm:mt-0">
                     <span className="inline-block font-cormorant -translate-y-[8%] text-[#BD9958]">
-                     HOME
+                     HOME.
                     </span>
                   </span>
                 </h1>
@@ -153,20 +153,18 @@ export default function AboutHeader() {
                 <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg">
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/about" className="block w-full">
-                      About Aakaura
+                      About Us
                     </Link>
                   </li>
+                  
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    Content 2
-                  </li>
-                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    <Link href="/journey" className="block w-full">
-                      Journeys
+                    <Link href="/quiz" className="block w-full">
+                      Quiz
                     </Link>
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/journey" className="block w-full">
-                      What Journey are you on
+                      Begin Where You Are
                     </Link>
                   </li>
                 </ul>

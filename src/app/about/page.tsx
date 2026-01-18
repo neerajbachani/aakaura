@@ -59,6 +59,14 @@ export default function AboutPage() {
             transition={{ duration: 1.5, delay: 0.8 }}
             className="mt-12 h-[1px] w-full max-w-md mx-auto bg-gradient-to-r from-transparent via-[#BD9958] to-transparent"
           />
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 1.2 }}
+            className="mt-8 text-xl md:text-3xl text-white/80 font-light tracking-[0.15em]"
+          >
+            A QUIET SHIFT BACK TO SELF
+          </motion.h2>
         </motion.div>
 
         {/* Floating Background Image - Subtle Parallax */}
@@ -87,7 +95,7 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-8 text-xl md:text-2xl text-white/80 leading-relaxed font-light text-justify">
               <p>
-                Aakaura was born from a simple truth: <span className="text-[#BD9958] font-medium">energy shapes everything</span>: how we feel, think, and live. 
+                Aakaura was born from a simple truth: <span className="text-[#BD9958] font-medium">energy shapes everything</span>; how we feel, think, and live. 
               </p>
               <p>
                 It is very important for humans to understand that they are not here for mere materialism but entail the cosmic secrets to the universe as each one is the universe embodied.
@@ -181,28 +189,7 @@ export default function AboutPage() {
         </motion.div>
       </section>
 
-      {/* For The Seekers Section */}
-      <section className="bg-[#BD9958] text-[#27190B] py-32 md:py-40">
-        <div className="container mx-auto px-6 text-center max-w-5xl">
-          <motion.h2 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="text-4xl md:text-6xl font-medium mb-16"
-          >
-            This is for those who sense more than they can explain.
-          </motion.h2>
-          <div className="grid md:grid-cols-2 gap-12 text-left">
-            <div className="space-y-4">
-              <p className="text-2xl font-medium border-b border-[#27190B]/20 pb-4">Meaning over excess.</p>
-              <p className="opacity-80">Choosing depth in a world of shallow abundance.</p>
-            </div>
-            <div className="space-y-4">
-              <p className="text-2xl font-medium border-b border-[#27190B]/20 pb-4">Energy is intuitive.</p>
-              <p className="opacity-80">It is not imaginary; it is the language of the soul.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Closing CTA Section */}
       <section className="relative h-[80vh] flex items-center justify-center text-center px-4 overflow-hidden">
@@ -219,14 +206,22 @@ export default function AboutPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="space-y-6"
+            className="space-y-12"
           >
-            <h2 className="text-3xl md:text-5xl text-white/60 font-light italic">
-              Aakaura is not just a brand.
+            <h2 className="text-4xl md:text-6xl text-[#BD9958] font-medium leading-tight">
+              This is for those who sense more than they can explain.
             </h2>
-            <h3 className="text-5xl md:text-8xl text-[#BD9958] font-medium leading-none">
-              A QUIET SHIFT <br /> BACK TO SELF
-            </h3>
+            
+            <div className="grid md:grid-cols-2 gap-12 text-left pt-8">
+              <div className="space-y-4">
+                <p className="text-2xl font-medium text-[#BD9958] border-b border-[#BD9958]/20 pb-4">Meaning over excess.</p>
+                <p className="text-white/80">Choosing depth in a world of shallow abundance.</p>
+              </div>
+              <div className="space-y-4">
+                <p className="text-2xl font-medium text-[#BD9958] border-b border-[#BD9958]/20 pb-4">Energy is intuitive.</p>
+                <p className="text-white/80">It is not imaginary; it is the language of the soul.</p>
+              </div>
+            </div>
           </motion.div>
           
           <Link 
