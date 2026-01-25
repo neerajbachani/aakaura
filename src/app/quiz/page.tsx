@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Aurora from "@/components/ui/Aurora";
 import { ImSpinner8 } from "react-icons/im";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 // --- Data & Types ---
 
@@ -207,9 +208,19 @@ function IntroStep({ onStart }: { onStart: () => void }) {
 function QuestionStep({
   situation,
   onAnswer,
+  selectedOption,
+  onBack,
+  onNext,
+  isFirst,
+  isLast,
 }: {
   situation: Situation;
   onAnswer: (char: OptionChar) => void;
+  selectedOption: OptionChar | null;
+  onBack: () => void;
+  onNext: () => void;
+  isFirst: boolean;
+  isLast: boolean;
   currentCount: number;
   totalCount: number;
 }) {
@@ -238,16 +249,53 @@ function QuestionStep({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.05 }}
             onClick={() => onAnswer(option.char)}
-            className="w-full text-left p-4 md:p-5 rounded-xl border border-[#F5E6D3]/10 bg-[#F5E6D3]/05 hover:bg-[#F5E6D3]/10 hover:border-[#F5E6D3]/30 transition-all duration-200 group flex items-start gap-4"
+            className={`w-full text-left p-4 md:p-5 rounded-xl border transition-all duration-200 group flex items-start gap-4 ${
+              selectedOption === option.char
+                ? "border-[#F5E6D3] bg-[#F5E6D3]/20 shadow-[0_0_15px_rgba(245,230,211,0.1)]"
+                : "border-[#F5E6D3]/10 bg-[#F5E6D3]/05 hover:bg-[#F5E6D3]/10 hover:border-[#F5E6D3]/30"
+            }`}
           >
-            <span className="flex-shrink-0 w-6 h-6 rounded-full border border-[#F5E6D3]/20 flex items-center justify-center text-xs text-[#F5E6D3]/60 group-hover:border-[#F5E6D3]/40 group-hover:text-[#F5E6D3]">
+            <span
+              className={`flex-shrink-0 w-6 h-6 rounded-full border flex items-center justify-center text-xs transition-colors ${
+                selectedOption === option.char
+                  ? "border-[#F5E6D3] bg-[#F5E6D3] text-[#27190B]"
+                  : "border-[#F5E6D3]/20 text-[#F5E6D3]/60 group-hover:border-[#F5E6D3]/40 group-hover:text-[#F5E6D3]"
+              }`}
+            >
               {option.char}
             </span>
-            <span className="text-[#F5E6D3]/90 group-hover:text-white font-light text-base md:text-lg">
+            <span
+              className={`font-light text-base md:text-lg transition-colors ${
+                selectedOption === option.char ? "text-white" : "text-[#F5E6D3]/90 group-hover:text-white"
+              }`}
+            >
               {option.text}
             </span>
           </motion.button>
         ))}
+      </div>
+
+      <div className="flex justify-between items-center mt-12">
+        <button
+          onClick={onBack}
+          className={`flex items-center gap-2 px-6 py-2 rounded-full border border-[#F5E6D3]/10 text-[#F5E6D3]/60 hover:text-[#F5E6D3] hover:border-[#F5E6D3]/30 transition-all ${
+            isFirst ? "opacity-0 pointer-events-none" : ""
+          }`}
+        >
+          <IoIosArrowBack /> Previous
+        </button>
+
+        <button
+          onClick={onNext}
+          disabled={!selectedOption}
+          className={`flex items-center gap-2 px-8 py-2 rounded-full font-medium transition-all ${
+            selectedOption
+              ? "bg-[#F5E6D3] text-[#27190B] hover:bg-white shadow-[0_0_20px_rgba(245,230,211,0.1)]"
+              : "bg-[#F5E6D3]/10 text-[#F5E6D3]/30 cursor-not-allowed"
+          }`}
+        >
+          {isLast ? "See Results" : "Next"} <IoIosArrowForward />
+        </button>
       </div>
     </motion.div>
   );
@@ -269,10 +317,11 @@ function AnalyzingStep() {
   );
 }
 
-function ResultStep({ answers }: { answers: OptionChar[] }) {
+function ResultStep({ answers }: { answers: (OptionChar | null)[] }) {
   const result = useMemo(() => {
+    const validAnswers = answers.filter((a): a is OptionChar => a !== null);
     const counts: Record<string, number> = {};
-    answers.forEach((char) => {
+    validAnswers.forEach((char) => {
       counts[char] = (counts[char] || 0) + 1;
     });
 
@@ -374,14 +423,14 @@ function ResultStep({ answers }: { answers: OptionChar[] }) {
               href={`/journey/${result.journey.slug}`}
               className="inline-block px-10 py-4 bg-[#F5E6D3] text-[#27190B] font-medium text-lg rounded-full hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(245,230,211,0.2)]"
             >
-              Explore This Journey
+              Explore More About Journeys
             </Link>
           </div>
         </div>
       )}
 
       {/* Footer / Disclaimer */}
-      <div className="mt-16 pt-8 border-t border-[#F5E6D3]/10 text-[#F5E6D3]/30 text-xs md:text-sm space-y-2 font-light">
+      <div className="mt-16 pt-8 border-t border-[#F5E6D3]/10 text-[#F5E6D3] text-md md:text-xl space-y-2 font-light">
         <p>All energies work together. Life isn’t meant to be lived by fixing one part at a time.</p>
         <p>This journey is simply your starting point, not your destination. Begin where you are.</p>
       </div>
@@ -392,25 +441,41 @@ function ResultStep({ answers }: { answers: OptionChar[] }) {
 export default function QuizPage() {
   const [step, setStep] = useState<"intro" | "quiz" | "analyzing" | "result">("intro");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<OptionChar[]>([]);
+  const [answers, setAnswers] = useState<(OptionChar | null)[]>(
+    new Array(situations.length).fill(null)
+  );
 
   const handleStart = () => {
     setStep("quiz");
   };
 
   const handleAnswer = (answer: OptionChar) => {
-    const newAnswers = [...answers, answer];
+    const newAnswers = [...answers];
+    newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
 
+    // Auto-advance with a slight delay for better UX
     if (currentQuestionIndex < situations.length - 1) {
       setTimeout(() => {
         setCurrentQuestionIndex((prev) => prev + 1);
-      }, 250); // Slight delay for visual feedback
+      }, 400);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentQuestionIndex < situations.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       setStep("analyzing");
       setTimeout(() => {
         setStep("result");
-      }, 2000); // 2 seconds of "analyzing"
+      }, 2000);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
 
@@ -435,9 +500,14 @@ export default function QuizPage() {
           )}
           {step === "quiz" && (
             <QuestionStep
-              key="quiz"
+              key={currentQuestionIndex}
               situation={situations[currentQuestionIndex]}
               onAnswer={handleAnswer}
+              selectedOption={answers[currentQuestionIndex]}
+              onNext={handleNext}
+              onBack={handleBack}
+              isFirst={currentQuestionIndex === 0}
+              isLast={currentQuestionIndex === situations.length - 1}
               currentCount={currentQuestionIndex + 1}
               totalCount={situations.length}
             />

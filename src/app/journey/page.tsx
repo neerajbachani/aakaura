@@ -1,282 +1,392 @@
 "use client";
-import Image from "next/image";
-import { useState } from "react";
-import { useTransitionRouter } from "next-view-transitions";
-import { useRevealer } from "@/hooks/useRevealer";
-import Galaxy from "@/components/ui/Galaxy";
 
-// Chakras configuration array with slug mapping
-const chakrasConfig = [
+import React, { useRef } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import HumanBranches from "@/components/HumanBranches";
+import Container from "@/components/ui/Container";
+import Aurora from "@/components/ui/Aurora";
+import fonts from "@/config/fonts";
+
+// Journey data configuration
+const journeys = [
   {
-    id: "expansion",
-    slug: "expansion",
-    name: "Crown",
-    color: "#9333ea",
-    shadow: "rgba(147,51,234,0.9)",
-    image: "/chakras/crown-symbol.svg",
-    position: "center",
-    info: "Connection to divine consciousness and spiritual enlightenment",
-  },
-  {
-    id: "insight",
-    slug: "insight",
-    name: "Third Eye",
-    color: "#3b82f6",
-    shadow: "rgba(59,130,246,0.6)",
-    image: "/chakras/third-eye-symbol.svg",
-    position: "upper-left",
-    info: "Intuition, insight, and inner wisdom",
-  },
-  {
-    id: "expression",
-    slug: "expression",
-    name: "Throat",
-    color: "#06b6d4",
-    shadow: "rgba(6,182,212,0.6)",
-    image: "/chakras/throat-symbol.svg",
-    position: "upper-right",
-    info: "Communication, self-expression, and truth",
-  },
-  {
-    id: "love",
-    slug: "love",
-    name: "Heart",
-    color: "#22c55e",
-    shadow: "rgba(34,197,94,0.6)",
-    image: "/chakras/heart-symbol.svg",
-    position: "middle-left",
-    info: "Love, compassion, and emotional balance",
-  },
-  {
-    id: "power",
-    slug: "power",
-    name: "Solar Plexus",
-    color: "#eab308",
-    shadow: "rgba(234,179,8,0.6)",
-    image: "/chakras/solar-plexus-symbol.svg",
-    position: "middle-right",
-    info: "Personal power, confidence, and self-esteem",
+    id: "grounding",
+    name: "Root Chakra",
+    title: "The Grounded Journey",
+    color: "#ef4444",
+    symbol: "/chakras/root-symbol.svg",
+    chooseIf: [
+      "You feel unsafe even when nothing is wrong",
+      "Money, stability, or survival thoughts dominate your mind",
+      "You're always planning for worst-case scenarios",
+      "Rest feels undeserved",
+    ],
+    teaches: "Safety is not outside you. The body must feel rooted before the mind can rise.",
+    wisdom: "A tree that ignores its roots falls in the first storm.",
   },
   {
     id: "flow",
-    slug: "flow",
-    name: "Sacral",
+    name: "Sacral Chakra",
+    title: "The Flow Journey",
     color: "#f97316",
-    shadow: "rgba(249,115,22,0.6)",
-    image: "/chakras/sacral-symbol.svg",
-    position: "lower-left",
-    info: "Creativity, pleasure, and emotional flow",
+    symbol: "/chakras/sacral-symbol.svg",
+    chooseIf: [
+      "You feel emotionally numb or creatively blocked",
+      "Pleasure feels guilty",
+      "Relationships feel forced or draining",
+      "You overthink feelings instead of feeling them",
+    ],
+    teaches: "Life is meant to move. Suppressed emotion always leaks elsewhere.",
+    wisdom: "Traditionally known as the seat of creation… not just art, but life-force itself.",
   },
   {
-    id: "grounding",
-    slug: "grounding",
-    name: "Root",
-    color: "#ef4444",
-    shadow: "rgba(239,68,68,0.6)",
-    image: "/chakras/root-symbol.svg",
-    position: "lower-right",
-    info: "Grounding, stability, and physical security",
+    id: "power",
+    name: "Solar Plexus Chakra",
+    title: "The Power Journey",
+    color: "#eab308",
+    symbol: "/chakras/solar-plexus-symbol.svg",
+    chooseIf: [
+      "You doubt yourself despite being capable",
+      "You give power away easily",
+      "Anger simmers beneath calmness",
+      "You struggle with boundaries",
+    ],
+    teaches: "Power is not domination. It's self-trust.",
+    wisdom: "Ancient systems placed fire at the center for a reason…without it, nothing transforms.",
+  },
+  {
+    id: "love",
+    name: "Heart Chakra",
+    title: "The Love Journey",
+    color: "#22c55e",
+    symbol: "/chakras/heart-symbol.svg",
+    chooseIf: [
+      "You love deeply but protect heavily",
+      "Forgiveness feels impossible",
+      "You oscillate between attachment and detachment",
+      "You feel isolated even among people",
+    ],
+    teaches: "The heart is not weak. It's the bridge between earth and sky.",
+    wisdom: "Traditionally, this was considered the balance point… where human meets divine.",
+  },
+  {
+    id: "expression",
+    name: "Throat Chakra",
+    title: "The Truth Journey",
+    color: "#06b6d4",
+    symbol: "/chakras/throat-symbol.svg",
+    chooseIf: [
+      "You struggle to speak your truth",
+      "You're misunderstood often",
+      "You swallow words to keep peace",
+      "You express everything except how you really feel",
+    ],
+    teaches: "Truth unspoken becomes tension stored.",
+    wisdom: "Old cultures believed words carry energy… silence does too.",
+  },
+  {
+    id: "insight",
+    name: "Third Eye Chakra",
+    title: "The Vision Journey",
+    color: "#3b82f6",
+    symbol: "/chakras/third-eye-symbol.svg",
+    chooseIf: [
+      "You sense things but dismiss them",
+      "Logic dominates intuition",
+      "You feel disconnected from meaning",
+      "You seek answers outside instead of within",
+    ],
+    teaches: "Seeing isn't visual. It's perceptual.",
+    wisdom: "Ancient science placed intuition above intellect, not against it.",
+  },
+  {
+    id: "expansion",
+    name: "Crown Chakra",
+    title: "The Surrender Journey",
+    color: "#9333ea",
+    symbol: "/chakras/crown-symbol.svg",
+    chooseIf: [
+      "You're searching for purpose",
+      "Success feels hollow",
+      "You feel guided yet confused",
+      "You're ready to release control",
+    ],
+    teaches: "You are not separate from existence.",
+    wisdom: "Traditions never treated surrender as weakness, it was the highest intelligence.",
   },
 ];
 
-// Chakra Circle Component
-function ChakraCircle({ 
-  chakra, 
-  onNavigate 
-}: { 
-  chakra: typeof chakrasConfig[0];
-  onNavigate: (slug: string) => void;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-
+// Journey Section Component
+function JourneySection({ journey, index }: { journey: typeof journeys[0]; index: number }) {
   return (
-    <div className="flex flex-col items-center gap-2 relative group">
+    <section
+      id={journey.id}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden py-20"
+      style={{
+        background: `linear-gradient(135deg, ${journey.color}10 0%, transparent 50%, ${journey.color}05 100%)`,
+      }}
+    >
+      {/* Background glow effect */}
       <div
-        className="relative w-[5.8rem] h-[5.8rem] flex items-center justify-center cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => onNavigate(chakra.slug)}
-      >
-        {/* Glow effect behind SVG - always visible */}
-        <div
-          className="absolute inset-0 rounded-full transition-all duration-500"
-          style={{
-            backgroundColor: chakra.color,
-            filter: 'blur(40px)',
-            opacity: 0.8,
-            transform: isHovered ? 'scale(1.2)' : 'scale(1.4)',
-          }}
-        />
+        className="absolute inset-0 opacity-10"
+        style={{
+          background: `radial-gradient(circle at ${index % 2 === 0 ? 'left' : 'right'} center, ${journey.color} 0%, transparent 70%)`,
+        }}
+      />
 
-        {/* Additional hover glow */}
-        <div
-          className="absolute inset-0 rounded-full transition-all duration-500"
-          style={{
-            backgroundColor: chakra.color,
-            filter: 'blur(60px)',
-            opacity: isHovered ? 0.6 : 0,
-            transform: 'scale(1.5)',
-          }}
-        />
-
-        <div className="relative w-24 h-24 transition-transform duration-500 group-hover:scale-110" style={{ filter: 'brightness(1.7) contrast(1.8)' }}>
-          <Image
-            src={chakra.image}
-            alt={`${chakra.name} Chakra`}
-            fill
-            className="object-contain"
-          />
-        </div>
-      </div>
-      <p className="text-xl leading-relaxed font-medium " style={{ color: chakra.color }}>
-        {chakra.name}
-      </p>
-
-      {/* Tooltip on hover */}
-      {isHovered && (
-        <div
-          className="absolute left-36 mt-4 bg-black/90 text-white text-md px-3 py-2 rounded-lg shadow-lg text-center text-nowrap z-10 animate-fadeIn"
-          style={{
-            borderColor: chakra.color,
-            borderWidth: "1px",
-          }}
+      <Container className="relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-4xl mx-auto"
         >
-          {chakra.info}
-          <div
-            className="absolute left-0 top-[50%] transform -translate-x-1/2 w-2 h-2 -rotate-45 bg-black/90"
-            style={{
-              borderLeft: `1px solid ${chakra.color}`,
-              borderTop: `1px solid ${chakra.color}`,
-            }}
-          />
-        </div>
-      )}
-    </div>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left side - Symbol and Title */}
+            <div className="flex flex-col items-center md:items-start space-y-6">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.2, type: "spring" }}
+                className="relative w-32 h-32 md:w-40 md:h-40"
+              >
+                <div
+                  className="absolute inset-0 rounded-full blur-2xl opacity-50"
+                  style={{ background: journey.color }}
+                />
+                <Image
+                  src={journey.symbol}
+                  alt={journey.name}
+                  fill
+                  className="object-contain relative z-10"
+                  style={{ filter: "brightness(1.3) drop-shadow(0 0 20px currentColor)" }}
+                />
+              </motion.div>
+
+              <div className="text-center md:text-left">
+                <motion.h2
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className={`${fonts.playfair} text-4xl md:text-5xl font-light mb-2`}
+                  style={{ color: journey.color }}
+                >
+                  {journey.title}
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className={`${fonts.mulish} text-[#BD9958]/70 text-lg tracking-wider`}
+                >
+                  {journey.name}
+                </motion.p>
+              </div>
+            </div>
+
+            {/* Right side - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="space-y-8"
+            >
+              {/* Choose this journey if */}
+              <div className="space-y-4">
+                <h3
+                  className={`${fonts.playfair} text-2xl font-medium text-[#BD9958]`}
+                >
+                  Choose this journey if:
+                </h3>
+                <ul className={`${fonts.mulish} space-y-3 text-white/80`}>
+                  {journey.chooseIf.map((item, idx) => (
+                    <motion.li
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.6 + idx * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <span
+                        className="mt-1.5 w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ background: journey.color }}
+                      />
+                      <span>{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* What this journey teaches */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 1 }}
+                className="space-y-3"
+              >
+                <h3
+                  className={`${fonts.playfair} text-2xl font-medium text-[#BD9958]`}
+                >
+                  What this journey teaches:
+                </h3>
+                <p className={`${fonts.mulish} text-white/90 text-lg leading-relaxed`}>
+                  {journey.teaches}
+                </p>
+              </motion.div>
+
+              {/* Traditional wisdom */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="relative"
+              >
+                <div
+                  className="p-6 rounded-lg border-l-4"
+                  style={{
+                    borderColor: journey.color,
+                    background: `linear-gradient(135deg, ${journey.color}05 0%, transparent 100%)`,
+                  }}
+                >
+                  <p className={`${fonts.playfair} text-[#BD9958]/90 italic text-lg leading-relaxed`}>
+                    {journey.wisdom}
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </Container>
+    </section>
   );
 }
 
-export default function JourneyPage() {
-  const router = useTransitionRouter();
-  useRevealer();
+export default function JourneysPage() {
+  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
-  const centerChakra = chakrasConfig.find((c) => c.position === "center");
-  const upperChakras = chakrasConfig.filter((c) =>
-    c.position.startsWith("upper")
-  );
-  const middleChakras = chakrasConfig.filter((c) =>
-    c.position.startsWith("middle")
-  );
-  const lowerChakras = chakrasConfig.filter((c) =>
-    c.position.startsWith("lower")
-  );
-
-  const triggerPageTransition = () => {
-    document.documentElement.animate(
-      [
-        { clipPath: "polygon(25% 75%, 75% 75%, 75% 75%, 25% 75%)" },
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)" }
-      ],
-      {
-        duration: 2000,
-        easing: "cubic-bezier(0.9, 0, 0.1, 1)",
-        pseudoElement: "::view-transition-new(root)"
-      }
-    );
-  };
-
-  const handleNavigation = (slug: string) => {
-    router.push(`/journey/${slug}`, {
-      onTransitionReady: triggerPageTransition,
-    });
+  const scrollToSection = (chakraId: string) => {
+    const section = document.getElementById(chakraId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   };
 
   return (
-    <>
-      {/* Galaxy Background - Fixed to cover entire viewport including navbar */}
-      <div className="fixed inset-0 w-full h-full z-0">
-        <Galaxy
-          mouseInteraction={false}
-          mouseRepulsion={false}
-          density={0.3}
-          glowIntensity={0.2}
-          saturation={0}
-          hueShift={140}
-          twinkleIntensity={0.3}
-          rotationSpeed={0.1}
-          // repulsionStrength={2}
-          // autoCenterRepulsion={0}
-          starSpeed={0.3}
-          speed={0.8}
-          transparent={true}
+    <div className="bg-[#27190B] relative">
+      {/* Aurora Background - Fixed */}
+      <div className="fixed inset-0 z-0 opacity-30">
+        <Aurora
+          colorStops={["#BD9958", "#A01B04", "#27190B"]}
+          amplitude={1.8}
+          blend={0.6}
+          speed={0.3}
         />
       </div>
 
-      <section className="min-h-[85vh] bg-transparent flex items-center justify-center px-4 relative">
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
+      {/* Hero Section with HumanBranches */}
+      <section className="h-screen flex flex-col items-center justify-between relative overflow-hidden py-8">
+        <Container className="relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="space-y-2"
+          >
+            <h1
+              className={`${fonts.playfair} text-4xl md:text-6xl text-[#BD9958] font-light tracking-wide`}
+            >
+              Seven Sacred Journeys
+            </h1>
+            <p className={`${fonts.mulish} text-white/70 text-base md:text-lg max-w-2xl mx-auto`}>
+              Each chakra holds a gateway to deeper self-awareness.
+              <br />
+              Click on the branches below to explore your path.
+            </p>
+          </motion.div>
+        </Container>
 
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.6 }}
+          className="w-full flex-1 flex items-center justify-center"
+        >
+          <HumanBranches onChakraClick={scrollToSection} />
+        </motion.div>
 
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
-
-      {/* Revealer overlay for page entrance */}
-      <div className="revealer fixed inset-0 bg-[#27190b] z-50 origin-top" />
-
-      {/* Content Layer */}
-      <div className="flex flex-col items-center gap-2 w-full animate-float relative z-10">
-        {/* Center - Crown Chakra */}
-        {centerChakra && (
-          <div className="flex justify-center">
-            <ChakraCircle chakra={centerChakra} onNavigate={handleNavigation} />
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5, repeat: Infinity, repeatType: "reverse" }}
+          className="relative z-10 pb-4"
+        >
+          <div className="flex flex-col items-center gap-2">
+            <span className={`${fonts.mulish} text-[#BD9958]/50 text-sm tracking-widest`}>
+              SCROLL TO EXPLORE
+            </span>
+            <svg
+              className="w-6 h-6 text-[#BD9958]/50"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
           </div>
-        )}
+        </motion.div>
+      </section>
 
-        {/* Upper Row */}
-        <div className="flex justify-between w-full max-w-xl">
-          {upperChakras.map((chakra) => (
-            <ChakraCircle key={chakra.id} chakra={chakra} onNavigate={handleNavigation} />
-          ))}
-        </div>
+      {/* Journey Sections */}
+      {journeys.map((journey, index) => (
+        <JourneySection key={journey.id} journey={journey} index={index} />
+      ))}
 
-        {/* Middle Row */}
-        <div className="flex justify-between w-full max-w-[60rem]">
-          {middleChakras.map((chakra) => (
-            <ChakraCircle key={chakra.id} chakra={chakra} onNavigate={handleNavigation} />
-          ))}
-        </div>
-
-        {/* Lower Row */}
-        <div className="flex justify-between w-full max-w-[80rem]">
-          {lowerChakras.map((chakra) => (
-            <ChakraCircle key={chakra.id} chakra={chakra} onNavigate={handleNavigation} />
-          ))}
-        </div>
-      </div>
-    </section>
-    </>
+      {/* Closing CTA Section */}
+      <section className="min-h-[50vh] flex items-center justify-center relative overflow-hidden py-20">
+        <Container className="relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8 max-w-3xl mx-auto"
+          >
+            <h2 className={`${fonts.playfair} text-4xl md:text-5xl text-[#BD9958] font-light`}>
+              Ready to Begin?
+            </h2>
+            <p className={`${fonts.mulish} text-white/80 text-xl leading-relaxed`}>
+              Every journey starts with a single step inward.
+              <br />
+              Choose the path that calls to you, or let your intuition guide the way.
+            </p>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block"
+            >
+              <a
+                href="/quiz"
+                className={`${fonts.mulish} inline-block px-8 py-4 bg-[#BD9958] text-[#27190B] rounded-full text-lg font-medium tracking-wide hover:bg-[#BD9958]/90 transition-colors`}
+              >
+                Take the Quiz
+              </a>
+            </motion.div>
+          </motion.div>
+        </Container>
+      </section>
+    </div>
   );
 }
