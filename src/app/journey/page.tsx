@@ -293,14 +293,14 @@ export default function JourneysPage() {
       </div> */}
 
       {/* Hero Section with HumanBranches */}
-      <section className="h-screen flex flex-col items-center justify-between relative overflow-hidden py-8">
+      <section className="h-screen flex flex-col items-center justify-between relative overflow-hidden lg:py-8">
         
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.6 }}
-          className="w-full flex-1 flex items-center justify-center"
+          className="w-full  flex items-center justify-center"
         >
           <HumanBranches onChakraClick={scrollToSection} />
         </motion.div>

@@ -80,7 +80,7 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
           {/* Left Side - Human Branches Visualization */}
           <div className="relative w-full lg:w-1/2 flex items-center justify-center">
             {/* Smaller on mobile, larger on desktop */}
-            <div className="relative aspect-[5/4] w-full max-w-sm md:max-w-md lg:max-w-2xl">
+            <div className="relative aspect-[5/4] w-full max-w-md md:max-w-md lg:max-w-2xl">
               {/* Background SVG */}
               <div className="absolute inset-0 z-0">
                 <Image
@@ -91,12 +91,12 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                 />
               </div>
 
-              {/* Chakra Symbols Overlaid on "Eclipse" Shapes */}
-              <div className="absolute inset-0 z-10">
+              {/* Chakra Symbols Overlaid on "Eclipse" Shapes - Added padding to prevent clipping */}
+              <div className="absolute inset-0 z-10 p-4 md:p-6">
                 <svg
                   viewBox="0 0 900 900"
                   className="w-full h-full"
-                  style={{ filter: "drop-shadow(0 0 10px rgba(0,0,0,0.5))" }}
+                  style={{ filter: "drop-shadow(0 0 10px rgba(0,0,0,0.5))", overflow: "visible" }}
                 >
                   {chakras.map((chakra, index) => (
                     <motion.g
@@ -111,13 +111,13 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                       <circle
                         cx={chakra.x}
                         cy={chakra.y}
-                        r="40"
+                        r="60"
                         fill={chakra.color}
                         className="opacity-20"
                       >
                         <animate
                           attributeName="r"
-                          values="40;50;40"
+                          values="60;70;60"
                           dur="3s"
                           repeatCount="indefinite"
                         />
@@ -129,22 +129,22 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                         />
                       </circle>
 
-                      {/* Chakra symbol image */}
+                      {/* Chakra symbol image - Increased size */}
                       <image
                         href={chakra.symbol}
-                        x={chakra.x - 30}
-                        y={chakra.y - 30}
-                        width="60"
-                        height="60"
+                        x={chakra.x - 50}
+                        y={chakra.y - 50}
+                        width="100"
+                        height="100"
                         className="cursor-pointer hover:scale-110 transition-transform"
                         style={{ filter: "brightness(1.5)" }}
                       />
                       
-                      {/* Label on Hover Area (invisible but functional) */}
+                      {/* Label on Hover Area (invisible but functional) - Larger clickable area */}
                       <circle
                         cx={chakra.x}
                         cy={chakra.y}
-                        r="35"
+                        r="55"
                         fill="transparent"
                         className="cursor-pointer group"
                         onClick={() => onChakraClick?.(chakra.id)}
