@@ -72,14 +72,15 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
   const [hoveredChakra, setHoveredChakra] = React.useState<string | null>(null);
 
   return (
-    <section className="py-4 bg-transparent overflow-hidden relative flex items-center justify-center w-full h-full">
-      <Container className="relative w-full h-full">
-        {/* Desktop: Side by side layout, Mobile: Stacked */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 h-full">
+    <section className="py-4 md:py-6 bg-transparent overflow-hidden relative flex items-center justify-center w-full">
+      <Container className="relative w-full">
+        {/* Desktop: Side by side layout, Mobile/Tablet: Stacked */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-8 lg:gap-12">
           
           {/* Left Side - Human Branches Visualization */}
           <div className="relative w-full lg:w-1/2 flex items-center justify-center">
-            <div className="relative aspect-[5/4] w-full max-w-2xl">
+            {/* Smaller on mobile, larger on desktop */}
+            <div className="relative aspect-[5/4] w-full max-w-sm md:max-w-md lg:max-w-2xl">
               {/* Background SVG */}
               <div className="absolute inset-0 z-0">
                 <Image
@@ -154,8 +155,8 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
               </div>
             </div>
 
-            {/* Hover Label - Centered */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+            {/* Hover Label - Centered - Hidden on small screens */}
+            <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
               <AnimatePresence>
                 {hoveredChakra && (
                   <motion.div
@@ -173,18 +174,18 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
             </div>
           </div>
 
-          {/* Right Side - Harmonizing the Soul Text */}
-          <div className="lg:w-1/2 flex items-center justify-center">
-            <div className="text-center lg:text-left space-y-4 max-w-xl">
-              <h2 className={`${fonts.playfair} text-4xl lg:text-5xl text-[#BD9958] font-light`}>
-                Harmonizing the Soul
+          {/* Right Side - Seven Sacred Journeys Text */}
+          <div className="w-full lg:w-1/2 flex items-center justify-center">
+            <div className="text-center lg:text-left space-y-3 md:space-y-4 max-w-xl px-4 md:px-0">
+              <h2 className={`${fonts.playfair} text-3xl md:text-4xl lg:text-5xl text-[#BD9958] font-light`}>
+                Seven Sacred Journeys
               </h2>
-              <p className={`${fonts.mulish} text-[#BD9958]/70 text-lg lg:text-xl leading-relaxed`}>
+              <p className={`${fonts.mulish} text-[#BD9958]/70 text-base md:text-lg lg:text-xl leading-relaxed`}>
                 Unlock the flow of energy through the branches of your existence. 
                 Each node represents a portal to deeper self-awareness.
               </p>
-              <div className="pt-4">
-                <p className={`${fonts.mulish} text-[#BD9958]/50 text-sm italic`}>
+              <div className="pt-2 md:pt-4">
+                <p className={`${fonts.mulish} text-[#BD9958]/50 text-xs md:text-sm italic`}>
                   Hover over each chakra to reveal its name, then click to explore its journey.
                 </p>
               </div>

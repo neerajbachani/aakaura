@@ -283,36 +283,18 @@ export default function JourneysPage() {
   return (
     <div className="bg-[#27190B] relative">
       {/* Aurora Background - Fixed */}
-      <div className="fixed inset-0 z-0 opacity-30">
+      {/* <div className="fixed inset-0 z-0 opacity-30">
         <Aurora
           colorStops={["#BD9958", "#A01B04", "#27190B"]}
           amplitude={1.8}
           blend={0.6}
           speed={0.3}
         />
-      </div>
+      </div> */}
 
       {/* Hero Section with HumanBranches */}
       <section className="h-screen flex flex-col items-center justify-between relative overflow-hidden py-8">
-        <Container className="relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="space-y-2"
-          >
-            <h1
-              className={`${fonts.playfair} text-4xl md:text-6xl text-[#BD9958] font-light tracking-wide`}
-            >
-              Seven Sacred Journeys
-            </h1>
-            <p className={`${fonts.mulish} text-white/70 text-base md:text-lg max-w-2xl mx-auto`}>
-              Each chakra holds a gateway to deeper self-awareness.
-              <br />
-              Click on the branches below to explore your path.
-            </p>
-          </motion.div>
-        </Container>
+        
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
