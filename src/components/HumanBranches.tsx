@@ -92,7 +92,7 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
               </div>
 
               {/* Chakra Symbols Overlaid on "Eclipse" Shapes - Added padding to prevent clipping */}
-              <div className="absolute inset-0 z-10 p-4 md:p-6">
+              <div className="absolute inset-0 z-10">
                 <svg
                   viewBox="0 0 900 900"
                   className="w-full h-full"
