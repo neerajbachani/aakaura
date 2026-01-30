@@ -78,9 +78,9 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-8 lg:gap-12">
           
           {/* Left Side - Human Branches Visualization */}
-          <div className="relative w-full lg:w-1/2 flex items-center justify-center">
+          <div className="relative w-full lg:w-1/2 flex items-center justify-center p-[10px] md:p-0">
             {/* Smaller on mobile, larger on desktop */}
-            <div className="relative aspect-[5/4] w-full max-w-md md:max-w-md lg:max-w-2xl">
+            <div className="relative aspect-[1/1] md:aspect-[5/4] w-full max-w-md md:max-w-md lg:max-w-2xl">
               {/* Background SVG */}
               <div className="absolute inset-0 z-0">
                 <Image
@@ -176,7 +176,7 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
 
           {/* Right Side - Seven Sacred Journeys Text */}
           <div className="w-full lg:w-1/2 flex items-center justify-center">
-            <div className="text-center lg:text-left space-y-3 md:space-y-4 max-w-xl px-4 md:px-0">
+            <div className="text-center lg:text-left space-y-6 md:space-y-4 max-w-xl px-2 md:px-0">
               <h2 className={`${fonts.playfair} text-3xl md:text-4xl lg:text-5xl text-[#BD9958] font-light`}>
                 Seven Sacred Journeys
               </h2>

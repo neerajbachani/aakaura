@@ -65,7 +65,7 @@ export default async function Home() {
 
       <AboutHeader/>
       <BlogSection/>
-      <HumanBranches />
+      {/* <HumanBranches /> */}
       <ScrollTransition/>
       <AnimatedText/>
       {/* {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />} */}
