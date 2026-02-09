@@ -3,12 +3,19 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUpdateProductSettings } from "@/hooks/admin/useAdminWaitlist";
+import { useAddJourneyProduct, useUpdateJourneyProduct, useDeleteJourneyProduct } from "@/hooks/admin/useAdminJourney";
 import AdminTabs from "@/components/ui/AdminTabs";
 import { motion } from "framer-motion";
+import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+
+import toast from "react-hot-toast";
+import ProductFormModal from "@/components/admin/ProductFormModal";
 
 // Fetch all journeys
 async function fetchJourneys() {
-  const response = await fetch("/api/admin/journeys");
+  const response = await fetch("/api/admin/journeys", {
+    credentials: "include"
+  });
   if (!response.ok) throw new Error("Failed to fetch journeys");
   return response.json();
 }
@@ -20,6 +27,71 @@ export default function AdminProductSettingsPage() {
   });
 
   const updateProductSettings = useUpdateProductSettings();
+  const addProduct = useAddJourneyProduct();
+  const updateProduct = useUpdateJourneyProduct();
+  const deleteProduct = useDeleteJourneyProduct();
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
+  const [selectedJourney, setSelectedJourney] = useState<any>(null);
+  const [selectedClientType, setSelectedClientType] = useState<'soul-luxury' | 'energy-curious'>('soul-luxury');
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+
+  const handleAddProduct = (journey: any, clientType: 'soul-luxury' | 'energy-curious') => {
+    setModalMode('add');
+    setSelectedJourney(journey);
+    setSelectedClientType(clientType);
+    setSelectedProduct(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditProduct = (journey: any, clientType: 'soul-luxury' | 'energy-curious', product: any) => {
+    setModalMode('edit');
+    setSelectedJourney(journey);
+    setSelectedClientType(clientType);
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteProduct = async (journey: any, clientType: 'soul-luxury' | 'energy-curious', productId: string) => {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+
+    try {
+      await deleteProduct.mutateAsync({
+        slug: journey.slug,
+        clientType,
+        productId,
+      });
+      toast.success('Product deleted successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to delete product');
+    }
+  };
+
+  const handleFormSubmit = async (formData: any) => {
+    try {
+      if (modalMode === 'add') {
+        await addProduct.mutateAsync({
+          slug: selectedJourney.slug,
+          clientType: selectedClientType,
+          product: formData,
+        });
+        toast.success('Product added successfully');
+      } else {
+        await updateProduct.mutateAsync({
+          slug: selectedJourney.slug,
+          clientType: selectedClientType,
+          productId: selectedProduct.id,
+          product: formData,
+        });
+        toast.success('Product updated successfully');
+      }
+      setIsModalOpen(false);
+    } catch (error: any) {
+      toast.error(error.message || `Failed to ${modalMode === 'add' ? 'add' : 'update'} product`);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -71,7 +143,7 @@ export default function AdminProductSettingsPage() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Product Settings</h1>
           <p className="text-gray-600">
-            Manage product availability: toggle between Waitlist and Buy Now modes
+            Manage products and their availability: Create, edit, delete, and toggle waitlist status
           </p>
         </div>
 
@@ -106,11 +178,22 @@ export default function AdminProductSettingsPage() {
                   {/* Products */}
                   <div className="p-6">
                     {/* Soul Luxury Products */}
-                    {soulLuxuryProducts.length > 0 && (
-                      <div className="mb-8">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+                    <div className="mb-8">
+                      <div className="flex justify-between items-center mb-4 border-b pb-2">
+                        <h3 className="text-lg font-semibold text-gray-800">
                           Soul Luxury Collection
                         </h3>
+                        <button
+                          onClick={() => handleAddProduct(journey, 'soul-luxury')}
+                          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                        >
+                          <PlusIcon className="w-4 h-4" />
+                          Add Product
+                        </button>
+                      </div>
+                      {soulLuxuryProducts.length === 0 ? (
+                        <p className="text-gray-500 text-sm italic">No products yet</p>
+                      ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                           {soulLuxuryProducts.map((product: any) => {
                             const isWaitlist = productSettings[product.id]?.isWaitlist ?? true;
@@ -135,31 +218,58 @@ export default function AdminProductSettingsPage() {
                                   <span className="text-sm font-medium text-gray-700">
                                     {product.price}
                                   </span>
-                                  <button
-                                    onClick={() => handleToggleWaitlist(journey.slug, product.id, isWaitlist)}
-                                    disabled={updateProductSettings.isPending}
-                                    className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-                                      isWaitlist
-                                        ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-                                        : "bg-green-100 text-green-800 hover:bg-green-200"
-                                    } disabled:opacity-50`}
-                                  >
-                                    {isWaitlist ? "📋 Waitlist" : "🛒 Buy Now"}
-                                  </button>
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => handleEditProduct(journey, 'soul-luxury', product)}
+                                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                      title="Edit product"
+                                    >
+                                      <PencilIcon className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteProduct(journey, 'soul-luxury', product.id)}
+                                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                      title="Delete product"
+                                    >
+                                      <TrashIcon className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleToggleWaitlist(journey.slug, product.id, isWaitlist)}
+                                      disabled={updateProductSettings.isPending}
+                                      className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                                        isWaitlist
+                                          ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                                          : "bg-green-100 text-green-800 hover:bg-green-200"
+                                      } disabled:opacity-50`}
+                                    >
+                                      {isWaitlist ? "📋 Waitlist" : "🛒 Buy Now"}
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             );
                           })}
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
 
                     {/* Energy Curious Products */}
-                    {energyCuriousProducts.length > 0 && (
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+                    <div>
+                      <div className="flex justify-between items-center mb-4 border-b pb-2">
+                        <h3 className="text-lg font-semibold text-gray-800">
                           Energy Curious Collection
                         </h3>
+                        <button
+                          onClick={() => handleAddProduct(journey, 'energy-curious')}
+                          className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                        >
+                          <PlusIcon className="w-4 h-4" />
+                          Add Product
+                        </button>
+                      </div>
+                      {energyCuriousProducts.length === 0 ? (
+                        <p className="text-gray-500 text-sm italic">No products yet</p>
+                      ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                           {energyCuriousProducts.map((product: any) => {
                             const isWaitlist = productSettings[product.id]?.isWaitlist ?? true;
@@ -184,24 +294,40 @@ export default function AdminProductSettingsPage() {
                                   <span className="text-sm font-medium text-gray-700">
                                     {product.price}
                                   </span>
-                                  <button
-                                    onClick={() => handleToggleWaitlist(journey.slug, product.id, isWaitlist)}
-                                    disabled={updateProductSettings.isPending}
-                                    className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-                                      isWaitlist
-                                        ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-                                        : "bg-green-100 text-green-800 hover:bg-green-200"
-                                    } disabled:opacity-50`}
-                                  >
-                                    {isWaitlist ? "📋 Waitlist" : "🛒 Buy Now"}
-                                  </button>
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => handleEditProduct(journey, 'energy-curious', product)}
+                                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                      title="Edit product"
+                                    >
+                                      <PencilIcon className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteProduct(journey, 'energy-curious', product.id)}
+                                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                      title="Delete product"
+                                    >
+                                      <TrashIcon className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleToggleWaitlist(journey.slug, product.id, isWaitlist)}
+                                      disabled={updateProductSettings.isPending}
+                                      className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                                        isWaitlist
+                                          ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                                          : "bg-green-100 text-green-800 hover:bg-green-200"
+                                      } disabled:opacity-50`}
+                                    >
+                                      {isWaitlist ? "📋 Waitlist" : "🛒 Buy Now"}
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             );
                           })}
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               );
@@ -209,6 +335,19 @@ export default function AdminProductSettingsPage() {
           )}
         </div>
       </div>
+
+      {/* Product Form Modal */}
+      {isModalOpen && (
+        <ProductFormModal
+          mode={modalMode}
+          journey={selectedJourney}
+          clientType={selectedClientType}
+          product={selectedProduct}
+          onSubmit={handleFormSubmit}
+          onClose={() => setIsModalOpen(false)}
+          isLoading={addProduct.isPending || updateProduct.isPending}
+        />
+      )}
     </div>
   );
 }

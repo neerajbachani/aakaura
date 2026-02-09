@@ -77,3 +77,114 @@ export function useUpdateJourney() {
         },
     });
 }
+
+// Product CRUD Hooks
+export function useAddJourneyProduct() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async ({
+            slug,
+            clientType,
+            product
+        }: {
+            slug: string;
+            clientType: 'soul-luxury' | 'energy-curious';
+            product: any;
+        }) => {
+            const response = await fetch(`/api/admin/journeys/${slug}/products`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ clientType, product }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || "Failed to add product");
+            }
+
+            return response.json();
+        },
+        onSuccess: (data, variables) => {
+            queryClient.invalidateQueries({ queryKey: ["admin", "journeys"] });
+            queryClient.invalidateQueries({ queryKey: ["admin", "journeys", variables.slug] });
+        },
+    });
+}
+
+export function useUpdateJourneyProduct() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async ({
+            slug,
+            clientType,
+            productId,
+            product
+        }: {
+            slug: string;
+            clientType: 'soul-luxury' | 'energy-curious';
+            productId: string;
+            product: any;
+        }) => {
+            const response = await fetch(`/api/admin/journeys/${slug}/products`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ clientType, productId, product }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || "Failed to update product");
+            }
+
+            return response.json();
+        },
+        onSuccess: (data, variables) => {
+            queryClient.invalidateQueries({ queryKey: ["admin", "journeys"] });
+            queryClient.invalidateQueries({ queryKey: ["admin", "journeys", variables.slug] });
+        },
+    });
+}
+
+export function useDeleteJourneyProduct() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async ({
+            slug,
+            clientType,
+            productId
+        }: {
+            slug: string;
+            clientType: 'soul-luxury' | 'energy-curious';
+            productId: string;
+        }) => {
+            const response = await fetch(`/api/admin/journeys/${slug}/products`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ clientType, productId }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || "Failed to delete product");
+            }
+
+            return response.json();
+        },
+        onSuccess: (data, variables) => {
+            queryClient.invalidateQueries({ queryKey: ["admin", "journeys"] });
+            queryClient.invalidateQueries({ queryKey: ["admin", "journeys", variables.slug] });
+        },
+    });
+}

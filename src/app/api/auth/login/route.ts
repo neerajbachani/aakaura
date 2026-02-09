@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validate input
     const validatedData = loginSchema.parse(body);
     const { email, password } = validatedData;
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
 
     // Set auth cookie
     await setAuthCookie(token);
+    console.log('[Auth Debug] Login successful - Cookie set for user:', user.email);
 
     // Handle guest cart migration if provided
     const guestCartItems = body.guestCart;
@@ -86,7 +87,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Login error:', error);
-    
+
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json(
         { error: 'Invalid input data', details: error.message },

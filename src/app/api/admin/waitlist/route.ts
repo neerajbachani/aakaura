@@ -5,15 +5,26 @@ import { requireAuth } from '@/lib/auth';
 // GET /api/admin/waitlist - Get all waitlist items with user information
 export async function GET(request: NextRequest) {
     try {
+        console.log('[Auth Debug] Admin Journeys - All cookies:',
+            Array.from(request.cookies.getAll()).map(c => `${c.name}=${c.value.substring(0, 20)}...`));
         const user = await requireAuth(request);
 
         // Check if user is admin
-        const userRecord = await prisma.user.findUnique({
-            where: { id: user.userId },
-            select: { role: true },
-        });
+        if (user.role === 'admin') {
+            // Environment-based admin
+        } else if (user.userId) {
+            const userRecord = await prisma.user.findUnique({
+                where: { id: user.userId },
+                select: { role: true },
+            });
 
-        if (userRecord?.role !== 'ADMIN') {
+            if (userRecord?.role !== 'ADMIN') {
+                return NextResponse.json(
+                    { error: 'Unauthorized' },
+                    { status: 403 }
+                );
+            }
+        } else {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 403 }
