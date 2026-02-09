@@ -261,6 +261,7 @@ export default function ChakraJourneyTemplate({
           {
             scale: 1,
             borderRadius: "0px",
+            objectFit: "fit",
             scrollTrigger: {
               trigger: panel,
               containerAnimation: horizontalScroll,
@@ -334,8 +335,8 @@ export default function ChakraJourneyTemplate({
               ? activeBgImage ||
                 currentProducts[expandedCard]?.variants?.[0]?.image ||
                 currentProducts[expandedCard]?.images?.[0] ||
-                ""
-              : ""
+                undefined
+              : undefined
           }
           alt={
             expandedCard !== null && currentProducts[expandedCard]
@@ -673,14 +674,15 @@ export default function ChakraJourneyTemplate({
                         </CollapsibleSection>
 
                         {/* Design Breakdown Accordion */}
-                        {product.designBreakdown &&
-                          product.designBreakdown.length > 0 && (
-                            <CollapsibleSection
-                              title="Design Breakdown & Symbolism"
-                              defaultOpen={false}
-                            >
-                              <div className="space-y-5 pt-6">
-                                {product.designBreakdown.map((item, i) => (
+                        {product.designBreakdown && (
+                          <CollapsibleSection
+                            title="Design Breakdown & Symbolism"
+                            defaultOpen={false}
+                          >
+                            <div className="space-y-5 pt-6">
+                              {Array.isArray(product.designBreakdown) ? (
+                                // Handle array format
+                                product.designBreakdown.map((item, i) => (
                                   <div
                                     key={i}
                                     className="border-l-2 border-[#f4f1ea]/20 pl-6"
@@ -692,10 +694,16 @@ export default function ChakraJourneyTemplate({
                                       {item.description}
                                     </p>
                                   </div>
-                                ))}
-                              </div>
-                            </CollapsibleSection>
-                          )}
+                                ))
+                              ) : (
+                                // Handle string format
+                                <div className="font-light text-base leading-relaxed opacity-80 whitespace-pre-line">
+                                  {product.designBreakdown}
+                                </div>
+                              )}
+                            </div>
+                          </CollapsibleSection>
+                        )}
 
                         {/* Production/Energetic Ethos Accordion */}
                         {/* <CollapsibleSection

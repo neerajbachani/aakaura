@@ -16,6 +16,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Validate that userId exists in the token
+    if (!tokenUser.userId) {
+      console.error('Token missing userId:', tokenUser);
+      return NextResponse.json(
+        { error: 'Invalid token: missing user ID' },
+        { status: 401 }
+      );
+    }
+
     // Fetch fresh user data from database
     const user = await prisma.user.findUnique({
       where: { id: tokenUser.userId },
