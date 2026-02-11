@@ -26,6 +26,8 @@ export interface JourneyProduct {
     crafting?: string;
     durability?: string;
     packaging?: string;
+    // Allow additional string properties for bonsai-specific or other dynamic fields
+    [key: string]: string | undefined;
   };
   careInstructions?: string;
   idealFor?: string;
@@ -34,7 +36,11 @@ export interface JourneyProduct {
   designBreakdown?: {
     title: string;
     description: string;
-  }[];
+  }[] | string;
+  additionalSection?: {
+    title: string;
+    content: string;
+  };
   whenToUse?: {
     introduction?: string;
     whoShouldWork?: {

@@ -38,6 +38,46 @@ export default function Footer() {
                 Our Thoughts
               </Link>
             </li>
+            <li>
+              <Link
+                href="/policies/terms"
+                className="hover:text-primaryRed transition"
+              >
+                Terms & Conditions
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/policies/privacy"
+                className="hover:text-primaryRed transition"
+              >
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/policies/refunds"
+                className="hover:text-primaryRed transition"
+              >
+                Refunds & Cancellations
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/policies/shipping"
+                className="hover:text-primaryRed transition"
+              >
+                Shipping Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/policies/disclaimers"
+                className="hover:text-primaryRed transition"
+              >
+                Disclaimers
+              </Link>
+            </li>
           </ul>
         </div>
 

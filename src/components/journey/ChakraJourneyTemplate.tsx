@@ -173,6 +173,102 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   );
 };
 
+// Formatted Content Component for rendering markdown-style text
+interface FormattedContentProps {
+  content: string;
+}
+
+const FormattedContent: React.FC<FormattedContentProps> = ({ content }) => {
+  // Parse the content and convert markdown-style syntax to JSX
+  const renderFormattedText = (text: string) => {
+    const lines = text.split("\n");
+    const elements: React.ReactNode[] = [];
+    let currentList: string[] = [];
+
+    const processInlineFormatting = (text: string) => {
+      // Split by ** for bold text
+      const parts = text.split(/\*\*(.*?)\*\*/g);
+      return parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <strong key={i} className="font-semibold text-[#f4f1ea]">
+            {part}
+          </strong>
+        ) : (
+          part
+        ),
+      );
+    };
+
+    const flushList = () => {
+      if (currentList.length > 0) {
+        elements.push(
+          <ul key={`list-${elements.length}`} className="space-y-2 mb-6 ml-6">
+            {currentList.map((item, i) => (
+              <li
+                key={i}
+                className="text-base leading-relaxed opacity-80 list-disc"
+              >
+                {processInlineFormatting(item)}
+              </li>
+            ))}
+          </ul>,
+        );
+        currentList = [];
+      }
+    };
+
+    lines.forEach((line, index) => {
+      const trimmedLine = line.trim();
+
+      // Skip empty lines
+      if (!trimmedLine) {
+        flushList();
+        if (elements.length > 0) {
+          elements.push(<div key={`space-${index}`} className="h-4" />);
+        }
+        return;
+      }
+
+      // Check for heading (line starting with **text**)
+      if (trimmedLine.match(/^\*\*(.+)\*\*$/)) {
+        flushList();
+        const headingText = trimmedLine.replace(/^\*\*(.+)\*\*$/, "$1");
+        elements.push(
+          <h4
+            key={`heading-${index}`}
+            className="font-cormorant text-xl font-semibold mb-3 mt-8 first:mt-0 text-[#f4f1ea]"
+          >
+            {headingText}
+          </h4>,
+        );
+      }
+      // Check for list item
+      else if (trimmedLine.startsWith("-") || trimmedLine.startsWith("•")) {
+        currentList.push(trimmedLine.substring(1).trim());
+      }
+      // Regular paragraph
+      else {
+        flushList();
+        elements.push(
+          <p
+            key={`para-${index}`}
+            className="text-base leading-relaxed opacity-80 mb-4"
+          >
+            {processInlineFormatting(trimmedLine)}
+          </p>,
+        );
+      }
+    });
+
+    flushList();
+    return elements;
+  };
+
+  return (
+    <div className="formatted-content">{renderFormattedText(content)}</div>
+  );
+};
+
 export default function ChakraJourneyTemplate({
   chakra,
 }: ChakraJourneyTemplateProps) {
@@ -261,7 +357,6 @@ export default function ChakraJourneyTemplate({
           {
             scale: 1,
             borderRadius: "0px",
-            objectFit: "fit",
             scrollTrigger: {
               trigger: panel,
               containerAnimation: horizontalScroll,
@@ -471,10 +566,7 @@ export default function ChakraJourneyTemplate({
                               {product.name}
                             </h2>
                             <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
-                              {product.sanskritName ||
-                                (clientType === "energy-curious"
-                                  ? "Energetic Shield & Warmth"
-                                  : "Handcrafted Winter Muffler")}
+                              {product.sanskritName}
                             </p>
                           </div>
                         </div>
@@ -570,88 +662,37 @@ export default function ChakraJourneyTemplate({
                           defaultOpen={false}
                         >
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6">
-                            {product.specifications?.material && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Material
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.material}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.finish && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Finish
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.finish}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.color && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Color
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.color}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.dimensions && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Dimensions
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.dimensions}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.weight && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Weight
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.weight}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.crafting && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Crafting
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.crafting}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.durability && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Durability
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.durability}
-                                </div>
-                              </div>
-                            )}
-                            {product.specifications?.packaging && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Packaging
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.specifications.packaging}
-                                </div>
-                              </div>
-                            )}
+                            {product.specifications &&
+                              Object.entries(product.specifications)
+                                .filter(([_, value]) => value)
+                                .map(([key, value]) => {
+                                  // Full-width keys for better layout
+                                  const fullWidthKeys = [
+                                    "Product Name",
+                                    "Material",
+                                    "material",
+                                    "Ideal For",
+                                    "color",
+                                    "Color",
+                                  ];
+                                  const isFullWidth =
+                                    fullWidthKeys.includes(key);
+                                  return (
+                                    <div
+                                      key={key}
+                                      className={`bg-[#f4f1ea]/5 p-5 rounded-lg ${isFullWidth ? "md:col-span-2" : ""}`}
+                                    >
+                                      <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                        {key}
+                                      </div>
+                                      <div className="font-light text-base">
+                                        {value}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
                             {product.careInstructions && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg">
+                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
                                 <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
                                   Care Instructions
                                 </div>
@@ -697,10 +738,24 @@ export default function ChakraJourneyTemplate({
                                 ))
                               ) : (
                                 // Handle string format
-                                <div className="font-light text-base leading-relaxed opacity-80 whitespace-pre-line">
-                                  {product.designBreakdown}
-                                </div>
+                                <FormattedContent
+                                  content={product.designBreakdown}
+                                />
                               )}
+                            </div>
+                          </CollapsibleSection>
+                        )}
+
+                        {/* Additional Custom Section (Extra Field) */}
+                        {product.additionalSection && (
+                          <CollapsibleSection
+                            title={product.additionalSection.title}
+                            defaultOpen={false}
+                          >
+                            <div className="space-y-5 pt-6">
+                              <FormattedContent
+                                content={product.additionalSection.content}
+                              />
                             </div>
                           </CollapsibleSection>
                         )}
@@ -1215,10 +1270,10 @@ function JourneyProductPanel({
     (activeVariant ? activeVariant.image : product.images?.[0] || "");
 
   return (
-    <div className="panel w-screen h-screen flex-shrink-0 relative">
+    <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative">
       {/* Full Screen Background Image - Hidden when modal is open */}
       <div
-        className="panel-image absolute inset-0 overflow-hidden"
+        className="panel-image absolute  inset-0 overflow-hidden"
         style={{
           opacity: expandedCard !== null ? 0 : 1,
           transition: "opacity 0.3s ease-out",
@@ -1265,52 +1320,77 @@ function JourneyProductPanel({
           <div
             className={`flex flex-col md:flex-row justify-between items-center text-lg md:text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-4 gap-6 md:gap-0`}
           >
-            {/* Color Swatches instead of Product Name */}
-            <div className="w-full md:max-w-[300px] flex justify-center md:justify-start items-center gap-4 order-2 md:order-1">
-              {product.variants && product.variants.length > 0 ? (
-                <div className="flex items-center gap-3 bg-black/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10">
-                  {product.variants.map((variant, i) => (
-                    <button
-                      key={i}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveVariant(variant);
-                      }}
-                      className={`w-8 h-8 rounded-md transition-all duration-300 relative ${
-                        activeVariant?.color === variant.color
-                          ? "scale-110 ring-1 ring-white/50"
-                          : "hover:scale-110 opacity-70 hover:opacity-100"
-                      }`}
-                      style={{ backgroundColor: variant.color }}
-                      title={variant.name}
-                    ></button>
-                  ))}
-                  <span className="ml-2 text-xs opacity-80 tracking-widest whitespace-nowrap">
-                    {activeVariant?.name}
-                  </span>
+            {product.variants && product.variants.length > 0 ? (
+              <>
+                {/* Color Swatches - Slot 1 */}
+                <div className="w-full md:max-w-[300px] flex justify-center md:justify-start items-center gap-4 order-2 md:order-1">
+                  <div className="flex items-center gap-3 bg-black/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10">
+                    {product.variants.map((variant, i) => (
+                      <button
+                        key={i}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveVariant(variant);
+                        }}
+                        className={`w-8 h-8 rounded-md transition-all duration-300 relative ${
+                          activeVariant?.color === variant.color
+                            ? "scale-110 ring-1 ring-white/50"
+                            : "hover:scale-110 opacity-70 hover:opacity-100"
+                        }`}
+                        style={{ backgroundColor: variant.color }}
+                        title={variant.name}
+                      ></button>
+                    ))}
+                    <span className="ml-2 text-xs opacity-80 tracking-widest whitespace-nowrap">
+                      {activeVariant?.name}
+                    </span>
+                  </div>
                 </div>
-              ) : (
-                <span className="max-w-sm text-center md:text-left hidden md:block">
+
+                {/* Product Name - Slot 2 */}
+                <h2 className="text-2xl md:text-xl text-center order-1 md:order-2">
                   {product.name.toUpperCase()}
-                </span>
-              )}
-            </div>
+                </h2>
 
-            <h2 className="text-2xl md:text-xl text-center order-1 md:order-2">
-              {product.name.toUpperCase()}
-            </h2>
+                {/* View Description - Slot 3 */}
+                <button
+                  onClick={(e) => {
+                    console.log(
+                      "🖱️ VIEW DESCRIPTION clicked for index:",
+                      index,
+                    );
+                    e.stopPropagation();
+                    console.log("   Setting expandedCard to:", index);
+                    setExpandedCard(index);
+                  }}
+                  className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-3"
+                >
+                  VIEW DESCRIPTION
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Product Name (Left) - Slot 1 */}
+                <h2 className="text-2xl md:text-xl text-center md:text-left order-1">
+                  {product.name.toUpperCase()}
+                </h2>
 
-            <button
-              onClick={(e) => {
-                console.log("🖱️ VIEW DESCRIPTION clicked for index:", index);
-                e.stopPropagation();
-                console.log("   Setting expandedCard to:", index);
-                setExpandedCard(index);
-              }}
-              className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-3"
-            >
-              VIEW DESCRIPTION
-            </button>
+                {/* View Description (Right) - Slot 2 */}
+                <button
+                  onClick={(e) => {
+                    console.log(
+                      "🖱️ VIEW DESCRIPTION clicked for index:",
+                      index,
+                    );
+                    e.stopPropagation();
+                    setExpandedCard(index);
+                  }}
+                  className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-2"
+                >
+                  VIEW DESCRIPTION
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

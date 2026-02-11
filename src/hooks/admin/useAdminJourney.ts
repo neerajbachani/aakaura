@@ -137,10 +137,13 @@ export function useUpdateJourneyProduct() {
                 },
                 credentials: "include",
                 body: JSON.stringify({ clientType, productId, product }),
+                
             });
+            console.log(response)
 
             if (!response.ok) {
                 const error = await response.json();
+                console.log(error);
                 throw new Error(error.error || "Failed to update product");
             }
 
