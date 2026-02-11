@@ -366,6 +366,22 @@ export default function ChakraJourneyTemplate({
             },
           },
         );
+
+        // Animate side image strip - Fade in LATE (after 80% cross)
+        const sideStrip = panel.querySelector(".side-image-strip");
+        if (sideStrip) {
+          gsap.to(sideStrip, {
+            opacity: 1,
+            x: 0,
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: horizontalScroll,
+              start: "left 20%", // Starts when left edge is at 20% of screen (80% crossed)
+              end: "center center", // Fully visible at center
+              scrub: 1,
+            },
+          });
+        }
       });
     });
 
@@ -633,17 +649,60 @@ export default function ChakraJourneyTemplate({
                           {/* Premium Detailing */}
                           {/* Image Gallery */}
                           <div className="text-[#f4f1ea]">
-                            <ImageGallery
-                              product={product}
-                              onExpandImage={(imageUrl) => {
-                                // Set this image as the main image for this specific product
-                                setProductMainImages((prev) => ({
-                                  ...prev,
-                                  [expandedCard]: imageUrl,
-                                }));
-                                setExpandedCard(null);
-                              }}
-                            />
+                            <h3 className="text-base uppercase tracking-widest font-bold mb-6 opacity-60">
+                              Specifications
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {product.specifications &&
+                                Object.entries(product.specifications)
+                                  .filter(([_, value]) => value)
+                                  .map(([key, value]) => {
+                                    // Full-width keys for better layout
+                                    const fullWidthKeys = [
+                                      "Product Name",
+                                      "Material",
+                                      "material",
+                                      "Ideal For",
+                                      "color",
+                                      "Color",
+                                    ];
+                                    const isFullWidth =
+                                      fullWidthKeys.includes(key);
+                                    return (
+                                      <div
+                                        key={key}
+                                        className={`bg-[#f4f1ea]/5 p-5 rounded-lg ${isFullWidth ? "md:col-span-2" : ""}`}
+                                      >
+                                        <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                          {key}
+                                        </div>
+                                        <div className="font-light text-base">
+                                          {value}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                              {product.careInstructions && (
+                                <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
+                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                    Care Instructions
+                                  </div>
+                                  <div className="font-light text-base">
+                                    {product.careInstructions}
+                                  </div>
+                                </div>
+                              )}
+                              {product.idealFor && (
+                                <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
+                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                    Ideal For
+                                  </div>
+                                  <div className="font-light text-base">
+                                    {product.idealFor}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
 
                           {/* What It's For */}
@@ -657,62 +716,6 @@ export default function ChakraJourneyTemplate({
                       {/* Collapsible Sections */}
                       <div className="space-y-4">
                         {/* Specifications Accordion */}
-                        <CollapsibleSection
-                          title="Specifications"
-                          defaultOpen={false}
-                        >
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6">
-                            {product.specifications &&
-                              Object.entries(product.specifications)
-                                .filter(([_, value]) => value)
-                                .map(([key, value]) => {
-                                  // Full-width keys for better layout
-                                  const fullWidthKeys = [
-                                    "Product Name",
-                                    "Material",
-                                    "material",
-                                    "Ideal For",
-                                    "color",
-                                    "Color",
-                                  ];
-                                  const isFullWidth =
-                                    fullWidthKeys.includes(key);
-                                  return (
-                                    <div
-                                      key={key}
-                                      className={`bg-[#f4f1ea]/5 p-5 rounded-lg ${isFullWidth ? "md:col-span-2" : ""}`}
-                                    >
-                                      <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                        {key}
-                                      </div>
-                                      <div className="font-light text-base">
-                                        {value}
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                            {product.careInstructions && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Care Instructions
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.careInstructions}
-                                </div>
-                              </div>
-                            )}
-                            {product.idealFor && (
-                              <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
-                                <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                  Ideal For
-                                </div>
-                                <div className="font-light text-base">
-                                  {product.idealFor}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </CollapsibleSection>
 
                         {/* Design Breakdown Accordion */}
                         {product.designBreakdown && (
@@ -1247,6 +1250,11 @@ function JourneyProductPanel({
     product.variants?.[0] || null,
   );
 
+  // Track locally selected side image
+  const [selectedSideImage, setSelectedSideImage] = useState<string | null>(
+    null,
+  );
+
   useEffect(() => {
     if (product.variants && product.variants.length > 0) {
       setActiveVariant(product.variants[0]);
@@ -1254,6 +1262,11 @@ function JourneyProductPanel({
       setActiveVariant(null);
     }
   }, [product]);
+
+  // Reset side image when variant changes (so the new variant's main image takes precedence unless overridden again)
+  useEffect(() => {
+    setSelectedSideImage(null);
+  }, [activeVariant]);
 
   // Update centralized background when this panel's modal is open or variant changes
   useEffect(() => {
@@ -1264,8 +1277,9 @@ function JourneyProductPanel({
     }
   }, [expandedCard, index, activeVariant, product.images, setActiveBgImage]);
 
-  // Priority: customMainImage > activeVariant.image > product.images[0]
+  // Priority: selectedSideImage > customMainImage > activeVariant.image > product.images[0]
   const displayImage =
+    selectedSideImage ||
     customMainImage ||
     (activeVariant ? activeVariant.image : product.images?.[0] || "");
 
@@ -1302,6 +1316,37 @@ function JourneyProductPanel({
           }}
         />
       </div>
+
+      {/* Side Image Strip - Only visible when modal is closed */}
+      {expandedCard === null && product.images && product.images.length > 1 && (
+        <div
+          className="side-image-strip absolute left-8 top-[30%] -translate-y-1/2 z-20 flex flex-col gap-4 max-h-[60vh] no-scrollbar py-4"
+          onClick={(e) => e.stopPropagation()}
+          style={{ opacity: 0, transform: "translateX(-20px)" }}
+        >
+          {product.images.map((img, i) => (
+            <button
+              key={i}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedSideImage(img);
+              }}
+              className={`w-12 h-12 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
+                selectedSideImage === img ||
+                (!selectedSideImage && displayImage === img)
+                  ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
+                  : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
+              }`}
+            >
+              <img
+                src={img}
+                alt={`View ${i + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Top Text */}
       <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
