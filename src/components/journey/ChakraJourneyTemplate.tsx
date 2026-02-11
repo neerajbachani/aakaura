@@ -252,7 +252,7 @@ const FormattedContent: React.FC<FormattedContentProps> = ({ content }) => {
         elements.push(
           <p
             key={`para-${index}`}
-            className="text-base leading-relaxed opacity-80 mb-4"
+            className="text-lg leading-relaxed opacity-80 mb-4 font-light"
           >
             {processInlineFormatting(trimmedLine)}
           </p>,
@@ -617,7 +617,7 @@ export default function ChakraJourneyTemplate({
                               transition={{ duration: 0.4, delay: 0.1 }}
                               className="bg-[#f4f1ea]/5 p-8 rounded-2xl text-[#f4f1ea] border border-[#f4f1ea]/10"
                             >
-                              <h3 className="text-base uppercase tracking-widest font-bold mb-6 opacity-60">
+                              <h3 className="text-lg uppercase tracking-widest font-bold mb-6 opacity-60">
                                 Premium Detailing
                               </h3>
                               {product.symbolism && (
@@ -625,7 +625,7 @@ export default function ChakraJourneyTemplate({
                                   <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
                                     Symbolism
                                   </div>
-                                  <p className="font-light text-base leading-relaxed opacity-90">
+                                  <p className="font-light text-lg leading-relaxed opacity-90">
                                     {product.symbolism}
                                   </p>
                                 </div>
@@ -635,7 +635,7 @@ export default function ChakraJourneyTemplate({
                                   <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
                                     Language Engraving
                                   </div>
-                                  <p className="font-light text-base leading-relaxed opacity-90">
+                                  <p className="font-light text-lg leading-relaxed opacity-90">
                                     {product.languageEngraving}
                                   </p>
                                 </div>
@@ -671,33 +671,33 @@ export default function ChakraJourneyTemplate({
                                     return (
                                       <div
                                         key={key}
-                                        className={`bg-[#f4f1ea]/5 p-5 rounded-lg ${isFullWidth ? "md:col-span-2" : ""}`}
+                                        className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
                                       >
-                                        <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                        <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
                                           {key}
                                         </div>
-                                        <div className="font-light text-base">
+                                        <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
                                           {value}
                                         </div>
                                       </div>
                                     );
                                   })}
                               {product.careInstructions && (
-                                <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
-                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
+                                  <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
                                     Care Instructions
                                   </div>
-                                  <div className="font-light text-base">
+                                  <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-relaxed">
                                     {product.careInstructions}
                                   </div>
                                 </div>
                               )}
                               {product.idealFor && (
-                                <div className="bg-[#f4f1ea]/5 p-5 rounded-lg md:col-span-2">
-                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
+                                  <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
                                     Ideal For
                                   </div>
-                                  <div className="font-light text-base">
+                                  <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-relaxed">
                                     {product.idealFor}
                                   </div>
                                 </div>
@@ -731,10 +731,10 @@ export default function ChakraJourneyTemplate({
                                     key={i}
                                     className="border-l-2 border-[#f4f1ea]/20 pl-6"
                                   >
-                                    <h4 className="font-cormorant text-xl mb-3">
+                                    <h4 className="font-cormorant text-2xl mb-3">
                                       {item.title}
                                     </h4>
-                                    <p className="font-light text-base leading-relaxed opacity-80">
+                                    <p className="font-light text-lg leading-relaxed opacity-80">
                                       {item.description}
                                     </p>
                                   </div>
@@ -754,6 +754,7 @@ export default function ChakraJourneyTemplate({
                           <CollapsibleSection
                             title={product.additionalSection.title}
                             defaultOpen={false}
+                            titleClassName="text-lg"
                           >
                             <div className="space-y-5 pt-6">
                               <FormattedContent
