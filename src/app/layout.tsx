@@ -1,15 +1,7 @@
-"use client";
-import Navbar from "@/components/Navbar";
 import "./globals.css";
-import { SplashScreenProvider } from "@/context/SplashScreenProvider";
-import { QueryProvider } from "@/providers/QueryProvider";
-import { usePathname } from "next/navigation";
-import { Toaster } from "react-hot-toast";
-import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
 import { Cormorant_Garamond } from "next/font/google";
-import { ViewTransitions } from "next-view-transitions";
-
+import ClientLayout from "./ClientLayout";
+import { getUniqueCategories } from "@/actions/get-categories";
 
 const CormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -17,39 +9,28 @@ const CormorantGaramond = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
 });
 
+export const metadata = {
+  title: "Aakaura",
+  description: "Aakaura - Journey through Chakras",
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const pathname = usePathname();
-  const isAdminRoute = pathname.startsWith("/admin");
-  const isHomePage = pathname === "/";
+  const categories = await getUniqueCategories();
 
   return (
-    <ViewTransitions>
-      <html lang="en">
-        <head>
-          <script
-            defer
-            data-domain="aakaura.in"
-            src="https://analytics.aakaura.in/js/script.js"
-          ></script>
-        </head>
-        <body className={`${CormorantGaramond.variable} bg-[#27190B]`}>
-          <Toaster />
-          <QueryProvider>
-            {/* <SplashScreenProvider> */}
-              {!isAdminRoute && !isHomePage && <Navbar />}
-              <main className={`${!isAdminRoute}`}>
-                <SmoothScroll>
-                {children}
-                </SmoothScroll>
-                </main>
-              {!isAdminRoute && <Footer />}
-            {/* </SplashScreenProvider> */}
-          </QueryProvider>
-        </body>
-      </html>
-    </ViewTransitions>
+    <html lang="en">
+      <head>
+        <script
+          defer
+          data-domain="aakaura.in"
+          src="https://analytics.aakaura.in/js/script.js"
+        ></script>
+      </head>
+      <body className={`${CormorantGaramond.variable} bg-[#27190B]`}>
+        <ClientLayout categories={categories}>{children}</ClientLayout>
+      </body>
+    </html>
   );
 }

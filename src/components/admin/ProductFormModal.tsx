@@ -18,6 +18,7 @@ interface ProductFormModalProps {
   onSubmit: (formData: any) => void;
   onClose: () => void;
   isLoading: boolean;
+  existingCategories?: string[];
 }
 
 export default function ProductFormModal({
@@ -28,6 +29,7 @@ export default function ProductFormModal({
   onSubmit,
   onClose,
   isLoading,
+  existingCategories = [],
 }: ProductFormModalProps) {
   const [formData, setFormData] = useState<{
     id: string;
@@ -42,6 +44,7 @@ export default function ProductFormModal({
     images: string[];
     variants: Variant[];
     step: number;
+    category: string;
     symbolism: string;
     languageEngraving: string;
     designBreakdown: string;
@@ -63,6 +66,7 @@ export default function ProductFormModal({
     images: [""],
     variants: [],
     step: 1,
+    category: "",
     symbolism: "",
     languageEngraving: "",
     designBreakdown: "",
@@ -72,6 +76,14 @@ export default function ProductFormModal({
     additionalSectionTitle: "",
     additionalSectionContent: "",
   });
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   // Initialize form with product data in edit mode
   useEffect(() => {
@@ -100,6 +112,7 @@ export default function ProductFormModal({
           product.images && product.images.length > 0 ? product.images : [""],
         variants: product.variants || [],
         step: product.step || 1,
+        category: product.category || "",
         symbolism: product.symbolism || "",
         languageEngraving: product.languageEngraving || "",
         designBreakdown:
@@ -131,6 +144,7 @@ export default function ProductFormModal({
         ...prev,
         id: newId,
         step: maxStep + 1,
+        category: "",
       }));
     }
   }, [mode, product, journey, clientType]);
@@ -227,6 +241,7 @@ export default function ProductFormModal({
       features: formData.features.filter((f) => f.trim() !== ""),
       images: formData.images.filter((img) => img.trim() !== ""),
       specifications: Object.keys(specsObj).length > 0 ? specsObj : undefined,
+      category: formData.category.trim() || undefined,
       symbolism: formData.symbolism.trim() || undefined,
       languageEngraving: formData.languageEngraving.trim() || undefined,
       designBreakdown: formData.designBreakdown.trim() || undefined,
@@ -247,7 +262,10 @@ export default function ProductFormModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-hidden"
+        style={{ overscrollBehavior: "contain" }}
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -255,7 +273,7 @@ export default function ProductFormModal({
           className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="flex justify-between items-center p-6 border-b">
+          <div className="flex justify-between items-center p-6 border-b shrink-0">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
                 {mode === "add" ? "Add New Product" : "Edit Product"}
@@ -297,7 +315,7 @@ export default function ProductFormModal({
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Step Number*
+                  Order Sequence (Step Number)*
                 </label>
                 <input
                   type="number"
@@ -327,6 +345,60 @@ export default function ProductFormModal({
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Category
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.category}
+                    onChange={(e) => handleChange("category", e.target.value)}
+                    list="categories-list"
+                    placeholder="e.g. Wall Arts"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
+                  <datalist id="categories-list">
+                    {existingCategories.map((cat) => (
+                      <option key={cat} value={cat} />
+                    ))}
+                  </datalist>
+                  {/* Suggested Categories Chips */}
+                  {existingCategories.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <span className="text-xs text-gray-500 my-auto">
+                        Suggestions:
+                      </span>
+                      {existingCategories.slice(0, 5).map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => handleChange("category", cat)}
+                          className="text-xs bg-gray-100 hover:bg-indigo-50 hover:text-indigo-600 px-2 py-1 rounded-full border border-gray-200 transition-colors"
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price*
+                </label>
+                <input
+                  type="text"
+                  value={formData.price}
+                  onChange={(e) => handleChange("price", e.target.value)}
+                  placeholder="₹4,500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Sanskrit Name
                 </label>
                 <input
@@ -336,20 +408,6 @@ export default function ProductFormModal({
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 />
               </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price*
-              </label>
-              <input
-                type="text"
-                value={formData.price}
-                onChange={(e) => handleChange("price", e.target.value)}
-                placeholder="₹4,500"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                required
-              />
             </div>
 
             <div>
@@ -731,7 +789,7 @@ export default function ProductFormModal({
           </form>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 p-6 border-t bg-gray-50">
+          <div className="flex justify-end gap-3 p-6 border-t bg-gray-50 shrink-0">
             <button
               type="button"
               onClick={onClose}

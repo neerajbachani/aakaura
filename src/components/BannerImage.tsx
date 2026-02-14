@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useTransitionRouter } from "next-view-transitions";
 
@@ -81,7 +82,7 @@ const chakrasConfig = [
     shadow: "rgba(147,51,234,0.9)",
     image: "/chakras/crown-symbol.svg",
     position: "center",
-    info: "Not escape. Not superiority.\nUnion. Stillness. Witnessing.\nThe right to know you are more.\nThis chakra dissolves the question of \"why me?\"\nHere, surrender becomes the highest form of power.",
+    info: 'Not escape. Not superiority.\nUnion. Stillness. Witnessing.\nThe right to know you are more.\nThis chakra dissolves the question of "why me?"\nHere, surrender becomes the highest form of power.',
   },
 ];
 
@@ -91,9 +92,9 @@ function ChakraCircle({
   onNavigate,
   onHover,
 }: {
-  chakra: typeof chakrasConfig[0];
+  chakra: (typeof chakrasConfig)[0];
   onNavigate: (slug: string) => void;
-  onHover: (chakra: typeof chakrasConfig[0] | null) => void;
+  onHover: (chakra: (typeof chakrasConfig)[0] | null) => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -108,7 +109,7 @@ function ChakraCircle({
       >
         {chakra.sanskrit}
       </p>
-      
+
       <div
         className="relative w-[5.8rem] h-[5.8rem] flex items-center justify-center cursor-pointer"
         onMouseEnter={() => {
@@ -167,7 +168,9 @@ function ChakraCircle({
 
 export default function BannerImage() {
   const router = useTransitionRouter();
-  const [hoveredChakra, setHoveredChakra] = useState<typeof chakrasConfig[0] | null>(null);
+  const [hoveredChakra, setHoveredChakra] = useState<
+    (typeof chakrasConfig)[0] | null
+  >(null);
 
   const centerChakra = chakrasConfig.find((c) => c.position === "center");
   const upperChakras = chakrasConfig
@@ -190,7 +193,7 @@ export default function BannerImage() {
         duration: 2000,
         easing: "cubic-bezier(0.9, 0, 0.1, 1)",
         pseudoElement: "::view-transition-new(root)",
-      }
+      },
     );
   };
 
@@ -202,95 +205,94 @@ export default function BannerImage() {
 
   return (
     <section className="min-h-[90vh] bg-transparent flex items-center justify-center px-4 relative">
-        <style jsx>{`
-          @keyframes float {
-            0%,
-            100% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-20px);
-            }
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
           }
-
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(-10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+          50% {
+            transform: translateY(-20px);
           }
+        }
 
-          @keyframes pulseGlow {
-            0%, 100% {
-              opacity: 0.2;
-              transform: scale(1);
-            }
-            50% {
-              opacity: 0.3;
-              transform: scale(1.05);
-            }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
           }
-
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
+        }
 
-          .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
+        @keyframes pulseGlow {
+          0%,
+          100% {
+            opacity: 0.2;
+            transform: scale(1);
           }
-
-          .animate-pulseGlow {
-            animation: pulseGlow 2s ease-in-out infinite;
+          50% {
+            opacity: 0.3;
+            transform: scale(1.05);
           }
-        `}</style>
+        }
 
-        {/* Content Layer */}
-        <div className="flex flex-col items-center gap-2 w-full animate-float relative z-10">
-          {/* Center - Crown Chakra */}
-          {centerChakra && (
-            <div className="flex justify-center">
-              <ChakraCircle
-                chakra={centerChakra}
-                onNavigate={handleNavigation}
-                onHover={setHoveredChakra}
-              />
-            </div>
-          )}
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
 
-          {/* Upper Row */}
-          <div className="flex justify-between w-full max-w-xl">
-            {upperChakras.map((chakra) => (
-              <ChakraCircle
-                key={chakra.id}
-                chakra={chakra}
-                onNavigate={handleNavigation}
-                onHover={setHoveredChakra}
-              />
-            ))}
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        .animate-pulseGlow {
+          animation: pulseGlow 2s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* Content Layer */}
+      <div className="flex flex-col items-center gap-2 w-full animate-float relative z-10">
+        {/* Center - Crown Chakra */}
+        {centerChakra && (
+          <div className="flex justify-center">
+            <ChakraCircle
+              chakra={centerChakra}
+              onNavigate={handleNavigation}
+              onHover={setHoveredChakra}
+            />
           </div>
+        )}
 
-          {/* Middle Row with Central Info Display */}
-          <div className="flex justify-between w-full max-w-[60rem] relative">
-            {middleChakras.map((chakra) => (
-              <ChakraCircle
-                key={chakra.id}
-                chakra={chakra}
-                onNavigate={handleNavigation}
-                onHover={setHoveredChakra}
-              />
-            ))}
-            
-            {/* Central Info Display */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-              {hoveredChakra && (
-                <div
-                  className="text-white text-center min-w-[420px] max-w-xl animate-fadeIn flex flex-col items-center justify-center"
-                >
-                  {/* <h3
+        {/* Upper Row */}
+        <div className="flex justify-between w-full max-w-xl">
+          {upperChakras.map((chakra) => (
+            <ChakraCircle
+              key={chakra.id}
+              chakra={chakra}
+              onNavigate={handleNavigation}
+              onHover={setHoveredChakra}
+            />
+          ))}
+        </div>
+
+        {/* Middle Row with Central Info Display */}
+        <div className="flex justify-between w-full max-w-[60rem] relative">
+          {middleChakras.map((chakra) => (
+            <ChakraCircle
+              key={chakra.id}
+              chakra={chakra}
+              onNavigate={handleNavigation}
+              onHover={setHoveredChakra}
+            />
+          ))}
+
+          {/* Central Info Display */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            {hoveredChakra && (
+              <div className="text-white text-center min-w-[420px] max-w-xl animate-fadeIn flex flex-col items-center justify-center">
+                {/* <h3
                     className="text-3xl font-bold mb-4 drop-shadow-lg"
                     style={{ 
                       color: hoveredChakra.color,
@@ -299,29 +301,55 @@ export default function BannerImage() {
                   >
                     {hoveredChakra.name} Chakra
                   </h3> */}
-                  <p 
-                    className="text-[#bd9958] text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
-                    style={{ lineHeight: '2.8' }}
-                  >
-                    {hoveredChakra.info}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Lower Row */}
-          <div className="flex justify-between w-full max-w-[80rem]">
-            {lowerChakras.map((chakra) => (
-              <ChakraCircle
-                key={chakra.id}
-                chakra={chakra}
-                onNavigate={handleNavigation}
-                onHover={setHoveredChakra}
-              />
-            ))}
+                <p
+                  className="text-[#bd9958] text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
+                  style={{ lineHeight: "2.8" }}
+                >
+                  {hoveredChakra.info}
+                </p>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Lower Row */}
+        <div className="flex justify-between items-end w-full max-w-[80rem] relative">
+          {lowerChakras[0] && (
+            <ChakraCircle
+              chakra={lowerChakras[0]}
+              onNavigate={handleNavigation}
+              onHover={setHoveredChakra}
+            />
+          )}
+
+          {/* Central CTA - Begin Where You Are */}
+          <Link
+            href="/journey"
+            className="group relative flex flex-col items-center justify-center gap-2 mb-4 hover:scale-105 transition-transform duration-500"
+          >
+            <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
+              <span className="relative z-10 font-cormorant text-2xl text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
+                Begin Where You Are
+              </span>
+
+              {/* Shine Effect */}
+              <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
+            </div>
+
+            <span className="text-[10px] text-[#BD9958]/60 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+              Start Your Journey
+            </span>
+          </Link>
+
+          {lowerChakras[1] && (
+            <ChakraCircle
+              chakra={lowerChakras[1]}
+              onNavigate={handleNavigation}
+              onHover={setHoveredChakra}
+            />
+          )}
+        </div>
+      </div>
     </section>
   );
 }

@@ -1,9 +1,27 @@
 "use client";
 import Link from "next/link";
-import { FaNewspaper, FaBox, FaHome, FaShoppingBag, FaUsers, FaMapSigns, FaClipboardList, FaCog } from "react-icons/fa";
+import {
+  FaNewspaper,
+  FaBox,
+  FaHome,
+  FaShoppingBag,
+  FaUsers,
+  FaMapSigns,
+  FaClipboardList,
+  FaCog,
+} from "react-icons/fa";
 
 interface AdminTabsProps {
-  activeTab: "dashboard" | "orders" | "users" | "products" | "blogs" | "analytics" | "journeys" | "waitlist" | "products-settings";
+  activeTab:
+    | "dashboard"
+    | "orders"
+    | "users"
+    | "products"
+    | "blogs"
+    | "analytics"
+    | "journeys"
+    | "waitlist"
+    | "products-settings";
 }
 
 export default function AdminTabs({ activeTab }: AdminTabsProps) {
@@ -26,24 +44,24 @@ export default function AdminTabs({ activeTab }: AdminTabsProps) {
       icon: FaUsers,
       active: activeTab === "users",
     },
-    {
-      name: "Products",
-      href: "/admin/products",
-      icon: FaBox,
-      active: activeTab === "products",
-    },
+    // {
+    //   name: "Products",
+    //   href: "/admin/products",
+    //   icon: FaBox,
+    //   active: activeTab === "products",
+    // },
     {
       name: "Blogs",
       href: "/admin/blogs",
       icon: FaNewspaper,
       active: activeTab === "blogs",
     },
-    {
-      name: "Journeys",
-      href: "/admin/journeys",
-      icon: FaMapSigns,
-      active: activeTab === "journeys",
-    },
+    // {
+    //   name: "Journeys",
+    //   href: "/admin/journeys",
+    //   icon: FaMapSigns,
+    //   active: activeTab === "journeys",
+    // },
     {
       name: "Waitlist",
       href: "/admin/waitlist",

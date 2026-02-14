@@ -94,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const cardStyles = {
     small: {
       container:
-        "flex flex-col bg-white border border-neutral-200 rounded-xl shadow-sm p-4 transition-all hover:shadow-md hover:border-primaryBrown focus-within:shadow-md focus-within:border-primaryBrown outline-none h-[480px] md:h-[536px] lg:[550px]",
+        "flex flex-col bg-white border border-neutral-200 rounded-xl shadow-sm p-4 transition-all hover:shadow-md hover:border-primaryBrown focus-within:shadow-md focus-within:border-primaryBrown outline-none h-full min-h-[480px]",
       image:
         "w-full aspect-[4/3] rounded-lg overflow-hidden border border-neutral-100 shadow-sm mb-4 flex items-center justify-center bg-neutral-50 flex-shrink-0",
       title: `${fonts.merriweather} text-lg font-bold text-primaryBrown line-clamp-2 mb-0`,
@@ -107,7 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     },
     large: {
       container:
-        "flex flex-col bg-white border border-neutral-200 rounded-xl shadow-sm p-6 transition-all hover:shadow-md hover:border-primaryBrown focus-within:shadow-md focus-within:border-primaryBrown outline-none h-[510px] md:h-[600px]",
+        "flex flex-col bg-white border border-neutral-200 rounded-xl shadow-sm p-6 transition-all hover:shadow-md hover:border-primaryBrown focus-within:shadow-md focus-within:border-primaryBrown outline-none h-full min-h-[510px]",
       image:
         "w-full aspect-[4/3] rounded-lg overflow-hidden border border-neutral-100 shadow-sm mb-6 flex items-center justify-center bg-neutral-50 flex-shrink-0",
       title: `${fonts.merriweather} text-xl font-bold text-primaryBrown line-clamp-2 mb-0`,
@@ -185,7 +185,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           {/* Bottom Section - Price and Button */}
-          <div className="flex flex-col gap-y-3 mt-2">
+          <div className="flex flex-col gap-y-3 mt-auto">
             {/* Price & Offer */}
             <div className="flex items-end gap-2">
               {pricing.hasOffer ? (
@@ -207,7 +207,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </span>
               )}
             </div>
-            
+
             {/* Action Buttons */}
             <div className="flex gap-2">
               {/* Quick Add to Cart - only show if no variations or single variation */}
@@ -219,22 +219,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   className="flex-1"
                   variant="outline"
                   size={size === "large" ? "md" : "sm"}
-                  disabled={product.variations[0] ? !product.variations[0].inStock : false}
+                  disabled={
+                    product.variations[0]
+                      ? !product.variations[0].inStock
+                      : false
+                  }
                 >
-                  {product.variations[0] && !product.variations[0].inStock ? 'Out of Stock' : 'Add to Cart'}
+                  {product.variations[0] && !product.variations[0].inStock
+                    ? "Out of Stock"
+                    : "Add to Cart"}
                 </AddToCartButton>
               )}
-              
+
               {/* View Details Button */}
               <button
                 onClick={() => setIsOverlayOpen(true)}
                 tabIndex={0}
                 aria-label={`View details for ${product.name}`}
-                className={`${product.variations.length <= 1 ? 'flex-1' : 'w-full'} inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-4 py-2 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 text-center ${size === 'large' ? 'text-base py-3' : 'text-sm'} ${fonts.merriweather}`}
+                className={`${product.variations.length <= 1 ? "flex-1" : "w-full"} inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-4 py-2 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 text-center ${size === "large" ? "text-base py-3" : "text-sm"} ${fonts.merriweather}`}
               >
-                {product.variations.length > 1 ? 'Choose Options' : 'View Details'}
+                {product.variations.length > 1
+                  ? "Choose Options"
+                  : "View Details"}
                 <svg
-                  className={size === 'large' ? 'w-5 h-5' : 'w-4 h-4'}
+                  className={size === "large" ? "w-5 h-5" : "w-4 h-4"}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -252,11 +260,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
       </div>
-      
-      <ProductOverlay 
-        product={product} 
-        isOpen={isOverlayOpen} 
-        onClose={() => setIsOverlayOpen(false)} 
+
+      <ProductOverlay
+        product={product}
+        isOpen={isOverlayOpen}
+        onClose={() => setIsOverlayOpen(false)}
       />
     </>
   );

@@ -17,7 +17,11 @@ interface NavItemProps {
   onNavigate?: () => void;
 }
 
-const SlideMenuNavItem = ({ title, submenuItems, onNavigate }: NavItemProps) => {
+const SlideMenuNavItem = ({
+  title,
+  submenuItems,
+  onNavigate,
+}: NavItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -27,13 +31,17 @@ const SlideMenuNavItem = ({ title, submenuItems, onNavigate }: NavItemProps) => 
         className={`w-full px-6 py-4 text-xl md:text-2xl text-[#27190b] flex items-center justify-between`}
       >
         {title.toLowerCase() === "aakaura" ? (
-          <span className={`${fonts.dekko} flex items-center text-2xl md:text-3xl decoration-primaryRed decoration-wavy underline`}>
+          <span
+            className={`${fonts.dekko} flex items-center text-2xl md:text-3xl decoration-primaryRed decoration-wavy underline`}
+          >
             आक<span className={`${fonts.specialElite}`}>aura</span>
           </span>
         ) : (
           title
         )}
-        <IoIosArrowDown className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+        <IoIosArrowDown
+          className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -61,25 +69,31 @@ const SlideMenuNavItem = ({ title, submenuItems, onNavigate }: NavItemProps) => 
   );
 };
 
-export default function Navbar({ className = "bg-[#27190b]" }: { className?: string }) {
+export default function Navbar({
+  className = "bg-[#27190b]",
+  categories = [],
+}: {
+  className?: string;
+  categories?: string[];
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const { isAuthenticated, isLoading } = useAuthStatus();
 
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.height = '100vh';
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
     } else {
-      document.body.style.overflow = '';
-      document.body.style.height = '';
+      document.body.style.overflow = "";
+      document.body.style.height = "";
     }
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.height = '';
+      document.body.style.overflow = "";
+      document.body.style.height = "";
     };
   }, [isMenuOpen]);
 
@@ -92,17 +106,34 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
       title: "Read On",
       submenuItems: [{ name: "Our Thoughts", href: "/blogs" }],
     },
+    // {
+    //   title: "Journey",
+    //   submenuItems: [
+    //     { name: "Crown", href: "/journey/crown" },
+    //     { name: "Third Eye", href: "/journey/third-eye" },
+    //     { name: "Throat", href: "/journey/throat" },
+    //     { name: "Heart", href: "/journey/heart" },
+    //     { name: "Solar Plexus", href: "/journey/solar-plexus" },
+    //     { name: "Sacral", href: "/journey/sacral" },
+    //     { name: "Root", href: "/journey/root" },
+    //   ],
+    // },
+    // },
     {
-      title: "Journey",
-      submenuItems: [
-        { name: "Crown", href: "/journey/crown" },
-        { name: "Third Eye", href: "/journey/third-eye" },
-        { name: "Throat", href: "/journey/throat" },
-        { name: "Heart", href: "/journey/heart" },
-        { name: "Solar Plexus", href: "/journey/solar-plexus" },
-        { name: "Sacral", href: "/journey/sacral" },
-        { name: "Root", href: "/journey/root" }
-      ],
+      title: "Product Categories",
+      submenuItems:
+        categories.length > 0
+          ? categories.map((cat) => ({
+              name: cat,
+              // Convert "Wall Hanging" -> "wall-hanging"
+              href: `/shop/category/${cat.toLowerCase().replace(/\s+/g, "-")}`,
+            }))
+          : [
+              { name: "Mufflers", href: "/shop/category/muffler" },
+              { name: "Wall Hangings", href: "/shop/category/wall-hanging" },
+              { name: "Bonsai", href: "/shop/category/bonsai" },
+              { name: "Jewelry", href: "/shop/category/jewelry" },
+            ],
     },
   ];
 
@@ -114,7 +145,14 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
       <nav className={`${className} `}>
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
           <Link href="/" className="w-36 md:w-44 h-14 relative">
-            <Image src="/images/logo.png" alt="Aakaura" fill className="object-contain" quality={100} priority />
+            <Image
+              src="/images/logo.png"
+              alt="Aakaura"
+              fill
+              className="object-contain"
+              quality={100}
+              priority
+            />
           </Link>
         </div>
       </nav>
@@ -127,11 +165,11 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
       >
         <motion.div
           className="absolute inset-0 rounded-full"
-          animate={{ 
+          animate={{
             boxShadow: [
               "0 0 0 0px rgba(255, 255, 255, 0.6)",
-              "0 0 0 25px rgba(255, 255, 255, 0)"
-            ] 
+              "0 0 0 25px rgba(255, 255, 255, 0)",
+            ],
           }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
         />
@@ -153,53 +191,53 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
 
             {/* Circular Expansion Background */}
             <motion.div
-              initial={{ 
+              initial={{
                 scale: 0,
-                opacity: 0
+                opacity: 0,
               }}
-              animate={{ 
+              animate={{
                 scale: 3.5,
-                opacity: 1
+                opacity: 1,
               }}
-              exit={{ 
+              exit={{
                 scale: 0,
-                opacity: 0
+                opacity: 0,
               }}
-              transition={{ 
+              transition={{
                 duration: 0.5,
-                ease: [0.32, 0.72, 0, 1]
+                ease: [0.32, 0.72, 0, 1],
               }}
               className="absolute -top-2 -right-3 w-12 h-12 md:w-14 md:h-14 rounded-full bg-primaryBeige"
               style={{
-                transformOrigin: "center center"
+                transformOrigin: "center center",
               }}
             />
 
             {/* Sliding Menu Panel with staggered content */}
             <motion.div
-              initial={{ 
+              initial={{
                 x: "100%",
-                opacity: 0
+                opacity: 0,
               }}
-              animate={{ 
+              animate={{
                 x: 0,
-                opacity: 1
+                opacity: 1,
               }}
-              exit={{ 
+              exit={{
                 x: "100%",
-                opacity: 0
+                opacity: 0,
               }}
-              transition={{ 
-                type: "spring", 
-                bounce: 0, 
+              transition={{
+                type: "spring",
+                bounce: 0,
                 duration: 0.5,
-                delay: 0.1
+                delay: 0.1,
               }}
               className="absolute top-0 right-0 h-full w-[85%] max-w-md md:max-w-lg bg-primaryBeige shadow-2xl overflow-y-scroll"
               style={{
-                WebkitOverflowScrolling: 'touch',
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
               }}
               onWheel={(e) => e.stopPropagation()}
             >
@@ -211,7 +249,7 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
               `}</style>
 
               {/* Menu Header with staggered animation */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -220,22 +258,35 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
               >
                 <h2 className={`text-2xl md:text-3xl text-[#27190b]`}>Menu</h2>
                 <div className="flex items-center gap-3">
-                  <button onClick={() => setIsCartOpen(true)} className="p-2 rounded-md hover:bg-primaryBrown/5 transition-colors">
+                  <div
+                    onClick={() => setIsCartOpen(true)}
+                    className="p-2 rounded-md hover:bg-primaryBrown/5 transition-colors cursor-pointer"
+                  >
                     <CartIcon />
-                  </button>
+                  </div>
                   {!isLoading && isAuthenticated ? (
                     <ProfileMenu />
                   ) : (
                     <button
                       onClick={() => {
-                        setAuthMode('login');
+                        setAuthMode("login");
                         setIsAuthModalOpen(true);
                         closeMenu();
                       }}
                       className="p-2 rounded-md hover:bg-primaryBrown/5 transition-colors"
                     >
-                      <svg className="h-6 w-6 text-[#27190b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      <svg
+                        className="h-6 w-6 text-[#27190b]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
                       </svg>
                     </button>
                   )}
@@ -243,7 +294,7 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
               </motion.div>
 
               {/* Menu Content with staggered children */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -262,20 +313,36 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
                   </motion.div>
                 ))}
 
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ delay: 0.5, duration: 0.3 }}
                   className="px-6 py-4 space-y-2"
                 >
-                  <Link href="/journey" onClick={closeMenu} className={`block py-2 text-[#27190b] text-lg hover:text-primaryRed`}>
-                    Not sure which journey you're on? Don't worry, we've got you covered
+                  <Link
+                    href="/journey"
+                    onClick={closeMenu}
+                    className={`block py-2 text-[#27190b] text-lg hover:text-primaryRed`}
+                  >
+                    Not sure which journey you're on? Don't worry, we've got you
+                    covered
                   </Link>
-                  <Link href="/cart" onClick={() => { setIsCartOpen(true); closeMenu(); }} className={`block py-2  text-[#27190b] text-lg hover:text-primaryRed`}>
+                  <Link
+                    href="/cart"
+                    onClick={() => {
+                      setIsCartOpen(true);
+                      closeMenu();
+                    }}
+                    className={`block py-2  text-[#27190b] text-lg hover:text-primaryRed`}
+                  >
                     View Cart
                   </Link>
-                  <Link href="/profile" onClick={closeMenu} className={`block py-2 text-lg text-[#27190b] hover:text-primaryRed`}>
+                  <Link
+                    href="/profile"
+                    onClick={closeMenu}
+                    className={`block py-2 text-lg text-[#27190b] hover:text-primaryRed`}
+                  >
                     Your Profile
                   </Link>
                 </motion.div>
@@ -283,7 +350,7 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
 
               {/* Auth Buttons with fade-in */}
               {!isAuthenticated && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
@@ -292,17 +359,17 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
                 >
                   <button
                     onClick={() => {
-                      setAuthMode('signup');
+                      setAuthMode("signup");
                       setIsAuthModalOpen(true);
                       closeMenu();
                     }}
-                    className="w-full bg-[#27190b] text-white hover:bg-primaryBrown/90 transition-colors px-4 py-3 md:py-4 rounded-md text-base md:text-lg font-medium" 
+                    className="w-full bg-[#27190b] text-white hover:bg-primaryBrown/90 transition-colors px-4 py-3 md:py-4 rounded-md text-base md:text-lg font-medium"
                   >
                     Sign Up
                   </button>
                   <button
                     onClick={() => {
-                      setAuthMode('login');
+                      setAuthMode("login");
                       setIsAuthModalOpen(true);
                       closeMenu();
                     }}
@@ -318,7 +385,11 @@ export default function Navbar({ className = "bg-[#27190b]" }: { className?: str
       </AnimatePresence>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} defaultMode={authMode} />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultMode={authMode}
+      />
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   Mulish,
   Patrick_Hand,
   Inter,
+  Cormorant_Garamond,
 } from "next/font/google";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
@@ -25,6 +26,12 @@ const mulish = Mulish({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-mulish",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-cormorant-garamond",
 });
 
 const specialElite = Special_Elite({
@@ -53,6 +60,7 @@ const fonts = {
   mulish: mulish.className,
   patrickHand: patrickHand.className,
   inter: inter.className,
+  cormorant: cormorant.className,
 };
 
 export default fonts;

@@ -15,6 +15,7 @@ export interface JourneyProduct {
     image: string;
   }[];
   step: number;
+  category?: string;
 
   // Extended fields for comprehensive product information
   specifications?: {
@@ -82,6 +83,7 @@ export interface ChakraData {
 }
 
 const TEMPLATE_SL_PRODUCT = {
+  category: "Muffler",
   name: "Handcrafted Winter Muffler",
   sanskritName: "",
   description: "Handcrafted Winter Muffler. Premium wool-blend yarn.",
@@ -104,6 +106,7 @@ const TEMPLATE_SL_PRODUCT = {
 };
 
 const TEMPLATE_EC_PRODUCT = {
+  category: "Muffler",
   name: "Energy Shield Muffler",
   sanskritName: "",
   description: "A sacred shield for your aura.",
@@ -150,6 +153,7 @@ export const chakrasData: Record<string, ChakraData> = {
       'soul-luxury': [
         {
           id: "grounding-sl-1",
+          category: "Wall Hanging",
           name: "Prithvi Aayam Wall Hanging",
           sanskritName: "Root Chakra Wall Hanging",
           description: "Hand-crafted terracotta wall hanging with solid wood inscription and brass ghungroo bells.",
@@ -261,11 +265,13 @@ export const chakrasData: Record<string, ChakraData> = {
               "Warm oil self-massage on legs and feet to calm the nervous system"
             ]
           }
-        }
+        },
+        { ...TEMPLATE_SL_PRODUCT, id: "grounding-sl-2", name: "Grounding Muffler", description: "A warm muffler to keep you grounded." }
       ],
       'energy-curious': [
         {
           id: "grounding-ec-1",
+          category: "Wall Hanging",
           name: "Prithvi Aayam Wall Hanging",
           sanskritName: "Muladhara Energy Anchor",
           description: "Energetically crafted terracotta wall hanging for grounding and root chakra activation.",
@@ -377,7 +383,8 @@ export const chakrasData: Record<string, ChakraData> = {
               "Warm oil self-massage on legs and feet to calm the nervous system"
             ]
           }
-        }
+        },
+        { ...TEMPLATE_EC_PRODUCT, id: "grounding-ec-2", name: "Grounding Shield Muffler", description: "A protective muffler for grounding." }
       ]
     }
   },
@@ -564,3 +571,26 @@ export const chakrasData: Record<string, ChakraData> = {
 };
 
 export const getAllChakraSlugs = () => Object.keys(chakrasData);
+
+export const getProductsByCategory = (category: string): { product: JourneyProduct; chakra: ChakraData }[] => {
+  const allProducts: { product: JourneyProduct; chakra: ChakraData }[] = [];
+  
+  Object.values(chakrasData).forEach((chakra) => {
+    // Check both client types
+    (['soul-luxury', 'energy-curious'] as const).forEach((clientType) => {
+      const products = chakra.content[clientType] || [];
+      products.forEach((p) => {
+        // Simple case-insensitive match (or exact match if consistent)
+        // Ensure category exists and matches
+        if (p.category && p.category.toLowerCase() === category.toLowerCase()) {
+          // Avoid duplicates if same product ID exists in both lists (though they should be unique per client type usually)
+           if (!allProducts.some(item => item.product.id === p.id)) {
+             allProducts.push({ product: p, chakra });
+           }
+        }
+      });
+    });
+  });
+
+  return allProducts;
+};

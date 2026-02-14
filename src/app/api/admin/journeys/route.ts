@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth";
+import { verifyAdminToken } from "@/middleware/auth";
 
 export async function GET(request: NextRequest) {
     try {
@@ -9,32 +9,12 @@ export async function GET(request: NextRequest) {
             Array.from(request.cookies.getAll()).map(c => `${c.name}=${c.value.substring(0, 20)}...`));
 
 
-        // Require authentication
-        const user = await requireAuth(request);
-
-        // Check if user is admin
-        // Admin tokens have 'role' field, regular user tokens have 'userId'
-        if (user.role === 'admin') {
-            // Environment-based admin - already authenticated, skip DB check
-            console.log('[Auth Debug] Admin authenticated via role field');
-        } else if (user.userId) {
-            // Database user - check role in database
-            const userRecord = await prisma.user.findUnique({
-                where: { id: user.userId },
-                select: { role: true },
-            });
-
-            if (userRecord?.role !== 'ADMIN') {
-                return NextResponse.json(
-                    { error: 'Unauthorized' },
-                    { status: 403 }
-                );
-            }
-        } else {
-            // Invalid token structure
+        // Check for admin token
+        const adminUser = await verifyAdminToken(request);
+        if (!adminUser) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
-                { status: 403 }
+                { status: 401 }
             );
         }
 

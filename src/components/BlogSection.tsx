@@ -1,4 +1,3 @@
-
 // "use client";
 
 // // import { fonts } from "@/utils/fonts";
@@ -41,7 +40,7 @@
 
 // export default function BlogSection() {
 //   const containerRef = useRef<HTMLDivElement>(null);
-  
+
 //   // Pin the section and track scroll progress
 //   const { scrollYProgress } = useScroll({
 //     target: containerRef,
@@ -87,7 +86,7 @@
 //           {/* Content */}
 //           <div className="relative z-10 w-full container mx-auto px-6 md:px-12 lg:px-16">
 //             {/* Header */}
-//             <motion.div 
+//             <motion.div
 //               className="mb-12 md:mb-16 lg:mb-20 max-w-4xl"
 //               style={{
 //                 opacity: headerOpacity,
@@ -166,27 +165,27 @@ interface BlogSection {
 
 const blogSection: BlogSection[] = [
   {
-    title: "Manifestation Power",
+    title: "Intention",
     description:
-      "Unlock the power within you to manifest your dreams and desires into reality through focused intention.",
+      "Anything done with full intention (whether good or bad) is in line with the spirit of living life with totality. Totality is measured in degree of intent, not the nature of intent and that is the truth of life. Intention is important when it comes to answering the “why” to your life’s actions, the “how” is then left to your angels, higher versions and the Divine.",
     icon: "/chakras/crown-symbol.svg",
   },
   {
-    title: "Chakra Alignment",
+    title: "Balance",
     description:
       "Balance your seven energy centers to achieve harmony, healing, and spiritual awakening in your life.",
     icon: "/chakras/crown-symbol.svg",
   },
   {
-    title: "Spiritual Growth",
+    title: "Awareness",
     description:
-      "Expand your consciousness and connect with your higher self through guided spiritual practices and wisdom.",
+      "Growth isn’t upward. It’s inward. Spirituality at Aakaura is not rituals, visiting certain locations or keeping a check on your good/ bad deeds. It is about being authentic, enjoying life and not shrinking by being aware of who you are exactly. The more you know who you are, the less will the world tell you who you are supposed to be and the better the quality of life and those around you.",
     icon: "/chakras/crown-symbol.svg",
   },
   {
-    title: "Energy Healing",
-    description:
-      "Transform your life through ancient healing techniques and universal energy flow for mind-body-soul wellness.",
+    title: "Regulation",
+    description: `When energy settles, clarity follows.
+No “unlock”, no “transform your life”, no fairy dust. Awakening isn't an event. It's a quiet remembering that happens when noise finally loses its grip.`,
     icon: "/chakras/crown-symbol.svg",
   },
 ];
@@ -200,16 +199,16 @@ export default function BlogSection() {
     const checkDesktop = () => {
       setIsDesktop(window.innerWidth >= 1024); // lg breakpoint
     };
-    
+
     checkDesktop();
     window.addEventListener("resize", checkDesktop);
     return () => window.removeEventListener("resize", checkDesktop);
   }, []);
-  
+
   // Pin the section and track scroll progress (Only relevant for desktop)
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
   });
 
   // --- DESKTOP ANIMATIONS (Scroll Scrub) ---
@@ -217,33 +216,79 @@ export default function BlogSection() {
   const headerY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
 
   // SMOOTH SLIDE-UP ANIMATION (No Momentum)
-  const card0Y = useTransform(scrollYProgress, [0, 0.05, 0.15, 0.5, 1], [200, 200, 0, 0, 0]);
-  const card0Opacity = useTransform(scrollYProgress, [0, 0.05, 0.15, 0.5, 1], [0, 0, 1, 1, 1]);
+  const card0Y = useTransform(
+    scrollYProgress,
+    [0, 0.05, 0.15, 0.5, 1],
+    [200, 200, 0, 0, 0],
+  );
+  const card0Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.05, 0.15, 0.5, 1],
+    [0, 0, 1, 1, 1],
+  );
 
-  const card1Y = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.55, 1], [200, 200, 0, 0, 0]);
-  const card1Opacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.55, 1], [0, 0, 1, 1, 1]);
+  const card1Y = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.2, 0.55, 1],
+    [200, 200, 0, 0, 0],
+  );
+  const card1Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.2, 0.55, 1],
+    [0, 0, 1, 1, 1],
+  );
 
-  const card2Y = useTransform(scrollYProgress, [0, 0.15, 0.25, 0.6, 1], [200, 200, 0, 0, 0]);
-  const card2Opacity = useTransform(scrollYProgress, [0, 0.15, 0.25, 0.6, 1], [0, 0, 1, 1, 1]);
+  const card2Y = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.25, 0.6, 1],
+    [200, 200, 0, 0, 0],
+  );
+  const card2Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.25, 0.6, 1],
+    [0, 0, 1, 1, 1],
+  );
 
-  const card3Y = useTransform(scrollYProgress, [0, 0.2, 0.3, 0.65, 1], [200, 200, 0, 0, 0]);
-  const card3Opacity = useTransform(scrollYProgress, [0, 0.2, 0.3, 0.65, 1], [0, 0, 1, 1, 1]);
+  const card3Y = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.3, 0.65, 1],
+    [200, 200, 0, 0, 0],
+  );
+  const card3Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.3, 0.65, 1],
+    [0, 0, 1, 1, 1],
+  );
 
   // Store transforms
-  const cardTransforms = useMemo(() => [
-    { y: card0Y, opacity: card0Opacity },
-    { y: card1Y, opacity: card1Opacity },
-    { y: card2Y, opacity: card2Opacity },
-    { y: card3Y, opacity: card3Opacity },
-  ], [card0Y, card0Opacity, card1Y, card1Opacity, card2Y, card2Opacity, card3Y, card3Opacity]);
+  const cardTransforms = useMemo(
+    () => [
+      { y: card0Y, opacity: card0Opacity },
+      { y: card1Y, opacity: card1Opacity },
+      { y: card2Y, opacity: card2Opacity },
+      { y: card3Y, opacity: card3Opacity },
+    ],
+    [
+      card0Y,
+      card0Opacity,
+      card1Y,
+      card1Opacity,
+      card2Y,
+      card2Opacity,
+      card3Y,
+      card3Opacity,
+    ],
+  );
 
   return (
-    <div 
-      ref={containerRef} 
-      className={`relative bg-[#BD9958] w-full ${isDesktop ? 'h-[150vh]' : 'h-auto py-16'}`}
+    <div
+      ref={containerRef}
+      className={`relative bg-[#BD9958] w-full ${isDesktop ? "h-[150vh]" : "h-auto py-16"}`}
     >
       {/* Sticky Wrapper - Only sticky on Desktop */}
-      <div className={`${isDesktop ? 'sticky bg-[#BD9958] top-0 h-screen overflow-hidden' : 'relative h-auto'}`}>
+      <div
+        className={`${isDesktop ? "sticky bg-[#BD9958] top-0 h-screen overflow-hidden" : "relative h-auto"}`}
+      >
         <section
           className="relative w-full h-full flex items-center bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/about-bannergh (2).jpg')" }}
@@ -254,7 +299,7 @@ export default function BlogSection() {
           {/* Content */}
           <div className="relative z-10 w-full container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-10 lg:py-0">
             {/* Header */}
-            <motion.div 
+            <motion.div
               className="mb-8 md:mb-12 lg:mb-16 max-w-4xl"
               style={isDesktop ? { opacity: headerOpacity, y: headerY } : {}}
               initial={isDesktop ? {} : { opacity: 0, y: 30 }}
@@ -265,15 +310,18 @@ export default function BlogSection() {
               <p
                 className={`font-cormorant text-[#27190B] text-base sm:text-lg md:text-xl lg:text-3xl font-medium tracking-wider mb-2 sm:mb-3 md:mb-4 lg:mb-6`}
               >
-              AAKAURA SPEAKS
+                AAKAURA SPEAKS
               </p>
               <h2
                 className={`font-cormorant text-[#27190B] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight mb-3 sm:mb-4 md:mb-5 lg:mb-6`}
               >
                 Journey to Spiritual Awakening and Inner Peace.
               </h2>
-              <p className={`font-cormorant max-w-xl lg:max-w-2xl text-[#27190B] text-sm sm:text-base md:text-lg font-normal leading-relaxed`}>
-                Awakening isn't an event. It's a quiet remembering that happens when noise finally loses its grip
+              <p
+                className={`font-cormorant max-w-xl lg:max-w-2xl text-[#27190B] text-sm sm:text-base md:text-lg font-normal leading-relaxed`}
+              >
+                Awakening isn't an event. It's a quiet remembering that happens
+                when noise finally loses its grip
               </p>
             </motion.div>
 
@@ -312,7 +360,9 @@ export default function BlogSection() {
                     </h3>
 
                     {/* Description */}
-                    <p className={`text-[#BD9958] text-sm sm:text-base leading-relaxed font-cormorant`}>
+                    <p
+                      className={`text-[#BD9958] text-sm sm:text-base leading-relaxed font-cormorant`}
+                    >
                       {item.description}
                     </p>
                   </motion.div>

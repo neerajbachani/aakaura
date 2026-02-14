@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
 import HumanBranches from "@/components/HumanBranches";
 import Container from "@/components/ui/Container";
@@ -22,7 +23,8 @@ const journeys = [
       "You're always planning for worst-case scenarios",
       "Rest feels undeserved",
     ],
-    teaches: "Safety is not outside you. The body must feel rooted before the mind can rise.",
+    teaches:
+      "Safety is not outside you. The body must feel rooted before the mind can rise.",
     wisdom: "A tree that ignores its roots falls in the first storm.",
   },
   {
@@ -37,8 +39,10 @@ const journeys = [
       "Relationships feel forced or draining",
       "You overthink feelings instead of feeling them",
     ],
-    teaches: "Life is meant to move. Suppressed emotion always leaks elsewhere.",
-    wisdom: "Traditionally known as the seat of creation… not just art, but life-force itself.",
+    teaches:
+      "Life is meant to move. Suppressed emotion always leaks elsewhere.",
+    wisdom:
+      "Traditionally known as the seat of creation… not just art, but life-force itself.",
   },
   {
     id: "power",
@@ -53,7 +57,8 @@ const journeys = [
       "You struggle with boundaries",
     ],
     teaches: "Power is not domination. It's self-trust.",
-    wisdom: "Ancient systems placed fire at the center for a reason…without it, nothing transforms.",
+    wisdom:
+      "Ancient systems placed fire at the center for a reason…without it, nothing transforms.",
   },
   {
     id: "love",
@@ -68,7 +73,8 @@ const journeys = [
       "You feel isolated even among people",
     ],
     teaches: "The heart is not weak. It's the bridge between earth and sky.",
-    wisdom: "Traditionally, this was considered the balance point… where human meets divine.",
+    wisdom:
+      "Traditionally, this was considered the balance point… where human meets divine.",
   },
   {
     id: "expression",
@@ -113,12 +119,19 @@ const journeys = [
       "You're ready to release control",
     ],
     teaches: "You are not separate from existence.",
-    wisdom: "Traditions never treated surrender as weakness, it was the highest intelligence.",
+    wisdom:
+      "Traditions never treated surrender as weakness, it was the highest intelligence.",
   },
 ];
 
 // Journey Section Component
-function JourneySection({ journey, index }: { journey: typeof journeys[0]; index: number }) {
+function JourneySection({
+  journey,
+  index,
+}: {
+  journey: (typeof journeys)[0];
+  index: number;
+}) {
   return (
     <section
       id={journey.id}
@@ -131,7 +144,7 @@ function JourneySection({ journey, index }: { journey: typeof journeys[0]; index
       <div
         className="absolute inset-0 opacity-10"
         style={{
-          background: `radial-gradient(circle at ${index % 2 === 0 ? 'left' : 'right'} center, ${journey.color} 0%, transparent 70%)`,
+          background: `radial-gradient(circle at ${index % 2 === 0 ? "left" : "right"} center, ${journey.color} 0%, transparent 70%)`,
         }}
       />
 
@@ -162,7 +175,10 @@ function JourneySection({ journey, index }: { journey: typeof journeys[0]; index
                   alt={journey.name}
                   fill
                   className="object-contain relative z-10"
-                  style={{ filter: "brightness(1.3) drop-shadow(0 0 20px currentColor)" }}
+                  style={{
+                    filter:
+                      "brightness(1.3) drop-shadow(0 0 20px currentColor)",
+                  }}
                 />
               </motion.div>
 
@@ -237,7 +253,9 @@ function JourneySection({ journey, index }: { journey: typeof journeys[0]; index
                 >
                   What this journey teaches:
                 </h3>
-                <p className={`${fonts.mulish} text-white/90 text-lg leading-relaxed`}>
+                <p
+                  className={`${fonts.mulish} text-white/90 text-lg leading-relaxed`}
+                >
                   {journey.teaches}
                 </p>
               </motion.div>
@@ -257,10 +275,48 @@ function JourneySection({ journey, index }: { journey: typeof journeys[0]; index
                     background: `linear-gradient(135deg, ${journey.color}05 0%, transparent 100%)`,
                   }}
                 >
-                  <p className={`${fonts.playfair} text-[#BD9958]/90 italic text-lg leading-relaxed`}>
+                  <p
+                    className={`${fonts.playfair} text-[#BD9958]/90 italic text-lg leading-relaxed`}
+                  >
                     {journey.wisdom}
                   </p>
                 </div>
+              </motion.div>
+
+              {/* Start Journey Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+                className="pt-4"
+              >
+                <Link
+                  href={`/journey/${journey.id}`}
+                  className="group relative inline-flex items-center gap-3 px-8 py-4 overflow-hidden rounded-full bg-white/5 border border-white/10 hover:border-[#BD9958]/50 transition-all duration-500"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#BD9958]/10 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
+
+                  <span
+                    className={`${fonts.mulish} relative z-10 text-[#BD9958] group-hover:text-white tracking-widest uppercase text-sm font-medium transition-colors duration-300`}
+                  >
+                    Begin This Journey
+                  </span>
+
+                  <svg
+                    className="w-5 h-5 text-[#BD9958] group-hover:text-white group-hover:translate-x-1 transition-all duration-300 transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </Link>
               </motion.div>
             </motion.div>
           </div>
@@ -294,8 +350,6 @@ export default function JourneysPage() {
 
       {/* Hero Section with HumanBranches */}
       <section className="h-screen flex flex-col items-center justify-between relative overflow-hidden lg:py-8">
-        
-
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -309,11 +363,18 @@ export default function JourneysPage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5, repeat: Infinity, repeatType: "reverse" }}
+          transition={{
+            duration: 1,
+            delay: 1.5,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
           className="relative z-10 pb-4"
         >
           <div className="flex flex-col items-center gap-2">
-            <span className={`${fonts.mulish} text-[#BD9958]/50 text-sm tracking-widest`}>
+            <span
+              className={`${fonts.mulish} text-[#BD9958]/50 text-sm tracking-widest`}
+            >
               SCROLL TO EXPLORE
             </span>
             <svg
@@ -346,13 +407,18 @@ export default function JourneysPage() {
             transition={{ duration: 0.8 }}
             className="space-y-8 max-w-3xl mx-auto"
           >
-            <h2 className={`${fonts.playfair} text-4xl md:text-5xl text-[#BD9958] font-light`}>
+            <h2
+              className={`${fonts.playfair} text-4xl md:text-5xl text-[#BD9958] font-light`}
+            >
               Ready to Begin?
             </h2>
-            <p className={`${fonts.mulish} text-white/80 text-xl leading-relaxed`}>
+            <p
+              className={`${fonts.mulish} text-white/80 text-xl leading-relaxed`}
+            >
               Every journey starts with a single step inward.
               <br />
-              Choose the path that calls to you, or let your intuition guide the way.
+              Choose the path that calls to you, or let your intuition guide the
+              way.
             </p>
             <motion.div
               whileHover={{ scale: 1.05 }}

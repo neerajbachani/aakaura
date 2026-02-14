@@ -354,6 +354,8 @@ export async function PUT(
         const { slug } = await params;
         const body = await request.json();
         const { clientType, productId, product } = body;
+        
+        console.log(`📡 PUT Request - Slug: ${slug}, ClientType: ${clientType}, ProductID: ${productId}`);
 
         if (!clientType || !productId || !product) {
             return NextResponse.json(
@@ -389,6 +391,7 @@ export async function PUT(
         const productIndex = products.findIndex((p: any) => p.id === productId);
 
         if (productIndex === -1) {
+            console.error(`❌ Product with ID "${productId}" not found in ${clientType}. Available IDs:`, products.map((p:any) => p.id));
             return NextResponse.json(
                 { error: `Product with ID "${productId}" not found in ${clientType}` },
                 { status: 404 }

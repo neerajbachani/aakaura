@@ -23,9 +23,12 @@ export default {
           to: { transform: "rotate(360deg)" },
         },
         spin: {
-          from: { transform: "rotate(45deg)" },
-          to: { transform: "rotate(405deg)" },
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
         },
+      },
+      animation: {
+        "spin-slow": "spin 20s linear infinite",
       },
     },
   },

@@ -1,0 +1,11 @@
+--- Soul-Luxury ---
+root-wall-hanging-sl
+bonsai-root-chakra-sl
+grounding-muffler-sl
+grounding-bonsai-sl
+
+--- Energy-Curious ---
+root-wall-hanging-ec
+bonsai-root-chakra-ec
+grounding-muffler-ec
+grounding-bonsai-ec

@@ -14,6 +14,7 @@ import {
   useIsInWaitlist,
 } from "@/hooks/useWaitlist";
 import { toast } from "react-hot-toast";
+import { JourneyProductPanel } from "./JourneyProductPanel";
 
 // Register GSAP plugin
 if (typeof window !== "undefined") {
@@ -274,8 +275,15 @@ export default function ChakraJourneyTemplate({
 }: ChakraJourneyTemplateProps) {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [clientType, setClientType] = useState<ClientType>("soul-luxury");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const [activeBgImage, setActiveBgImage] = useState<string>("");
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // When filtering changes, reset expanded card
+  useEffect(() => {
+    setExpandedCard(null);
+  }, [activeCategory]);
+
   // Track custom main display image for each product by index
   const [productMainImages, setProductMainImages] = useState<
     Record<number, string>
@@ -291,6 +299,14 @@ export default function ChakraJourneyTemplate({
 
   useRevealer();
 
+  // Scroll to top on page load
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [lenis]);
+
   // Close overlay when client type changes
   useEffect(() => {
     setExpandedCard(null);
@@ -302,20 +318,44 @@ export default function ChakraJourneyTemplate({
     const staticChakra = chakrasData[chakra.slug];
     const staticProducts = staticChakra?.content?.[clientType] || [];
 
-    return propProducts.map((p, i) => {
-      // Try to find matching static product by ID or index
-      const staticP =
-        staticProducts.find((sp) => sp.id === p.id) || staticProducts[i];
+    return propProducts
+      .map((p, i) => {
+        // Try to find matching static product by ID or index
+        const staticP =
+          staticProducts.find((sp) => sp.id === p.id) || staticProducts[i];
 
-      // If prop doesn't have variants but static does, use static
-      if (!p.variants && staticP?.variants) {
-        return { ...p, variants: staticP.variants };
-      }
-      return p;
-    });
+        // If prop doesn't have variants but static does, use static
+        if (!p.variants && staticP?.variants) {
+          return {
+            ...p,
+            variants: staticP.variants,
+            category: p.category || staticP.category,
+          };
+        }
+        return { ...p, category: p.category || staticP?.category };
+      })
+      .sort((a: any, b: any) => (a.step || 0) - (b.step || 0));
   }, [chakra, clientType]);
 
-  // GSAP Horizontal Scroll Effect
+  // Extract unique categories
+  const categories = React.useMemo(() => {
+    const cats = new Set(
+      currentProducts.map((p) => p.category).filter(Boolean),
+    );
+    return ["All", ...Array.from(cats)];
+  }, [currentProducts]);
+
+  // Filter products based on active category
+  const filteredProducts = React.useMemo(() => {
+    if (activeCategory === "All") return currentProducts;
+    return currentProducts.filter((p) => p.category === activeCategory);
+  }, [currentProducts, activeCategory]);
+
+  // Store the horizontal scroll tween to share between effects
+  const horizontalScrollTweenRef = useRef<gsap.core.Tween | null>(null);
+
+  // 1. Structural Effect: Handles the ScrollTrigger pinning and horizontal movement
+  // This ONLY re-runs when the product list changes, NOT when modals open/close.
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const horizontalContainer = horizontalContainerRef.current;
@@ -330,7 +370,7 @@ export default function ChakraJourneyTemplate({
       // Only animate if content overflows
       if (scrollWidth <= viewportWidth) return;
 
-      // Create horizontal scroll animation
+      // Create horizontal scroll animation and store in ref
       const horizontalScroll = gsap.to(horizontalContainer, {
         x: () => -(scrollWidth - viewportWidth),
         ease: "none",
@@ -342,6 +382,7 @@ export default function ChakraJourneyTemplate({
           invalidateOnRefresh: true,
         },
       });
+      horizontalScrollTweenRef.current = horizontalScroll;
 
       // Animate images scaling to full size when panel is centered
       const panels = gsap.utils.toArray(".panel") as HTMLElement[];
@@ -366,7 +407,26 @@ export default function ChakraJourneyTemplate({
             },
           },
         );
+      });
+    });
 
+    return () => {
+      ctx.revert();
+      horizontalScrollTweenRef.current = null;
+    };
+  }, [filteredProducts]);
+
+  // 2. Content Animation Effect: Handles internal panel animations
+  // This re-runs when modal state changes to ensure side strips are properly targeted/animated
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // If the main scroll tween isn't ready, we can't link animations to it
+      if (!horizontalScrollTweenRef.current) return;
+
+      const horizontalScroll = horizontalScrollTweenRef.current;
+
+      const panels = gsap.utils.toArray(".panel") as HTMLElement[];
+      panels.forEach((panel: HTMLElement, index: number) => {
         // Animate side image strip - Fade in LATE (after 80% cross)
         const sideStrip = panel.querySelector(".side-image-strip");
         if (sideStrip) {
@@ -386,7 +446,7 @@ export default function ChakraJourneyTemplate({
     });
 
     return () => ctx.revert();
-  }, [currentProducts]);
+  }, [filteredProducts, expandedCard]);
 
   // Track previous expanded card state
   const prevExpandedCardRef = useRef<number | null>(null);
@@ -442,16 +502,16 @@ export default function ChakraJourneyTemplate({
       >
         <img
           src={
-            expandedCard !== null && currentProducts[expandedCard]
+            expandedCard !== null && filteredProducts[expandedCard]
               ? activeBgImage ||
-                currentProducts[expandedCard]?.variants?.[0]?.image ||
-                currentProducts[expandedCard]?.images?.[0] ||
+                filteredProducts[expandedCard]?.variants?.[0]?.image ||
+                filteredProducts[expandedCard]?.images?.[0] ||
                 undefined
               : undefined
           }
           alt={
-            expandedCard !== null && currentProducts[expandedCard]
-              ? currentProducts[expandedCard]?.name
+            expandedCard !== null && filteredProducts[expandedCard]
+              ? filteredProducts[expandedCard]?.name
               : ""
           }
           className={`w-full h-full object-cover transition-opacity duration-500 ${
@@ -471,7 +531,7 @@ export default function ChakraJourneyTemplate({
       {/* Section 3: Horizontal Scrolling Products - NOW AT TOP */}
       <section ref={section3Ref} className="relative h-screen overflow-hidden">
         <div ref={horizontalContainerRef} className="flex h-full w-max">
-          {currentProducts.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <JourneyProductPanel
               key={product.id || index}
               product={product}
@@ -482,7 +542,7 @@ export default function ChakraJourneyTemplate({
               expandedCard={expandedCard}
               setExpandedCard={setExpandedCard}
               setActiveBgImage={setActiveBgImage}
-              currentProducts={currentProducts}
+              currentProducts={filteredProducts}
               isAuthenticated={isAuthenticated}
               authLoading={authLoading}
               onAuthRequired={() => setShowAuthModal(true)}
@@ -499,9 +559,9 @@ export default function ChakraJourneyTemplate({
       {/* Expanded Details Overlay - Moved to Parent to escape GSAP Transform Context */}
       <AnimatePresence>
         {expandedCard !== null &&
-          currentProducts[expandedCard] &&
+          filteredProducts[expandedCard] &&
           (() => {
-            const product = currentProducts[expandedCard];
+            const product = filteredProducts[expandedCard];
             return (
               <>
                 {/* Backdrop */}
@@ -609,7 +669,9 @@ export default function ChakraJourneyTemplate({
                             </p>
                           </motion.div>
 
-                          {(product.symbolism || product.languageEngraving) && (
+                          {(product.symbolism ||
+                            product.languageEngraving ||
+                            product.designBreakdown) && (
                             <motion.div
                               key={`${clientType}-premium`}
                               initial={{ opacity: 0, x: 20 }}
@@ -631,13 +693,37 @@ export default function ChakraJourneyTemplate({
                                 </div>
                               )}
                               {product.languageEngraving && (
-                                <div>
+                                <div className="mb-6">
                                   <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
                                     Language Engraving
                                   </div>
                                   <p className="font-light text-lg leading-relaxed opacity-90">
                                     {product.languageEngraving}
                                   </p>
+                                </div>
+                              )}
+                              {product.designBreakdown && (
+                                <div className="mt-8 border-t border-[#f4f1ea]/10 pt-6">
+                                  {Array.isArray(product.designBreakdown) ? (
+                                    <div className="space-y-6">
+                                      {product.designBreakdown.map(
+                                        (item, i) => (
+                                          <div key={i}>
+                                            <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                              {item.title}
+                                            </div>
+                                            <p className="font-light text-lg leading-relaxed opacity-90">
+                                              {item.description}
+                                            </p>
+                                          </div>
+                                        ),
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <FormattedContent
+                                      content={product.designBreakdown}
+                                    />
+                                  )}
                                 </div>
                               )}
                             </motion.div>
@@ -718,36 +804,6 @@ export default function ChakraJourneyTemplate({
                         {/* Specifications Accordion */}
 
                         {/* Design Breakdown Accordion */}
-                        {product.designBreakdown && (
-                          <CollapsibleSection
-                            title="Design Breakdown & Symbolism"
-                            defaultOpen={false}
-                          >
-                            <div className="space-y-5 pt-6">
-                              {Array.isArray(product.designBreakdown) ? (
-                                // Handle array format
-                                product.designBreakdown.map((item, i) => (
-                                  <div
-                                    key={i}
-                                    className="border-l-2 border-[#f4f1ea]/20 pl-6"
-                                  >
-                                    <h4 className="font-cormorant text-2xl mb-3">
-                                      {item.title}
-                                    </h4>
-                                    <p className="font-light text-lg leading-relaxed opacity-80">
-                                      {item.description}
-                                    </p>
-                                  </div>
-                                ))
-                              ) : (
-                                // Handle string format
-                                <FormattedContent
-                                  content={product.designBreakdown}
-                                />
-                              )}
-                            </div>
-                          </CollapsibleSection>
-                        )}
 
                         {/* Additional Custom Section (Extra Field) */}
                         {product.additionalSection && (
@@ -941,7 +997,7 @@ export default function ChakraJourneyTemplate({
                         </h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          {currentProducts
+                          {filteredProducts
                             .filter(
                               (p) =>
                                 p.id !== product.id && p.name !== product.name,
@@ -952,7 +1008,7 @@ export default function ChakraJourneyTemplate({
                                 key={i}
                                 onClick={() => {
                                   // Find index in the SAME list
-                                  const idx = currentProducts.findIndex(
+                                  const idx = filteredProducts.findIndex(
                                     (cp) => cp.name === p.name,
                                   );
                                   if (idx !== -1) setExpandedCard(idx);
@@ -1208,238 +1264,3 @@ function WaitlistButtonLarge({
   );
 }
 // Product Panel Component (extracted to handle local state for variants)
-interface JourneyProductPanelProps {
-  product: JourneyProduct;
-  index: number;
-  chakra: ChakraData;
-  clientType: ClientType;
-  setClientType: (type: ClientType) => void;
-  expandedCard: number | null;
-  setExpandedCard: (index: number | null) => void;
-  setActiveBgImage: (image: string) => void;
-  currentProducts: JourneyProduct[];
-  isAuthenticated: boolean;
-  authLoading: boolean;
-  onAuthRequired: () => void;
-  setShowAuthModal: (show: boolean) => void;
-  addToWaitlist: any;
-  removeFromWaitlist: any;
-  useIsInWaitlist: any;
-  customMainImage?: string;
-}
-
-function JourneyProductPanel({
-  product,
-  index,
-  chakra,
-  clientType,
-  setClientType,
-  expandedCard,
-  setExpandedCard,
-  setActiveBgImage,
-  currentProducts,
-  isAuthenticated,
-  authLoading,
-  onAuthRequired,
-  setShowAuthModal,
-  addToWaitlist,
-  removeFromWaitlist,
-  useIsInWaitlist,
-  customMainImage,
-}: JourneyProductPanelProps) {
-  const [activeVariant, setActiveVariant] = useState(
-    product.variants?.[0] || null,
-  );
-
-  // Track locally selected side image
-  const [selectedSideImage, setSelectedSideImage] = useState<string | null>(
-    null,
-  );
-
-  useEffect(() => {
-    if (product.variants && product.variants.length > 0) {
-      setActiveVariant(product.variants[0]);
-    } else {
-      setActiveVariant(null);
-    }
-  }, [product]);
-
-  // Reset side image when variant changes (so the new variant's main image takes precedence unless overridden again)
-  useEffect(() => {
-    setSelectedSideImage(null);
-  }, [activeVariant]);
-
-  // Update centralized background when this panel's modal is open or variant changes
-  useEffect(() => {
-    if (expandedCard === index && activeVariant) {
-      setActiveBgImage(activeVariant.image);
-    } else if (expandedCard === index && product.images?.[0]) {
-      setActiveBgImage(product.images[0]);
-    }
-  }, [expandedCard, index, activeVariant, product.images, setActiveBgImage]);
-
-  // Priority: selectedSideImage > customMainImage > activeVariant.image > product.images[0]
-  const displayImage =
-    selectedSideImage ||
-    customMainImage ||
-    (activeVariant ? activeVariant.image : product.images?.[0] || "");
-
-  return (
-    <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative">
-      {/* Full Screen Background Image - Hidden when modal is open */}
-      <div
-        className="panel-image absolute  inset-0 overflow-hidden"
-        style={{
-          opacity: expandedCard !== null ? 0 : 1,
-          transition: "opacity 0.3s ease-out",
-        }}
-      >
-        <motion.div
-          className="absolute inset-0"
-          initial={false}
-          animate={{ opacity: 1 }}
-          key={activeVariant ? activeVariant.name : clientType + product.id}
-          transition={{ duration: 0.5 }}
-        >
-          <img
-            src={displayImage}
-            alt={activeVariant ? activeVariant.name : product.name}
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center center" }}
-          />
-        </motion.div>
-
-        {/* Gradient Overlay */}
-        <div
-          className="absolute inset-0 bg-[#27190b] bg-opacity-20"
-          style={{
-            background: `linear-gradient(to bottom, rgba(39,25,11,0.1) 0%, rgba(39,25,11,0.6) 100%)`,
-          }}
-        />
-      </div>
-
-      {/* Side Image Strip - Only visible when modal is closed */}
-      {expandedCard === null && product.images && product.images.length > 1 && (
-        <div
-          className="side-image-strip absolute left-8 top-[30%] -translate-y-1/2 z-20 flex flex-col gap-4 max-h-[60vh] no-scrollbar py-4"
-          onClick={(e) => e.stopPropagation()}
-          style={{ opacity: 0, transform: "translateX(-20px)" }}
-        >
-          {product.images.map((img, i) => (
-            <button
-              key={i}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedSideImage(img);
-              }}
-              className={`w-12 h-12 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
-                selectedSideImage === img ||
-                (!selectedSideImage && displayImage === img)
-                  ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
-                  : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
-              }`}
-            >
-              <img
-                src={img}
-                alt={`View ${i + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Top Text */}
-      <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
-        <h2
-          className={`text-sm md:text-lg uppercase tracking-[0.2em] md:tracking-[0.3em] font-light text-white text-center md:text-left`}
-        >
-          <span className="max-w-sm block mx-auto md:mx-0">
-            AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION
-          </span>
-        </h2>
-      </div>
-
-      {/* Bottom Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10">
-        <div className="max-w-[1400px] mx-auto px-0 md:px-10">
-          <div
-            className={`flex flex-col md:flex-row justify-between items-center text-lg md:text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-4 gap-6 md:gap-0`}
-          >
-            {product.variants && product.variants.length > 0 ? (
-              <>
-                {/* Color Swatches - Slot 1 */}
-                <div className="w-full md:max-w-[300px] flex justify-center md:justify-start items-center gap-4 order-2 md:order-1">
-                  <div className="flex items-center gap-3 bg-black/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 rounded-full border border-white/10">
-                    {product.variants.map((variant, i) => (
-                      <button
-                        key={i}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveVariant(variant);
-                        }}
-                        className={`w-8 h-8 rounded-md transition-all duration-300 relative ${
-                          activeVariant?.color === variant.color
-                            ? "scale-110 ring-1 ring-white/50"
-                            : "hover:scale-110 opacity-70 hover:opacity-100"
-                        }`}
-                        style={{ backgroundColor: variant.color }}
-                        title={variant.name}
-                      ></button>
-                    ))}
-                    <span className="ml-2 text-xs opacity-80 tracking-widest whitespace-nowrap">
-                      {activeVariant?.name}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Product Name - Slot 2 */}
-                <h2 className="text-2xl md:text-xl text-center order-1 md:order-2">
-                  {product.name.toUpperCase()}
-                </h2>
-
-                {/* View Description - Slot 3 */}
-                <button
-                  onClick={(e) => {
-                    console.log(
-                      "🖱️ VIEW DESCRIPTION clicked for index:",
-                      index,
-                    );
-                    e.stopPropagation();
-                    console.log("   Setting expandedCard to:", index);
-                    setExpandedCard(index);
-                  }}
-                  className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-3"
-                >
-                  VIEW DESCRIPTION
-                </button>
-              </>
-            ) : (
-              <>
-                {/* Product Name (Left) - Slot 1 */}
-                <h2 className="text-2xl md:text-xl text-center md:text-left order-1">
-                  {product.name.toUpperCase()}
-                </h2>
-
-                {/* View Description (Right) - Slot 2 */}
-                <button
-                  onClick={(e) => {
-                    console.log(
-                      "🖱️ VIEW DESCRIPTION clicked for index:",
-                      index,
-                    );
-                    e.stopPropagation();
-                    setExpandedCard(index);
-                  }}
-                  className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-2"
-                >
-                  VIEW DESCRIPTION
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
