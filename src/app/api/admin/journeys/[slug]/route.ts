@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { verifyAdminToken } from "@/middleware/auth";
 
 export async function PATCH(
     request: Request,
-    { params }: { params: Promise<{ slug: string }> } // Fix types for Next.js 15
+    { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
+        const user = await verifyAdminToken(request as any);
+        if (!user) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 403 }
+            );
+        }
         const { slug } = await params;
         const body = await request.json();
 

@@ -196,6 +196,9 @@ export default function ScrollTransition() {
             <div className="nav-col">
               <p>C/ G191125</p>
             </div>
+            <div className="nav-col lg:text-2xl">
+              <p>Title: The आकaura आर्टisans</p>
+            </div>
             <div className="nav-col">
               <p>Experiment_507</p>
             </div>

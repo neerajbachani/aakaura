@@ -65,7 +65,7 @@ export default function AboutHeader() {
                 >
                   <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-3 h-[1px] w-full transition-colors duration-300" />
                   <div className="flex items-start sm:items-center justify-between gap-4">
-                    <p className="text-base sm:text-lg font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors leading-relaxed">
+                    <p className="text-base sm:text-lg lg:text-xl font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors leading-relaxed">
                       Not everything needs fixing.{" "}
                       <br className="hidden sm:block" />
                       Some things need remembering.
@@ -85,6 +85,11 @@ export default function AboutHeader() {
                       About Us
                     </Link>
                   </li>
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    <Link href="/vision" className="block w-full">
+                      The Vision
+                    </Link>
+                  </li>
 
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/quiz" className="block w-full">
@@ -94,11 +99,6 @@ export default function AboutHeader() {
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/journey" className="block w-full">
                       Begin Where You Are
-                    </Link>
-                  </li>
-                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    <Link href="/vision" className="block w-full">
-                      The Vision
                     </Link>
                   </li>
                 </ul>

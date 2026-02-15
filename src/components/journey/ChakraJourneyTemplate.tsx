@@ -668,66 +668,6 @@ export default function ChakraJourneyTemplate({
                                 product.description}
                             </p>
                           </motion.div>
-
-                          {(product.symbolism ||
-                            product.languageEngraving ||
-                            product.designBreakdown) && (
-                            <motion.div
-                              key={`${clientType}-premium`}
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.4, delay: 0.1 }}
-                              className="bg-[#f4f1ea]/5 p-8 rounded-2xl text-[#f4f1ea] border border-[#f4f1ea]/10"
-                            >
-                              <h3 className="text-lg uppercase tracking-widest font-bold mb-6 opacity-60">
-                                Premium Detailing
-                              </h3>
-                              {product.symbolism && (
-                                <div className="mb-6">
-                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
-                                    Symbolism
-                                  </div>
-                                  <p className="font-light text-lg leading-relaxed opacity-90">
-                                    {product.symbolism}
-                                  </p>
-                                </div>
-                              )}
-                              {product.languageEngraving && (
-                                <div className="mb-6">
-                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
-                                    Language Engraving
-                                  </div>
-                                  <p className="font-light text-lg leading-relaxed opacity-90">
-                                    {product.languageEngraving}
-                                  </p>
-                                </div>
-                              )}
-                              {product.designBreakdown && (
-                                <div className="mt-8 border-t border-[#f4f1ea]/10 pt-6">
-                                  {Array.isArray(product.designBreakdown) ? (
-                                    <div className="space-y-6">
-                                      {product.designBreakdown.map(
-                                        (item, i) => (
-                                          <div key={i}>
-                                            <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
-                                              {item.title}
-                                            </div>
-                                            <p className="font-light text-lg leading-relaxed opacity-90">
-                                              {item.description}
-                                            </p>
-                                          </div>
-                                        ),
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <FormattedContent
-                                      content={product.designBreakdown}
-                                    />
-                                  )}
-                                </div>
-                              )}
-                            </motion.div>
-                          )}
                         </div>
 
                         {/* Right Column */}
@@ -802,6 +742,62 @@ export default function ChakraJourneyTemplate({
                       {/* Collapsible Sections */}
                       <div className="space-y-4">
                         {/* Specifications Accordion */}
+                        {(product.symbolism ||
+                          product.languageEngraving ||
+                          product.designBreakdown) && (
+                          <CollapsibleSection
+                            title="Premium Detailing"
+                            defaultOpen={false}
+                            titleClassName="text-lg"
+                          >
+                            <div className="space-y-8 pt-6">
+                              {product.symbolism && (
+                                <div className="mb-6">
+                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
+                                    Symbolism
+                                  </div>
+                                  <p className="font-light text-lg leading-relaxed opacity-90">
+                                    {product.symbolism}
+                                  </p>
+                                </div>
+                              )}
+                              {product.languageEngraving && (
+                                <div className="mb-6">
+                                  <div className="text-sm uppercase tracking-wider opacity-50 mb-3">
+                                    Language Engraving
+                                  </div>
+                                  <p className="font-light text-lg leading-relaxed opacity-90">
+                                    {product.languageEngraving}
+                                  </p>
+                                </div>
+                              )}
+                              {product.designBreakdown && (
+                                <div className="mt-8 border-t border-[#f4f1ea]/10 pt-6">
+                                  {Array.isArray(product.designBreakdown) ? (
+                                    <div className="space-y-6">
+                                      {product.designBreakdown.map(
+                                        (item, i) => (
+                                          <div key={i}>
+                                            <div className="text-sm uppercase tracking-wider opacity-50 mb-2">
+                                              {item.title}
+                                            </div>
+                                            <p className="font-light text-lg leading-relaxed opacity-90">
+                                              {item.description}
+                                            </p>
+                                          </div>
+                                        ),
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <FormattedContent
+                                      content={product.designBreakdown}
+                                    />
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </CollapsibleSection>
+                        )}
 
                         {/* Design Breakdown Accordion */}
 

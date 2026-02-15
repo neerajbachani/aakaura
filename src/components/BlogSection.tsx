@@ -283,7 +283,7 @@ export default function BlogSection() {
   return (
     <div
       ref={containerRef}
-      className={`relative bg-[#BD9958] w-full ${isDesktop ? "h-[150vh]" : "h-auto py-16"}`}
+      className={`relative bg-[#BD9958] w-full ${isDesktop ? "h-[180vh]" : "h-auto py-16"}`}
     >
       {/* Sticky Wrapper - Only sticky on Desktop */}
       <div
@@ -297,7 +297,7 @@ export default function BlogSection() {
           <div className="absolute inset-0 "></div>
 
           {/* Content */}
-          <div className="relative z-10 w-full container mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-10 lg:py-0">
+          <div className="relative z-10 w-full  px-4 sm:px-6 md:px-12 lg:px-16 py-10 lg:py-0">
             {/* Header */}
             <motion.div
               className="mb-8 md:mb-12 lg:mb-16 max-w-4xl"
@@ -318,20 +318,20 @@ export default function BlogSection() {
                 Journey to Spiritual Awakening and Inner Peace.
               </h2>
               <p
-                className={`font-cormorant max-w-xl lg:max-w-2xl text-[#27190B] text-sm sm:text-base md:text-lg font-normal leading-relaxed`}
+                className={`font-cormorant max-w-xl lg:max-w-2xl text-[#27190B] text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed`}
               >
                 Awakening isn't an event. It's a quiet remembering that happens
-                when noise finally loses its grip
+                when noise finally loses its grip.
               </p>
             </motion.div>
 
             {/* Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-2">
               {blogSection.map((item, index) => {
                 return (
                   <motion.div
                     key={index}
-                    className="bg-[#27190B] py-8 sm:py-10 md:py-12 lg:py-14 px-5 sm:px-6 md:px-8 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
+                    className="bg-[#27190B] py-8 sm:py-10 md:py-12 px-5 sm:px-6 md:px-8 lg:px-6 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
                     // Desktop: Use Scroll Transforms
                     style={isDesktop ? cardTransforms[index] : {}}
                     // Mobile: Static (No Animation)
@@ -361,7 +361,7 @@ export default function BlogSection() {
 
                     {/* Description */}
                     <p
-                      className={`text-[#BD9958] text-sm sm:text-base leading-relaxed font-cormorant`}
+                      className={`text-[#BD9958] text-sm sm:text-base lg:text-lg  leading-relaxed font-cormorant`}
                     >
                       {item.description}
                     </p>

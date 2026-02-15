@@ -1,20 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { requireAuth } from '@/lib/auth';
-
-// Helper function for admin auth check
-async function checkAdminAuth(user: any) {
-    if (user.role === 'admin') {
-        return true;
-    } else if (user.userId) {
-        const userRecord = await prisma.user.findUnique({
-            where: { id: user.userId },
-            select: { role: true },
-        });
-        return userRecord?.role === 'ADMIN';
-    }
-    return false;
-}
+import { verifyAdminToken } from "@/middleware/auth";
 
 // PATCH /api/admin/journeys/[slug]/products - Update product settings
 export async function PATCH(
@@ -22,11 +8,8 @@ export async function PATCH(
     { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
-        const user = await requireAuth(request);
-
-        // Check if user is admin
-        const isAdmin = await checkAdminAuth(user);
-        if (!isAdmin) {
+        const user = await verifyAdminToken(request);
+        if (!user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 403 }
@@ -62,7 +45,7 @@ export async function PATCH(
         currentSettings[productId] = {
             isWaitlist,
             updatedAt: new Date().toISOString(),
-            updatedBy: user.userId || user.email, // Use email for admin tokens
+            updatedBy: user.email, // Use email for admin tokens
         };
 
         const updatedJourney = await prisma.journey.update({
@@ -79,13 +62,6 @@ export async function PATCH(
     } catch (error: any) {
         console.error('Error updating product settings:', error);
 
-        if (error.message === 'Authentication required') {
-            return NextResponse.json(
-                { error: 'Authentication required' },
-                { status: 401 }
-            );
-        }
-
         return NextResponse.json(
             { error: 'Failed to update product settings' },
             { status: 500 }
@@ -99,11 +75,8 @@ export async function GET(
     { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
-        const user = await requireAuth(request);
-
-        // Check if user is admin
-        const isAdmin = await checkAdminAuth(user);
-        if (!isAdmin) {
+        const user = await verifyAdminToken(request);
+        if (!user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 403 }
@@ -134,13 +107,6 @@ export async function GET(
     } catch (error: any) {
         console.error('Error fetching product settings:', error);
 
-        if (error.message === 'Authentication required') {
-            return NextResponse.json(
-                { error: 'Authentication required' },
-                { status: 401 }
-            );
-        }
-
         return NextResponse.json(
             { error: 'Failed to fetch product settings' },
             { status: 500 }
@@ -154,11 +120,8 @@ export async function POST(
     { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
-        const user = await requireAuth(request);
-
-        // Check if user is admin
-        const isAdmin = await checkAdminAuth(user);
-        if (!isAdmin) {
+        const user = await verifyAdminToken(request);
+        if (!user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 403 }
@@ -226,13 +189,6 @@ export async function POST(
     } catch (error: any) {
         console.error('Error adding product:', error);
 
-        if (error.message === 'Authentication required') {
-            return NextResponse.json(
-                { error: 'Authentication required' },
-                { status: 401 }
-            );
-        }
-
         return NextResponse.json(
             { error: 'Failed to add product' },
             { status: 500 }
@@ -246,11 +202,8 @@ export async function DELETE(
     { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
-        const user = await requireAuth(request);
-
-        // Check if user is admin
-        const isAdmin = await checkAdminAuth(user);
-        if (!isAdmin) {
+        const user = await verifyAdminToken(request);
+        if (!user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 403 }
@@ -320,13 +273,6 @@ export async function DELETE(
     } catch (error: any) {
         console.error('Error deleting product:', error);
 
-        if (error.message === 'Authentication required') {
-            return NextResponse.json(
-                { error: 'Authentication required' },
-                { status: 401 }
-            );
-        }
-
         return NextResponse.json(
             { error: 'Failed to delete product' },
             { status: 500 }
@@ -340,11 +286,8 @@ export async function PUT(
     { params }: { params: Promise<{ slug: string }> }
 ) {
     try {
-        const user = await requireAuth(request);
-
-        // Check if user is admin
-        const isAdmin = await checkAdminAuth(user);
-        if (!isAdmin) {
+        const user = await verifyAdminToken(request);
+        if (!user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 403 }
@@ -416,13 +359,6 @@ export async function PUT(
         });
     } catch (error: any) {
         console.error('Error updating product:', error);
-
-        if (error.message === 'Authentication required') {
-            return NextResponse.json(
-                { error: 'Authentication required' },
-                { status: 401 }
-            );
-        }
 
         return NextResponse.json(
             { error: 'Failed to update product' },

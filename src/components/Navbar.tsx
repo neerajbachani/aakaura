@@ -100,7 +100,7 @@ export default function Navbar({
   const navItems = [
     {
       title: "Hi!",
-      submenuItems: [{ name: "Know us :)", href: "/about" }],
+      submenuItems: [{ name: "About us :)", href: "/about" }],
     },
     {
       title: "Read On",
@@ -343,7 +343,7 @@ export default function Navbar({
                     onClick={closeMenu}
                     className={`block py-2 text-lg text-[#27190b] hover:text-primaryRed`}
                   >
-                    Your Profile
+                    Your Aakaura
                   </Link>
                 </motion.div>
               </motion.div>

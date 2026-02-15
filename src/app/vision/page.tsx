@@ -82,7 +82,8 @@ export default function VisionPage() {
             className="space-y-6"
           >
             <h3 className="text-3xl md:text-4xl text-white">
-              Our <span className="text-[#BD9958] italic">Founder</span>
+              Our <span className="text-[#BD9958] italic">Founder</span> —
+              Lakshika Singh Ratnu
             </h3>
             <div className="h-[1px] w-20 bg-[#BD9958]" />
             <p className="text-lg text-white/80 leading-relaxed font-light text-justify">
@@ -108,7 +109,8 @@ export default function VisionPage() {
             className="space-y-6"
           >
             <h3 className="text-3xl md:text-4xl text-white">
-              Our <span className="text-[#BD9958] italic">CEO</span>
+              Our <span className="text-[#BD9958] italic">CEO</span> — Ananya
+              Singh Chauhan
             </h3>
             <div className="h-[1px] w-20 bg-[#BD9958]" />
             <p className="text-lg text-white/80 leading-relaxed font-light text-justify">
@@ -219,9 +221,9 @@ export default function VisionPage() {
         >
           <div className="h-[1px] w-24 bg-[#BD9958] mx-auto mb-8" />
           <p className="text-xl md:text-3xl text-white leading-relaxed font-light">
-            "Aakaura is shaped by{" "}
+            Aakaura is shaped by{" "}
             <span className="text-[#BD9958] italic">healing hands</span> and{" "}
-            <span className="text-[#BD9958] italic">questioning minds</span>."
+            <span className="text-[#BD9958] italic">questioning minds</span>.
           </p>
           <p className="text-lg text-white/60">
             Hands trained in energy discipline. Minds trained to understand
