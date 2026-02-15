@@ -1254,8 +1254,8 @@ function WaitlistButtonLarge({
       {isLoading
         ? "Processing..."
         : isInWaitlist
-          ? `✓ In Waitlist • ${product.price}`
-          : `Add to Waitlist • ${product.price}`}
+          ? `✓ In Waitlist`
+          : `Add to Waitlist`}
     </button>
   );
 }

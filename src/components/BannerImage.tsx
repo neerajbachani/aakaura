@@ -252,7 +252,7 @@ export default function BannerImage() {
         }
       `}</style>
 
-      {/* Content Layer */}
+      {/* Main Layout - Spread Pattern (Visible on all screens) */}
       <div className="flex flex-col items-center gap-2 w-full animate-float relative z-10">
         {/* Center - Crown Chakra */}
         {centerChakra && (
@@ -322,10 +322,10 @@ export default function BannerImage() {
             />
           )}
 
-          {/* Central CTA - Begin Where You Are */}
+          {/* Central CTA - Begin Where You Are (Desktop Only) */}
           <Link
             href="/journey"
-            className="group relative flex flex-col items-center justify-center gap-2 mb-4 hover:scale-105 transition-transform duration-500"
+            className="hidden md:flex group relative flex-col items-center justify-center gap-2 mb-4 hover:scale-105 transition-transform duration-500"
           >
             <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
               <span className="relative z-10 font-cormorant text-2xl text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
@@ -349,6 +349,25 @@ export default function BannerImage() {
             />
           )}
         </div>
+
+        {/* Mobile CTA - Begin Where You Are (Mobile Only) */}
+        <Link
+          href="/journey"
+          className="flex md:hidden group relative flex-col items-center justify-center gap-2 mt-8 hover:scale-105 transition-transform duration-500"
+        >
+          <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
+            <span className="relative z-10 font-cormorant text-lg text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
+              Begin Where You Are
+            </span>
+
+            {/* Shine Effect */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
+          </div>
+
+          <span className="text-[10px] text-[#BD9958]/60 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+            Start Your Journey
+          </span>
+        </Link>
       </div>
     </section>
   );
