@@ -11,6 +11,8 @@ interface PageProps {
   }>;
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const slugs = getAllChakraSlugs();
   return slugs.map((slug) => ({
@@ -18,12 +20,14 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const journey = await prisma.journey.findUnique({
-    where: { slug }
+    where: { slug },
   });
-  
+
   if (!journey) {
     return {
       title: "Journey Not Found | Aamvaraah",
@@ -39,7 +43,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ChakraJourneyPage({ params }: PageProps) {
   const { slug } = await params;
   const journey = await prisma.journey.findUnique({
-    where: { slug }
+    where: { slug },
   });
 
   if (!journey) {
