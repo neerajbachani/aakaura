@@ -48,7 +48,7 @@ export default function ProductForm({
     whatItsFor: string;
     features: string[];
     images: string[];
-    mobileImage: string;
+    mobileImages: string[];
     variants: Variant[];
     step: number;
     category: string;
@@ -71,7 +71,7 @@ export default function ProductForm({
     whatItsFor: "",
     features: [""],
     images: [""],
-    mobileImage: "",
+    mobileImages: [""],
     variants: [],
     step: 1,
     category: "",
@@ -112,7 +112,12 @@ export default function ProductForm({
           initialData.images && initialData.images.length > 0
             ? initialData.images
             : [""],
-        mobileImage: initialData.mobileImage || "",
+        mobileImages:
+          initialData.mobileImages && initialData.mobileImages.length > 0
+            ? initialData.mobileImages
+            : initialData.images && initialData.images.length > 0
+              ? new Array(initialData.images.length).fill("")
+              : [""],
         variants: initialData.variants || [],
         step: initialData.step || 1,
         category: initialData.category || "",
@@ -166,16 +171,46 @@ export default function ProductForm({
     setFormData((prev) => ({ ...prev, [field]: newArray }));
   };
 
+  const handleMobileImageChange = (index: number, value: string) => {
+    const newMobileImages = [...formData.mobileImages];
+    // Ensure array is long enough
+    while (newMobileImages.length <= index) {
+      newMobileImages.push("");
+    }
+    newMobileImages[index] = value;
+    setFormData((prev) => ({ ...prev, mobileImages: newMobileImages }));
+  };
+
   const addArrayItem = (field: "features" | "images") => {
-    setFormData((prev) => ({ ...prev, [field]: [...prev[field], ""] }));
+    if (field === "images") {
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images, ""],
+        mobileImages: [...prev.mobileImages, ""],
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: [...prev[field], ""] }));
+    }
   };
 
   const removeArrayItem = (field: "features" | "images", index: number) => {
-    const newArray = formData[field].filter((_, i) => i !== index);
-    setFormData((prev) => ({
-      ...prev,
-      [field]: newArray.length > 0 ? newArray : [""],
-    }));
+    if (field === "images") {
+      const newImages = formData.images.filter((_, i) => i !== index);
+      const newMobileImages = formData.mobileImages.filter(
+        (_, i) => i !== index,
+      );
+      setFormData((prev) => ({
+        ...prev,
+        images: newImages.length > 0 ? newImages : [""],
+        mobileImages: newMobileImages.length > 0 ? newMobileImages : [""],
+      }));
+    } else {
+      const newArray = formData[field].filter((_, i) => i !== index);
+      setFormData((prev) => ({
+        ...prev,
+        [field]: newArray.length > 0 ? newArray : [""],
+      }));
+    }
   };
 
   const addVariant = () => {
@@ -243,7 +278,7 @@ export default function ProductForm({
       ...formData,
       features: formData.features.filter((f) => f.trim() !== ""),
       images: formData.images.filter((img) => img.trim() !== ""),
-      mobileImage: formData.mobileImage.trim() || undefined,
+      mobileImages: formData.mobileImages ? formData.mobileImages : undefined,
       specifications: Object.keys(specsObj).length > 0 ? specsObj : undefined,
       category: formData.category.trim() || undefined,
       symbolism: formData.symbolism.trim() || undefined,
@@ -678,11 +713,11 @@ export default function ProductForm({
           </div>
         </div>
 
-        {/* Images Array */}
+        {/* Images Array with Mobile Support */}
         <div>
           <div className="flex justify-between items-center mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Image URLs*
+              Product Images
             </label>
             <button
               type="button"
@@ -693,58 +728,76 @@ export default function ProductForm({
               Add Image
             </button>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {formData.images.map((image, index) => (
-              <div key={index} className="flex gap-2">
-                <div className="flex-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <PhotoIcon className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    value={image}
-                    onChange={(e) =>
-                      handleArrayChange("images", index, e.target.value)
-                    }
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    placeholder="/images/product.jpg"
-                  />
+              <div
+                key={index}
+                className="p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-3"
+              >
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Image {index + 1}
+                  </span>
+                  {formData.images.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem("images", index)}
+                      className="text-red-600 hover:text-red-700 text-xs flex items-center gap-1 font-medium"
+                    >
+                      <TrashIcon className="w-4 h-4" />
+                      Remove
+                    </button>
+                  )}
                 </div>
-                {formData.images.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeArrayItem("images", index)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100"
-                  >
-                    <TrashIcon className="w-5 h-5" />
-                  </button>
-                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Desktop Image Input */}
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">
+                      Desktop / Main URL*
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <PhotoIcon className="h-4 w-4 text-gray-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={image}
+                        onChange={(e) =>
+                          handleArrayChange("images", index, e.target.value)
+                        }
+                        className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                        placeholder="/images/desktop.jpg"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Mobile Image Input */}
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">
+                      Mobile URL (Optional)
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span className="text-gray-400 text-xs font-bold">
+                          M
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        value={formData.mobileImages[index] || ""}
+                        onChange={(e) =>
+                          handleMobileImageChange(index, e.target.value)
+                        }
+                        className="w-full pl-9 pr-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-blue-50/30"
+                        placeholder="Same as desktop if empty"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Mobile Image (Optional) */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Mobile Image URL (Optional)
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <PhotoIcon className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              value={formData.mobileImage}
-              onChange={(e) => handleChange("mobileImage", e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="e.g. /images/product-mobile.jpg (Uses main image if empty)"
-            />
-          </div>
-          <p className="text-xs text-gray-500 mt-1">
-            If set, this image will be used on mobile devices instead of the
-            main image.
-          </p>
         </div>
 
         {/* Variants (Optional) */}

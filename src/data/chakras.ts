@@ -9,7 +9,7 @@ export interface JourneyProduct {
   whatItsFor: string;
   features: string[];
   images: string[];
-  mobileImage?: string;
+  mobileImages?: string[];
   variants?: {
     color: string; // Hex code
     name: string;

@@ -89,15 +89,26 @@ export function JourneyProductPanel({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Priority: selectedSideImage > customMainImage > (Mobile: mobileImage > activeVariant.image) > activeVariant.image > product.images[0]
-  const displayImage =
+  // Determine which desktop image is currently active
+  const activeDesktopImage =
     selectedSideImage ||
     customMainImage ||
-    (isMobile && product.mobileImage
-      ? product.mobileImage
-      : activeVariant
-        ? activeVariant.image
-        : product.images?.[0] || "");
+    (activeVariant ? activeVariant.image : product.images?.[0] || "");
+
+  // Find the index of this image in the main product images array
+  const activeImageIndex = product.images?.indexOf(activeDesktopImage) ?? -1;
+
+  // If we found an index (meaning it's from the main gallery) and we have a mobile image for it, use it.
+  // Otherwise, if it's a mobile device and we have a mobile image for the FIRST slot (fallback), maybe use that?
+  // The user requirement is 1:1 mapping. If no mapping, show default.
+  // So: Only swap if we can map index-to-index.
+  const mappedMobileImage =
+    activeImageIndex !== -1 && product.mobileImages?.[activeImageIndex]
+      ? product.mobileImages[activeImageIndex]
+      : undefined;
+
+  const displayImage =
+    isMobile && mappedMobileImage ? mappedMobileImage : activeDesktopImage;
 
   return (
     <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative flex flex-col md:block bg-[#27190b]">
