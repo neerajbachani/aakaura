@@ -27,6 +27,7 @@ const chakrasConfig = [
     shadow: "rgba(249,115,22,0.6)",
     image: "/chakras/sacral-symbol.svg",
     position: "lower-left",
+    offsetX: "-10%",
     info: "The right to feel.\nThis chakra doesn't beg permission to flow.\nBlocked sacral energy dries life into routine.\nCreation begins here; pleasure, emotion, intimacy, art.\nIt knows that softness is not weakness; it is intelligence in motion.",
   },
   {
@@ -111,7 +112,7 @@ function ChakraCircle({
       </p>
 
       <div
-        className="relative w-12 h-12 sm:w-[5.8rem] sm:h-[5.8rem] flex items-center justify-center cursor-pointer"
+        className="relative w-16 h-16 sm:w-[5.8rem] sm:h-[5.8rem] flex items-center justify-center cursor-pointer"
         onMouseEnter={() => {
           setIsHovered(true);
           onHover(chakra);
@@ -124,7 +125,7 @@ function ChakraCircle({
       >
         {/* Glow effect behind SVG - always visible */}
         <div
-          className="absolute inset-0 rounded-full transition-all duration-500 blur-[30px] sm:blur-[40px]"
+          className="absolute inset-0 rounded-full transition-all duration-500 blur-[50px] sm:blur-[40px]"
           style={{
             backgroundColor: chakra.color,
             opacity: 0.8,
@@ -146,17 +147,27 @@ function ChakraCircle({
           className="relative w-14 h-14 md:w-24 md:h-24 transition-transform duration-500 group-hover:scale-110"
           style={{ filter: "brightness(1.7) contrast(1.8)" }}
         >
-          <Image
-            src={chakra.image}
-            alt={`${chakra.name} Chakra`}
-            fill
-            className="object-contain"
-          />
+          <div
+            className="absolute inset-0"
+            style={{
+              transform: `translateX(${(chakra as any).offsetX || "0"})`,
+            }}
+          >
+            <Image
+              src={chakra.image}
+              alt={`${chakra.name} Chakra`}
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
       </div>
       <p
         className="text-sm md:text-xl leading-relaxed font-medium"
-        style={{ color: chakra.color }}
+        style={{
+          color: chakra.color,
+          transform: `translateX(${(chakra as any).offsetX || "0"})`,
+        }}
       >
         {chakra.name}
       </p>
