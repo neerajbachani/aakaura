@@ -7,6 +7,7 @@ import {
   TrashIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
+import SingleImageUpload from "./SingleImageUpload";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -753,46 +754,24 @@ export default function ProductForm({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Desktop Image Input */}
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">
-                      Desktop / Main URL*
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <PhotoIcon className="h-4 w-4 text-gray-400" />
-                      </div>
-                      <input
-                        type="text"
-                        value={image}
-                        onChange={(e) =>
-                          handleArrayChange("images", index, e.target.value)
-                        }
-                        className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-                        placeholder="/images/desktop.jpg"
-                      />
-                    </div>
+                    <SingleImageUpload
+                      label="Desktop / Main URL*"
+                      value={formData.images[index]}
+                      onChange={(url) =>
+                        handleArrayChange("images", index, url)
+                      }
+                      placeholder="Upload or enter URL"
+                    />
                   </div>
 
                   {/* Mobile Image Input */}
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">
-                      Mobile URL (Optional)
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-400 text-xs font-bold">
-                          M
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        value={formData.mobileImages[index] || ""}
-                        onChange={(e) =>
-                          handleMobileImageChange(index, e.target.value)
-                        }
-                        className="w-full pl-9 pr-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-blue-50/30"
-                        placeholder="Same as desktop if empty"
-                      />
-                    </div>
+                    <SingleImageUpload
+                      label="Mobile URL (Optional)"
+                      value={formData.mobileImages[index] || ""}
+                      onChange={(url) => handleMobileImageChange(index, url)}
+                      placeholder="Same as desktop if empty"
+                    />
                   </div>
                 </div>
               </div>

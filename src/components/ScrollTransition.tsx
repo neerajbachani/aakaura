@@ -194,7 +194,7 @@ export default function ScrollTransition() {
           {/* Nav positioned consistently with hero */}
           <nav className="st-nav">
             <div className="text-center">
-              <p className="font-cormorant tracking-[0.2em] font-medium uppercase">
+              <p className="font-cormorant md:pt-20 md:text-3xl tracking-[0.2em] font-medium uppercase">
                 The आकaura आर्टisans
               </p>
             </div>

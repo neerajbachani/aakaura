@@ -357,7 +357,10 @@ export default function ChakraJourneyTemplate({
   // 1. Structural Effect: Handles the ScrollTrigger pinning and horizontal movement
   // This ONLY re-runs when the product list changes, NOT when modals open/close.
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {});
+
+    mm.add("(min-width: 768px)", () => {
       const horizontalContainer = horizontalContainerRef.current;
       const section3 = section3Ref.current;
 
@@ -385,49 +388,51 @@ export default function ChakraJourneyTemplate({
       horizontalScrollTweenRef.current = horizontalScroll;
 
       // Animate images scaling to full size when panel is centered
-      if (viewportWidth >= 768) {
-        const panels = gsap.utils.toArray(".panel") as HTMLElement[];
-        panels.forEach((panel: HTMLElement, index: number) => {
-          const image = panel.querySelector(".panel-image");
+      const panels = gsap.utils.toArray(".panel") as HTMLElement[];
+      panels.forEach((panel: HTMLElement, index: number) => {
+        const image = panel.querySelector(".panel-image");
 
-          gsap.fromTo(
-            image,
-            {
-              scale: 0.7,
-              borderRadius: "24px",
+        gsap.fromTo(
+          image,
+          {
+            scale: 0.7,
+            borderRadius: "24px",
+          },
+          {
+            scale: 1,
+            borderRadius: "0px",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: horizontalScroll,
+              start: "left center",
+              end: "center center",
+              scrub: 1,
             },
-            {
-              scale: 1,
-              borderRadius: "0px",
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: horizontalScroll,
-                start: "left center",
-                end: "center center",
-                scrub: 1,
-              },
-            },
-          );
-        });
-      }
+          },
+        );
+      });
     });
 
     return () => {
+      mm.revert();
       ctx.revert();
       horizontalScrollTweenRef.current = null;
     };
   }, [filteredProducts]);
 
-  // 2. Content Animation Effect: Handles internal panel animations
+  // 2. Content Animation Effect: Handles internal panel animations (Side Strips)
   // This re-runs when modal state changes to ensure side strips are properly targeted/animated
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {});
+
+    mm.add("(min-width: 768px)", () => {
       // If the main scroll tween isn't ready, we can't link animations to it
       if (!horizontalScrollTweenRef.current) return;
 
       const horizontalScroll = horizontalScrollTweenRef.current;
-
       const panels = gsap.utils.toArray(".panel") as HTMLElement[];
+
       panels.forEach((panel: HTMLElement, index: number) => {
         // Animate side image strip - Fade in LATE (after 80% cross)
         const sideStrip = panel.querySelector(".side-image-strip");
@@ -447,7 +452,10 @@ export default function ChakraJourneyTemplate({
       });
     });
 
-    return () => ctx.revert();
+    return () => {
+      mm.revert();
+      ctx.revert();
+    };
   }, [filteredProducts, expandedCard]);
 
   // Track previous expanded card state
@@ -531,8 +539,16 @@ export default function ChakraJourneyTemplate({
       </div>
 
       {/* Section 3: Horizontal Scrolling Products - NOW AT TOP */}
-      <section ref={section3Ref} className="relative h-screen overflow-hidden">
-        <div ref={horizontalContainerRef} className="flex h-full w-max">
+      {/* Mobile: Use min-h-screen and auto height to allow vertical scroll. Overflow visible. */}
+      {/* Desktop: Still h-screen and overflow-hidden for pinned scroll. */}
+      <section
+        ref={section3Ref}
+        className="relative min-h-screen h-auto md:h-screen overflow-visible md:overflow-hidden"
+      >
+        <div
+          ref={horizontalContainerRef}
+          className="flex flex-col md:flex-row h-auto md:h-full w-full md:w-max"
+        >
           {filteredProducts.map((product, index) => (
             <JourneyProductPanel
               key={product.id || index}

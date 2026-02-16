@@ -111,7 +111,7 @@ export function JourneyProductPanel({
     isMobile && mappedMobileImage ? mappedMobileImage : activeDesktopImage;
 
   return (
-    <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative flex flex-col md:block bg-[#27190b]">
+    <div className="panel w-full md:w-screen h-screen aspect-[16/9] flex-shrink-0 sticky md:relative top-0 flex flex-col md:block bg-[#27190b]">
       {/* Background Image Container */}
       {/* Mobile: Relative 60% height */}
       {/* Desktop: Absolute Full Screen */}
@@ -164,7 +164,7 @@ export function JourneyProductPanel({
         <div
           className={`side-image-strip z-20 flex gap-4 transition-all duration-500
             relative w-full overflow-x-auto px-6 py-4 flex-row items-center justify-center
-            md:absolute md:left-8 md:top-[30%] md:-translate-y-1/2 md:flex-col md:w-auto md:h-auto md:max-h-[60vh] md:p-4 md:overflow-visible no-scrollbar`}
+            md:absolute md:left-8 md:top-[50%] md:-translate-y-1/2 md:flex-col md:w-auto md:h-auto md:max-h-[60vh] md:p-4 md:overflow-visible no-scrollbar`}
           onClick={(e) => e.stopPropagation()}
           style={
             {

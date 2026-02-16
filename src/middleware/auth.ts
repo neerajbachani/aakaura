@@ -59,9 +59,13 @@ export async function verifyUserToken(request: NextRequest) {
   }
 }
 
-export async function authenticate(request: Request) {
-  const nextRequest = new NextRequest(request);
-  const user = await verifyAdminToken(nextRequest);
+export async function authenticate(request: Request | NextRequest) {
+  // In App Router, the request passed to route handlers is compatible with NextRequest
+  // We can cast it, or better yet, just pass it if it has cookies.
+  // The error comes from `new NextRequest(request)` confusing the internal state.
+  
+  const req = request as NextRequest;
+  const user = await verifyAdminToken(req);
   
   if (!user) {
     throw new Error("Unauthorized");
