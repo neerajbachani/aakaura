@@ -81,10 +81,12 @@ export function JourneyProductPanel({
     (activeVariant ? activeVariant.image : product.images?.[0] || "");
 
   return (
-    <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative">
-      {/* Full Screen Background Image - Hidden when modal is open */}
+    <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative flex flex-col md:block bg-[#27190b]">
+      {/* Background Image Container */}
+      {/* Mobile: Relative 60% height */}
+      {/* Desktop: Absolute Full Screen */}
       <div
-        className="panel-image absolute inset-0 overflow-hidden"
+        className="panel-image relative w-full h-[60vh] md:absolute md:inset-0 md:h-full overflow-hidden"
         style={{
           opacity: expandedCard !== null ? 0 : 1,
           transition: "opacity 0.3s ease-out",
@@ -112,14 +114,36 @@ export function JourneyProductPanel({
             background: `linear-gradient(to bottom, rgba(39,25,11,0.1) 0%, rgba(39,25,11,0.6) 100%)`,
           }}
         />
+
+        {/* Top Text - Kept inside image container for mobile to overlay image */}
+        <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
+          <h2
+            className={`text-sm md:text-lg uppercase tracking-[0.2em] md:tracking-[0.3em] font-light text-white text-center md:text-left`}
+          >
+            <span className="max-w-sm block mx-auto md:mx-0">
+              AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION
+            </span>
+          </h2>
+        </div>
       </div>
 
-      {/* Side Image Strip - Only visible when modal is closed */}
+      {/* Side Image Strip */}
+      {/* Mobile: Relative row below image */}
+      {/* Desktop: Absolute column on left */}
       {expandedCard === null && product.images && product.images.length > 1 && (
         <div
-          className="side-image-strip absolute left-8 top-[30%] -translate-y-1/2 z-20 flex flex-col gap-4 max-h-[60vh] no-scrollbar py-4"
+          className={`side-image-strip z-20 flex gap-4 transition-all duration-500
+            relative w-full overflow-x-auto px-6 py-4 flex-row items-center justify-center
+            md:absolute md:left-8 md:top-[30%] md:-translate-y-1/2 md:flex-col md:w-auto md:h-auto md:max-h-[60vh] md:p-4 md:overflow-visible no-scrollbar`}
           onClick={(e) => e.stopPropagation()}
-          style={{ opacity: 0, transform: "translateX(-20px)" }}
+          style={
+            {
+              // On desktop, we want the GSAP animation to control opacity/transform.
+              // On mobile, we might want it visible immediately or animated differently.
+              // For now, let's keep the style inline but override with class utilities if needed.
+              // Note: The parent ChakraJourneyTemplate animates ".side-image-strip".
+            }
+          }
         >
           {product.images.map((img, i) => (
             <button
@@ -128,7 +152,7 @@ export function JourneyProductPanel({
                 e.stopPropagation();
                 setSelectedSideImage(img);
               }}
-              className={`w-12 h-12 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
+              className={`w-16 h-16 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
                 selectedSideImage === img ||
                 (!selectedSideImage && displayImage === img)
                   ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
@@ -145,22 +169,13 @@ export function JourneyProductPanel({
         </div>
       )}
 
-      {/* Top Text */}
-      <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
-        <h2
-          className={`text-sm md:text-lg uppercase tracking-[0.2em] md:tracking-[0.3em] font-light text-white text-center md:text-left`}
-        >
-          <span className="max-w-sm block mx-auto md:mx-0">
-            AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION
-          </span>
-        </h2>
-      </div>
-
       {/* Bottom Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10">
-        <div className="max-w-[1400px] mx-auto px-0 md:px-10">
+      {/* Mobile: Relative below strip */}
+      {/* Desktop: Absolute bottom */}
+      <div className="relative w-full flex-1 flex flex-col justify-center md:block md:absolute md:bottom-0 md:left-0 md:right-0 p-6 md:p-8 z-10">
+        <div className="max-w-[1400px] mx-auto px-0 md:px-10 w-full">
           <div
-            className={`flex flex-col md:flex-row justify-between items-center text-lg md:text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-4 gap-6 md:gap-0`}
+            className={`flex flex-col md:flex-row justify-between items-center text-lg md:text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-0 md:mb-4 gap-6 md:gap-0`}
           >
             {product.variants && product.variants.length > 0 ? (
               <>
