@@ -74,11 +74,30 @@ export function JourneyProductPanel({
     }
   }, [expandedCard, index, activeVariant, product.images, setActiveBgImage]);
 
-  // Priority: selectedSideImage > customMainImage > activeVariant.image > product.images[0]
+  // Track window width for mobile check
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Priority: selectedSideImage > customMainImage > (Mobile: mobileImage > activeVariant.image) > activeVariant.image > product.images[0]
   const displayImage =
     selectedSideImage ||
     customMainImage ||
-    (activeVariant ? activeVariant.image : product.images?.[0] || "");
+    (isMobile && product.mobileImage
+      ? product.mobileImage
+      : activeVariant
+        ? activeVariant.image
+        : product.images?.[0] || "");
 
   return (
     <div className="panel w-screen h-screen aspect-[16/9] flex-shrink-0 relative flex flex-col md:block bg-[#27190b]">

@@ -48,6 +48,7 @@ export default function ProductForm({
     whatItsFor: string;
     features: string[];
     images: string[];
+    mobileImage: string;
     variants: Variant[];
     step: number;
     category: string;
@@ -70,6 +71,7 @@ export default function ProductForm({
     whatItsFor: "",
     features: [""],
     images: [""],
+    mobileImage: "",
     variants: [],
     step: 1,
     category: "",
@@ -110,6 +112,7 @@ export default function ProductForm({
           initialData.images && initialData.images.length > 0
             ? initialData.images
             : [""],
+        mobileImage: initialData.mobileImage || "",
         variants: initialData.variants || [],
         step: initialData.step || 1,
         category: initialData.category || "",
@@ -240,6 +243,7 @@ export default function ProductForm({
       ...formData,
       features: formData.features.filter((f) => f.trim() !== ""),
       images: formData.images.filter((img) => img.trim() !== ""),
+      mobileImage: formData.mobileImage.trim() || undefined,
       specifications: Object.keys(specsObj).length > 0 ? specsObj : undefined,
       category: formData.category.trim() || undefined,
       symbolism: formData.symbolism.trim() || undefined,
@@ -718,6 +722,29 @@ export default function ProductForm({
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Mobile Image (Optional) */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Mobile Image URL (Optional)
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <PhotoIcon className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              value={formData.mobileImage}
+              onChange={(e) => handleChange("mobileImage", e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              placeholder="e.g. /images/product-mobile.jpg (Uses main image if empty)"
+            />
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            If set, this image will be used on mobile devices instead of the
+            main image.
+          </p>
         </div>
 
         {/* Variants (Optional) */}
