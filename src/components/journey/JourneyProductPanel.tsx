@@ -86,7 +86,7 @@ export function JourneyProductPanel({
       {/* Mobile: Relative 60% height */}
       {/* Desktop: Absolute Full Screen */}
       <div
-        className="panel-image relative w-full h-[60vh] md:absolute md:inset-0 md:h-full overflow-hidden"
+        className="panel-image relative w-full h-[70vh] md:absolute md:inset-0 md:h-full overflow-hidden"
         style={{
           opacity: expandedCard !== null ? 0 : 1,
           transition: "opacity 0.3s ease-out",
@@ -175,7 +175,7 @@ export function JourneyProductPanel({
       <div className="relative w-full flex-1 flex flex-col justify-center md:block md:absolute md:bottom-0 md:left-0 md:right-0 p-6 md:p-8 z-10">
         <div className="max-w-[1400px] mx-auto px-0 md:px-10 w-full">
           <div
-            className={`flex flex-col md:flex-row justify-between items-center text-lg md:text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-0 md:mb-4 gap-6 md:gap-0`}
+            className={`flex flex-col md:flex-row justify-between items-center text-base md:text-xl font-cormorant uppercase tracking-[0.2em] text-white mb-0 md:mb-4 gap-6 md:gap-0`}
           >
             {product.variants && product.variants.length > 0 ? (
               <>
@@ -205,7 +205,7 @@ export function JourneyProductPanel({
                 </div>
 
                 {/* Product Name - Slot 2 */}
-                <h2 className="text-2xl md:text-xl text-center order-1 md:order-2">
+                <h2 className="text-lg md:text-xl text-center order-1 md:order-2">
                   {product.name.toUpperCase()}
                 </h2>
 
@@ -220,7 +220,7 @@ export function JourneyProductPanel({
                     console.log("   Setting expandedCard to:", index);
                     setExpandedCard(index);
                   }}
-                  className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-3"
+                  className="hover:opacity-70 text-lg md:text-2xl transition-opacity border-b border-white/50 pb-1 order-3"
                 >
                   VIEW DESCRIPTION
                 </button>
@@ -228,7 +228,7 @@ export function JourneyProductPanel({
             ) : (
               <>
                 {/* Product Name (Left) - Slot 1 */}
-                <h2 className="text-2xl md:text-xl text-center md:text-left order-1">
+                <h2 className="text-lg md:text-xl text-center md:text-left order-1">
                   {product.name.toUpperCase()}
                 </h2>
 

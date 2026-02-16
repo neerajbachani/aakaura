@@ -385,29 +385,31 @@ export default function ChakraJourneyTemplate({
       horizontalScrollTweenRef.current = horizontalScroll;
 
       // Animate images scaling to full size when panel is centered
-      const panels = gsap.utils.toArray(".panel") as HTMLElement[];
-      panels.forEach((panel: HTMLElement, index: number) => {
-        const image = panel.querySelector(".panel-image");
+      if (viewportWidth >= 768) {
+        const panels = gsap.utils.toArray(".panel") as HTMLElement[];
+        panels.forEach((panel: HTMLElement, index: number) => {
+          const image = panel.querySelector(".panel-image");
 
-        gsap.fromTo(
-          image,
-          {
-            scale: 0.7,
-            borderRadius: "24px",
-          },
-          {
-            scale: 1,
-            borderRadius: "0px",
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: horizontalScroll,
-              start: "left center",
-              end: "center center",
-              scrub: 1,
+          gsap.fromTo(
+            image,
+            {
+              scale: 0.7,
+              borderRadius: "24px",
             },
-          },
-        );
-      });
+            {
+              scale: 1,
+              borderRadius: "0px",
+              scrollTrigger: {
+                trigger: panel,
+                containerAnimation: horizontalScroll,
+                start: "left center",
+                end: "center center",
+                scrub: 1,
+              },
+            },
+          );
+        });
+      }
     });
 
     return () => {

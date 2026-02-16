@@ -311,7 +311,7 @@ export default function BannerImage() {
                     {hoveredChakra.name} Chakra
                   </h3> */}
                 <p
-                  className="text-[#bd9958] text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
+                  className="text-[#bd9958] text-xs md:text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
                   style={{ lineHeight: "2.8" }}
                 >
                   {hoveredChakra.info}
