@@ -61,7 +61,7 @@ export default function AboutHeader() {
 
                 <Link
                   className="hover:text-[#FFD700] group mt-10 sm:mt-12 block max-w-xl pb-2"
-                  href="/services"
+                  href="/about"
                 >
                   <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-3 h-[1px] w-full transition-colors duration-300" />
                   <div className="flex items-start sm:items-center justify-between gap-4">
@@ -78,8 +78,8 @@ export default function AboutHeader() {
                 </Link>
               </div>
 
-              <div className="mt-16 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
-                <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg lg:text-xl">
+              <div className=" mt-10 sm:mt-16 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg lg:text-xl">
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/about" className="block w-full">
                       About Us

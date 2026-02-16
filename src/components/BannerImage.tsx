@@ -125,7 +125,7 @@ function ChakraCircle({
       >
         {/* Glow effect behind SVG - always visible */}
         <div
-          className="absolute inset-0 rounded-full transition-all duration-500 blur-[50px] sm:blur-[40px]"
+          className="absolute inset-0 rounded-full transition-all duration-500 blur-[75px] sm:blur-[40px]"
           style={{
             backgroundColor: chakra.color,
             opacity: 0.8,

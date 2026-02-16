@@ -193,14 +193,10 @@ export default function ScrollTransition() {
         <section className="sticky-hero ">
           {/* Nav positioned consistently with hero */}
           <nav className="st-nav">
-            <div className="nav-col">
-              <p>C/ G191125</p>
-            </div>
-            <div className="nav-col lg:text-2xl">
-              <p>Title: The आकaura आर्टisans</p>
-            </div>
-            <div className="nav-col">
-              <p>Experiment_507</p>
+            <div className="text-center">
+              <p className="font-cormorant tracking-[0.2em] font-medium uppercase">
+                The आकaura आर्टisans
+              </p>
             </div>
           </nav>
 
