@@ -102,7 +102,7 @@ function ChakraCircle({
     <div className="flex flex-col items-center gap-2 relative group">
       {/* Sanskrit Name - Above Icon */}
       <p
-        className={`text-2xl font-light italic tracking-wide transition-opacity duration-300 ${
+        className={`text-lg md:text-2xl font-light italic tracking-wide transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`}
         style={{ color: chakra.color }}
@@ -111,7 +111,7 @@ function ChakraCircle({
       </p>
 
       <div
-        className="relative w-[5.8rem] h-[5.8rem] flex items-center justify-center cursor-pointer"
+        className="relative w-12 h-12 sm:w-[5.8rem] sm:h-[5.8rem] flex items-center justify-center cursor-pointer"
         onMouseEnter={() => {
           setIsHovered(true);
           onHover(chakra);
@@ -124,10 +124,9 @@ function ChakraCircle({
       >
         {/* Glow effect behind SVG - always visible */}
         <div
-          className="absolute inset-0 rounded-full transition-all duration-500"
+          className="absolute inset-0 rounded-full transition-all duration-500 blur-[30px] sm:blur-[40px]"
           style={{
             backgroundColor: chakra.color,
-            filter: "blur(40px)",
             opacity: 0.8,
             transform: isHovered ? "scale(1.2)" : "scale(1.4)",
           }}
@@ -135,17 +134,16 @@ function ChakraCircle({
 
         {/* Additional hover glow */}
         <div
-          className="absolute inset-0 rounded-full transition-all duration-500"
+          className="absolute inset-0 rounded-full transition-all duration-500 blur-[30px] md:blur-[60px]"
           style={{
             backgroundColor: chakra.color,
-            filter: "blur(60px)",
             opacity: isHovered ? 0.6 : 0,
             transform: "scale(1.5)",
           }}
         />
 
         <div
-          className="relative w-24 h-24 transition-transform duration-500 group-hover:scale-110"
+          className="relative w-14 h-14 md:w-24 md:h-24 transition-transform duration-500 group-hover:scale-110"
           style={{ filter: "brightness(1.7) contrast(1.8)" }}
         >
           <Image
@@ -157,7 +155,7 @@ function ChakraCircle({
         </div>
       </div>
       <p
-        className="text-xl leading-relaxed font-medium "
+        className="text-sm md:text-xl leading-relaxed font-medium"
         style={{ color: chakra.color }}
       >
         {chakra.name}
