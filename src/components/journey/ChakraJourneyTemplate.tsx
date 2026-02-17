@@ -496,6 +496,59 @@ export default function ChakraJourneyTemplate({
     };
   }, [expandedCard, lenis]);
 
+  // Function to sync background scroll position
+  const scrollToProduct = (index: number) => {
+    if (!lenis || index === null) return;
+
+    const isDesktop = window.innerWidth >= 768;
+
+    // Start lenis if it was stopped
+    lenis.start();
+    document.body.style.overflow = "";
+
+    if (isDesktop && section3Ref.current) {
+      // Desktop: Scroll to the corresponding point in the horizontal scroll timeline
+      // We assume the pin spacer/trigger starts where section3 starts.
+      // Since section3 might be pinned, we need to be careful.
+      // safer to use the ScrollTrigger instance if possible, but calculating based on strict layout logic:
+      // Start of pin + (index * viewpointHeight/Width equivalent)
+
+      // Get the ScrollTrigger instance for this section if available
+      const scrollTrigger = (horizontalScrollTweenRef.current as any)
+        ?.scrollTrigger;
+
+      if (scrollTrigger) {
+        const start = scrollTrigger.start;
+        const itemScrollWidth = window.innerWidth; // 100vw per item scroll
+        const targetScroll = start + index * itemScrollWidth;
+
+        lenis.scrollTo(targetScroll, { immediate: true });
+
+        // Force ScrollTrigger to update immediately to avoid scrub lag
+        // explicitly setting progress on the animation
+        // scrollTrigger.animation?.progress(index / (filteredProducts.length - 1)); // This might conflict with scroll position
+        // Best to just let lenis scroll. If immediate, it jumps.
+      } else {
+        // Fallback manual calc
+        // Note: offsetTop might be unreliable if pinned.
+      }
+    } else if (horizontalContainerRef.current) {
+      // Mobile: Scroll to the specific panel element
+      const panels = horizontalContainerRef.current.children;
+      const targetPanel = panels[index] as HTMLElement;
+      if (targetPanel) {
+        lenis.scrollTo(targetPanel, { immediate: true });
+      }
+    }
+  };
+
+  const handleCloseModal = () => {
+    if (expandedCard !== null) {
+      scrollToProduct(expandedCard);
+    }
+    setExpandedCard(null);
+  };
+
   return (
     <div className="min-h-screen bg-[#27190b]">
       {/* Revealer overlay for page entrance */}
@@ -587,9 +640,7 @@ export default function ChakraJourneyTemplate({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  onClick={() => {
-                    setExpandedCard(null);
-                  }}
+                  onClick={handleCloseModal}
                   className="fixed inset-0 z-[999]"
                   style={{
                     backgroundColor: "rgba(0, 0, 0, 0.4)", // Restored standard backdrop
@@ -613,7 +664,7 @@ export default function ChakraJourneyTemplate({
                 >
                   {/* Close Button */}
                   <button
-                    onClick={() => setExpandedCard(null)}
+                    onClick={handleCloseModal}
                     className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/10 transition-colors z-50"
                   >
                     <XMarkIcon className="w-8 h-8 text-[#f4f1ea]" />
@@ -697,35 +748,71 @@ export default function ChakraJourneyTemplate({
                               Specifications
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {product.specifications &&
-                                Object.entries(product.specifications)
-                                  .filter(([_, value]) => value)
-                                  .map(([key, value]) => {
-                                    // Full-width keys for better layout
-                                    const fullWidthKeys = [
-                                      "Product Name",
-                                      "Material",
-                                      "material",
-                                      "Ideal For",
-                                      "color",
-                                      "Color",
-                                    ];
-                                    const isFullWidth =
-                                      fullWidthKeys.includes(key);
-                                    return (
-                                      <div
-                                        key={key}
-                                        className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
-                                      >
-                                        <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
-                                          {key}
-                                        </div>
-                                        <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
-                                          {value}
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
+                              {product.specifications && (
+                                <>
+                                  {Array.isArray(product.specifications)
+                                    ? // New Array Format - Preserves Order
+                                      product.specifications.map(
+                                        (spec, index) => {
+                                          // Full-width keys for better layout
+                                          const fullWidthKeys = [
+                                            "Product Name",
+                                            "Material",
+                                            "material",
+                                            "Ideal For",
+                                            "color",
+                                            "Color",
+                                            "Product Type",
+                                          ];
+                                          const isFullWidth =
+                                            fullWidthKeys.includes(spec.key);
+                                          return (
+                                            <div
+                                              key={`${spec.key}-${index}`}
+                                              className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
+                                            >
+                                              <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
+                                                {spec.key}
+                                              </div>
+                                              <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
+                                                {spec.value}
+                                              </div>
+                                            </div>
+                                          );
+                                        },
+                                      )
+                                    : // Legacy Object Format - Fallback
+                                      Object.entries(product.specifications)
+                                        .filter(([_, value]) => value)
+                                        .map(([key, value]) => {
+                                          // Full-width keys for better layout
+                                          const fullWidthKeys = [
+                                            "Product Name",
+                                            "Material",
+                                            "material",
+                                            "Ideal For",
+                                            "color",
+                                            "Color",
+                                            "Product Type",
+                                          ];
+                                          const isFullWidth =
+                                            fullWidthKeys.includes(key);
+                                          return (
+                                            <div
+                                              key={key}
+                                              className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
+                                            >
+                                              <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
+                                                {key}
+                                              </div>
+                                              <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
+                                                {value as string}
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                </>
+                              )}
                               {product.careInstructions && (
                                 <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
                                   <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
@@ -1074,7 +1161,7 @@ export default function ChakraJourneyTemplate({
                       </div>
 
                       {/* Suggested Combo */}
-                      <div className="py-16 mt-8">
+                      {/* <div className="py-16 mt-8">
                         <div className="bg-[#f4f1ea] rounded-[24px] p-8 text-[#27190b] relative overflow-hidden">
                           <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
                             <div className="w-full h-full bg-gradient-to-l from-[#27190b] to-transparent" />
@@ -1123,7 +1210,7 @@ export default function ChakraJourneyTemplate({
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </motion.div>

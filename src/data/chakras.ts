@@ -30,7 +30,7 @@ export interface JourneyProduct {
     packaging?: string;
     // Allow additional string properties for bonsai-specific or other dynamic fields
     [key: string]: string | undefined;
-  };
+  } | { key: string; value: string }[];
   careInstructions?: string;
   idealFor?: string;
   symbolism?: string;

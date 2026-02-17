@@ -6,6 +6,7 @@ import {
   PlusIcon,
   TrashIcon,
   PhotoIcon,
+  Bars3Icon,
 } from "@heroicons/react/24/outline";
 import SingleImageUpload from "./SingleImageUpload";
 import { useRouter } from "next/navigation";
@@ -89,12 +90,19 @@ export default function ProductForm({
   // Initialize form with product data
   useEffect(() => {
     if (mode === "edit" && initialData) {
-      // Convert specifications object to key-value array for editing
-      const specsArray = initialData.specifications
-        ? Object.entries(initialData.specifications)
-            .filter(([_, v]) => v)
-            .map(([key, value]) => ({ key, value: String(value) }))
-        : [{ key: "", value: "" }];
+      // Handle specifications: check if it's already an array (new format) or object (old format)
+      let specsArray: { key: string; value: string }[] = [];
+
+      if (Array.isArray(initialData.specifications)) {
+        specsArray = initialData.specifications;
+      } else if (initialData.specifications) {
+        // Convert legacy object format to array
+        specsArray = Object.entries(initialData.specifications)
+          .filter(([_, v]) => v)
+          .map(([key, value]) => ({ key, value: String(value) }));
+      } else {
+        specsArray = [{ key: "", value: "" }];
+      }
 
       setFormData({
         id: initialData.id || "",
@@ -238,6 +246,8 @@ export default function ProductForm({
     setFormData((prev) => ({ ...prev, variants: newVariants }));
   };
 
+  const [draggedSpecIndex, setDraggedSpecIndex] = useState<number | null>(null);
+
   const handleSpecChange = (
     index: number,
     field: "key" | "value",
@@ -263,16 +273,37 @@ export default function ProductForm({
     }));
   };
 
+  // Drag and Drop Handlers
+  const handleDragStart = (index: number) => {
+    setDraggedSpecIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault(); // Necessary to allow dropping
+    if (draggedSpecIndex === null || draggedSpecIndex === index) return;
+
+    // Optional: Visual feedback logic could go here
+    // For simple reordering, we can just allow the drop
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedSpecIndex === null || draggedSpecIndex === dropIndex) return;
+
+    const newSpecs = [...formData.specifications];
+    const [draggedItem] = newSpecs.splice(draggedSpecIndex, 1);
+    newSpecs.splice(dropIndex, 0, draggedItem);
+
+    setFormData((prev) => ({ ...prev, specifications: newSpecs }));
+    setDraggedSpecIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedSpecIndex(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Convert specifications array back to object
-    const specsObj: Record<string, string> = {};
-    formData.specifications.forEach(({ key, value }) => {
-      if (key.trim() && value.trim()) {
-        specsObj[key.trim()] = value.trim();
-      }
-    });
 
     // Clean up empty strings from arrays
     const cleanedData = {
@@ -280,7 +311,13 @@ export default function ProductForm({
       features: formData.features.filter((f) => f.trim() !== ""),
       images: formData.images.filter((img) => img.trim() !== ""),
       mobileImages: formData.mobileImages ? formData.mobileImages : undefined,
-      specifications: Object.keys(specsObj).length > 0 ? specsObj : undefined,
+      specifications:
+        formData.specifications.length > 0 &&
+        formData.specifications.some((s) => s.key.trim() && s.value.trim())
+          ? formData.specifications.filter(
+              (s) => s.key.trim() && s.value.trim(),
+            )
+          : undefined,
       category: formData.category.trim() || undefined,
       symbolism: formData.symbolism.trim() || undefined,
       languageEngraving: formData.languageEngraving.trim() || undefined,
@@ -571,7 +608,25 @@ export default function ProductForm({
           </div>
           <div className="space-y-3">
             {formData.specifications.map((spec, index) => (
-              <div key={index} className="flex gap-3 items-start">
+              <div
+                key={index}
+                className={`flex gap-3 items-start transition-all duration-200 ${
+                  draggedSpecIndex === index ? "opacity-50 scale-[0.98]" : ""
+                }`}
+                draggable
+                onDragStart={() => handleDragStart(index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
+                onDragEnd={handleDragEnd}
+              >
+                {/* Drag Handle */}
+                <div
+                  className="mt-2 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-1 rounded hover:bg-gray-100"
+                  title="Drag to reorder"
+                >
+                  <Bars3Icon className="w-5 h-5" />
+                </div>
+
                 <div className="w-1/3">
                   <input
                     type="text"
