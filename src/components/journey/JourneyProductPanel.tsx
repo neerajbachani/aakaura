@@ -175,27 +175,36 @@ export function JourneyProductPanel({
             }
           }
         >
-          {product.images.map((img, i) => (
-            <button
-              key={i}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedSideImage(img);
-              }}
-              className={`w-16 h-16 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
-                selectedSideImage === img ||
-                (!selectedSideImage && displayImage === img)
-                  ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
-                  : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
-              }`}
-            >
-              <img
-                src={img}
-                alt={`View ${i + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
+          {product.images.map((img, i) => {
+            // Determine display image for this thumbnail
+            // If mobile & has mobile image at this index, use it. Else use desktop image.
+            const thumbSrc =
+              isMobile && product.mobileImages?.[i]
+                ? product.mobileImages[i]
+                : img;
+
+            return (
+              <button
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSideImage(img);
+                }}
+                className={`w-16 h-16 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
+                  selectedSideImage === img ||
+                  (!selectedSideImage && displayImage === img) // Correct comparison logic needs to be careful here
+                    ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
+                    : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
+                }`}
+              >
+                <img
+                  src={thumbSrc}
+                  alt={`View ${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            );
+          })}
         </div>
       )}
 

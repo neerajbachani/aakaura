@@ -273,7 +273,7 @@ export default function ProductForm({
     }));
   };
 
-  // Drag and Drop Handlers
+  // Drag and Drop Handlers for Specifications
   const handleDragStart = (index: number) => {
     setDraggedSpecIndex(index);
   };
@@ -281,9 +281,6 @@ export default function ProductForm({
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault(); // Necessary to allow dropping
     if (draggedSpecIndex === null || draggedSpecIndex === index) return;
-
-    // Optional: Visual feedback logic could go here
-    // For simple reordering, we can just allow the drop
   };
 
   const handleDrop = (e: React.DragEvent, dropIndex: number) => {
@@ -300,6 +297,55 @@ export default function ProductForm({
 
   const handleDragEnd = () => {
     setDraggedSpecIndex(null);
+  };
+
+  // Drag and Drop Handlers for Images
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
+    null,
+  );
+
+  const handleImageDragStart = (index: number) => {
+    setDraggedImageIndex(index);
+  };
+
+  const handleImageDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedImageIndex === null || draggedImageIndex === index) return;
+  };
+
+  const handleImageDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedImageIndex === null || draggedImageIndex === dropIndex) return;
+
+    setFormData((prev) => {
+      const newImages = [...prev.images];
+      const newMobileImages = [...prev.mobileImages];
+
+      // Reorder Images
+      const [draggedImage] = newImages.splice(draggedImageIndex, 1);
+      newImages.splice(dropIndex, 0, draggedImage);
+
+      // Reorder Mobile Images (Keep in sync!)
+      // Ensure mobile images array is long enough (it should be, but safety check)
+      while (newMobileImages.length < prev.images.length) {
+        newMobileImages.push("");
+      }
+
+      const [draggedMobileImage] = newMobileImages.splice(draggedImageIndex, 1);
+      newMobileImages.splice(dropIndex, 0, draggedMobileImage);
+
+      return {
+        ...prev,
+        images: newImages,
+        mobileImages: newMobileImages,
+      };
+    });
+
+    setDraggedImageIndex(null);
+  };
+
+  const handleImageDragEnd = () => {
+    setDraggedImageIndex(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -788,12 +834,28 @@ export default function ProductForm({
             {formData.images.map((image, index) => (
               <div
                 key={index}
-                className="p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-3"
+                className={`p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-3 transition-all duration-200 ${
+                  draggedImageIndex === index ? "opacity-50 scale-[0.98]" : ""
+                }`}
+                draggable
+                onDragStart={() => handleImageDragStart(index)}
+                onDragOver={(e) => handleImageDragOver(e, index)}
+                onDrop={(e) => handleImageDrop(e, index)}
+                onDragEnd={handleImageDragEnd}
               >
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Image {index + 1}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {/* Drag Handle */}
+                    <div
+                      className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-1 rounded hover:bg-gray-100"
+                      title="Drag to reorder"
+                    >
+                      <Bars3Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Image {index + 1}
+                    </span>
+                  </div>
                   {formData.images.length > 1 && (
                     <button
                       type="button"
