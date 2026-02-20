@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Combo } from "@/types/Combo";
-import { getAllCombos } from "@/lib/api";
+import { prisma } from "@/lib/prisma";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 interface RelatedCombosProps {
@@ -12,11 +12,21 @@ interface RelatedCombosProps {
 export default async function RelatedCombos({
   chakraSlug,
 }: RelatedCombosProps) {
-  // Fetch combos related to this chakra
-  const combos = await getAllCombos({ chakra: chakraSlug });
-  console.log(
-    `RelatedCombos: Fetching for ${chakraSlug}, found ${combos?.length || 0}`,
-  );
+  // Query Prisma directly — avoids HTTP self-fetch that fails on Vercel SSR
+  const db = prisma as any;
+  const combos: Combo[] = await db.combo.findMany({
+    where: {
+      chakras: { has: chakraSlug },
+    },
+    include: {
+      products: {
+        include: { product: true },
+        orderBy: { order: "asc" },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 6,
+  });
 
   if (!combos || combos.length === 0) {
     return null;
