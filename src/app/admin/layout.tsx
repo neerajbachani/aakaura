@@ -5,6 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import BackButton from "@/components/ui/BackButton";
 
+import AdminQueryProvider from "@/providers/AdminQueryProvider";
+
 export default function AdminLayout({
   children,
 }: {
@@ -22,7 +24,7 @@ export default function AdminLayout({
   }, [router, pathname]);
   // Skip auth check if we're already on the login page
   if (pathname === "/admin/login") {
-    return <>{children}</>;
+    return <AdminQueryProvider>{children}</AdminQueryProvider>;
   }
 
   if (isLoading) {
@@ -34,9 +36,11 @@ export default function AdminLayout({
   }
 
   return (
-    <div>
-      <div className="px-8 py-4">{showBackButton && <BackButton />}</div>
-      {children}
-    </div>
+    <AdminQueryProvider>
+      <div>
+        <div className="px-8 py-4">{showBackButton && <BackButton />}</div>
+        {children}
+      </div>
+    </AdminQueryProvider>
   );
 }

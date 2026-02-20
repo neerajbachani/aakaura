@@ -1,4 +1,5 @@
 "use client";
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import {
   FaNewspaper,
@@ -9,6 +10,7 @@ import {
   FaMapSigns,
   FaClipboardList,
   FaCog,
+  FaLayerGroup,
 } from "react-icons/fa";
 
 interface AdminTabsProps {
@@ -21,7 +23,9 @@ interface AdminTabsProps {
     | "analytics"
     | "journeys"
     | "waitlist"
-    | "products-settings";
+    | "products-settings"
+    | "combos"
+    | "quiz";
 }
 
 export default function AdminTabs({ activeTab }: AdminTabsProps) {
@@ -73,6 +77,18 @@ export default function AdminTabs({ activeTab }: AdminTabsProps) {
       href: "/admin/products-settings",
       icon: FaCog,
       active: activeTab === "products-settings",
+    },
+    {
+      name: "Combos",
+      href: "/admin/combos",
+      icon: FaLayerGroup,
+      active: activeTab === "combos",
+    },
+    {
+      name: "Quiz",
+      href: "/admin/quiz",
+      icon: QuestionMarkCircleIcon,
+      active: activeTab === "quiz",
     },
     // {
     //   name: "Analytics",

@@ -45,6 +45,7 @@ model Product {
   variations  ProductVariation[]
   cartItems   CartItem[]
   orderItems  OrderItem[]
+  comboProducts ComboProduct[]
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 }
@@ -59,6 +60,7 @@ model ProductVariation {
   product    Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
   cartItems  CartItem[]
   orderItems OrderItem[]
+  comboProducts ComboProduct[]
   createdAt  DateTime   @default(now())
 }
 
@@ -249,4 +251,63 @@ model WaitlistItem {
   @@unique([userId, journeySlug, productId, clientType])
   @@index([userId])
   @@index([journeySlug])
+}
+
+model Combo {
+  id            String         @id @default(uuid())
+  slug          String         @unique
+  name          String
+  tier          ComboTier
+  tagline       String
+  description   String
+  chakras       String[]       // Array of chakra slugs
+  images        String[]
+  externalLinks Json?          // Array of { label, url }
+  products      ComboProduct[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model ComboProduct {
+  id          String            @id @default(uuid())
+  comboId     String
+  combo       Combo             @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variationId String?
+  variation   ProductVariation? @relation(fields: [variationId], references: [id], onDelete: Cascade)
+  quantity    Int               @default(1)
+  order       Int               @default(0)
+  detail      String?           // Custom text like "(Root, Sacral)"
+  
+  @@index([comboId])
+  @@index([productId])
+}
+
+enum ComboTier {
+  ENTRY
+  CORE
+  PREMIUM
+}
+
+model QuizQuestion {
+  id          String       @id @default(uuid())
+  question    String
+  multiSelect Boolean      @default(false)
+  order       Int          @default(0)
+  answers     QuizAnswer[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model QuizAnswer {
+  id         String       @id @default(uuid())
+  text       String
+  chakra     String       // ChakraSlug
+  state      String       // EnergyState
+  weight     Float        @default(1.0)
+  questionId String
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }

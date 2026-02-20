@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChakraData, JourneyProduct } from "@/data/chakras";
+import {
+  ArrowDownTrayIcon,
+  ArrowLongUpIcon,
+  ArrowRightStartOnRectangleIcon,
+  ArrowUpCircleIcon,
+  ArrowUpIcon,
+  ArrowUpRightIcon,
+} from "@heroicons/react/24/outline";
 
 type ClientType = "soul-luxury" | "energy-curious";
 
@@ -111,7 +119,7 @@ export function JourneyProductPanel({
     isMobile && mappedMobileImage ? mappedMobileImage : activeDesktopImage;
 
   return (
-    <div className="panel w-full md:w-screen h-screen aspect-[16/9] flex-shrink-0 sticky md:relative top-0 flex flex-col md:block bg-[#27190b]">
+    <div className="panel w-full md:w-screen h-screen aspect-[16/9] flex-shrink-0 sticky md:relative top-0 flex flex-col md:block bg-[#27190b] mb-[20vh] md:mb-0">
       {/* Background Image Container */}
       {/* Mobile: Relative 60% height */}
       {/* Desktop: Absolute Full Screen */}
@@ -146,7 +154,7 @@ export function JourneyProductPanel({
         />
 
         {/* Top Text - Kept inside image container for mobile to overlay image */}
-        <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
+        <div className="absolute bottom-0 md:top-0 left-0 right-0 p-6 md:p-8">
           <h2
             className={`text-sm md:text-lg uppercase tracking-[0.2em] md:tracking-[0.3em] font-light text-white text-center md:text-left`}
           >
@@ -261,7 +269,10 @@ export function JourneyProductPanel({
                   }}
                   className="hover:opacity-70 text-lg md:text-2xl transition-opacity border-b border-white/50 pb-1 order-3"
                 >
-                  VIEW DESCRIPTION
+                  VIEW DESCRIPTION{" "}
+                  <span>
+                    <ArrowUpCircleIcon className="w-4 h-4" />
+                  </span>
                 </button>
               </>
             ) : (
@@ -281,9 +292,10 @@ export function JourneyProductPanel({
                     e.stopPropagation();
                     setExpandedCard(index);
                   }}
-                  className="hover:opacity-70 transition-opacity border-b border-white/50 pb-1 order-2"
+                  className="hover:opacity-70 flex items-center gap-2 transition-opacity border-b border-white/50 mb-4 order-2"
                 >
                   VIEW DESCRIPTION
+                  <ArrowUpRightIcon className="w-4 h-4" />
                 </button>
               </>
             )}

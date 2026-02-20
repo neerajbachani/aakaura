@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useLenis } from "@/context/LenisContext";
+import Link from "next/link";
 import { useAuthStatus } from "@/hooks/useAuth";
 import {
   useAddToWaitlist,
@@ -23,6 +24,7 @@ if (typeof window !== "undefined") {
 
 interface ChakraJourneyTemplateProps {
   chakra: ChakraData;
+  relatedCombos?: React.ReactNode;
 }
 
 type ClientType = "soul-luxury" | "energy-curious";
@@ -272,6 +274,7 @@ const FormattedContent: React.FC<FormattedContentProps> = ({ content }) => {
 
 export default function ChakraJourneyTemplate({
   chakra,
+  relatedCombos,
 }: ChakraJourneyTemplateProps) {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [clientType, setClientType] = useState<ClientType>("soul-luxury");
@@ -351,6 +354,31 @@ export default function ChakraJourneyTemplate({
     return currentProducts.filter((p) => p.category === activeCategory);
   }, [currentProducts, activeCategory]);
 
+  // Handle URL hash or query param for initial scroll
+  useEffect(() => {
+    // Check for product ID in URL params (e.g. ?product=123)
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("product");
+
+    if (productId && filteredProducts.length > 0) {
+      const index = filteredProducts.findIndex((p) => p.id === productId);
+      if (index !== -1) {
+        // Just set expanded card, the existing useEffects will handle scroll/lock
+        // Small timeout to allow layout to settle
+        setTimeout(() => {
+          // Check for autoOpen param (default true)
+          const autoOpen = params.get("autoOpen") !== "false";
+
+          // Only auto-open modal if allowed AND NOT on combos page
+          if (autoOpen && chakra.slug !== "combos") {
+            setExpandedCard(index);
+          }
+          scrollToProduct(index);
+        }, 500);
+      }
+    }
+  }, [filteredProducts, chakra.slug]); // Re-run when products load
+
   // Store the horizontal scroll tween to share between effects
   const horizontalScrollTweenRef = useRef<gsap.core.Tween | null>(null);
 
@@ -375,13 +403,13 @@ export default function ChakraJourneyTemplate({
 
       // Create horizontal scroll animation and store in ref
       const horizontalScroll = gsap.to(horizontalContainer, {
-        x: () => -(scrollWidth - viewportWidth),
+        x: () => -(horizontalContainer.scrollWidth - window.innerWidth),
         ease: "none",
         scrollTrigger: {
           trigger: section3,
           pin: true,
           scrub: 1,
-          end: () => `+=${scrollWidth - viewportWidth}`,
+          end: () => `+=${horizontalContainer.scrollWidth - window.innerWidth}`,
           invalidateOnRefresh: true,
         },
       });
@@ -744,96 +772,102 @@ export default function ChakraJourneyTemplate({
                           {/* Premium Detailing */}
                           {/* Image Gallery */}
                           <div className="text-[#f4f1ea]">
-                            <h3 className="text-base uppercase tracking-widest font-bold mb-6 opacity-60">
-                              Specifications
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {product.specifications && (
-                                <>
-                                  {Array.isArray(product.specifications)
-                                    ? // New Array Format - Preserves Order
-                                      product.specifications.map(
-                                        (spec, index) => {
-                                          // Full-width keys for better layout
-                                          const fullWidthKeys = [
-                                            "Product Name",
-                                            "Material",
-                                            "material",
-                                            "Ideal For",
-                                            "color",
-                                            "Color",
-                                            "Product Type",
-                                          ];
-                                          const isFullWidth =
-                                            fullWidthKeys.includes(spec.key);
-                                          return (
-                                            <div
-                                              key={`${spec.key}-${index}`}
-                                              className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
-                                            >
-                                              <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
-                                                {spec.key}
-                                              </div>
-                                              <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
-                                                {spec.value}
-                                              </div>
-                                            </div>
-                                          );
-                                        },
-                                      )
-                                    : // Legacy Object Format - Fallback
-                                      Object.entries(product.specifications)
-                                        .filter(([_, value]) => value)
-                                        .map(([key, value]) => {
-                                          // Full-width keys for better layout
-                                          const fullWidthKeys = [
-                                            "Product Name",
-                                            "Material",
-                                            "material",
-                                            "Ideal For",
-                                            "color",
-                                            "Color",
-                                            "Product Type",
-                                          ];
-                                          const isFullWidth =
-                                            fullWidthKeys.includes(key);
-                                          return (
-                                            <div
-                                              key={key}
-                                              className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
-                                            >
-                                              <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
-                                                {key}
-                                              </div>
-                                              <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
-                                                {value as string}
-                                              </div>
-                                            </div>
-                                          );
-                                        })}
-                                </>
-                              )}
-                              {product.careInstructions && (
-                                <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
-                                  <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
-                                    Care Instructions
-                                  </div>
-                                  <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-relaxed">
-                                    {product.careInstructions}
-                                  </div>
+                            {chakra.slug !== "combos" && (
+                              <>
+                                <h3 className="text-base uppercase tracking-widest font-bold mb-6 opacity-60">
+                                  Specifications
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  {product.specifications && (
+                                    <>
+                                      {Array.isArray(product.specifications)
+                                        ? // New Array Format - Preserves Order
+                                          product.specifications.map(
+                                            (spec, index) => {
+                                              // Full-width keys for better layout
+                                              const fullWidthKeys = [
+                                                "Product Name",
+                                                "Material",
+                                                "material",
+                                                "Ideal For",
+                                                "color",
+                                                "Color",
+                                                "Product Type",
+                                              ];
+                                              const isFullWidth =
+                                                fullWidthKeys.includes(
+                                                  spec.key,
+                                                );
+                                              return (
+                                                <div
+                                                  key={`${spec.key}-${index}`}
+                                                  className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
+                                                >
+                                                  <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
+                                                    {spec.key}
+                                                  </div>
+                                                  <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
+                                                    {spec.value}
+                                                  </div>
+                                                </div>
+                                              );
+                                            },
+                                          )
+                                        : // Legacy Object Format - Fallback
+                                          Object.entries(product.specifications)
+                                            .filter(([_, value]) => value)
+                                            .map(([key, value]) => {
+                                              // Full-width keys for better layout
+                                              const fullWidthKeys = [
+                                                "Product Name",
+                                                "Material",
+                                                "material",
+                                                "Ideal For",
+                                                "color",
+                                                "Color",
+                                                "Product Type",
+                                              ];
+                                              const isFullWidth =
+                                                fullWidthKeys.includes(key);
+                                              return (
+                                                <div
+                                                  key={key}
+                                                  className={`border-b border-[#f4f1ea]/20 pb-4 mb-4 ${isFullWidth ? "md:col-span-2" : ""}`}
+                                                >
+                                                  <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
+                                                    {key}
+                                                  </div>
+                                                  <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-none">
+                                                    {value as string}
+                                                  </div>
+                                                </div>
+                                              );
+                                            })}
+                                    </>
+                                  )}
+                                  {product.careInstructions && (
+                                    <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
+                                      <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
+                                        Care Instructions
+                                      </div>
+                                      <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-relaxed">
+                                        {product.careInstructions}
+                                      </div>
+                                    </div>
+                                  )}
+                                  {product.idealFor && (
+                                    <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
+                                      <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
+                                        Ideal For
+                                      </div>
+                                      <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-relaxed">
+                                        {product.idealFor}
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                              {product.idealFor && (
-                                <div className="border-b border-[#f4f1ea]/20 pb-4 mb-4 md:col-span-2">
-                                  <div className="text-xs uppercase tracking-[0.2em] opacity-50 mb-2">
-                                    Ideal For
-                                  </div>
-                                  <div className="font-cormorant text-xl md:text-2xl text-[#f4f1ea] leading-relaxed">
-                                    {product.idealFor}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
+                              </>
+                            )}
                           </div>
 
                           {/* What It's For */}
@@ -1089,74 +1123,132 @@ export default function ChakraJourneyTemplate({
                           removeFromWaitlist={removeFromWaitlist}
                           useIsInWaitlist={useIsInWaitlist}
                         />
+                        {product.category && (
+                          <Link
+                            href={`/shop/category/${product.category.toLowerCase().replace(/ /g, "-")}`}
+                            className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
+                          >
+                            View all {product.category}s
+                          </Link>
+                        )}
                       </div>
 
                       {/* Suggested Products (Other products in the same journey/type) */}
                       <div className="py-16 border-t border-[#f4f1ea]/20 mt-16">
-                        <h2 className="text-2xl md:text-3xl font-cormorant font-light mb-8 text-center text-[#f4f1ea]">
+                        <h2
+                          className={`text-2xl md:text-3xl font-cormorant font-light mb-8 text-center text-[#f4f1ea]  `}
+                        >
                           Complete Your {chakra.name} Journey
                         </h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          {filteredProducts
-                            .filter(
-                              (p) =>
-                                p.id !== product.id && p.name !== product.name,
-                            )
-                            .slice(0, 3)
-                            .map((p, i) => (
-                              <button
-                                key={i}
-                                onClick={() => {
-                                  // Find index in the SAME list
-                                  const idx = filteredProducts.findIndex(
-                                    (cp) => cp.name === p.name,
-                                  );
-                                  if (idx !== -1) setExpandedCard(idx);
-                                }}
-                                className="group block bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
-                              >
-                                <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10">
-                                  {/* Show product image if available */}
-                                  {(p.images && p.images[0]) ||
-                                  (p.variants && p.variants[0]?.image) ? (
-                                    <img
-                                      src={
-                                        p.variants?.[0]?.image ||
-                                        p.images?.[0] ||
-                                        ""
-                                      }
-                                      alt={p.name}
-                                      className="w-full h-full object-cover"
-                                    />
-                                  ) : (
-                                    <>
-                                      <div
-                                        className="absolute inset-0 opacity-20"
-                                        style={{
-                                          backgroundColor:
-                                            chakra.colors.primary,
-                                        }}
+                          {product.includedProducts &&
+                          product.includedProducts.length > 0
+                            ? product.includedProducts.map((p, i) => (
+                                <Link
+                                  key={i}
+                                  onClick={handleCloseModal}
+                                  href={p.url}
+                                  className="group flex flex-col h-full bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
+                                >
+                                  <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10 flex-shrink-0">
+                                    {p.image ? (
+                                      <img
+                                        src={p.image}
+                                        alt={p.name}
+                                        className="w-full h-full object-cover"
                                       />
+                                    ) : (
                                       <div className="absolute inset-0 flex items-center justify-center text-[#f4f1ea]/20 font-cormorant text-4xl">
-                                        {p.step}
+                                        {i + 1}
                                       </div>
-                                    </>
-                                  )}
-                                </div>
-                                <div className="p-4">
-                                  <h3 className="font-cormorant text-lg mb-1 group-hover:text-[#f4f1ea]/70 transition-colors text-[#f4f1ea]">
-                                    {p.name}
-                                  </h3>
-                                  <p className="text-xs font-light opacity-60 line-clamp-2 text-[#f4f1ea]">
-                                    {p.description}
-                                  </p>
-                                  <div className="mt-3 text-xs uppercase tracking-widest font-bold opacity-40 group-hover:opacity-100 transition-opacity text-[#f4f1ea]">
-                                    View Product →
+                                    )}
                                   </div>
-                                </div>
-                              </button>
-                            ))}
+                                  <div className="p-4 flex flex-col flex-grow">
+                                    <h3 className="font-cormorant text-lg mb-1 group-hover:text-[#f4f1ea]/70 transition-colors text-[#f4f1ea]">
+                                      {p.name}
+                                    </h3>
+                                    {p.description &&
+                                      p.description.trim().length > 1 && (
+                                        <p className="text-xs font-light opacity-60 line-clamp-2 text-[#f4f1ea]">
+                                          {p.description}
+                                        </p>
+                                      )}
+                                    <div className="mt-auto pt-3 text-xs uppercase tracking-widest font-bold opacity-40 group-hover:opacity-100 transition-opacity text-[#f4f1ea]">
+                                      View Product →
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))
+                            : filteredProducts
+                                .filter(
+                                  (p) =>
+                                    p.id !== product.id &&
+                                    p.name !== product.name,
+                                )
+                                .slice(0, 3)
+                                .map((p, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => {
+                                      // Find index in the SAME list
+                                      const idx = filteredProducts.findIndex(
+                                        (cp) => cp.name === p.name,
+                                      );
+                                      if (idx !== -1) {
+                                        setExpandedCard(null);
+                                        // Small timeout to allow modal close animation to start/finish and layout to stabilize
+                                        setTimeout(() => {
+                                          scrollToProduct(idx);
+                                        }, 100);
+                                      }
+                                    }}
+                                    className="group flex flex-col h-full bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
+                                  >
+                                    <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10 flex-shrink-0">
+                                      {/* Show product image if available */}
+                                      {(p.images && p.images[0]) ||
+                                      (p.variants && p.variants[0]?.image) ? (
+                                        <img
+                                          src={
+                                            p.variants?.[0]?.image ||
+                                            p.images?.[0] ||
+                                            ""
+                                          }
+                                          alt={p.name}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      ) : (
+                                        <>
+                                          <div
+                                            className="absolute inset-0 opacity-20"
+                                            style={{
+                                              backgroundColor:
+                                                chakra.colors.primary,
+                                            }}
+                                          />
+                                          <div className="absolute inset-0 flex items-center justify-center text-[#f4f1ea]/20 font-cormorant text-4xl">
+                                            {p.step}
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                                    <div className="p-4 flex flex-col flex-grow">
+                                      <h3 className="font-cormorant text-lg mb-1 group-hover:text-[#f4f1ea]/70 transition-colors text-[#f4f1ea]">
+                                        {p.name}
+                                      </h3>
+                                      {p.description &&
+                                        p.description.trim().length > 1 && (
+                                          <p className="text-xs font-light opacity-60 line-clamp-2 text-[#f4f1ea]">
+                                            {p.description}
+                                          </p>
+                                        )}
+                                      <div className="mt-auto pt-3 text-xs uppercase tracking-widest font-bold opacity-40 group-hover:opacity-100 transition-opacity text-[#f4f1ea]">
+                                        View Product →
+                                      </div>
+                                    </div>
+                                  </button>
+                                ))}
                         </div>
                       </div>
 
@@ -1218,6 +1310,9 @@ export default function ChakraJourneyTemplate({
             );
           })()}
       </AnimatePresence>
+
+      {/* Related Combos Section */}
+      {relatedCombos}
     </div>
   );
 }

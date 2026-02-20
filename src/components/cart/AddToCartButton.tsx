@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
-import { useAddToCart } from '@/hooks/useCart';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useAddToCart } from "@/hooks/useCart";
+import { motion } from "framer-motion";
 
 interface AddToCartButtonProps {
   productId: string;
@@ -12,8 +12,8 @@ interface AddToCartButtonProps {
   disabled?: boolean;
   className?: string;
   children?: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "outline";
+  size?: "sm" | "md" | "lg";
 }
 
 export function AddToCartButton({
@@ -21,10 +21,10 @@ export function AddToCartButton({
   variationId,
   quantity = 1,
   disabled = false,
-  className = '',
+  className = "",
   children,
-  variant = 'primary',
-  size = 'md',
+  variant = "primary",
+  size = "md",
 }: AddToCartButtonProps) {
   const addToCart = useAddToCart();
   const [isAdded, setIsAdded] = useState(false);
@@ -36,7 +36,7 @@ export function AddToCartButton({
         variationId,
         quantity,
       });
-      
+
       // Show success state briefly
       setIsAdded(true);
       setTimeout(() => setIsAdded(false), 2000);
@@ -45,24 +45,28 @@ export function AddToCartButton({
     }
   };
 
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
-  
+  const baseClasses =
+    "inline-flex items-center justify-center font-medium rounded-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+
   const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
-    outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+    primary:
+      "bg-[#27190b] text-[#ffe5b6] hover:bg-[#27190b]/90 focus:ring-2 focus:ring-[#BD9958] focus:ring-offset-2",
+    secondary:
+      "bg-[#BD9958] text-[#27190b] hover:bg-[#BD9958]/90 focus:ring-2 focus:ring-[#27190b] focus:ring-offset-2",
+    outline:
+      "border-2 border-[#BD9958] text-[#BD9958] hover:bg-[#BD9958] hover:text-[#27190b] focus:ring-2 focus:ring-[#BD9958] focus:ring-offset-2",
   };
 
   const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm gap-1.5',
-    md: 'px-4 py-2 text-base gap-2',
-    lg: 'px-6 py-3 text-lg gap-2.5',
+    sm: "px-3 py-1.5 text-sm gap-1.5",
+    md: "px-4 py-2 text-base gap-2",
+    lg: "px-6 py-3 text-lg gap-2.5",
   };
 
   const iconSizes = {
-    sm: 'h-4 w-4',
-    md: 'h-5 w-5',
-    lg: 'h-6 w-6',
+    sm: "h-4 w-4",
+    md: "h-5 w-5",
+    lg: "h-6 w-6",
   };
 
   const isLoading = addToCart.isPending;
@@ -78,7 +82,9 @@ export function AddToCartButton({
     >
       {isLoading ? (
         <>
-          <div className={`animate-spin rounded-full border-2 border-white border-t-transparent ${iconSizes[size]}`} />
+          <div
+            className={`animate-spin rounded-full border-2 border-white border-t-transparent ${iconSizes[size]}`}
+          />
           Adding...
         </>
       ) : isAdded ? (
@@ -95,7 +101,7 @@ export function AddToCartButton({
       ) : (
         <>
           <ShoppingCartIcon className={iconSizes[size]} />
-          {children || 'Add to Cart'}
+          {children || "Add to Cart"}
         </>
       )}
     </motion.button>

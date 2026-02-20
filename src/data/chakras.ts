@@ -56,6 +56,13 @@ export interface JourneyProduct {
     bestTimes?: string[];
     supportivePractices?: string[];
   };
+  includedProducts?: {
+    name: string;
+    image: string;
+    url: string;
+    step?: number;
+    description?: string;
+  }[];
 }
 
 export interface ChakraData {
@@ -594,4 +601,37 @@ export const getProductsByCategory = (category: string): { product: JourneyProdu
   });
 
   return allProducts;
+};
+
+export const findProductJourneyPath = (productName: string, options?: { autoOpen?: boolean }): string | null => {
+  // Normalize search name - remove special chars and extra spaces to improve matching
+  const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const searchName = normalize(productName);
+  
+  for (const chakra of Object.values(chakrasData)) {
+    // Check soul-luxury
+    const slProducts = chakra.content['soul-luxury'] || [];
+    for (const p of slProducts) {
+      if (normalize(p.name) === searchName) {
+        let path = `/journey/${chakra.slug}?product=${p.id}`;
+        if (options?.autoOpen === false) {
+          path += "&autoOpen=false";
+        }
+        return path;
+      }
+    }
+    // Check energy-curious
+    const ecProducts = chakra.content['energy-curious'] || [];
+    for (const p of ecProducts) {
+      if (normalize(p.name) === searchName) {
+        let path = `/journey/${chakra.slug}?product=${p.id}`;
+        if (options?.autoOpen === false) {
+          path += "&autoOpen=false";
+        }
+        return path;
+      }
+    }
+  }
+  
+  return null;
 };

@@ -40,6 +40,8 @@ export async function generateMetadata({
   };
 }
 
+import RelatedCombos from "@/components/combos/RelatedCombos";
+
 export default async function ChakraJourneyPage({ params }: PageProps) {
   const { slug } = await params;
   const journey = await prisma.journey.findUnique({
@@ -50,5 +52,10 @@ export default async function ChakraJourneyPage({ params }: PageProps) {
     notFound();
   }
 
-  return <ChakraJourneyTemplate chakra={journey as unknown as ChakraData} />;
+  return (
+    <ChakraJourneyTemplate
+      chakra={journey as unknown as ChakraData}
+      relatedCombos={<RelatedCombos chakraSlug={slug} />}
+    />
+  );
 }

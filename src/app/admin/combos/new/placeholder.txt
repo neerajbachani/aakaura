@@ -1,0 +1,75 @@
+
+import React from "react";
+import ComboForm from "@/components/admin/ComboForm";
+import { getAllProducts } from "@/lib/api";
+import { Product } from "@/types/Product"; // Ensure this matches return type
+import { toast } from "react-hot-toast";
+import { redirect } from "next/navigation";
+import env from "@/config/env";
+import { revalidatePath } from "next/cache";
+
+export default async function NewComboPage() {
+  const products = await getAllProducts();
+
+  async function createCombo(data: any) {
+    "use server";
+    try {
+      // We need to call the API route, but we are on server.
+      // We can call Prisma directly or fetch the API.
+      // Fetching API is cleaner to keep logic in one place, but requires auth cookie/header if protected.
+      // However, we are in a Server Action or Server Component?
+      // "use server" creates a server action. 
+      // Using fetch to localhost API might be tricky with auth.
+      // Better to use Client Component wrapper for submission logic?
+      // Actually `ComboForm` takes `onSubmit`. I can pass a server action or a client handler.
+      // Since `ComboForm` is "use client", I can pass a client handler that calls fetch.
+      // But `NewComboPage` is a Server Component.
+      // So I can't pass a client function easily unless I define it in a separate file or make this page client (but I want to fetch products on server).
+      
+      // Easier approach: Let ComboForm handle the fetch call, or pass a server action.
+      // But `ComboForm` is client.
+      // Let's make a wrapper client component or just let `ComboForm` call the API?
+      // `ComboForm` accepts `onSubmit`. 
+      // I'll create a client wrapper for the page content or just pass a server action if compatible.
+      // Or simply: Define the submission logic inside `ComboForm`? No, `ComboForm` should be reusable.
+      // Let's pass a client-side function from a client component.
+      // BUT this file `page.tsx` is server.
+      // I'll create a client component wrapper `NewComboClient.tsx`? 
+      // Or just make `ComboForm` accept the submit logic from a prop, and in `page.tsx` I render `ComboForm`.
+      // The `onSubmit` prop must be a function. 
+      // If I pass a Server Action, it works.
+      
+      // Let's try Server Action first.
+      
+      const response = await fetch(`${env.WEB_CLIENT_URL}/api/combos`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Auth headers? 
+            // If I call from Server Action, I don't inherently have the browser's cookies unless I forward them.
+            // But `api/combos` checks for admin.
+            // Using Prisma directly in Server Action is better/safer if I want to bypass HTTP auth issues provided I check auth in the action.
+            // BUT api route already has logic.
+            
+            // Alternative: `ComboForm` calls `fetch` directly? 
+            // `ComboForm` is `use client`. It can call `fetch("/api/combos")` and browser will send cookies. 
+            // This is the standard way in Next.js app router for protected routes.
+            // So `onSubmit` should be passed from a CLIENT component or defined in `ComboForm`?
+            // `ComboForm` is generic.
+            
+            // I will create `ComboClientWrapper` to handle submission?
+            // Or just put the `onSubmit` inline in `ComboForm`?
+            // No, `ComboForm` takes `onSubmit`.
+            
+            // I will default to: `NewComboPage` (Server) fetches products -> passes to `NewComboClient` (Client) -> renders `ComboForm` with `onSubmit` that calls fetch.
+            // This isolates server data fetching from client interactivity.
+      });
+      // ...
+    } catch (e) {}
+  }
+
+  // Actually, I'll just create the Client Component here (in a separate file) to handle the submit logic.
+  // `src/app/admin/combos/new/NewComboClient.tsx`.
+  
+  return null; // I'll write the real content in next step
+}

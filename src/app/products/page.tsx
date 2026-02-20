@@ -3,13 +3,22 @@ import React, { useCallback, useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Product, Category } from "@/types/Product";
 import ProductCard from "@/components/ui/ProductCard";
+import CategoryCard from "@/components/ui/CategoryCard";
 import Container from "@/components/ui/Container";
 import fonts from "@/config/fonts";
-import { FiSearch, FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import {
+  FiSearch,
+  FiX,
+  FiChevronLeft,
+  FiChevronRight,
+  FiGrid,
+  FiArrowLeft,
+} from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import FilterDropdown, { FilterOption } from "@/components/ui/FilterDropdown";
 import PriceRangeFilter from "@/components/ui/PriceRangeFilter";
 import Image from "next/image";
+// import Galaxy from "@/components/ui/Galaxy";
 
 interface PaginationData {
   page: number;
@@ -30,17 +39,42 @@ const ProductsPageContent = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState<PaginationData | null>(null);
+
+  // Initialize filters from URL
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
     categoryId: searchParams.get("categoryId") || "",
     minPrice: searchParams.get("minPrice") || "",
     maxPrice: searchParams.get("maxPrice") || "",
-    // featured: searchParams.get("featured") === "true",
   });
+
+  // Determines which view to show: 'categories' or 'products'
+  // Show products view if any filter is active (including search or category selection)
+  const isProductView =
+    filters.categoryId !== "" ||
+    filters.search !== "" ||
+    filters.minPrice !== "" ||
+    filters.maxPrice !== "" ||
+    products.length > 0; // Keep showing products if they were loaded and no explicit "clear" action reverted to categories
+
+  // However, we want the default state (no query params) to be category view.
+  // And if we explicitly clear all filters, we go back to category view.
+  // Let's refine the view logic based on URL params mostly to ensure consistency.
+  const showCategoryGrid =
+    !searchParams.get("categoryId") &&
+    !searchParams.get("search") &&
+    !searchParams.get("minPrice") &&
+    !searchParams.get("maxPrice");
 
   // Fetch products with filters and pagination
   const fetchProducts = useCallback(
     async (page = 1) => {
+      // Don't fetch products if we are in category grid mode and no filters are applied
+      if (showCategoryGrid) {
+        setProducts([]);
+        return;
+      }
+
       setLoading(true);
       try {
         const params = new URLSearchParams();
@@ -48,7 +82,6 @@ const ProductsPageContent = () => {
         if (filters.categoryId) params.append("categoryId", filters.categoryId);
         if (filters.minPrice) params.append("minPrice", filters.minPrice);
         if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
-        // if (filters.featured) params.append("featured", "true");
         params.append("page", page.toString());
         params.append("limit", "12");
 
@@ -64,7 +97,7 @@ const ProductsPageContent = () => {
         setLoading(false);
       }
     },
-    [filters],
+    [filters, showCategoryGrid],
   );
 
   // Fetch categories
@@ -88,7 +121,6 @@ const ProductsPageContent = () => {
       params.append("categoryId", newFilters.categoryId);
     if (newFilters.minPrice) params.append("minPrice", newFilters.minPrice);
     if (newFilters.maxPrice) params.append("maxPrice", newFilters.maxPrice);
-    // if (newFilters.featured) params.append("featured", "true");
     if (page > 1) params.append("page", page.toString());
 
     const newURL = params.toString()
@@ -98,13 +130,10 @@ const ProductsPageContent = () => {
   };
 
   // Handle filter changes
-  const handleFilterChange = (
-    key: keyof typeof filters,
-    value: string | boolean,
-  ) => {
+  const handleFilterChange = (key: keyof typeof filters, value: string) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    updateURL(newFilters, 1); // Reset to page 1 when filters change
+    updateURL(newFilters, 1);
   };
 
   const handlePriceApply = (min: string, max: string) => {
@@ -119,17 +148,25 @@ const ProductsPageContent = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Clear all filters
+  // Clear all filters - Return to Category View
   const clearFilters = () => {
     const newFilters = {
       search: "",
       categoryId: "",
       minPrice: "",
       maxPrice: "",
-      // featured: false,
     };
     setFilters(newFilters);
     updateURL(newFilters, 1);
+  };
+
+  // Handle Category Card Click
+  const handleCategoryClick = (categoryId: string) => {
+    const category = categories.find((c) => c.id === categoryId);
+    if (category) {
+      const slug = category.name.toLowerCase().replace(/\s+/g, "-");
+      router.push(`/shop/category/${slug}`);
+    }
   };
 
   useEffect(() => {
@@ -138,11 +175,7 @@ const ProductsPageContent = () => {
 
   useEffect(() => {
     fetchProducts(page);
-  }, [filters, page, fetchProducts, searchParams]);
-
-  const hasActiveFilters = Object.values(filters).some(
-    (value) => value !== "" && value !== "false",
-  );
+  }, [filters, page, fetchProducts, searchParams, showCategoryGrid]);
 
   const categoryOptions: FilterOption[] = [
     { label: "All Categories", value: "" },
@@ -150,179 +183,180 @@ const ProductsPageContent = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#fcfbf9]">
+    <div className="min-h-screen bg-[#27190b] text-[#ffe5b6]">
+      {/* Galaxy Background - Subtle Texture */}
+
       {/* Enhanced Hero Section */}
-      <div className="relative py-20 md:py-28 overflow-hidden">
-        {/* Background Mandala/Texture Effect */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+      <div className="relative py-20 md:py-28 overflow-hidden z-10">
+        {/* Decorative Mandala/Logo */}
+        {/* <div className="absolute inset-0 pointer-events-none opacity-[0.05]">
           <Image
             src="/images/logo.png"
             alt=""
             width={800}
             height={800}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] object-contain animate-spin-slow"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] object-contain animate-spin-slow invert"
           />
-        </div>
+        </div> */}
 
         <Container className="relative z-10 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`${fonts.cormorant} text-5xl md:text-7xl font-light text-[#27190b] mb-6 leading-tight`}
+            className={`${fonts.cormorant} text-5xl md:text-7xl font-light text-[#ffe5b6] mb-6 leading-tight drop-shadow-md`}
           >
-            Curated Collections
+            {filters.categoryId
+              ? categories.find((c) => c.id === filters.categoryId)?.name ||
+                "Collection"
+              : "Curated Collections"}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className={`${fonts.mulish} text-lg md:text-xl text-[#27190b]/60 max-w-2xl mx-auto font-light leading-relaxed`}
+            className={`${fonts.mulish} text-lg md:text-xl text-[#ffe5b6]/60 max-w-2xl mx-auto font-light leading-relaxed`}
           >
-            Discover consciously crafted pieces designed to elevate your
-            journey.
+            {filters.categoryId
+              ? "Explore our consciously crafted pieces in this collection."
+              : "Discover consciously crafted pieces designed to elevate your journey."}
           </motion.p>
         </Container>
       </div>
 
-      <Container className="mb-24">
+      <Container className="mb-24 relative z-10">
         {/* Filter Bar */}
-        <div className="sticky top-20 z-30 bg-[#fcfbf9]/95 backdrop-blur-sm py-4 mb-12 border-b border-[#27190b]/10 supports-[backdrop-filter]:bg-[#fcfbf9]/80">
-          <div className="flex flex-col lg:flex-row gap-4 lg:items-center justify-between">
-            {/* Search Input */}
-            <div className="relative w-full lg:w-96">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#27190b]/40 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={filters.search}
-                onChange={(e) => handleFilterChange("search", e.target.value)}
-                className={`w-full pl-12 pr-4 py-3 bg-white border border-[#27190b]/20 rounded-lg focus:ring-1 focus:ring-[#27190b]/30 focus:border-[#27190b]/40 text-[#27190b] placeholder-[#27190b]/40 transition-all ${fonts.mulish}`}
-              />
-            </div>
+        {/*  */}
 
-            {/* Filter Group */}
-            <div className="flex flex-wrap items-center gap-3">
-              <FilterDropdown
-                label="Category"
-                options={categoryOptions}
-                value={filters.categoryId}
-                onChange={(val) => handleFilterChange("categoryId", val)}
-                className="w-full sm:w-60"
-              />
-
-              <PriceRangeFilter
-                minPrice={filters.minPrice}
-                maxPrice={filters.maxPrice}
-                onApply={handlePriceApply}
-                className="w-full sm:w-auto min-w-[200px]"
-              />
-
-              {/* <button
-                onClick={() =>
-                  handleFilterChange("featured", !filters.featured)
-                }
-                className={`flex items-center gap-2 px-4 py-3 border rounded-lg transition-all ${
-                  filters.featured
-                    ? "bg-[#27190b] border-[#27190b] text-white"
-                    : "bg-white border-[#27190b]/20 text-[#27190b] hover:border-[#27190b]/40"
-                } ${fonts.mulish} text-sm whitespace-nowrap`}
-              >
-                <span>✨ Featured</span>
-              </button> */}
-
-              {hasActiveFilters && (
-                <button
-                  onClick={clearFilters}
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-[#27190b]/60 hover:text-[#cd3d32] transition-colors whitespace-nowrap"
-                >
-                  <FiX className="w-4 h-4" />
-                  Clear
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Product Grid */}
+        {/* Content Area */}
         <div className="min-h-[400px]">
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="flex flex-col gap-4 animate-pulse">
-                  <div className="w-full aspect-[3/4] bg-[#27190b]/5 rounded-xl" />
-                  <div className="h-6 w-3/4 bg-[#27190b]/5 rounded" />
-                  <div className="h-4 w-1/2 bg-[#27190b]/5 rounded" />
-                </div>
+          {/* View: Category Grid */}
+          {showCategoryGrid ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {categories.map((category, index) => (
+                <CategoryCard
+                  key={category.id}
+                  id={category.id}
+                  name={category.name}
+                  images={
+                    // Extract images from the product samples attached to category.
+                    // Flatten the array of product images.
+                    (category as any).products?.flatMap((p: any) => p.images) ||
+                    []
+                  }
+                  onClick={() => handleCategoryClick(category.id)}
+                />
               ))}
-            </div>
-          ) : products.length > 0 ? (
+              {categories.length === 0 && !loading && (
+                <div className="col-span-full text-center py-20 text-[#ffe5b6]/40">
+                  Loading Collections...
+                </div>
+              )}
+            </motion.div>
+          ) : (
+            /* View: Product Grid */
             <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
-              >
-                {products.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
-                  >
-                    <ProductCard product={product} size="large" />
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              {/* Pagination */}
-              {pagination && pagination.totalPages > 1 && (
-                <div className="mt-24 flex items-center justify-center">
-                  <nav className="flex items-center gap-4">
-                    <button
-                      onClick={() => handlePageChange(pagination.previousPage!)}
-                      disabled={!pagination.hasPreviousPage}
-                      className="p-3 rounded-full hover:bg-[#27190b]/5 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-[#27190b]"
-                    >
-                      <FiChevronLeft className="w-6 h-6" />
-                    </button>
-
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`${fonts.cormorant} text-lg text-[#27190b]`}
-                      >
-                        Page {pagination.page} of {pagination.totalPages}
-                      </span>
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="flex flex-col gap-4 animate-pulse">
+                      <div className="w-full aspect-[3/4] bg-[#ffe5b6]/5 rounded-xl border border-[#BD9958]/10" />
+                      <div className="h-6 w-3/4 bg-[#ffe5b6]/5 rounded" />
+                      <div className="h-4 w-1/2 bg-[#ffe5b6]/5 rounded" />
                     </div>
-
+                  ))}
+                </div>
+              ) : products.length > 0 ? (
+                <>
+                  <div className="flex items-center gap-2 mb-8 text-[#ffe5b6]/60">
                     <button
-                      onClick={() => handlePageChange(pagination.nextPage!)}
-                      disabled={!pagination.hasNextPage}
-                      className="p-3 rounded-full hover:bg-[#27190b]/5 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-[#27190b]"
+                      onClick={clearFilters}
+                      className="hover:text-[#BD9958] flex items-center gap-1 transition-colors"
                     >
-                      <FiChevronRight className="w-6 h-6" />
+                      <FiArrowLeft /> Back to Categories
                     </button>
-                  </nav>
+                    <span>|</span>
+                    <span>Showing {products.length} results</span>
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
+                  >
+                    {products.map((product, index) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.05 }}
+                      >
+                        <ProductCard product={product} size="large" />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+
+                  {/* Pagination */}
+                  {pagination && pagination.totalPages > 1 && (
+                    <div className="mt-24 flex items-center justify-center">
+                      <nav className="flex items-center gap-4">
+                        <button
+                          onClick={() =>
+                            handlePageChange(pagination.previousPage!)
+                          }
+                          disabled={!pagination.hasPreviousPage}
+                          className="p-3 rounded-full hover:bg-[#ffe5b6]/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-[#ffe5b6] border border-[#BD9958]/20"
+                        >
+                          <FiChevronLeft className="w-6 h-6" />
+                        </button>
+
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`${fonts.cormorant} text-lg text-[#ffe5b6]`}
+                          >
+                            Page {pagination.page} of {pagination.totalPages}
+                          </span>
+                        </div>
+
+                        <button
+                          onClick={() => handlePageChange(pagination.nextPage!)}
+                          disabled={!pagination.hasNextPage}
+                          className="p-3 rounded-full hover:bg-[#ffe5b6]/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-[#ffe5b6] border border-[#BD9958]/20"
+                        >
+                          <FiChevronRight className="w-6 h-6" />
+                        </button>
+                      </nav>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-24 text-center">
+                  <span className="text-6xl mb-6 opacity-20 filter grayscale">
+                    🌿
+                  </span>
+                  <h3
+                    className={`${fonts.cormorant} text-2xl text-[#ffe5b6] mb-3`}
+                  >
+                    No products found
+                  </h3>
+                  <p className={`${fonts.mulish} text-[#ffe5b6]/60`}>
+                    Try adjusting your filters to find what you're looking for.
+                  </p>
+                  <button
+                    onClick={clearFilters}
+                    className="mt-6 px-8 py-3 bg-[#BD9958] text-[#27190b] rounded-full hover:bg-[#BD9958]/90 transition-colors uppercase tracking-widest text-xs font-semibold"
+                  >
+                    View All Categories
+                  </button>
                 </div>
               )}
             </>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-24 text-center">
-              <span className="text-6xl mb-6 opacity-20">🌿</span>
-              <h3 className={`${fonts.cormorant} text-2xl text-[#27190b] mb-3`}>
-                No products found
-              </h3>
-              <p className={`${fonts.mulish} text-[#27190b]/60`}>
-                Try adjusting your filters to find what you're looking for.
-              </p>
-              <button
-                onClick={clearFilters}
-                className="mt-6 px-8 py-3 bg-[#27190b] text-white rounded-full hover:bg-[#27190b]/90 transition-colors uppercase tracking-widest text-xs font-semibold"
-              >
-                View All Products
-              </button>
-            </div>
           )}
         </div>
       </Container>
@@ -332,8 +366,8 @@ const ProductsPageContent = () => {
 
 // Loading component for Suspense fallback
 const ProductsPageLoading = () => (
-  <div className="min-h-screen bg-[#fcfbf9] flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#27190b]"></div>
+  <div className="min-h-screen bg-[#27190b] flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#BD9958]"></div>
   </div>
 );
 

@@ -22,6 +22,51 @@ export async function PATCH(
             data: body,
         });
 
+        // Sync all products from journey content to the products table
+        // This ensures combo product images stay up-to-date when edited here
+        if (body.content) {
+            const allProducts = [
+                ...(body.content['soul-luxury'] || []),
+                ...(body.content['energy-curious'] || []),
+            ];
+
+            if (allProducts.length > 0) {
+                const defaultCategory = await prisma.category.findFirst();
+
+                await Promise.all(
+                    allProducts
+                        .filter((product: any) => !!product.id)
+                        .map((product: any) => {
+                            const priceNum =
+                                parseFloat(
+                                    (product.price || '0').toString().replace(/[^0-9.]/g, '')
+                                ) || 0;
+
+                            return prisma.product.upsert({
+                                where: { id: product.id },
+                                update: {
+                                    name: product.name,
+                                    description: product.description || '',
+                                    images: product.images || [],
+                                    price: priceNum,
+                                },
+                                create: {
+                                    id: product.id,
+                                    name: product.name,
+                                    description:
+                                        product.description ||
+                                        `Imported from ${journey.name} Journey`,
+                                    images: product.images || [],
+                                    price: priceNum,
+                                    categoryId: defaultCategory?.id || '',
+                                    isFeatured: false,
+                                },
+                            });
+                        })
+                );
+            }
+        }
+
         return NextResponse.json({
             success: true,
             data: journey

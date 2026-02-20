@@ -94,28 +94,28 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const cardStyles = {
     small: {
       container:
-        "flex flex-col bg-white border border-neutral-200 rounded-xl shadow-sm p-4 transition-all hover:shadow-md hover:border-primaryBrown focus-within:shadow-md focus-within:border-primaryBrown outline-none h-full min-h-[480px]",
+        "flex flex-col bg-white/5 border border-[#BD9958]/20 rounded-xl shadow-sm p-4 transition-all hover:shadow-lg hover:border-[#BD9958]/40 hover:bg-white/10 outline-none h-full min-h-[480px] backdrop-blur-sm group",
       image:
-        "w-full aspect-[4/3] rounded-lg overflow-hidden border border-neutral-100 shadow-sm mb-4 flex items-center justify-center bg-neutral-50 flex-shrink-0",
-      title: `${fonts.merriweather} text-lg font-bold text-primaryBrown line-clamp-2 mb-0`,
-      description: `${fonts.mulish} text-neutral-500 text-sm line-clamp-2 mb-0`,
-      price: "text-lg font-bold",
-      originalPrice: "text-sm line-through text-neutral-400",
+        "w-full aspect-[4/3] rounded-lg overflow-hidden border border-[#BD9958]/10 shadow-sm mb-4 flex items-center justify-center bg-[#27190b]/40 flex-shrink-0 relative",
+      title: `${fonts.cormorant} text-2xl font-medium text-[#ffe5b6] line-clamp-2 mb-0 tracking-wide`,
+      description: `${fonts.mulish} text-[#ffe5b6]/60 text-sm line-clamp-2 mb-0 font-light`,
+      price: "text-xl font-bold tracking-wide",
+      originalPrice: "text-sm line-through text-[#ffe5b6]/40",
       button:
-        "w-full inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-6 py-2 rounded-full font-semibold shadow-sm hover:bg-neutral-800 focus-visible:bg-neutral-800 transition-colors duration-200 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryBrown",
+        "w-full inline-flex items-center justify-center gap-2 bg-[#BD9958] text-[#27190b] px-6 py-2 rounded-full font-bold shadow-lg hover:bg-[#ffe5b6] transition-all duration-300 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BD9958] uppercase tracking-wider text-xs",
       icon: "w-4 h-4 transition-transform duration-200",
     },
     large: {
       container:
-        "flex flex-col bg-white border border-neutral-200 rounded-xl shadow-sm p-6 transition-all hover:shadow-md hover:border-primaryBrown focus-within:shadow-md focus-within:border-primaryBrown outline-none h-full min-h-[510px]",
+        "flex flex-col bg-white/5 border border-[#BD9958]/20 rounded-xl shadow-sm p-6 transition-all hover:shadow-lg hover:border-[#BD9958]/40 hover:bg-white/10 outline-none h-full min-h-[510px] backdrop-blur-sm group",
       image:
-        "w-full aspect-[4/3] rounded-lg overflow-hidden border border-neutral-100 shadow-sm mb-6 flex items-center justify-center bg-neutral-50 flex-shrink-0",
-      title: `${fonts.merriweather} text-xl font-bold text-primaryBrown line-clamp-2 mb-0`,
-      description: `${fonts.mulish} text-neutral-500 text-base leading-relaxed line-clamp-3 mb-0`,
-      price: "text-xl font-bold",
-      originalPrice: "text-base line-through text-neutral-400",
+        "w-full aspect-[4/3] rounded-lg overflow-hidden border border-[#BD9958]/10 shadow-sm mb-6 flex items-center justify-center bg-[#27190b]/40 flex-shrink-0 relative",
+      title: `${fonts.cormorant} text-3xl font-medium text-[#ffe5b6] line-clamp-2 mb-0 tracking-wide`,
+      description: `${fonts.mulish} text-[#ffe5b6]/60 text-base leading-relaxed line-clamp-3 mb-0 font-light`,
+      price: "text-2xl font-bold tracking-wide",
+      originalPrice: "text-base line-through text-[#ffe5b6]/40",
       button:
-        "w-full inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-6 py-3 rounded-full font-semibold shadow-sm hover:bg-neutral-800 focus-visible:bg-neutral-800 transition-colors duration-200 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryBrown",
+        "w-full inline-flex items-center justify-center gap-2 bg-[#BD9958] text-[#27190b] px-6 py-3 rounded-full font-bold shadow-lg hover:bg-[#ffe5b6] transition-all duration-300 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BD9958] uppercase tracking-wider",
       icon: "w-5 h-5 transition-transform duration-200",
     },
   };
@@ -147,7 +147,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {/* Category Chip */}
             {product.category?.name && (
               <span
-                className={`self-start px-2 py-0.5 rounded-full bg-neutral-100 text-primaryBrown text-xs font-semibold tracking-wide uppercase ${fonts.mulish}`}
+                className={`self-start px-3 py-1 rounded-full bg-[#BD9958]/10 text-[#BD9958] border border-[#BD9958]/20 text-xs font-semibold tracking-widest uppercase ${fonts.mulish}`}
               >
                 {product.category.name}
               </span>
@@ -164,14 +164,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   {product.variations.slice(0, 2).map((v) => (
                     <span
                       key={v.id}
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-primaryBrown border border-neutral-200 ${fonts.mulish}`}
+                      className={`px-2 py-1 rounded-full text-xs font-medium bg-[#BD9958]/10 text-[#ffe5b6] border border-[#BD9958]/20 ${fonts.mulish}`}
                     >
                       {v.name}
                     </span>
                   ))}
                   {product.variations.length > 2 && (
                     <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-200 text-primaryBrown border border-neutral-300 ${fonts.mulish}`}
+                      className={`px-2 py-1 rounded-full text-xs font-medium bg-[#BD9958]/10 text-[#ffe5b6]/60 border border-[#BD9958]/10 ${fonts.mulish}`}
                     >
                       +{product.variations.length - 2} more
                     </span>
@@ -201,7 +201,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </>
               ) : (
                 <span
-                  className={`text-primaryBrown ${styles.price} ${fonts.merriweather}`}
+                  className={`text-[#ffe5b6] ${styles.price} ${fonts.cormorant}`}
                 >
                   ₹{pricing.currentPrice}
                 </span>
@@ -236,7 +236,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 onClick={() => setIsOverlayOpen(true)}
                 tabIndex={0}
                 aria-label={`View details for ${product.name}`}
-                className={`${product.variations.length <= 1 ? "flex-1" : "w-full"} inline-flex items-center justify-center gap-2 bg-primaryBrown text-white px-4 py-2 rounded-lg font-semibold hover:bg-primaryBrown/90 transition-colors duration-200 text-center ${size === "large" ? "text-base py-3" : "text-sm"} ${fonts.merriweather}`}
+                className={`${product.variations.length <= 1 ? "flex-1" : "w-full"} inline-flex items-center justify-center gap-2 bg-[#BD9958] text-[#27190b] px-4 py-2 rounded-lg font-bold hover:bg-[#ffe5b6] transition-all duration-300 text-center uppercase tracking-widest ${size === "large" ? "text-sm py-3" : "text-xs"} ${fonts.cormorant}`}
               >
                 {product.variations.length > 1
                   ? "Choose Options"

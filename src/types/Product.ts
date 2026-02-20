@@ -2,6 +2,7 @@ export interface Category {
   id: string;
   name: string;
   createdAt: string;
+  products?: { images: string[] }[];
 }
 
 export interface Product {

@@ -46,8 +46,8 @@ export default function ProductForm({
     description: string;
     specificDescription: string;
     price: string;
-    ethos: string;
-    whatItsFor: string;
+    // ethos: string;
+    // whatItsFor: string;
     features: string[];
     images: string[];
     mobileImages: string[];
@@ -69,8 +69,8 @@ export default function ProductForm({
     description: "",
     specificDescription: "",
     price: "",
-    ethos: "",
-    whatItsFor: "",
+    // ethos: "",
+    // whatItsFor: "",
     features: [""],
     images: [""],
     mobileImages: [""],
@@ -111,8 +111,8 @@ export default function ProductForm({
         description: initialData.description || "",
         specificDescription: initialData.specificDescription || "",
         price: initialData.price || "",
-        ethos: initialData.ethos || "",
-        whatItsFor: initialData.whatItsFor || "",
+        // ethos: initialData.ethos || "",
+        // whatItsFor: initialData.whatItsFor || "",
         features:
           initialData.features && initialData.features.length > 0
             ? initialData.features
@@ -565,7 +565,7 @@ export default function ProductForm({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Symbolism
+                Symbolism (Optional)
               </label>
               <textarea
                 value={formData.symbolism}
@@ -577,7 +577,7 @@ export default function ProductForm({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Language Engraving
+                Language Engraving (Optional)
               </label>
               <textarea
                 value={formData.languageEngraving}
@@ -707,39 +707,6 @@ export default function ProductForm({
                 )}
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Ethos*
-            </label>
-            <textarea
-              value={formData.ethos}
-              onChange={(e) => handleChange("ethos", e.target.value)}
-              rows={3}
-              placeholder={
-                clientType === "soul-luxury"
-                  ? "Production ethos"
-                  : "Energetic ethos"
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              What It's For*
-            </label>
-            <textarea
-              value={formData.whatItsFor}
-              onChange={(e) => handleChange("whatItsFor", e.target.value)}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              required
-            />
           </div>
         </div>
 
