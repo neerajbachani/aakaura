@@ -6,12 +6,22 @@ import { FaEdit, FaLayerGroup } from "react-icons/fa";
 import { BiCalendarAlt } from "react-icons/bi";
 import { Combo } from "@/types/Combo";
 import AdminTabs from "@/components/ui/AdminTabs";
-import { getAllCombos } from "@/lib/api";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export default async function CombosAdmin() {
-  const combos = await getAllCombos();
+  // Query Prisma directly — avoids circular HTTP self-fetch that fails on Vercel SSR
+  const db = prisma as any;
+  const combos: Combo[] = await db.combo.findMany({
+    include: {
+      products: {
+        include: { product: true, variation: true },
+        orderBy: { order: "asc" },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
   return (
     <div className="min-h-screen bg-gradient-to-br from-secondaryBeige to-secondaryBeige/50 p-3 md:p-8">
       <div className="max-w-7xl mx-auto">
