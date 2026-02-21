@@ -1145,10 +1145,24 @@ export default function ChakraJourneyTemplate({
                           {product.includedProducts &&
                           product.includedProducts.length > 0
                             ? product.includedProducts.map((p, i) => (
-                                <Link
+                                <button
                                   key={i}
-                                  onClick={handleCloseModal}
-                                  href={p.url}
+                                  onClick={() => {
+                                    // Try to find if this included product exists in the current filtered list
+                                    const idx = filteredProducts.findIndex(
+                                      (cp) =>
+                                        cp.id === p.id || cp.name === p.name,
+                                    );
+                                    if (idx !== -1) {
+                                      setExpandedCard(null);
+                                      setTimeout(() => {
+                                        scrollToProduct(idx);
+                                      }, 100);
+                                    } else {
+                                      // Fallback to URL navigation if not in current view
+                                      window.location.href = p.url;
+                                    }
+                                  }}
                                   className="group flex flex-col h-full bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
                                 >
                                   <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10 flex-shrink-0">
@@ -1178,7 +1192,7 @@ export default function ChakraJourneyTemplate({
                                       View Product →
                                     </div>
                                   </div>
-                                </Link>
+                                </button>
                               ))
                             : filteredProducts
                                 .filter(

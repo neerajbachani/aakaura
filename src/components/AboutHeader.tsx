@@ -64,7 +64,10 @@ export default function AboutHeader() {
                   href="/about"
                 >
                   <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-3 h-[1px] w-full transition-colors duration-300" />
-                  <div className="flex items-start sm:items-center justify-between gap-4">
+                  <Link
+                    href="/products"
+                    className="flex items-start sm:items-center justify-between gap-4"
+                  >
                     <p className="text-base sm:text-lg lg:text-xl font-cormorant text-[#BD9958] group-hover:text-[#FFD700] transition-colors leading-relaxed">
                       Not everything needs fixing.{" "}
                       <br className="hidden sm:block" />
@@ -74,7 +77,7 @@ export default function AboutHeader() {
                       className="transition-transform text-[#BD9958] group-hover:text-[#FFD700] h-8 w-8 duration-300 group-hover:-rotate-45"
                       aria-hidden="true"
                     />
-                  </div>
+                  </Link>
                 </Link>
               </div>
 

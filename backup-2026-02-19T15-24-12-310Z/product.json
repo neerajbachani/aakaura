@@ -1,0 +1,469 @@
+[
+  {
+    "id": "82844eb6-f28e-456a-80b6-c89df34baba4",
+    "name": "Akasha Aayam Wall Hanging",
+    "description": "A handcrafted terracotta piece symbolizing clarity, expression, and authenticity.",
+    "images": [
+      "/images/throat-chakra-wall-hanging.jpg"
+    ],
+    "price": 4500,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:09.497Z",
+    "updatedAt": "2026-02-14T07:55:09.497Z"
+  },
+  {
+    "id": "c9e0132b-b011-472b-8ce6-5f6121667e78",
+    "name": "Aarohma Ekam Bonsai: Throat (Vishuddha) Chakra",
+    "description": "The Throat Chakra Aarohma Ekam Bonsai represents expression, truth, clarity, and the courage to be heard.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770640184/IMG_20260209_175137_eavec7.png"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:11.564Z",
+    "updatedAt": "2026-02-14T07:55:11.564Z"
+  },
+  {
+    "id": "3d463ef8-a3fd-4d43-9db8-7fab1606725e",
+    "name": "Aamvaraah Muffler: Blue",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "/images/aamvaraah-muffler.jpg"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:13.006Z",
+    "updatedAt": "2026-02-14T07:55:13.006Z"
+  },
+  {
+    "id": "3539928b-c43b-4b37-88c3-53ff8ce23708",
+    "name": "Aarohma Ekam Bonsai: Crown (Sahasrara) Chakra",
+    "description": "The Crown Chakra Aarohma Ekam Bonsai represents clarity, awareness, and connection beyond the material.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770641330/1000211585.jpg_pb2ft7.jpg"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:15.318Z",
+    "updatedAt": "2026-02-14T07:55:15.318Z"
+  },
+  {
+    "id": "f31e292b-fd8a-4380-92d7-43e69e16c4b3",
+    "name": "Aamoria Earrings",
+    "description": "Aamoria is designed around the heart chakra geometric pattern, traditionally associated with balance, connection, and emotional openness in Indian symbolic systems.",
+    "images": [
+      "/images/aamoria-earrings.jpg"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "90b2b380-271f-4067-9cef-cfb4aebbf270",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:32.915Z",
+    "updatedAt": "2026-02-14T07:55:32.915Z"
+  },
+  {
+    "id": "3a3225ba-e1ff-403a-b643-a20250c486bc",
+    "name": "Prithvi Aayam Wall Hanging",
+    "description": "Hand-crafted terracotta wall hanging with solid wood inscription and brass ghungroo bells.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770790083/IMG_20260211_113554_euxzet.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770790088/IMG_20260211_113339_qkuwdi.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770790087/IMG_20260211_113436_prnlhk.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770790080/IMG_20260211_113402_ktiuhy.png"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:35.207Z",
+    "updatedAt": "2026-02-14T07:55:35.207Z"
+  },
+  {
+    "id": "af763146-b6e1-494f-8409-9f50f82f70e8",
+    "name": "Aarohma Ekam Bonsai: Third Eye (Ajna) Chakra",
+    "description": "Inspired by the Ajna (Third Eye) Chakra, this bonsai represents perception beyond surface information- clarity, awareness, and inner alignment.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161327/5e09149e-20e9-4462-9b8f-f45f3ad9366a_bacluz.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161340/f99fb849-5d35-4a61-b61b-24ac24dc6187_ek0bwc.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161335/c237cda9-4931-4dd9-a0ce-6e822433f94b_blzys4.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161360/19e99a15-109e-46fa-919a-8490b2b1f9a9_rm5tma.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161352/059ba949-9218-4e0f-bed2-c8fbcdfcc3a4_evu3w8.jpg"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:20.646Z",
+    "updatedAt": "2026-02-19T07:24:42.423Z"
+  },
+  {
+    "id": "5a7b24c7-6656-42df-9914-2f93b690d569",
+    "name": "Ajna Sthiti | The Vision Anchor",
+    "description": "Designed as a stationary desk anchor, this handcrafted Ajna sculpture serves as a visual stabilizer for workspaces, studios, and reflective corners.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162364/399ba323-bdff-4295-9e60-01996db71dc9_zktzlf.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162311/3e5740ba-1c5c-4703-923f-b354aed6b628_lltd8s.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162318/141edc82-e6c4-4161-b9bc-2e9d1a992a21_inzdor.jpg"
+    ],
+    "price": 3500,
+    "offerPrice": null,
+    "categoryId": "3ecedfe3-65cd-49ec-848a-03e6b03bc3f4",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:23.649Z",
+    "updatedAt": "2026-02-19T07:24:43.139Z"
+  },
+  {
+    "id": "07e80347-c5a5-46c8-bd35-3e1825b386ca",
+    "name": "Aarohma Ekam Bonsai: Sacral (Svadisthana) Chakra",
+    "description": "The Sacral Chakra Aarohma Ekam Bonsai represents fluidity, creative spark, and the rhythmic pulse of life.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771174687/1427f009-0980-4766-9dcd-71d9fa8e9ae1_hdnwdl.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771174698/f872e18e-341d-45ba-89b9-9ea1c58aa1a2_zhuiis.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771174711/23f0dc1a-d684-4bd0-a467-81a61c4ef7bf_zh0ot5.jpg"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:26.377Z",
+    "updatedAt": "2026-02-19T07:24:43.964Z"
+  },
+  {
+    "id": "542142f5-c15a-4c34-88ef-77da673571c4",
+    "name": "Vayu Aayam Wall Hanging",
+    "description": "A handcrafted terracotta piece symbolizing emotional balance and inner openness.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771341426/blog_covers/z5jixgmncogrbwhpz5jy.png"
+    ],
+    "price": 4500,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:30.016Z",
+    "updatedAt": "2026-02-19T07:24:44.574Z"
+  },
+  {
+    "id": "abca5cd6-a1b1-4606-9e82-7e5418ec2ae2",
+    "name": "Aamoria Necklace",
+    "description": "The Aamoria Necklace is designed to complement the Aamoria Earrings, carrying the same heart chakra–inspired geometric pattern at its centre.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154978/08c8068a-7890-4e99-80d4-ac81e71cb248_ivxmz0.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154974/1a3aa3fb-0238-4a94-9e1b-733123581497_ltztnc.jpg"
+    ],
+    "price": 3500,
+    "offerPrice": null,
+    "categoryId": "90b2b380-271f-4067-9cef-cfb4aebbf270",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:34.117Z",
+    "updatedAt": "2026-02-19T07:24:45.293Z"
+  },
+  {
+    "id": "942861c5-1f5a-450e-8e63-8989259c0877",
+    "name": "Aamvaraah Muffler: Orange",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175304/700c7f96-df9d-44e7-add7-bd0c0d91da14_dlzw1x.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175323/01b963e7-f81e-495f-a719-536a79a3e055_peft5g.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175314/693576cb-3685-4542-adb1-4324b4730c72_ror6zd.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175467/f0decd6c-84ad-44a8-a3db-40d9a2d61646_sxpwij.jpg"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:27.606Z",
+    "updatedAt": "2026-02-19T08:21:52.510Z"
+  },
+  {
+    "id": "547dd143-3e3a-4d02-82fe-7b97b395bac4",
+    "name": "Aamvaraah Muffler: Green",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103049_ijtntr.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103136_rhhfc7.png"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:28.858Z",
+    "updatedAt": "2026-02-19T08:21:53.194Z"
+  },
+  {
+    "id": "17121416-23d5-45bb-a949-dbff424765ff",
+    "name": "Aarohma Ekam Bonsai: Root (Muladhara) Chakra",
+    "description": "The Root Chakra Aarohma Ekam Bonsai represents stability, grounding, and a sense of inner security.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770794103/IMG_20260211_124241_veblum.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770775551/IMG_20260211_073310_la5fff.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770775552/IMG_20260211_073412_dsua0t.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770776772/IMG_20260211_072049_t2dzsk.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770776774/IMG_20260211_072111_szej1f.png"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:38.077Z",
+    "updatedAt": "2026-02-14T07:55:38.077Z"
+  },
+  {
+    "id": "6052bcc1-d660-4436-8ae5-06b517f9805c",
+    "name": "Aarohma Ekam Bonsai: Solar Plexus (Manipura) Chakra",
+    "description": "The Solar Plexus Chakra Aarohma Ekam Bonsai represents confidence, willpower, clarity of action, and inner strength.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770641329/1000211589.jpg_kgyxue.jpg"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:40.918Z",
+    "updatedAt": "2026-02-14T07:55:40.918Z"
+  },
+  {
+    "id": "b280c6f2-be82-4d34-8227-40178731b627",
+    "name": "Aamvaraah Muffler: Yellow",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "/images/aamvaraah-muffler.jpg"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:42.045Z",
+    "updatedAt": "2026-02-14T07:55:42.045Z"
+  },
+  {
+    "id": "7b6bd825-dd86-489a-b3cf-c50b6f6789a4",
+    "name": "Brahma Aayam Wall Hanging",
+    "description": "A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771419516/blog_covers/vrywnibk6zifnx4acohs.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771436348/blog_covers/iaj31aogasdccgwkj3sz.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771415546/blog_covers/ch8ww0l4js5r3jffat4z.png"
+    ],
+    "price": 4500,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:14.023Z",
+    "updatedAt": "2026-02-19T07:24:41.165Z"
+  },
+  {
+    "id": "3e2856cb-8c7b-451c-ba75-53c2e0b28e76",
+    "name": "Aamvaraah Muffler: Indigo",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173579/14021594-253d-424a-9019-f1c980eacb89_q2zbl4.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173295/0709559a-50f0-4d3f-b514-4de750b2c2bf_bgbbd9.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173585/3dd18a88-e020-4654-b324-211f3abe47e6_a4rs99.jpg"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:17.880Z",
+    "updatedAt": "2026-02-19T07:24:41.815Z"
+  },
+  {
+    "id": "395c7b6d-a623-4cec-9ecf-cfb02d61b410",
+    "name": "Jnana Aayam Wall Hanging",
+    "description": "A handcrafted terracotta piece symbolizing perception, insight, and inner knowing.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771160977/c2bf417e-4d75-4320-9244-f3749ec2b615_u15n7j.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771351935/blog_covers/vcpskycoss0zcos8o4vh.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771160995/c62d57f3-fdcf-44a9-b6f2-d65f16dd0e5c_d8ruks.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771352346/blog_covers/ycqdzuszncmcr96uziw3.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771352435/blog_covers/tmt7dfblzlcub9ec6rnb.png"
+    ],
+    "price": 4500,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:19.210Z",
+    "updatedAt": "2026-02-19T07:24:42.118Z"
+  },
+  {
+    "id": "385cced5-2cd5-461c-b518-1bcaba46ce5f",
+    "name": "Aakaura’s Ajna Drishti",
+    "description": "Designed around the Ajna symbol of balanced perception, this serene meditative figure serves as a visual cue for mental steadiness.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162701/c6a6acba-dcb3-4570-b955-80ca4b5f46f3_wxcal5.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162693/890787ce-4978-4bf4-942e-0586cc24b5c6_g09wwg.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162709/2fd11ed3-ced1-4679-975b-0f85ca64da7d_mdumot.jpg"
+    ],
+    "price": 3500,
+    "offerPrice": null,
+    "categoryId": "3ecedfe3-65cd-49ec-848a-03e6b03bc3f4",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:22.183Z",
+    "updatedAt": "2026-02-19T07:24:42.732Z"
+  },
+  {
+    "id": "336893fc-3c6d-4d0c-bedd-b0b90d5d848f",
+    "name": "Jal Aayam Wall Hanging",
+    "description": "A handcrafted terracotta piece symbolizing creativity, emotion, and movement.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175148/IMG_20260215_223409_bfcb66.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771174558/bcfc9cda-9fee-4d5c-89c5-44fce22ec34b_mafrhm.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771174565/734a0fe4-028a-45a9-b66e-7dbff2387cd9_t9dai7.jpg"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:25.119Z",
+    "updatedAt": "2026-02-19T07:24:43.542Z"
+  },
+  {
+    "id": "6039d852-902f-4974-b261-54bd0cc995d7",
+    "name": "Agni Aayam Wall Hanging",
+    "description": "A handcrafted terracotta piece symbolizing confidence, will, and inner strength.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771160963/79313106-4a85-4c24-b339-7d662a85de3b_qbgnq6.jpg"
+    ],
+    "price": 4500,
+    "offerPrice": null,
+    "categoryId": "116cd642-3def-41e7-8c18-0a2f54dbb5d0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:39.279Z",
+    "updatedAt": "2026-02-19T07:24:44.267Z"
+  },
+  {
+    "id": "447c1d08-a2ae-48d1-b1d4-f249bf3159d5",
+    "name": "Aarohma Ekam Bonsai: Heart (Anahata) Chakra",
+    "description": "Designed around the Anahata Chakra, this bonsai represents balance between strength and softness- the space where emotion and stability meet.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154096/ea09a730-a819-4ec1-a8a2-2dd1928ee4f2_mnkttw.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153684/ba905c58-0306-4a11-8a05-b2609bb99721_bzmuck.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153648/fa56c221-c49a-4b22-8a4f-d5f179bc63d0_d3hagh.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153647/4e1a8325-3ced-4981-8850-7b8ee1106bf4_eg38wi.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153907/058e6f78-cd63-4566-8cf4-2baf1ca4e6c4_nmddpo.jpg"
+    ],
+    "price": 8500,
+    "offerPrice": null,
+    "categoryId": "d73dd42e-3099-4441-b681-fa9ee96d61f0",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:31.190Z",
+    "updatedAt": "2026-02-19T07:24:44.881Z"
+  },
+  {
+    "id": "6deed8fe-46ad-4722-9620-bbf915ae142b",
+    "name": "Aamvaraah Muffler: Red",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784422/IMG_20260211_094117_oqyfxh.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784428/IMG_20260211_093923_bal7k3.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784405/IMG_20260211_094341_xo8fvo.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771331007/blog_covers/g7q6xsfjfiuwfsrmwzef.png"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:36.745Z",
+    "updatedAt": "2026-02-19T07:24:45.661Z"
+  },
+  {
+    "id": "28afab72-8ef1-4731-a6a6-4dc6e9bf08c2",
+    "name": "Aamvaraah Muffler: Violet / White",
+    "description": "Woven in the quiet strength of the Himalayas, the Aamvaraah Muffler carries the warmth of high-altitude winters and the patience of hands that know the land.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417281/blog_covers/tggvxa6xkdzjdmbhm2nc.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771178218/4ac9dab2-0c9a-4865-be41-46c322af2d30_dujqn9.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417775/blog_covers/pi9swlitl3e7xnfluwnh.png"
+    ],
+    "price": 2500,
+    "offerPrice": null,
+    "categoryId": "3d4dd7cd-7354-425f-a36a-61c06ef5c593",
+    "isFeatured": false,
+    "createdAt": "2026-02-14T07:55:16.692Z",
+    "updatedAt": "2026-02-19T08:21:53.453Z"
+  },
+  {
+    "id": "20534985-fa80-4361-a98b-833ef35e4ece",
+    "name": "test throat",
+    "description": "Crafted in the stillness of the Himalayas, the Aamvaraah Neck Warmer is designed to protect what is most exposed…your breath, your voice, your center of warmth.\nMade from a felt wool blend, it offers dense insulation without heaviness. It wraps closely, gently, creating a cocoon against winter winds while allowing the body to remain at ease. This is warmth that stays with you, not around you.\nIn many traditions, the neck is a passage—between thought and expression, breath and word. Aamvaraah honours this space. It does not constrict. It supports. It shields without being overwhelming.\nWear it close.\nBreathe slower.\nLet warmth become stillness.\n",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771493899/blog_covers/lbbzjr43pguardreoj3u.png"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "c0ac4967-f818-4676-ad8a-650ae99ca6bf",
+    "isFeatured": false,
+    "createdAt": "2026-02-19T10:12:27.301Z",
+    "updatedAt": "2026-02-19T10:12:27.301Z"
+  },
+  {
+    "id": "2cdf30e7-714b-41ba-95f5-e4cb68204695",
+    "name": "Aamvaraah Neck Warmer: Cream",
+    "description": "Crafted in the stillness of the Himalayas, the Aamvaraah Neck Warmer is designed to protect what is most exposed…your breath, your voice, your center of warmth.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771438564/blog_covers/hpwczb9ttq6y9lzhyoxz.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771437955/blog_covers/jbx1bxjcrs5wrjzop4bq.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771438326/blog_covers/u2mtjuqolvqhpmfr4ycg.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771492256/blog_covers/uzijdbtxqndbnozqkxe8.png"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "c0ac4967-f818-4676-ad8a-650ae99ca6bf",
+    "isFeatured": false,
+    "createdAt": "2026-02-19T10:12:28.581Z",
+    "updatedAt": "2026-02-19T10:12:28.581Z"
+  },
+  {
+    "id": "c70d533a-e7e1-418b-a2e2-c424b48f79a7",
+    "name": "Aamvaraah Neck Warmer: Tangerine",
+    "description": "Crafted in the stillness of the Himalayas, the Aamvaraah Neck Warmer is designed to protect what is most exposed…your breath, your voice, your center of warmth.",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771444552/blog_covers/vfpddrimbohepnrtnbvw.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771444109/blog_covers/jyekinu42q8yej7ybdtm.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771444896/blog_covers/xz4ices64cqox1oqoqxw.png"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "c0ac4967-f818-4676-ad8a-650ae99ca6bf",
+    "isFeatured": false,
+    "createdAt": "2026-02-19T10:12:29.330Z",
+    "updatedAt": "2026-02-19T10:12:29.330Z"
+  },
+  {
+    "id": "78e37e52-65d6-4c19-bc0b-c0a08676acf0",
+    "name": "Aamvaraah Neck Warmer: Red",
+    "description": "\n",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771403297/blog_covers/tnl4sbisobaamokcwgjh.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771330330/blog_covers/ohm3tq9kk5bhv71ctrgu.png"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "c0ac4967-f818-4676-ad8a-650ae99ca6bf",
+    "isFeatured": false,
+    "createdAt": "2026-02-19T10:12:30.126Z",
+    "updatedAt": "2026-02-19T10:12:30.126Z"
+  },
+  {
+    "id": "expansion-sl-7",
+    "name": "test crown",
+    "description": "npx ts-node --transpile-only materialize-products.tsssssssssssssss",
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771496502/blog_covers/leupzjvmhugnsfcq79qi.png"
+    ],
+    "price": 0,
+    "offerPrice": null,
+    "categoryId": "c0ac4967-f818-4676-ad8a-650ae99ca6bf",
+    "isFeatured": false,
+    "createdAt": "2026-02-19T10:33:16.009Z",
+    "updatedAt": "2026-02-19T10:33:16.009Z"
+  }
+]

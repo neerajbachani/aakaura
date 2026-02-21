@@ -1,8 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTransitionRouter } from "next-view-transitions";
+import { motion, AnimatePresence } from "framer-motion";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 // Chakras configuration array with slug mapping
 // Chakras configuration array with slug mapping
@@ -92,36 +94,52 @@ function ChakraCircle({
   chakra,
   onNavigate,
   onHover,
+  isMobile,
+  onClick,
 }: {
   chakra: (typeof chakrasConfig)[0];
   onNavigate: (slug: string) => void;
   onHover: (chakra: (typeof chakrasConfig)[0] | null) => void;
+  isMobile: boolean;
+  onClick: () => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="flex flex-col items-center gap-2 relative group">
-      {/* Sanskrit Name - Above Icon */}
-      <p
-        className={`text-lg md:text-2xl font-light italic tracking-wide transition-opacity duration-300 ${
-          isHovered ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ color: chakra.color }}
-      >
-        {chakra.sanskrit}
-      </p>
+      {/* Sanskrit Name - Above Icon (Desktop Only) */}
+      {!isMobile && (
+        <p
+          className={`text-lg md:text-2xl font-light italic tracking-wide transition-opacity duration-300 ${
+            isHovered ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ color: chakra.color }}
+        >
+          {chakra.sanskrit}
+        </p>
+      )}
 
       <div
         className="relative w-16 h-16 sm:w-[5.8rem] sm:h-[5.8rem] flex items-center justify-center cursor-pointer"
         onMouseEnter={() => {
-          setIsHovered(true);
-          onHover(chakra);
+          if (!isMobile) {
+            setIsHovered(true);
+            onHover(chakra);
+          }
         }}
         onMouseLeave={() => {
-          setIsHovered(false);
-          onHover(null);
+          if (!isMobile) {
+            setIsHovered(false);
+            onHover(null);
+          }
         }}
-        onClick={() => onNavigate(chakra.slug)}
+        onClick={() => {
+          if (isMobile) {
+            onClick();
+          } else {
+            onNavigate(chakra.slug);
+          }
+        }}
       >
         {/* Glow effect behind SVG - always visible */}
         <div
@@ -180,6 +198,20 @@ export default function BannerImage() {
   const [hoveredChakra, setHoveredChakra] = useState<
     (typeof chakrasConfig)[0] | null
   >(null);
+  const [selectedChakra, setSelectedChakra] = useState<
+    (typeof chakrasConfig)[0] | null
+  >(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Screen size detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const centerChakra = chakrasConfig.find((c) => c.position === "center");
   const upperChakras = chakrasConfig
@@ -207,6 +239,7 @@ export default function BannerImage() {
   };
 
   const handleNavigation = (slug: string) => {
+    setSelectedChakra(null);
     router.push(`/journey/${slug}`, {
       onTransitionReady: triggerPageTransition,
     });
@@ -270,6 +303,8 @@ export default function BannerImage() {
               chakra={centerChakra}
               onNavigate={handleNavigation}
               onHover={setHoveredChakra}
+              isMobile={isMobile}
+              onClick={() => setSelectedChakra(centerChakra)}
             />
           </div>
         )}
@@ -282,6 +317,8 @@ export default function BannerImage() {
               chakra={chakra}
               onNavigate={handleNavigation}
               onHover={setHoveredChakra}
+              isMobile={isMobile}
+              onClick={() => setSelectedChakra(chakra)}
             />
           ))}
         </div>
@@ -294,6 +331,8 @@ export default function BannerImage() {
               chakra={chakra}
               onNavigate={handleNavigation}
               onHover={setHoveredChakra}
+              isMobile={isMobile}
+              onClick={() => setSelectedChakra(chakra)}
             />
           ))}
 
@@ -328,6 +367,8 @@ export default function BannerImage() {
               chakra={lowerChakras[0]}
               onNavigate={handleNavigation}
               onHover={setHoveredChakra}
+              isMobile={isMobile}
+              onClick={() => setSelectedChakra(lowerChakras[0])}
             />
           )}
 
@@ -355,6 +396,8 @@ export default function BannerImage() {
               chakra={lowerChakras[1]}
               onNavigate={handleNavigation}
               onHover={setHoveredChakra}
+              isMobile={isMobile}
+              onClick={() => setSelectedChakra(lowerChakras[1])}
             />
           )}
         </div>
@@ -378,6 +421,70 @@ export default function BannerImage() {
           </span>
         </Link>
       </div>
+
+      {/* Mobile Bottom Sheet */}
+      <AnimatePresence>
+        {isMobile && selectedChakra && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedChakra(null)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100]"
+            />
+
+            {/* Bottom Sheet */}
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 bg-[#27190b] z-[101] rounded-t-[32px] p-8 pb-12 shadow-[0_-20px_40px_rgba(0,0,0,0.5)] border-t border-[#BD9958]/20"
+            >
+              {/* Handle Bar */}
+              <div className="w-12 h-1 bg-[#BD9958]/20 rounded-full mx-auto mb-8" />
+
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedChakra(null)}
+                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+              >
+                <XMarkIcon className="w-6 h-6 text-[#BD9958]" />
+              </button>
+
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-4">
+                  <h3
+                    className="text-2xl font-bold tracking-widest uppercase mb-1"
+                    style={{ color: selectedChakra.color }}
+                  >
+                    {selectedChakra.name}
+                  </h3>
+                  <p
+                    className="text-lg italic font-light opacity-80"
+                    style={{ color: selectedChakra.color }}
+                  >
+                    {selectedChakra.sanskrit}
+                  </p>
+                </div>
+
+                <p className="text-sm leading-relaxed text-[#f4f1ea]/80 whitespace-pre-line mb-10 max-w-sm">
+                  {selectedChakra.info}
+                </p>
+
+                <button
+                  onClick={() => handleNavigation(selectedChakra.slug)}
+                  className="w-full py-4 rounded-full bg-[#BD9958] text-[#27190b] font-bold uppercase tracking-widest text-sm shadow-lg transform active:scale-95 transition-all"
+                >
+                  Discover {selectedChakra.name} Journey
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

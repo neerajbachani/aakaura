@@ -1,0 +1,25 @@
+[
+  {
+    "id": "912bc44b-8940-45ab-ae81-9f5ba3adcf6e",
+    "slug": "the-grounded-flow",
+    "name": "The Grounded Flow",
+    "tier": "ENTRY",
+    "tagline": "Safety → Creativity",
+    "description": "For those seeking stability while reconnecting with creativity, pleasure, and emotional ease. This collection supports safety in the body and freedom in expression.",
+    "chakras": [
+      "root",
+      "sacral",
+      "grounding",
+      "flow"
+    ],
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770790083/IMG_20260211_113554_euxzet.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771160963/79313106-4a85-4c24-b339-7d662a85de3b_qbgnq6.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770790088/IMG_20260211_113339_qkuwdi.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175314/693576cb-3685-4542-adb1-4324b4730c72_ror6zd.jpg"
+    ],
+    "externalLinks": [],
+    "createdAt": "2026-02-19T05:25:38.380Z",
+    "updatedAt": "2026-02-19T12:06:36.385Z"
+  }
+]

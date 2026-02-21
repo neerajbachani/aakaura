@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useLenis } from "@/context/LenisContext";
+import Link from "next/link";
 import { useAuthStatus } from "@/hooks/useAuth";
 import {
   useAddToWaitlist,
@@ -282,6 +283,9 @@ export default function CategoryJourneyTemplate({
   const { lenis } = useLenis();
   const { isAuthenticated, isLoading: authLoading } = useAuthStatus();
 
+  // Store the horizontal scroll tween to share between effects
+  const horizontalScrollTweenRef = useRef<gsap.core.Tween | null>(null);
+
   // Waitlist hooks
   const addToWaitlist = useAddToWaitlist();
   const removeFromWaitlist = useRemoveFromWaitlist();
@@ -315,6 +319,7 @@ export default function CategoryJourneyTemplate({
           invalidateOnRefresh: true,
         },
       });
+      horizontalScrollTweenRef.current = horizontalScroll;
 
       // Animate images scaling to full size when panel is centered
       const panels = gsap.utils.toArray(".panel") as HTMLElement[];
@@ -360,8 +365,42 @@ export default function CategoryJourneyTemplate({
     };
   }, [expandedCard, lenis]);
 
+  // Function to sync background scroll position
+  const scrollToProduct = (index: number) => {
+    if (!lenis || index === null) return;
+
+    const isDesktop = window.innerWidth >= 768;
+
+    // Start lenis if it was stopped
+    lenis.start();
+    document.body.style.overflow = "";
+
+    if (isDesktop && section3Ref.current) {
+      const scrollTrigger = (horizontalScrollTweenRef.current as any)
+        ?.scrollTrigger;
+
+      if (scrollTrigger) {
+        const start = scrollTrigger.start;
+        const itemScrollWidth = window.innerWidth; // 100vw per item scroll
+        const targetScroll = start + index * itemScrollWidth;
+
+        lenis.scrollTo(targetScroll, { immediate: true });
+      }
+    } else if (horizontalContainerRef.current) {
+      // Mobile: Scroll to the specific panel element
+      const panels = horizontalContainerRef.current.children;
+      const targetPanel = panels[index] as HTMLElement;
+      if (targetPanel) {
+        lenis.scrollTo(targetPanel, { immediate: true });
+      }
+    }
+  };
+
   // Handle close modal
   const handleCloseModal = () => {
+    if (expandedCard !== null) {
+      scrollToProduct(expandedCard);
+    }
     setExpandedCard(null);
   };
 
@@ -369,13 +408,6 @@ export default function CategoryJourneyTemplate({
     <div className="min-h-screen bg-[#27190b]">
       {/* Revealer overlay for page entrance */}
       <div className="revealer fixed inset-0 bg-[#BD9958] z-50 origin-top pointer-events-none" />
-
-      {/* Header for Category */}
-      <div className="fixed top-24 left-0 right-0 z-40 flex justify-center pointer-events-none">
-        <div className="bg-[#27190b]/80 backdrop-blur-md px-6 py-2 rounded-full border border-[#f4f1ea]/20 text-[#f4f1ea] uppercase tracking-widest text-sm pointer-events-auto">
-          Viewing All {categoryName}s
-        </div>
-      </div>
 
       {/* Expanded Background Overlay */}
       <div
@@ -431,6 +463,7 @@ export default function CategoryJourneyTemplate({
               addToWaitlist={addToWaitlist}
               removeFromWaitlist={removeFromWaitlist}
               useIsInWaitlist={useIsInWaitlist}
+              tagLine={`Viewing All ${categoryName}s`}
             />
           ))}
         </div>
@@ -799,6 +832,14 @@ export default function CategoryJourneyTemplate({
                           removeFromWaitlist={removeFromWaitlist}
                           useIsInWaitlist={useIsInWaitlist}
                         />
+                        {chakra && (
+                          <Link
+                            href={`/journey/${chakra.slug}`}
+                            className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
+                          >
+                            View all {chakra.name}
+                          </Link>
+                        )}
                       </div>
 
                       {/* Suggested Products (Other products in the same category) */}
@@ -824,7 +865,12 @@ export default function CategoryJourneyTemplate({
                                     (cp) =>
                                       cp.product.name === item.product.name,
                                   );
-                                  if (idx !== -1) setExpandedCard(idx);
+                                  if (idx !== -1) {
+                                    setExpandedCard(null);
+                                    setTimeout(() => {
+                                      scrollToProduct(idx);
+                                    }, 100);
+                                  }
                                 }}
                                 className="group flex flex-col h-full bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
                               >

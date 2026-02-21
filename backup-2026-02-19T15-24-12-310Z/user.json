@@ -1,0 +1,50 @@
+[
+  {
+    "id": "4ad89c35-6668-4e97-a3a7-5abf93cf7996",
+    "email": "neerajbachani2003@gmail.com",
+    "password": "$2b$12$JRBgKjmn4jvor0OWHMiB4O5.DzZu5yk2rY1wY7RBg44X3gTCYihO6",
+    "name": "Neeraj",
+    "phone": null,
+    "avatar": null,
+    "emailVerified": false,
+    "role": "ADMIN",
+    "isActive": true,
+    "lastLoginAt": null,
+    "totalOrders": 0,
+    "totalSpent": 0,
+    "createdAt": "2025-09-29T06:16:31.325Z",
+    "updatedAt": "2025-12-26T03:28:23.205Z"
+  },
+  {
+    "id": "eba38953-fd37-42ac-9575-7815828514cf",
+    "email": "test@gmail.com",
+    "password": "$2b$12$RwKow/k0glu2HiLDJovWNu39YJY96VYcFUAuoBcu0JVbDp2R.t.0u",
+    "name": "test",
+    "phone": null,
+    "avatar": null,
+    "emailVerified": false,
+    "role": "ADMIN",
+    "isActive": true,
+    "lastLoginAt": null,
+    "totalOrders": 0,
+    "totalSpent": 0,
+    "createdAt": "2025-12-25T13:31:34.439Z",
+    "updatedAt": "2025-12-26T03:28:23.205Z"
+  },
+  {
+    "id": "c2d97713-1c09-4146-b182-87019e6b8bf5",
+    "email": "admintest@gmail.com",
+    "password": "$2b$12$H.GAVGIp.kCLgZI3erTeZOy0yRP0jU7/RhCXVJ77T2V5i25o.L1bS",
+    "name": "test 2",
+    "phone": null,
+    "avatar": null,
+    "emailVerified": false,
+    "role": "USER",
+    "isActive": true,
+    "lastLoginAt": null,
+    "totalOrders": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-02-14T07:22:48.106Z",
+    "updatedAt": "2026-02-14T07:22:48.106Z"
+  }
+]

@@ -30,6 +30,7 @@ interface JourneyProductPanelProps {
   removeFromWaitlist: any;
   useIsInWaitlist: any;
   customMainImage?: string;
+  tagLine?: string;
 }
 
 export function JourneyProductPanel({
@@ -50,6 +51,7 @@ export function JourneyProductPanel({
   removeFromWaitlist,
   useIsInWaitlist,
   customMainImage,
+  tagLine,
 }: JourneyProductPanelProps) {
   const [activeVariant, setActiveVariant] = useState(
     product.variants?.[0] || null,
@@ -154,14 +156,20 @@ export function JourneyProductPanel({
         />
 
         {/* Top Text - Kept inside image container for mobile to overlay image */}
-        <div className="absolute bottom-0 md:top-0 left-0 right-0 p-6 md:p-8">
-          <h2
-            className={`text-sm md:text-lg uppercase tracking-[0.2em] md:tracking-[0.3em] font-light text-white text-center md:text-left`}
-          >
-            <span className="max-w-sm block mx-auto md:mx-0">
-              AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION
-            </span>
-          </h2>
+        <div className="absolute top-0 left-0 right-0 p-6 md:p-8 flex justify-center md:justify-start">
+          {tagLine ? (
+            <div className="bg-[#27190b]/80 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-white uppercase tracking-[0.2em] text-xs md:text-sm">
+              {tagLine}
+            </div>
+          ) : (
+            <h2
+              className={`text-sm md:text-lg uppercase tracking-[0.2em] md:tracking-[0.3em] font-light text-white text-center md:text-left`}
+            >
+              <span className="max-w-sm block mx-auto md:mx-0">
+                AAKAURA'S {chakra.tone.toUpperCase()} COLLECTION
+              </span>
+            </h2>
+          )}
         </div>
       </div>
 

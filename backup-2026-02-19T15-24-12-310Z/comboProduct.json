@@ -1,0 +1,29 @@
+[
+  {
+    "id": "857eb3cb-c383-4986-924e-424e16f92f23",
+    "comboId": "912bc44b-8940-45ab-ae81-9f5ba3adcf6e",
+    "productId": "6039d852-902f-4974-b261-54bd0cc995d7",
+    "variationId": null,
+    "quantity": 1,
+    "order": 0,
+    "detail": "Root"
+  },
+  {
+    "id": "e383df26-5172-406b-a858-512a419d8e2d",
+    "comboId": "912bc44b-8940-45ab-ae81-9f5ba3adcf6e",
+    "productId": "3a3225ba-e1ff-403a-b643-a20250c486bc",
+    "variationId": null,
+    "quantity": 1,
+    "order": 1,
+    "detail": "Sacral"
+  },
+  {
+    "id": "a6ae730b-6868-4732-b50f-42025908488b",
+    "comboId": "912bc44b-8940-45ab-ae81-9f5ba3adcf6e",
+    "productId": "942861c5-1f5a-450e-8e63-8989259c0877",
+    "variationId": null,
+    "quantity": 1,
+    "order": 2,
+    "detail": "Sacral"
+  }
+]

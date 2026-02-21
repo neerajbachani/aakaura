@@ -1,0 +1,65 @@
+--- DB PRODUCTS (Mufflers) ---
+ID: 942861c5-1f5a-450e-8e63-8989259c0877
+Name: "Aamvaraah Muffler: Orange"
+Images: ["/images/aamvaraah-muffler.jpg"]
+---
+ID: 547dd143-3e3a-4d02-82fe-7b97b395bac4
+Name: "Aamvaraah Muffler: Green"
+Images: ["/images/aamvaraah-muffler.jpg"]
+---
+ID: 3d463ef8-a3fd-4d43-9db8-7fab1606725e
+Name: "Aamvaraah Muffler: Blue"
+Images: ["/images/aamvaraah-muffler.jpg"]
+---
+ID: 28afab72-8ef1-4731-a6a6-4dc6e9bf08c2
+Name: "Aamvaraah Muffler: Violet / White"
+Images: ["/images/aamvaraah-muffler.jpg"]
+---
+ID: b280c6f2-be82-4d34-8227-40178731b627
+Name: "Aamvaraah Muffler: Yellow"
+Images: ["/images/aamvaraah-muffler.jpg"]
+---
+ID: 3e2856cb-8c7b-451c-ba75-53c2e0b28e76
+Name: "Aamvaraah Muffler: Indigo"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173579/14021594-253d-424a-9019-f1c980eacb89_q2zbl4.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173295/0709559a-50f0-4d3f-b514-4de750b2c2bf_bgbbd9.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173585/3dd18a88-e020-4654-b324-211f3abe47e6_a4rs99.jpg"]
+---
+ID: 6deed8fe-46ad-4722-9620-bbf915ae142b
+Name: "Aamvaraah Muffler: Red"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784422/IMG_20260211_094117_oqyfxh.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784428/IMG_20260211_093923_bal7k3.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784405/IMG_20260211_094341_xo8fvo.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771331007/blog_covers/g7q6xsfjfiuwfsrmwzef.png"]
+---
+
+--- JOURNEY CONTENT (Mufflers) ---
+Journey: Throat Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Blue"
+Images: ["/images/aamvaraah-muffler.jpg"]
+---
+Journey: Crown Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Cream"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417281/blog_covers/tggvxa6xkdzjdmbhm2nc.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771178218/4ac9dab2-0c9a-4865-be41-46c322af2d30_dujqn9.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417775/blog_covers/pi9swlitl3e7xnfluwnh.png"]
+Variants: []
+---
+Journey: Third Eye Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Indigo"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173579/14021594-253d-424a-9019-f1c980eacb89_q2zbl4.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173295/0709559a-50f0-4d3f-b514-4de750b2c2bf_bgbbd9.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173585/3dd18a88-e020-4654-b324-211f3abe47e6_a4rs99.jpg"]
+Variants: []
+---
+Journey: Sacral Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Tangerine"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175304/700c7f96-df9d-44e7-add7-bd0c0d91da14_dlzw1x.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175323/01b963e7-f81e-495f-a719-536a79a3e055_peft5g.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175314/693576cb-3685-4542-adb1-4324b4730c72_ror6zd.jpg","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175467/f0decd6c-84ad-44a8-a3db-40d9a2d61646_sxpwij.jpg"]
+Variants: []
+---
+Journey: Solar Plexus Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Yellow & Brown"
+Images: ["/images/aamvaraah-muffler.jpg"]
+Variants: []
+---
+Journey: Heart Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Green & White"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103049_ijtntr.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103136_rhhfc7.png"]
+Variants: []
+---
+Journey: Root Chakra (soul-luxury)
+Name: "Aamvaraah Muffler: Red"
+Images: ["https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784422/IMG_20260211_094117_oqyfxh.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784428/IMG_20260211_093923_bal7k3.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784405/IMG_20260211_094341_xo8fvo.png","https://res.cloudinary.com/dbpnjohhr/image/upload/v1771331007/blog_covers/g7q6xsfjfiuwfsrmwzef.png"]
+Variants: []
+---
