@@ -294,7 +294,10 @@ export default function CategoryJourneyTemplate({
 
   // GSAP Horizontal Scroll Effect
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {});
+
+    mm.add("(min-width: 768px)", () => {
       const horizontalContainer = horizontalContainerRef.current;
       const section3 = section3Ref.current;
 
@@ -347,7 +350,11 @@ export default function CategoryJourneyTemplate({
       });
     });
 
-    return () => ctx.revert();
+    return () => {
+      mm.revert();
+      ctx.revert();
+      horizontalScrollTweenRef.current = null;
+    };
   }, [items]);
 
   // Block body scroll when overlay is open
@@ -442,8 +449,14 @@ export default function CategoryJourneyTemplate({
       </div>
 
       {/* Horizontal Scroll Section */}
-      <section ref={section3Ref} className="relative h-screen overflow-hidden">
-        <div ref={horizontalContainerRef} className="flex h-full w-max">
+      <section
+        ref={section3Ref}
+        className="relative min-h-screen h-auto md:h-screen overflow-visible md:overflow-hidden"
+      >
+        <div
+          ref={horizontalContainerRef}
+          className="flex flex-col md:flex-row h-auto md:h-full w-full md:w-max"
+        >
           {items.map(({ product, chakra }, index) => (
             <JourneyProductPanel
               key={product.id || index}
