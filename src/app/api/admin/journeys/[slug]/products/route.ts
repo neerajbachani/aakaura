@@ -187,7 +187,7 @@ export async function POST(
             update: {
                 name: product.name,
                 description: product.description || `Imported from ${journey.name} Journey`,
-                price: parseFloat((product.price || "0").replace(/[^0-9.]/g, '')),
+                price: parseFloat(String(product.price || "0").replace(/[^0-9.]/g, '')) || 0,
                 images: product.images || [],
                 // specifications: product.specifications || {}, // Field does not exist on Product model
                 // careInstructions: product.careInstructions || "", // Field does not exist on Product model
@@ -197,11 +197,12 @@ export async function POST(
                 name: product.name,
                 // slug: productSlug, // Field does not exist
                 description: product.description || `Imported from ${journey.name} Journey`,
-                price: parseFloat((product.price || "0").replace(/[^0-9.]/g, '')),
+                price: parseFloat(String(product.price || "0").replace(/[^0-9.]/g, '')) || 0,
                 images: product.images || [],
-                categoryId: defaultCategory?.id || "",
+                category: {
+                    connect: { id: defaultCategory?.id || "" }
+                },
                 isFeatured: false,
-                // inStock: true, // Field does not exist
             }
         });
 
@@ -393,16 +394,18 @@ export async function PUT(
             update: {
                 name: product.name,
                 description: product.description,
-                price: parseFloat((product.price || "0").replace(/[^0-9.]/g, '')),
+                price: parseFloat(String(product.price || "0").replace(/[^0-9.]/g, '')) || 0,
                 images: product.images || [],
             },
             create: {
                 id: productId,
                 name: product.name,
                 description: product.description || `Imported from ${journey.name} Journey`,
-                price: parseFloat((product.price || "0").replace(/[^0-9.]/g, '')),
+                price: parseFloat(String(product.price || "0").replace(/[^0-9.]/g, '')) || 0,
                 images: product.images || [],
-                categoryId: defaultCategory?.id || "",
+                category: {
+                    connect: { id: defaultCategory?.id || "" }
+                },
                 isFeatured: false,
             }
         });
