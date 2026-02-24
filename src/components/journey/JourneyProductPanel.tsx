@@ -8,6 +8,8 @@ import {
   ArrowUpCircleIcon,
   ArrowUpIcon,
   ArrowUpRightIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 
 type ClientType = "soul-luxury" | "energy-curious";
@@ -86,6 +88,20 @@ export function JourneyProductPanel({
 
   // Track window width for mobile check
   const [isMobile, setIsMobile] = useState(false);
+
+  // Thumbnail strip scroll ref
+  const thumbStripRef = React.useRef<HTMLDivElement>(null);
+
+  const handleScrollThumbnails = (direction: "up" | "down") => {
+    if (thumbStripRef.current) {
+      const scrollAmount = 100;
+      const currentScroll = thumbStripRef.current.scrollTop;
+      thumbStripRef.current.scrollBy({
+        top: direction === "up" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
     const checkMobile = () => {
@@ -178,49 +194,68 @@ export function JourneyProductPanel({
       {/* Desktop: Absolute column on left */}
       {expandedCard === null && product.images && product.images.length > 1 && (
         <div
-          className={`side-image-strip z-20 flex gap-4 transition-all duration-500
-            relative w-full overflow-x-auto px-6 py-4 flex-row items-center justify-center
-            md:absolute md:left-8 md:top-[50%] md:-translate-y-1/2 md:flex-col md:w-auto md:h-auto md:max-h-[60vh] md:p-4 md:overflow-visible no-scrollbar`}
+          className={`side-image-strip z-20 flex transition-all duration-500
+            relative w-full px-6 py-4 flex-row items-center justify-center
+            md:absolute md:left-8 md:top-[50%] md:-translate-y-1/2 md:flex-col md:w-auto md:h-auto md:max-h-[70vh] md:p-4`}
           onClick={(e) => e.stopPropagation()}
-          style={
-            {
-              // On desktop, we want the GSAP animation to control opacity/transform.
-              // On mobile, we might want it visible immediately or animated differently.
-              // For now, let's keep the style inline but override with class utilities if needed.
-              // Note: The parent ChakraJourneyTemplate animates ".side-image-strip".
-            }
-          }
         >
-          {product.images.map((img, i) => {
-            // Determine display image for this thumbnail
-            // If mobile & has mobile image at this index, use it. Else use desktop image.
-            const thumbSrc =
-              isMobile && product.mobileImages?.[i]
-                ? product.mobileImages[i]
-                : img;
+          {/* Up arrow for desktop */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleScrollThumbnails("up");
+            }}
+            className="hidden md:flex text-white/50 hover:text-white transition-colors p-1"
+          >
+            <ChevronUpIcon className="w-6 h-6" />
+          </button>
 
-            return (
-              <button
-                key={i}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedSideImage(img);
-                }}
-                className={`w-16 h-16 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
-                  selectedSideImage === img ||
-                  (!selectedSideImage && displayImage === img) // Correct comparison logic needs to be careful here
-                    ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
-                    : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
-                }`}
-              >
-                <img
-                  src={thumbSrc}
-                  alt={`View ${i + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            );
-          })}
+          <div
+            ref={thumbStripRef}
+            className="flex flex-row md:flex-col gap-4 overflow-x-hidden md:overflow-y-hidden max-md:no-scrollbar w-full md:w-auto items-center justify-center md:justify-start md:max-h-[50vh] scroll-smooth py-2"
+          >
+            {product.images.map((img, i) => {
+              // Determine display image for this thumbnail
+              // If mobile & has mobile image at this index, use it. Else use desktop image.
+              const thumbSrc =
+                isMobile && product.mobileImages?.[i]
+                  ? product.mobileImages[i]
+                  : img;
+
+              return (
+                <button
+                  key={i}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedSideImage(img);
+                  }}
+                  className={`w-16 h-16 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
+                    selectedSideImage === img ||
+                    (!selectedSideImage && displayImage === img) // Correct comparison logic needs to be careful here
+                      ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
+                      : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
+                  }`}
+                >
+                  <img
+                    src={thumbSrc}
+                    alt={`View ${i + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Down arrow for desktop */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleScrollThumbnails("down");
+            }}
+            className="hidden md:flex text-white/50 hover:text-white transition-colors p-1"
+          >
+            <ChevronDownIcon className="w-6 h-6" />
+          </button>
         </div>
       )}
 

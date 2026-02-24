@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useLenis } from "@/context/LenisContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuthStatus } from "@/hooks/useAuth";
 import {
   useAddToWaitlist,
@@ -281,6 +282,7 @@ export default function ChakraJourneyTemplate({
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [activeBgImage, setActiveBgImage] = useState<string>("");
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const router = useRouter();
 
   // When filtering changes, reset expanded card
   useEffect(() => {
@@ -363,18 +365,37 @@ export default function ChakraJourneyTemplate({
     if (productId && filteredProducts.length > 0) {
       const index = filteredProducts.findIndex((p) => p.id === productId);
       if (index !== -1) {
-        // Just set expanded card, the existing useEffects will handle scroll/lock
-        // Small timeout to allow layout to settle
-        setTimeout(() => {
-          // Check for autoOpen param (default true)
-          const autoOpen = params.get("autoOpen") !== "false";
+        const autoOpen = params.get("autoOpen") !== "false";
 
-          // Only auto-open modal if allowed AND NOT on combos page
-          if (autoOpen && chakra.slug !== "combos") {
-            setExpandedCard(index);
+        if (autoOpen && chakra.slug !== "combos") {
+          setExpandedCard(index);
+        }
+
+        // Clean up URL so the user only sees /journey/[slug]
+        if (window.history.replaceState) {
+          const url = new URL(window.location.href);
+          url.searchParams.delete("product");
+          url.searchParams.delete("autoOpen");
+          window.history.replaceState({}, "", url.pathname + url.search);
+        }
+
+        // Retry logic to ensure scrolling happens after layout & GSAP are ready
+        let attempts = 0;
+        const tryScroll = () => {
+          const isMobile = window.innerWidth < 768;
+          const st = (horizontalScrollTweenRef.current as any)?.scrollTrigger;
+
+          if (isMobile || st) {
+            if (st) ScrollTrigger.refresh(); // Ensure accurate position before scrolling
+            scrollToProduct(index, true); // smooth scroll on initial load
+          } else if (attempts < 10) {
+            attempts++;
+            setTimeout(tryScroll, 300);
           }
-          scrollToProduct(index);
-        }, 500);
+        };
+
+        // Small initial delay to let React commit
+        setTimeout(tryScroll, 300);
       }
     }
   }, [filteredProducts, chakra.slug]); // Re-run when products load
@@ -525,7 +546,7 @@ export default function ChakraJourneyTemplate({
   }, [expandedCard, lenis]);
 
   // Function to sync background scroll position
-  const scrollToProduct = (index: number) => {
+  const scrollToProduct = (index: number, smooth = false) => {
     if (!lenis || index === null) return;
 
     const isDesktop = window.innerWidth >= 768;
@@ -537,7 +558,6 @@ export default function ChakraJourneyTemplate({
     if (isDesktop && section3Ref.current) {
       // Desktop: Scroll to the corresponding point in the horizontal scroll timeline
       // We assume the pin spacer/trigger starts where section3 starts.
-      // Since section3 might be pinned, we need to be careful.
       // safer to use the ScrollTrigger instance if possible, but calculating based on strict layout logic:
       // Start of pin + (index * viewpointHeight/Width equivalent)
 
@@ -550,7 +570,10 @@ export default function ChakraJourneyTemplate({
         const itemScrollWidth = window.innerWidth; // 100vw per item scroll
         const targetScroll = start + index * itemScrollWidth;
 
-        lenis.scrollTo(targetScroll, { immediate: true });
+        lenis.scrollTo(targetScroll, {
+          immediate: !smooth,
+          duration: smooth ? 1.5 : undefined,
+        });
 
         // Force ScrollTrigger to update immediately to avoid scrub lag
         // explicitly setting progress on the animation
@@ -565,14 +588,18 @@ export default function ChakraJourneyTemplate({
       const panels = horizontalContainerRef.current.children;
       const targetPanel = panels[index] as HTMLElement;
       if (targetPanel) {
-        lenis.scrollTo(targetPanel, { immediate: true });
+        lenis.scrollTo(targetPanel, {
+          immediate: !smooth,
+          duration: smooth ? 1.5 : undefined,
+          offset: -50,
+        });
       }
     }
   };
 
   const handleCloseModal = () => {
     if (expandedCard !== null) {
-      scrollToProduct(expandedCard);
+      scrollToProduct(expandedCard, false);
     }
     setExpandedCard(null);
   };
@@ -661,6 +688,7 @@ export default function ChakraJourneyTemplate({
           filteredProducts[expandedCard] &&
           (() => {
             const product = filteredProducts[expandedCard];
+            console.log("----------category", product?.category);
             return (
               <>
                 {/* Backdrop */}
@@ -746,7 +774,10 @@ export default function ChakraJourneyTemplate({
                       </div>
 
                       {/* Two Column Layout - Independent Stacking */}
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12  ">
+
+                      <div
+                        className={`grid grid-cols-1 ${chakra.slug !== "combos" ? "lg:grid-cols-2" : ""} gap-8 mb-12  `}
+                      >
                         {/* Left Column */}
                         <div className="space-y-8">
                           {/* Description */}
@@ -1125,14 +1156,17 @@ export default function ChakraJourneyTemplate({
                           removeFromWaitlist={removeFromWaitlist}
                           useIsInWaitlist={useIsInWaitlist}
                         />
-                        {product.category && (
-                          <Link
-                            href={`/shop/category/${product.category.toLowerCase().replace(/ /g, "-")}`}
-                            className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
-                          >
-                            View all {product.category}s
-                          </Link>
-                        )}
+                        {(product.category &&
+                          product.category !== "Premium Collections") ||
+                          product.category === "Core Ritual Sets" ||
+                          (product.category === "Combos" && (
+                            <Link
+                              href={`/shop/category/${product.category.toLowerCase().replace(/ /g, "-")}`}
+                              className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
+                            >
+                              View all {product.category}s
+                            </Link>
+                          ))}
                       </div>
 
                       {/* Suggested Products (Other products in the same journey/type) */}
@@ -1158,11 +1192,11 @@ export default function ChakraJourneyTemplate({
                                     if (idx !== -1) {
                                       setExpandedCard(null);
                                       setTimeout(() => {
-                                        scrollToProduct(idx);
+                                        scrollToProduct(idx, false);
                                       }, 100);
                                     } else {
                                       // Fallback to URL navigation if not in current view
-                                      window.location.href = p.url;
+                                      router.push(p.url, { scroll: false });
                                     }
                                   }}
                                   className="group flex flex-col h-full bg-[#f4f1ea]/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 text-left"
@@ -1215,7 +1249,7 @@ export default function ChakraJourneyTemplate({
                                         setExpandedCard(null);
                                         // Small timeout to allow modal close animation to start/finish and layout to stabilize
                                         setTimeout(() => {
-                                          scrollToProduct(idx);
+                                          scrollToProduct(idx, false);
                                         }, 100);
                                       }
                                     }}
