@@ -790,6 +790,8 @@ export default function ChakraJourneyTemplate({
                                                 "Material",
                                                 "material",
                                                 "Ideal For",
+                                                "finish",
+                                                "Finish",
                                                 "color",
                                                 "Color",
                                                 "Product Type",
