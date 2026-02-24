@@ -7,6 +7,7 @@ import { BiCalendarAlt } from "react-icons/bi";
 import { Combo } from "@/types/Combo";
 import AdminTabs from "@/components/ui/AdminTabs";
 import { prisma } from "@/lib/prisma";
+import DeleteComboButton from "./components/DeleteComboButton";
 
 export const dynamic = "force-dynamic";
 
@@ -181,6 +182,7 @@ export default async function CombosAdmin() {
                           >
                             <FaEdit className="text-base sm:text-lg" />
                           </Link>
+                          <DeleteComboButton comboId={combo.id} />
                         </div>
                       </td>
                     </tr>
