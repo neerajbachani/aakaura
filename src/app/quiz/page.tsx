@@ -17,7 +17,7 @@ type ChakraSlug =
   | "throat"
   | "third-eye"
   | "crown";
-type EnergyState = "over" | "under" | "balanced";
+type EnergyState = "excess" | "deficit" | "stable";
 
 interface QuizAnswer {
   id: string;
@@ -37,7 +37,7 @@ interface Question {
 interface ChakraResult {
   name: string;
   slug: ChakraSlug;
-  state: "over" | "under" | "stable";
+  state: "excess" | "deficit" | "stable";
   score: number;
 }
 
@@ -242,74 +242,84 @@ function ResultStep({
   questions: Question[];
 }) {
   const results = useMemo(() => {
-    const chakraScores: Record<
-      ChakraSlug,
-      { over: number; under: number; balanced: number }
-    > = {
-      root: { over: 0, under: 0, balanced: 0 },
-      sacral: { over: 0, under: 0, balanced: 0 },
-      "solar-plexus": { over: 0, under: 0, balanced: 0 },
-      heart: { over: 0, under: 0, balanced: 0 },
-      throat: { over: 0, under: 0, balanced: 0 },
-      "third-eye": { over: 0, under: 0, balanced: 0 },
-      crown: { over: 0, under: 0, balanced: 0 },
+    // Signed total per chakra — each answer contributes its weight directly
+    const chakraTotals: Record<ChakraSlug, number> = {
+      root: 0,
+      sacral: 0,
+      "solar-plexus": 0,
+      heart: 0,
+      throat: 0,
+      "third-eye": 0,
+      crown: 0,
+    };
+    // Track whether each chakra received at least one answer
+    const chakraAnswered: Record<ChakraSlug, boolean> = {
+      root: false,
+      sacral: false,
+      "solar-plexus": false,
+      heart: false,
+      throat: false,
+      "third-eye": false,
+      crown: false,
     };
 
-    // Calculate scores with weighted system from DB
     answers.forEach((selectedIndices, questionIndex) => {
       const question = questions[questionIndex];
-      // Skip if for some reason question doesn't exist
       if (!question) return;
-
       selectedIndices.forEach((answerIndex) => {
         const answer = question.answers[answerIndex];
         if (answer) {
-          // Use weight from DB, fallback to 1.0 if missing
-          const weight = answer.weight || 1.0;
-          chakraScores[answer.chakra][answer.state] += weight;
+          chakraTotals[answer.chakra] += answer.weight ?? 1.0;
+          chakraAnswered[answer.chakra] = true;
         }
       });
     });
 
-    // Determine state for each chakra
-    const chakraResults: ChakraResult[] = Object.entries(chakraScores).map(
-      ([slug, scores]) => {
-        const total = scores.over + scores.under + scores.balanced;
-        let state: "over" | "under" | "stable";
+    // Crown has 4 questions → threshold 1.2; all others have 3 → threshold 0.9
+    const THRESHOLD: Record<ChakraSlug, number> = {
+      root: 0.9,
+      sacral: 0.9,
+      "solar-plexus": 0.9,
+      heart: 0.9,
+      throat: 0.9,
+      "third-eye": 0.9,
+      crown: 1.2,
+    };
 
-        // Determine dominant state
-        // Prioritize imbalance if it equals or exceeds balanced score
-        if (scores.over > scores.under && scores.over >= scores.balanced) {
-          state = "over";
-        } else if (
-          scores.under > scores.over &&
-          scores.under >= scores.balanced
-        ) {
-          state = "under";
-        } else {
-          state = "stable";
-        }
+    const chakraResults: ChakraResult[] = (
+      Object.keys(chakraTotals) as ChakraSlug[]
+    ).map((slug) => {
+      const total = chakraTotals[slug];
+      const threshold = THRESHOLD[slug];
+      let state: "excess" | "deficit" | "stable";
 
-        return {
-          name: chakraNames[slug as ChakraSlug],
-          slug: slug as ChakraSlug,
-          state,
-          score: total,
-        };
-      },
-    );
+      if (total > threshold) {
+        state = "excess";
+      } else if (total < threshold) {
+        state = "deficit";
+      } else {
+        state = "stable";
+      }
 
-    // Filter out chakras with no responses/score
-    const activeChakras = chakraResults.filter((r) => r.score > 0);
+      return {
+        name: chakraNames[slug],
+        slug,
+        state,
+        score: total,
+      };
+    });
+
+    // Only show chakras that were actually answered
+    const activeChakras = chakraResults.filter((r) => chakraAnswered[r.slug]);
 
     const stableChakras = activeChakras.filter((r) => r.state === "stable");
-    const overChakras = activeChakras.filter((r) => r.state === "over");
-    const underChakras = activeChakras.filter((r) => r.state === "under");
+    const excessChakras = activeChakras.filter((r) => r.state === "excess");
+    const deficitChakras = activeChakras.filter((r) => r.state === "deficit");
 
-    return { stableChakras, overChakras, underChakras, activeChakras };
+    return { stableChakras, excessChakras, deficitChakras, activeChakras };
   }, [answers, questions]);
 
-  const { stableChakras, overChakras, underChakras } = results;
+  const { stableChakras, excessChakras, deficitChakras } = results;
 
   return (
     <motion.div
@@ -354,18 +364,18 @@ function ResultStep({
           </div>
         )}
 
-        {/* Over-Energized */}
-        {overChakras.length > 0 && (
+        {/* Excess */}
+        {excessChakras.length > 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4">
             <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
-              Over-Energized
+              Excess
             </h2>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
-              This energy is doing overtime. Useful. Powerful. Unsustainable if
-              left unchecked.
+              This energy is running hot. Useful in bursts — but it's costing
+              you. Pushing, controlling, clinging. It wants to move, not force.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
-              {overChakras.map((chakra) => (
+              {excessChakras.map((chakra) => (
                 <span
                   key={chakra.slug}
                   className="px-4 py-2 rounded-full bg-orange-500/20 text-orange-200 text-sm md:text-base border border-orange-500/30"
@@ -377,18 +387,18 @@ function ResultStep({
           </div>
         )}
 
-        {/* Under-Energized */}
-        {underChakras.length > 0 && (
+        {/* Deficit */}
+        {deficitChakras.length > 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4">
             <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
-              Under-Energized
+              Deficit
             </h2>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
-              This energy is conserving itself. Quiet. Present. Waiting for
-              acknowledgement.
+              This energy is withdrawing. Shutting down, going quiet, pulling
+              inward. Not broken — just asking to be acknowledged.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
-              {underChakras.map((chakra) => (
+              {deficitChakras.map((chakra) => (
                 <span
                   key={chakra.slug}
                   className="px-4 py-2 rounded-full bg-blue-500/20 text-blue-200 text-sm md:text-base border border-blue-500/30"
@@ -400,17 +410,17 @@ function ResultStep({
           </div>
         )}
 
-        {/* No Balanced Message */}
+        {/* No Stable Message — absence of stable is expected and normal */}
         {stableChakras.length === 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4 text-center">
             <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
-              This is normal.
+              No chakras are currently stable.
             </h2>
             <p className="text-[#F5E6D3]/80 font-light max-w-2xl mx-auto text-lg md:text-xl">
-              Life pulls energy where it's needed most. Awareness brings it back
-              — gently.
+              That's not failure — that's honest. Life pulls energy where it's
+              needed. The read just means there's movement happening.
               <br />
-              No panic. No "fix yourself".
+              Awareness is the first step.
             </p>
           </div>
         )}

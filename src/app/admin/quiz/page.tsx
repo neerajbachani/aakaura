@@ -16,7 +16,7 @@ type ChakraSlug =
   | "third-eye"
   | "crown";
 
-type EnergyState = "over" | "under" | "balanced";
+type EnergyState = "excess" | "deficit" | "stable";
 
 interface QuizAnswer {
   id?: string;
@@ -44,7 +44,7 @@ const CHAKRAS: ChakraSlug[] = [
   "crown",
 ];
 
-const STATES: EnergyState[] = ["over", "under", "balanced"];
+const STATES: EnergyState[] = ["excess", "deficit", "stable"];
 
 export default function AdminQuizPage() {
   const router = useRouter();
@@ -149,8 +149,8 @@ export default function AdminQuizPage() {
       question: "",
       multiSelect: false,
       answers: [
-        { text: "", chakra: "root", state: "balanced", weight: 1.0 },
-        { text: "", chakra: "root", state: "balanced", weight: 1.0 },
+        { text: "", chakra: "root", state: "stable", weight: 0.3 },
+        { text: "", chakra: "root", state: "stable", weight: 0.3 },
       ],
     });
     setIsCreating(true);
@@ -167,7 +167,7 @@ export default function AdminQuizPage() {
       ...formData,
       answers: [
         ...(formData.answers || []),
-        { text: "", chakra: "root", state: "balanced", weight: 1.0 },
+        { text: "", chakra: "root", state: "stable", weight: 0.3 },
       ],
     });
   };
