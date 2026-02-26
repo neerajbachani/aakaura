@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import FilterDropdown, { FilterOption } from "@/components/ui/FilterDropdown";
 import PriceRangeFilter from "@/components/ui/PriceRangeFilter";
 import Image from "next/image";
+import { getCategoriesWithImages } from "@/actions/get-categories-with-images";
 // import Galaxy from "@/components/ui/Galaxy";
 
 interface PaginationData {
@@ -103,11 +104,8 @@ const ProductsPageContent = () => {
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch("/api/categories");
-      if (response.ok) {
-        const { data } = await response.json();
-        setCategories(data);
-      }
+      const data = await getCategoriesWithImages();
+      setCategories(data as unknown as Category[]);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -243,12 +241,7 @@ const ProductsPageContent = () => {
                   key={category.id}
                   id={category.id}
                   name={category.name}
-                  images={
-                    // Extract images from the product samples attached to category.
-                    // Flatten the array of product images.
-                    (category as any).products?.flatMap((p: any) => p.images) ||
-                    []
-                  }
+                  images={(category as any).images || []}
                   onClick={() => handleCategoryClick(category.id)}
                 />
               ))}

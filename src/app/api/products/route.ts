@@ -37,7 +37,11 @@ export const GET = errorHandler(async (req: Request) => {
 
     // Category filter
     if (categoryId) {
-      where.categoryId = categoryId;
+      if (categoryId.length === 36) {
+        where.categoryId = categoryId;
+      } else {
+        where.category = { name: { equals: categoryId, mode: "insensitive" } };
+      }
     }
 
     // Price range filter

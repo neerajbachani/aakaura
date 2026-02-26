@@ -99,7 +99,8 @@ export const addressSchema = z.object({
   zipCode: z
     .string()
     .min(1, 'ZIP code is required')
-    .regex(/^\d{5}(-\d{4})?$/, 'Please enter a valid ZIP code'),
+    .min(3, 'ZIP code is too short')
+    .max(15, 'ZIP code is too long'),
   country: z
     .string()
     .min(1, 'Country is required')

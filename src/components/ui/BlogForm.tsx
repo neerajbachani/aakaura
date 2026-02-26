@@ -124,7 +124,7 @@ export default function BlogForm({
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
@@ -152,7 +152,7 @@ export default function BlogForm({
     } catch (error) {
       console.error("Error deleting blog:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete blog"
+        error instanceof Error ? error.message : "Failed to delete blog",
       );
     } finally {
       setLoading(false);
@@ -168,7 +168,7 @@ export default function BlogForm({
 
     setLoading(true);
     try {
-      const response = await fetch("/api/admin/series", {
+      const response = await fetch("/api/series", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -226,7 +226,7 @@ export default function BlogForm({
     } catch (error) {
       console.error("Error:", error);
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "Something went wrong",
       );
     } finally {
       setLoading(false);

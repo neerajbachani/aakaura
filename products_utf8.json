@@ -1,0 +1,462 @@
+﻿[
+  {
+    "name": "Aamvaraah Muffler: Blue",
+    "category": {
+      "name": "Muffler"
+    },
+    "images": [
+      "/images/aamvaraah-muffler.jpg"
+    ]
+  },
+  {
+    "name": "Aamoria Earrings",
+    "category": {
+      "name": "Jewelry"
+    },
+    "images": [
+      "/images/aamoria-earrings.jpg"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Third Eye (Ajna) Chakra",
+    "category": {
+      "name": "Bonsai"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161327/5e09149e-20e9-4462-9b8f-f45f3ad9366a_bacluz.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161340/f99fb849-5d35-4a61-b61b-24ac24dc6187_ek0bwc.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161335/c237cda9-4931-4dd9-a0ce-6e822433f94b_blzys4.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161360/19e99a15-109e-46fa-919a-8490b2b1f9a9_rm5tma.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771161352/059ba949-9218-4e0f-bed2-c8fbcdfcc3a4_evu3w8.jpg"
+    ]
+  },
+  {
+    "name": "Ajna Sthiti | The Vision Anchor",
+    "category": {
+      "name": "Meditation Tool"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162364/399ba323-bdff-4295-9e60-01996db71dc9_zktzlf.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162311/3e5740ba-1c5c-4703-923f-b354aed6b628_lltd8s.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162318/141edc82-e6c4-4161-b9bc-2e9d1a992a21_inzdor.jpg"
+    ]
+  },
+  {
+    "name": "Vayu Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771625199/blog_covers/gjxuv66bkfz5077e0gnc.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771341426/blog_covers/z5jixgmncogrbwhpz5jy.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771626866/blog_covers/osxntskipwzrestesyb9.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771625260/blog_covers/thdvc23f6eac7xd09kr1.png"
+    ]
+  },
+  {
+    "name": "Prithvi Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771349759/blog_covers/us5pf3yjm9jvd8k6yf1f.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771335746/blog_covers/yaeuxam6te1reh9ti4xn.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771316809/blog_covers/f8meaethwennzc1hz8mb.png"
+    ]
+  },
+  {
+    "name": "Akasha Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771595334/blog_covers/zv05jxbtmvm2yqj034qr.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771595347/blog_covers/zljarw5j7zcxg0z3qemk.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771595370/blog_covers/rphc93mmbsvndywp4fjs.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771595384/blog_covers/gli3wkmivxg8z4o2gfdk.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Orange",
+    "category": {
+      "name": "Muffler"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175304/700c7f96-df9d-44e7-add7-bd0c0d91da14_dlzw1x.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175323/01b963e7-f81e-495f-a719-536a79a3e055_peft5g.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175314/693576cb-3685-4542-adb1-4324b4730c72_ror6zd.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771175467/f0decd6c-84ad-44a8-a3db-40d9a2d61646_sxpwij.jpg"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Green",
+    "category": {
+      "name": "Muffler"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103049_ijtntr.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103136_rhhfc7.png"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Throat (Vishuddha) Chakra",
+    "category": {
+      "name": "Bonsai"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771620841/blog_covers/hckdjsfvtdifv4gw7nh4.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771620545/blog_covers/tnkacz96mreew8mkkdhx.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771620711/blog_covers/hqcdvqeafo7a3dviomla.png"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Sacral (Svadisthana) Chakra",
+    "category": {
+      "name": "Bonsai"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771838093/blog_covers/nqsog6kz8auveknckal3.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771838110/blog_covers/vbcp92qgxpf03eluycxu.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771838375/blog_covers/amt11j528ltxsgn6yz4v.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Yellow",
+    "category": {
+      "name": "Muffler"
+    },
+    "images": [
+      "/images/aamvaraah-muffler.jpg"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Indigo",
+    "category": {
+      "name": "Muffler"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173579/14021594-253d-424a-9019-f1c980eacb89_q2zbl4.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173295/0709559a-50f0-4d3f-b514-4de750b2c2bf_bgbbd9.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771173585/3dd18a88-e020-4654-b324-211f3abe47e6_a4rs99.jpg"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Solar Plexus (Manipura) Chakra",
+    "category": {
+      "name": "Bonsai"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770641329/1000211589.jpg_kgyxue.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771746627/blog_covers/qtdt3ed8a5jr0kgoum5w.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771746799/blog_covers/dvmlb5pz764p3b6o71ef.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Violet / White",
+    "category": {
+      "name": "Muffler"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417281/blog_covers/tggvxa6xkdzjdmbhm2nc.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771178218/4ac9dab2-0c9a-4865-be41-46c322af2d30_dujqn9.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417775/blog_covers/pi9swlitl3e7xnfluwnh.png"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Root (Muladhara) Chakra",
+    "category": {
+      "name": "Bonsai"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770794103/IMG_20260211_124241_veblum.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770775552/IMG_20260211_073412_dsua0t.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770776772/IMG_20260211_072049_t2dzsk.png"
+    ]
+  },
+  {
+    "name": "Brahma Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771419516/blog_covers/vrywnibk6zifnx4acohs.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771436348/blog_covers/iaj31aogasdccgwkj3sz.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771415546/blog_covers/ch8ww0l4js5r3jffat4z.png"
+    ]
+  },
+  {
+    "name": "Jal Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771835078/blog_covers/wohaymo8o9ytrduej2se.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771836741/blog_covers/ce7n7dywdl4mqpcfuu5y.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771836677/blog_covers/zmimmvqoj3hulq352dy6.png"
+    ]
+  },
+  {
+    "name": "Agni Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771745051/blog_covers/uotqlwbkvgevcibxgxug.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771746025/blog_covers/equ6yhplvsrrvaciiqyb.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771746154/blog_covers/oqg3kkxlufrnrluccjnr.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771746185/blog_covers/ikhtnrvp1n8jh8s6brcu.png"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Heart (Anahata) Chakra",
+    "category": {
+      "name": "Bonsai"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154096/ea09a730-a819-4ec1-a8a2-2dd1928ee4f2_mnkttw.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153907/058e6f78-cd63-4566-8cf4-2baf1ca4e6c4_nmddpo.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153647/4e1a8325-3ced-4981-8850-7b8ee1106bf4_eg38wi.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771153684/ba905c58-0306-4a11-8a05-b2609bb99721_bzmuck.jpg"
+    ]
+  },
+  {
+    "name": "test throat",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771493899/blog_covers/lbbzjr43pguardreoj3u.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Neck Warmer: Cream",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771438564/blog_covers/hpwczb9ttq6y9lzhyoxz.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771437955/blog_covers/jbx1bxjcrs5wrjzop4bq.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771438326/blog_covers/u2mtjuqolvqhpmfr4ycg.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771492256/blog_covers/uzijdbtxqndbnozqkxe8.png"
+    ]
+  },
+  {
+    "name": "test crown",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771496502/blog_covers/leupzjvmhugnsfcq79qi.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Cream",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771417281/blog_covers/tggvxa6xkdzjdmbhm2nc.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771516915/blog_covers/p4zxmmmx2sceleknqg4n.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771178218/4ac9dab2-0c9a-4865-be41-46c322af2d30_dujqn9.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771492205/blog_covers/yu8bmjqo6jhutv0dcbtc.png"
+    ]
+  },
+  {
+    "name": "Aarohma Ekam Bonsai: Crown (Sahasrara) Chakra",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770641330/1000211585.jpg_pb2ft7.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771176878/4568bdc1-689b-4641-943f-43a216c21f39_phprvv.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771422239/blog_covers/fzoiyxzummliz2zcd8qx.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Neck Warmer: Tangerine",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771444552/blog_covers/vfpddrimbohepnrtnbvw.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771444109/blog_covers/jyekinu42q8yej7ybdtm.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771839263/blog_covers/p7lfybvmun9l5finttfx.png"
+    ]
+  },
+  {
+    "name": "Sahasrara Dhyaana Shakti",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771488014/blog_covers/qxbbzr9exwu31xo5r5zx.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771489593/blog_covers/dvslhb84zffwkv0uju55.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771489850/blog_covers/tgz3bubguhcfrburnl0i.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771490250/blog_covers/r7qo7zkmtcxnzggjiohd.png"
+    ]
+  },
+  {
+    "name": "Sahasrara Sthiti",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771489072/blog_covers/bkgstsm3vtm5psb4voq6.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771509100/blog_covers/q1vcotdghhsvrmmhw5a2.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771509497/blog_covers/pbmxuvpz2qfr1lj0bxm5.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Navy Blue",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771515649/blog_covers/ndakjjgwhknt9c1egduc.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771513288/blog_covers/mflafeq7z1zbiddd5u14.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771516203/blog_covers/tr9outltahlaa4h0lceb.png"
+    ]
+  },
+  {
+    "name": "Ajna Drishti",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771581806/blog_covers/ormmawu7gqcnvhjc3sui.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771581625/blog_covers/lrf1v72brdtvg8clqeyc.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162311/3e5740ba-1c5c-4703-923f-b354aed6b628_lltd8s.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162318/141edc82-e6c4-4161-b9bc-2e9d1a992a21_inzdor.jpg"
+    ]
+  },
+  {
+    "name": "Ajna Sthiti",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162701/c6a6acba-dcb3-4570-b955-80ca4b5f46f3_wxcal5.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162693/890787ce-4978-4bf4-942e-0586cc24b5c6_g09wwg.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771162709/2fd11ed3-ced1-4679-975b-0f85ca64da7d_mdumot.jpg"
+    ]
+  },
+  {
+    "name": "Aamvaraah Neck Warmer: Navy Blue",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771525212/blog_covers/ysju247eq5zvuupgz4jq.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771523874/blog_covers/ktdisfo7znnj0awutrzx.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771525336/blog_covers/prgc7aibgwmrzdj4nsor.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Tangerine",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771838856/blog_covers/nmrfqx9j4hikud55ulfv.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771839065/blog_covers/pm7m5oqt1jfmktcxocch.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771839092/blog_covers/bjxlpkgvlriipjnchetg.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Red",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784428/IMG_20260211_093923_bal7k3.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770784405/IMG_20260211_094341_xo8fvo.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771845443/blog_covers/nckwidqxqac06yiyn8hd.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Neck Warmer: Red",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771403297/blog_covers/tnl4sbisobaamokcwgjh.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771330330/blog_covers/ohm3tq9kk5bhv71ctrgu.png"
+    ]
+  },
+  {
+    "name": "Aamoria Jhumkis",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154363/e78e4a0c-c3ca-49b2-9363-6c5bec260ec1_ivh8ff.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771525694/blog_covers/sb3dfmbgq4ujldr9oyw2.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771445921/blog_covers/wxfbpzzqnon2cttivsob.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771343582/blog_covers/tu7beduhgqwpphjwvit0.png"
+    ]
+  },
+  {
+    "name": "Aamoria Necklace",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154978/08c8068a-7890-4e99-80d4-ac81e71cb248_ivxmz0.jpg",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771154974/1a3aa3fb-0238-4a94-9e1b-733123581497_ltztnc.jpg"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Yellow & Brown",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771747328/blog_covers/hxp6dqcdhautefpt5zde.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771747461/blog_covers/g4cxr10qohlabduig6oy.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771748009/blog_covers/rycpusrf0yyemew84m6s.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Green & White",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103049_ijtntr.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1770786759/IMG_20260211_103136_rhhfc7.png"
+    ]
+  },
+  {
+    "name": "Jnana Aayam Wall Hanging",
+    "category": {
+      "name": "Wall Hanging"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771512419/blog_covers/tdn9qtmyqkg7hkrsuddh.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771352346/blog_covers/ycqdzuszncmcr96uziw3.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771512448/blog_covers/u9ugnoyscz2axsjihjgk.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771512476/blog_covers/bfnwx4phrizrvaas7ye0.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Muffler: Blue & Green",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771622159/blog_covers/oj77wpboqqk1xnq8b0rh.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771622233/blog_covers/bvgcczjvomvdtkj42kcm.png"
+    ]
+  },
+  {
+    "name": "Aamvaraah Neck Warmer: Yellow & Brown",
+    "category": {
+      "name": "testing"
+    },
+    "images": [
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771832553/blog_covers/aztdym25jrtco0zyvsni.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771832784/blog_covers/sbhwtxwo0h0lvmpjdva1.png",
+      "https://res.cloudinary.com/dbpnjohhr/image/upload/v1771833029/blog_covers/bld7spsdy6mmetdnqimh.png"
+    ]
+  }
+]

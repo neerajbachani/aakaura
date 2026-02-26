@@ -172,7 +172,7 @@ export function JourneyProductPanel({
         />
 
         {/* Top Text - Kept inside image container for mobile to overlay image */}
-        <div className="absolute top-0 left-0 right-0 p-6 md:p-8 flex justify-center md:justify-start">
+        <div className="absolute bottom-0 md:bottom-auto md:top-0 left-0 right-0 p-6 md:p-8 flex justify-center md:justify-start">
           {tagLine ? (
             <div className="bg-[#27190b]/80 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-white uppercase tracking-[0.2em] text-xs md:text-sm">
               {tagLine}

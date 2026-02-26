@@ -271,8 +271,32 @@ function WaitlistButtonLarge({
 
 export default function CategoryJourneyTemplate({
   categoryName,
-  items,
+  items: initialItems,
 }: CategoryJourneyTemplateProps) {
+  // Sort items based on chakra order
+  const chakraOrder = [
+    "Root",
+    "Sacral",
+    "Solar Plexus",
+    "Heart",
+    "Throat",
+    "Third Eye",
+    "Crown",
+  ];
+
+  const items = [...initialItems].sort((a, b) => {
+    const getIndex = (name?: string) => {
+      if (!name) return 999;
+      const lowerName = name.toLowerCase();
+      const index = chakraOrder.findIndex((c) =>
+        lowerName.includes(c.toLowerCase()),
+      );
+      return index === -1 ? 999 : index;
+    };
+    return getIndex(a.chakra?.name) - getIndex(b.chakra?.name);
+  });
+
+  console.log("items -------", items);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [clientType, setClientType] = useState<ClientType>("soul-luxury"); // Default, though we might not use it for filtering here
   const [activeBgImage, setActiveBgImage] = useState<string>("");

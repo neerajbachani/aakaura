@@ -104,7 +104,7 @@ export default function Navbar({
     },
     {
       title: "Read On",
-      submenuItems: [{ name: "Our Thoughts", href: "/blogs" }],
+      submenuItems: [{ name: "Aakaura Speaks", href: "/blogs" }],
     },
     // {
     //   title: "Journey",
@@ -121,22 +121,43 @@ export default function Navbar({
     // },
     {
       title: "Product Categories",
-      submenuItems:
-        categories.length > 0
-          ? categories.map((cat) => ({
+      submenuItems: (() => {
+        const order = [
+          "Wall Hanging",
+          "Anchor",
+          "Bonsai",
+          "Jewellery",
+          "Muffler",
+          "Neck Warmer",
+        ];
+
+        const sortedCategories = [...categories].sort((a, b) => {
+          const indexA = order.indexOf(a);
+          const indexB = order.indexOf(b);
+
+          if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+          if (indexA !== -1) return -1;
+          if (indexB !== -1) return 1;
+          return a.localeCompare(b);
+        });
+
+        return sortedCategories.length > 0
+          ? sortedCategories.map((cat) => ({
               name: cat,
-              // Convert "Wall Hanging" -> "wall-hanging"
               href: `/shop/category/${cat.toLowerCase().replace(/\s+/g, "-")}`,
             }))
           : [
-              { name: "Mufflers", href: "/shop/category/muffler" },
-              { name: "Wall Hangings", href: "/shop/category/wall-hanging" },
+              { name: "Wall Hanging", href: "/shop/category/wall-hanging" },
+              { name: "Anchor", href: "/shop/category/anchor" },
               { name: "Bonsai", href: "/shop/category/bonsai" },
-              { name: "Jewelry", href: "/shop/category/jewelry" },
-            ],
+              { name: "Jewellery", href: "/shop/category/jewellery" },
+              { name: "Muffler", href: "/shop/category/muffler" },
+              { name: "Neck Warmer", href: "/shop/category/neck-warmer" },
+            ];
+      })(),
     },
   ];
-
+  console.log("categories ------- ", categories);
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
@@ -325,8 +346,7 @@ export default function Navbar({
                     onClick={closeMenu}
                     className={`block py-2 text-[#27190b] text-lg hover:text-primaryRed`}
                   >
-                    Not sure which journey you're on? Don't worry, we've got you
-                    covered
+                    Begin where you are
                   </Link>
                   <Link
                     href="/cart"

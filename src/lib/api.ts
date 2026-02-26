@@ -3,6 +3,7 @@ import { ApiResponse } from "@/types/Api";
 import { Blog } from "@/types/Blog";
 import { Product } from "@/types/Product";
 import { Combo } from "@/types/Combo";
+import { prisma } from "@/config/prisma";
 
 export const getComboById = async (id: string) => {
   try {
@@ -41,11 +42,11 @@ export const getAllCombos = async (filters?: { tier?: string; chakra?: string })
 
 export const getBlogById = async (id: string) => {
   try {
-    const res = await fetch(`${env.WEB_CLIENT_URL}/api/blogs/${id}`);
-    const result: ApiResponse<Blog> = await res.json();
-
-    if (!res.ok) throw new Error(result.message);
-    return result.data;
+    const blog = await prisma.blog.findUnique({
+      where: { id },
+      include: { series: true },
+    });
+    return blog;
   } catch (error) {
     console.error("Error fetching blog:", error);
     return null;
@@ -54,12 +55,13 @@ export const getBlogById = async (id: string) => {
 
 export const getAllBlogs = async (seriesId: string = "") => {
   try {
-    const res = await fetch(
-      `${env.WEB_CLIENT_URL}/api/blogs?seriesId=${seriesId}`
-    );
-    const result: ApiResponse<Blog[]> = await res.json();
-    if (!res.ok) throw new Error(result.message);
-    return result.data;
+    const whereClause = seriesId ? { seriesId } : {};
+    const blogs = await prisma.blog.findMany({
+      where: whereClause,
+      orderBy: { createdAt: "desc" },
+      include: { series: true },
+    });
+    return blogs;
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return null;

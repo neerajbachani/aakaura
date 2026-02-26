@@ -1156,17 +1156,14 @@ export default function ChakraJourneyTemplate({
                           removeFromWaitlist={removeFromWaitlist}
                           useIsInWaitlist={useIsInWaitlist}
                         />
-                        {(product.category &&
-                          product.category !== "Premium Collections") ||
-                          product.category === "Core Ritual Sets" ||
-                          (product.category === "Combos" && (
-                            <Link
-                              href={`/shop/category/${product.category.toLowerCase().replace(/ /g, "-")}`}
-                              className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
-                            >
-                              View all {product.category}s
-                            </Link>
-                          ))}
+                        {product.category && chakra.slug !== "combos" && (
+                          <Link
+                            href={`/shop/category/${product.category.toLowerCase().replace(/ /g, "-")}`}
+                            className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
+                          >
+                            View all {product.category}s
+                          </Link>
+                        )}
                       </div>
 
                       {/* Suggested Products (Other products in the same journey/type) */}

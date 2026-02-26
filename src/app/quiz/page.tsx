@@ -5,7 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Aurora from "@/components/ui/Aurora";
 import { ImSpinner8 } from "react-icons/im";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowForward,
+  IoIosInformationCircleOutline,
+} from "react-icons/io";
 
 // --- Data & Types ---
 
@@ -74,12 +78,12 @@ function IntroStep({ onStart }: { onStart: () => void }) {
         </p>
       </div>
 
-      <div className="space-y-4 text-base md:text-lg lg:text-xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-6 md:p-8 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm">
+      <div className="space-y-4 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-6 md:p-8 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm">
         <p className="font-medium text-[#F5E6D3]">
           Balance is not a personality trait.
         </p>
         <p>It is a moment.</p>
-        <p>So yes — balanced chakras should be hard to "get".</p>
+        <p>So yes balanced chakras should be hard to "get".</p>
         <p className="italic">
           They should show up like: "oh wow, okay, you're doing well right now"
         </p>
@@ -108,7 +112,7 @@ function IntroStep({ onStart }: { onStart: () => void }) {
         Begin
       </button>
 
-      <p className="text-xs text-[#F5E6D3]/40">Takes 3–4 minutes</p>
+      <p className="text-xs text-[#F5E6D3]/40">Takes 5–7 minutes</p>
     </motion.div>
   );
 }
@@ -234,6 +238,123 @@ function AnalyzingStep() {
   );
 }
 
+function InfoModal({
+  title,
+  children,
+  isOpen,
+  onClose,
+}: {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-md bg-[#1A1005] border border-[#F5E6D3]/20 p-6 md:p-8 rounded-3xl shadow-2xl text-left max-h-[85vh] overflow-y-auto"
+          >
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-[#F5E6D3]/50 hover:text-[#F5E6D3] bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 w-8 h-8 flex items-center justify-center rounded-full transition-colors"
+            >
+              ✕
+            </button>
+            <h4 className="text-xl md:text-2xl font-serif text-[#F5E6D3] mb-4 border-b border-[#F5E6D3]/10 pb-4">
+              {title}
+            </h4>
+            <div className="text-[#F5E6D3]/80 text-xl font-light text-base space-y-4">
+              {children}
+            </div>
+            <div className="mt-8">
+              <button
+                onClick={onClose}
+                className="w-full py-3 bg-[#F5E6D3]/10 hover:bg-[#F5E6D3]/20 text-[#F5E6D3] rounded-xl transition-colors font-medium"
+              >
+                Got it
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+const STABLE_INFO = (
+  <>
+    <p>
+      Balanced chakra means that area of your life is functioning in a steady,
+      natural way.
+    </p>
+    <p>
+      Not dull.
+      <br />
+      Not dramatic.
+      <br />
+      Just… stable and healthy.
+    </p>
+    <p>Think of it like:</p>
+    <ul className="list-disc pl-5 space-y-1">
+      <li>A phone at 70% battery — fully usable, not stressed</li>
+      <li>A calm flame — strong but not wild</li>
+      <li>A muscle that’s trained — flexible, not tight, not weak</li>
+    </ul>
+  </>
+);
+
+const EXCESS_INFO = (
+  <>
+    <p>
+      Excess chakra energy means that area of your life is working in overdrive.
+    </p>
+    <p>
+      Not balanced. Not calm.
+      <br />
+      It’s like:
+    </p>
+    <ul className="list-disc pl-5 space-y-1">
+      <li>A fan spinning too fast</li>
+      <li>A phone running too many apps at once</li>
+      <li>A muscle that’s tense all the time</li>
+    </ul>
+    <p>It’s not “powerful” — it’s excess without control.</p>
+  </>
+);
+
+const DEFICIT_INFO = (
+  <>
+    <p>
+      “Deficit” chakra energy means that area of your life feels low, blocked,
+      weak, or not fully active.
+    </p>
+    <p>Think of it like:</p>
+    <ul className="list-disc pl-5 space-y-1">
+      <li>A phone on 10% battery</li>
+      <li>A muscle you haven’t used in a long time</li>
+      <li>A light bulb that’s on, but very dim</li>
+    </ul>
+    <p>
+      It doesn’t mean something is “wrong” with you.
+      <br />
+      It just means that particular emotional or psychological theme isn’t
+      flowing strongly right now.
+    </p>
+  </>
+);
+
 function ResultStep({
   answers,
   questions,
@@ -241,6 +362,10 @@ function ResultStep({
   answers: number[][];
   questions: Question[];
 }) {
+  const [activeInfo, setActiveInfo] = useState<
+    "stable" | "excess" | "deficit" | null
+  >(null);
+
   const results = useMemo(() => {
     // Signed total per chakra — each answer contributes its weight directly
     const chakraTotals: Record<ChakraSlug, number> = {
@@ -344,9 +469,18 @@ function ResultStep({
         {/* Currently Stable */}
         {stableChakras.length > 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4">
-            <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
-              Currently Stable
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
+                Currently Stable
+              </h2>
+              <button
+                onClick={() => setActiveInfo("stable")}
+                className="text-[#F5E6D3]/50 hover:text-[#F5E6D3] bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 p-1.5 rounded-full transition-colors focus:outline-none"
+                aria-label="More info about Currently Stable"
+              >
+                <IoIosInformationCircleOutline className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
               These energies are cooperating with your life right now. Enjoy
               them. They will change — as they should.
@@ -367,9 +501,18 @@ function ResultStep({
         {/* Excess */}
         {excessChakras.length > 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4">
-            <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
-              Excess
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
+                Excess
+              </h2>
+              <button
+                onClick={() => setActiveInfo("excess")}
+                className="text-[#F5E6D3]/50 hover:text-[#F5E6D3] bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 p-1.5 rounded-full transition-colors focus:outline-none"
+                aria-label="More info about Excess Energy"
+              >
+                <IoIosInformationCircleOutline className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
               This energy is running hot. Useful in bursts — but it's costing
               you. Pushing, controlling, clinging. It wants to move, not force.
@@ -390,9 +533,18 @@ function ResultStep({
         {/* Deficit */}
         {deficitChakras.length > 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4">
-            <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
-              Deficit
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
+                Deficit
+              </h2>
+              <button
+                onClick={() => setActiveInfo("deficit")}
+                className="text-[#F5E6D3]/50 hover:text-[#F5E6D3] bg-[#F5E6D3]/5 hover:bg-[#F5E6D3]/10 p-1.5 rounded-full transition-colors focus:outline-none"
+                aria-label="More info about Deficit Energy"
+              >
+                <IoIosInformationCircleOutline className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
               This energy is withdrawing. Shutting down, going quiet, pulling
               inward. Not broken — just asking to be acknowledged.
@@ -429,7 +581,7 @@ function ResultStep({
       {/* Journey Suggestion */}
       <div className="text-center space-y-6 pt-8 border-t border-[#F5E6D3]/10">
         <h3 className="text-xl font-serif text-[#F5E6D3]">Your Journey</h3>
-        <p className="text-[#F5E6D3]/70 font-light max-w-2xl mx-auto">
+        <p className="text-[#F5E6D3]/70 text-lg md:text-xl font-light max-w-2xl mx-auto">
           You may resonate with more than one journey. Balance is not linear.
           Life moves in phases.
         </p>
@@ -459,11 +611,36 @@ function ResultStep({
           Balance is temporary. Awareness is repeatable.
         </p>
 
-        <p className="text-sm text-[#F5E6D3]/60 text-center pt-8 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl text-[#F5E6D3]/60 text-center pt-8 max-w-2xl mx-auto">
           This quiz is not medical or diagnostic. It is an invitation to
           observe—not label.
         </p>
       </div>
+
+      {/* Info Modals */}
+      <InfoModal
+        title="What does 'Stable' mean?"
+        isOpen={activeInfo === "stable"}
+        onClose={() => setActiveInfo(null)}
+      >
+        {STABLE_INFO}
+      </InfoModal>
+
+      <InfoModal
+        title="What does 'Excess' mean?"
+        isOpen={activeInfo === "excess"}
+        onClose={() => setActiveInfo(null)}
+      >
+        {EXCESS_INFO}
+      </InfoModal>
+
+      <InfoModal
+        title="What does 'Deficit' mean?"
+        isOpen={activeInfo === "deficit"}
+        onClose={() => setActiveInfo(null)}
+      >
+        {DEFICIT_INFO}
+      </InfoModal>
     </motion.div>
   );
 }

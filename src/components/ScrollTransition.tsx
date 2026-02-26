@@ -182,6 +182,9 @@ export default function ScrollTransition() {
     "/images/artisan/artisan-3.png",
     "/images/artisan/artisan-4.png",
     "/images/artisan/artisan-5.png",
+    "/images/artisan/artisan-6.jpeg",
+    "/images/artisan/artisan-7.jpg",
+    "/images/artisan/artisan-8.jpg",
   ];
   // Triplicate the items
   const allMarqueeItems = [...imgItems, ...imgItems, ...imgItems];

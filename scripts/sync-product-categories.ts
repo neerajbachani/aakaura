@@ -30,9 +30,9 @@ async function main() {
                     } else if (nameLower.includes("bonsai") || idLower.includes("bonsai")) {
                         category = "Bonsai"; 
                     } else if (nameLower.includes("bracelet") || idLower.includes("bracelet")) {
-                        category = "Jewelry";
+                        category = "Jewellery";
                     } else if (nameLower.includes("necklace") || idLower.includes("necklace") || nameLower.includes("mala") || nameLower.includes("rudraksha") || nameLower.includes("earrings") || idLower.includes("earrings")) {
-                        category = "Jewelry";
+                        category = "Jewellery";
                     } else if (nameLower.includes("oil") || idLower.includes("oil") || nameLower.includes("essential")) {
                         category = "Essential Oils";
                     } else if (nameLower.includes("incense") || idLower.includes("incense") || nameLower.includes("dhoop")) {

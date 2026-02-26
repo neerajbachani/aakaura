@@ -479,7 +479,7 @@ export default function ProductForm({
               {existingCategories.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
                   <span className="text-xs text-gray-500 my-auto">
-                    Suggestions:
+                    Suggestionssss:
                   </span>
                   {existingCategories.slice(0, 5).map((cat) => (
                     <button
