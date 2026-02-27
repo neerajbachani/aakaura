@@ -42,10 +42,10 @@ export default function AboutHeader() {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-10 h-full flex flex-col justify-between pt-20 pb-10">
+        <div className="relative z-10 h-full flex flex-col justify-between pt-12 sm:pt-20 pb-6 sm:pb-10">
           <div className="container mx-auto px-4">
             <div className="mb-6 flex flex-col w-full lg:flex-row lg:items-center justify-between">
-              <div className="mt-10 lg:mt-20 w-full lg:w-auto">
+              <div className="mt-6 sm:mt-10 lg:mt-20 w-full lg:w-auto">
                 <h1 className="font-sans text-white text-4xl sm:text-5xl font-medium leading-[0.9] tracking-tight md:text-6xl lg:text-7xl">
                   <span className="block overflow-hidden">
                     <span className="inline-block font-cormorant text-[#BD9958]">
@@ -60,7 +60,7 @@ export default function AboutHeader() {
                 </h1>
 
                 <Link
-                  className="hover:text-[#FFD700] group mt-10 sm:mt-12 block max-w-xl pb-2"
+                  className="hover:text-[#FFD700] group mt-8 sm:mt-12 block max-w-xl pb-2"
                   href="/about"
                 >
                   <div className="bg-[#BD9958]/40 group-hover:bg-[#FFD700] mb-3 h-[1px] w-full transition-colors duration-300" />
@@ -81,7 +81,7 @@ export default function AboutHeader() {
                 </Link>
               </div>
 
-              <div className=" mt-10 sm:mt-16 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
+              <div className="mt-8 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg lg:text-xl">
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/about" className="block w-full">
@@ -110,7 +110,7 @@ export default function AboutHeader() {
           </div>
 
           {/* REIMAGINED Text Animation */}
-          <div className="w-full overflow-hidden pb-10">
+          <div className="w-full overflow-hidden pb-4 sm:pb-10">
             <motion.h2
               style={{ x }}
               className="whitespace-nowrap text-center text-[14vw] md:text-[10vw] font-bold leading-none text-[#BD9958]/20 font-cormorant"

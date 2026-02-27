@@ -10,6 +10,8 @@ import {
   ArrowUpRightIcon,
   ChevronUpIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 
 type ClientType = "soul-luxury" | "energy-curious";
@@ -91,21 +93,55 @@ export function JourneyProductPanel({
 
   // Thumbnail strip scroll ref
   const thumbStripRef = React.useRef<HTMLDivElement>(null);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const handleScrollThumbnails = (direction: "up" | "down") => {
+  const checkScroll = () => {
     if (thumbStripRef.current) {
-      const scrollAmount = 100;
-      const currentScroll = thumbStripRef.current.scrollTop;
-      thumbStripRef.current.scrollBy({
-        top: direction === "up" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
+      const {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+        scrollLeft,
+        scrollWidth,
+        clientWidth,
+      } = thumbStripRef.current;
+      // Use offsetWidth for mobile check if window isn't reliable, but we'll use window.innerWidth
+      const mobileView = window.innerWidth < 768;
+      if (mobileView) {
+        setCanScrollPrev(scrollLeft > 0);
+        // Use a small buffer (1px) for cross-browser decimal rounding issues
+        setCanScrollNext(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 1);
+      } else {
+        setCanScrollPrev(scrollTop > 0);
+        setCanScrollNext(
+          Math.ceil(scrollTop + clientHeight) < scrollHeight - 1,
+        );
+      }
+    }
+  };
+
+  const handleScrollThumbnails = (direction: "prev" | "next") => {
+    if (thumbStripRef.current) {
+      const scrollAmount = isMobile ? 150 : 100;
+      if (isMobile) {
+        thumbStripRef.current.scrollBy({
+          left: direction === "prev" ? -scrollAmount : scrollAmount,
+          behavior: "smooth",
+        });
+      } else {
+        thumbStripRef.current.scrollBy({
+          top: direction === "prev" ? -scrollAmount : scrollAmount,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
+      checkScroll();
     };
 
     // Initial check
@@ -114,6 +150,12 @@ export function JourneyProductPanel({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Check scroll whenever active variant changes, or images change
+  useEffect(() => {
+    const timer = setTimeout(checkScroll, 100);
+    return () => clearTimeout(timer);
+  }, [product.images, expandedCard, activeVariant, isMobile]);
 
   // Determine which desktop image is currently active
   const activeDesktopImage =
@@ -195,24 +237,35 @@ export function JourneyProductPanel({
       {expandedCard === null && product.images && product.images.length > 1 && (
         <div
           className={`side-image-strip z-20 flex transition-all duration-500
-            relative w-full px-6 py-4 flex-row items-center justify-center
+            relative w-full px-2 md:px-6 py-4 flex-row items-center justify-center
             md:absolute md:left-8 md:top-[50%] md:-translate-y-1/2 md:flex-col md:w-auto md:h-auto md:max-h-[70vh] md:p-4`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Up arrow for desktop */}
+          {/* Prev arrow for desktop & mobile */}
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleScrollThumbnails("up");
+              handleScrollThumbnails("prev");
             }}
-            className="hidden md:flex text-white/50 hover:text-white transition-colors p-1"
+            className={`flex text-white/50 hover:text-white transition-colors p-1 ${
+              !canScrollPrev
+                ? "opacity-0 cursor-default pointer-events-none"
+                : "opacity-100"
+            }`}
+            disabled={!canScrollPrev}
+            aria-label="Previous image"
           >
-            <ChevronUpIcon className="w-6 h-6" />
+            {isMobile ? (
+              <ChevronLeftIcon className="w-6 h-6" />
+            ) : (
+              <ChevronUpIcon className="w-6 h-6" />
+            )}
           </button>
 
           <div
             ref={thumbStripRef}
-            className="flex flex-row md:flex-col gap-4 overflow-x-hidden md:overflow-y-hidden max-md:no-scrollbar w-full md:w-auto items-center justify-center md:justify-start md:max-h-[50vh] scroll-smooth py-2"
+            onScroll={checkScroll}
+            className="flex flex-row md:flex-col gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-hidden max-md:no-scrollbar max-w-[calc(100vw-6rem)] md:w-auto items-center md:items-start justify-start md:max-h-[50vh] scroll-smooth py-2 px-2"
           >
             {product.images.map((img, i) => {
               // Determine display image for this thumbnail
@@ -246,15 +299,25 @@ export function JourneyProductPanel({
             })}
           </div>
 
-          {/* Down arrow for desktop */}
+          {/* Next arrow for desktop & mobile */}
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleScrollThumbnails("down");
+              handleScrollThumbnails("next");
             }}
-            className="hidden md:flex text-white/50 hover:text-white transition-colors p-1"
+            className={`flex text-white/50 hover:text-white transition-colors p-1 ${
+              !canScrollNext
+                ? "opacity-0 cursor-default pointer-events-none"
+                : "opacity-100"
+            }`}
+            disabled={!canScrollNext}
+            aria-label="Next image"
           >
-            <ChevronDownIcon className="w-6 h-6" />
+            {isMobile ? (
+              <ChevronRightIcon className="w-6 h-6" />
+            ) : (
+              <ChevronDownIcon className="w-6 h-6" />
+            )}
           </button>
         </div>
       )}

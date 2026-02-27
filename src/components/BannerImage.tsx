@@ -248,16 +248,6 @@ export default function BannerImage() {
   return (
     <section className="min-h-[90vh] bg-transparent flex items-center justify-center px-4 relative">
       <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -295,7 +285,7 @@ export default function BannerImage() {
       `}</style>
 
       {/* Main Layout - Spread Pattern (Visible on all screens) */}
-      <div className="flex flex-col items-center gap-2 w-full animate-float relative z-10">
+      <div className="flex flex-col items-center gap-2 w-full relative z-10">
         {/* Center - Crown Chakra */}
         {centerChakra && (
           <div className="flex justify-center">

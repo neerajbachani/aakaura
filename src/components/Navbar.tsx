@@ -346,7 +346,7 @@ export default function Navbar({
                     onClick={closeMenu}
                     className={`block py-2 text-[#27190b] text-lg hover:text-primaryRed`}
                   >
-                    Begin where you are
+                    Begin Where You Are
                   </Link>
                   <Link
                     href="/cart"
@@ -363,7 +363,7 @@ export default function Navbar({
                     onClick={closeMenu}
                     className={`block py-2 text-lg text-[#27190b] hover:text-primaryRed`}
                   >
-                    Your Aakaura
+                    Your Aakaura Profile
                   </Link>
                 </motion.div>
               </motion.div>

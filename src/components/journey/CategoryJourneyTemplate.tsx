@@ -25,6 +25,7 @@ if (typeof window !== "undefined") {
 interface CategoryJourneyTemplateProps {
   categoryName: string;
   items: { product: JourneyProduct; chakra: ChakraData }[];
+  relatedCategories?: React.ReactNode;
 }
 
 type ClientType = "soul-luxury" | "energy-curious";
@@ -272,6 +273,7 @@ function WaitlistButtonLarge({
 export default function CategoryJourneyTemplate({
   categoryName,
   items: initialItems,
+  relatedCategories,
 }: CategoryJourneyTemplateProps) {
   // Sort items based on chakra order
   const chakraOrder = [
@@ -315,6 +317,14 @@ export default function CategoryJourneyTemplate({
   const removeFromWaitlist = useRemoveFromWaitlist();
 
   useRevealer();
+
+  // Scroll to top on page load
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [lenis]);
 
   // GSAP Horizontal Scroll Effect
   useLayoutEffect(() => {
@@ -968,6 +978,9 @@ export default function CategoryJourneyTemplate({
             );
           })()}
       </AnimatePresence>
+
+      {/* Related Categories Section */}
+      {relatedCategories}
     </div>
   );
 }

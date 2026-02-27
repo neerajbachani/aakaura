@@ -10,13 +10,15 @@ interface CategoryCardProps {
   id: string;
   name: string;
   images: string[];
-  onClick: () => void;
+  onClick?: () => void;
+  href?: string;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({
   name,
   images,
   onClick,
+  href,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -25,7 +27,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   // Get up to 3 additional images for the strip
   const stripImages = images.slice(1, 4);
 
-  return (
+  const cardContent = (
     <motion.div
       className="group cursor-pointer flex flex-col gap-4"
       onClick={onClick}
@@ -95,6 +97,16 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       )}
     </motion.div>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className="block w-full">
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return cardContent;
 };
 
 export default CategoryCard;

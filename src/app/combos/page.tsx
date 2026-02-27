@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import ChakraJourneyTemplate from "@/components/journey/ChakraJourneyTemplate";
 import { ChakraData, JourneyProduct, chakrasData } from "@/data/chakras";
+import { getCategoriesWithImages } from "@/actions/get-categories-with-images";
+import CategoryCard from "@/components/ui/CategoryCard";
 
 export const dynamic = "force-dynamic";
 
@@ -215,10 +217,42 @@ export default async function CombosPage() {
     },
   };
 
+  const categories = await getCategoriesWithImages();
+
+  const categoriesSection = (
+    <section className="py-16 md:py-24 bg-[#f4f1ea]/5 border-t border-[#f4f1ea]/10">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="flex justify-between items-end mb-10">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-light text-[#f4f1ea] mb-2 font-serif">
+              Explore Our Categories
+            </h2>
+            <p className="text-[#f4f1ea]/60 md:max-w-xl">
+              Discover consciously crafted collections based on your energy
+              needs.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {categories.map((category) => (
+            <CategoryCard
+              key={category.id}
+              id={category.id}
+              name={category.name}
+              images={category.images}
+              href={`/shop/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
   return (
     <ChakraJourneyTemplate
       chakra={combosChakraData}
-      relatedCombos={null} // Don't show related combos on the combos page
+      relatedCombos={categoriesSection}
     />
   );
 }
