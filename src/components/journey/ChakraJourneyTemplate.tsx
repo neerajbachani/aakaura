@@ -1358,6 +1358,29 @@ export default function ChakraJourneyTemplate({
           })()}
       </AnimatePresence>
 
+      {/* Backlink Button */}
+      <div className="w-full flex justify-center py-12 bg-[#27190b] relative z-10 border-t border-[#f4f1ea]/10">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-3 text-[#f4f1ea] uppercase tracking-[0.2em] text-sm hover:opacity-70 transition-opacity"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
+          </svg>
+          Back
+        </button>
+      </div>
+
       {/* Related Combos Section */}
       {relatedCombos}
     </div>

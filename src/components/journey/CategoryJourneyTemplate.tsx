@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useLenis } from "@/context/LenisContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuthStatus } from "@/hooks/useAuth";
 import {
   useAddToWaitlist,
@@ -275,6 +276,8 @@ export default function CategoryJourneyTemplate({
   items: initialItems,
   relatedCategories,
 }: CategoryJourneyTemplateProps) {
+  const router = useRouter();
+
   // Sort items based on chakra order
   const chakraOrder = [
     "Root",
@@ -978,6 +981,29 @@ export default function CategoryJourneyTemplate({
             );
           })()}
       </AnimatePresence>
+
+      {/* Backlink Button */}
+      <div className="w-full flex justify-center py-12 bg-[#27190b] relative z-10 border-t border-[#f4f1ea]/10">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-3 text-[#f4f1ea] uppercase tracking-[0.2em] text-sm hover:opacity-70 transition-opacity"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+            />
+          </svg>
+          Back
+        </button>
+      </div>
 
       {/* Related Categories Section */}
       {relatedCategories}

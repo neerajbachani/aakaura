@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { signupSchema, SignupInput } from '@/lib/validations/auth';
-import { useSignup } from '@/hooks/useAuth';
-import { formatGuestCartForAPI } from '@/lib/guestCart';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { signupSchema, SignupInput } from "@/lib/validations/auth";
+import { useSignup } from "@/hooks/useAuth";
+import { formatGuestCartForAPI } from "@/lib/guestCart";
 
 interface SignupFormProps {
   onSwitchToLogin?: () => void;
@@ -41,125 +41,149 @@ export function SignupForm({ onSwitchToLogin, onClose }: SignupFormProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Create account</h2>
-        <p className="text-gray-600 mt-2">Join us and start shopping</p>
+    <div className="w-full max-w-md mx-auto bg-[#27190B] p-8 sm:p-10 rounded-2xl border border-[#BD9958]/20 shadow-2xl">
+      <div className="text-center mb-10">
+        <h2 className="text-4xl sm:text-5xl font-medium text-[#BD9958] font-cormorant tracking-wide">
+          Create Account
+        </h2>
+        <p className="text-[#BD9958]/70 mt-3 font-cormorant text-lg">
+          Join us and start shopping
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         {/* Name */}
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-            Full Name
-          </label>
+        <div className="relative group">
           <input
-            {...register('name')}
+            {...register("name")}
             type="text"
             id="name"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter your full name"
+            className="w-full px-0 py-3 bg-transparent border-b border-[#BD9958]/30 font-cormorant text-lg text-[#BD9958] focus:outline-none focus:border-[#BD9958] focus:ring-0 peer transition-colors"
+            placeholder=" "
           />
+          <label
+            htmlFor="name"
+            className="absolute left-0 top-3 text-[#BD9958]/60 font-cormorant text-lg transition-all duration-300 transform -translate-y-8 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-[#BD9958]"
+          >
+            Full Name
+          </label>
           {errors.name && (
-            <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+            <p className="text-red-400 text-sm mt-1 absolute -bottom-5 left-0">
+              {errors.name.message}
+            </p>
           )}
         </div>
 
         {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-            Email Address
-          </label>
+        <div className="relative group pt-2">
           <input
-            {...register('email')}
+            {...register("email")}
             type="email"
             id="email"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter your email"
+            className="w-full px-0 py-3 bg-transparent border-b border-[#BD9958]/30 font-cormorant text-lg text-[#BD9958] focus:outline-none focus:border-[#BD9958] focus:ring-0 peer transition-colors"
+            placeholder=" "
           />
+          <label
+            htmlFor="email"
+            className="absolute left-0 top-5 text-[#BD9958]/60 font-cormorant text-lg transition-all duration-300 transform -translate-y-8 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-[#BD9958]"
+          >
+            Email Address
+          </label>
           {errors.email && (
-            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+            <p className="text-red-400 text-sm mt-1 absolute -bottom-5 left-0">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
         {/* Password */}
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="relative group pt-2">
+          <input
+            {...register("password")}
+            type={showPassword ? "text" : "password"}
+            id="password"
+            className="w-full px-0 py-3 pr-10 bg-transparent border-b border-[#BD9958]/30 font-cormorant text-lg text-[#BD9958] focus:outline-none focus:border-[#BD9958] focus:ring-0 peer transition-colors"
+            placeholder=" "
+          />
+          <label
+            htmlFor="password"
+            className="absolute left-0 top-5 text-[#BD9958]/60 font-cormorant text-lg transition-all duration-300 transform -translate-y-8 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-[#BD9958]"
+          >
             Password
           </label>
-          <div className="relative">
-            <input
-              {...register('password')}
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Create a password"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            >
-              {showPassword ? (
-                <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-              ) : (
-                <EyeIcon className="h-5 w-5 text-gray-400" />
-              )}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 top-2 flex items-center px-2 text-[#BD9958]/60 hover:text-[#BD9958] transition-colors"
+          >
+            {showPassword ? (
+              <EyeSlashIcon className="h-5 w-5" />
+            ) : (
+              <EyeIcon className="h-5 w-5" />
+            )}
+          </button>
           {errors.password && (
-            <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>
+            <p className="text-red-400 text-sm mt-1 absolute -bottom-5 left-0">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
         {/* Confirm Password */}
-        <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="relative group pt-2">
+          <input
+            {...register("confirmPassword")}
+            type={showConfirmPassword ? "text" : "password"}
+            id="confirmPassword"
+            className="w-full px-0 py-3 pr-10 bg-transparent border-b border-[#BD9958]/30 font-cormorant text-lg text-[#BD9958] focus:outline-none focus:border-[#BD9958] focus:ring-0 peer transition-colors"
+            placeholder=" "
+          />
+          <label
+            htmlFor="confirmPassword"
+            className="absolute left-0 top-5 text-[#BD9958]/60 font-cormorant text-lg transition-all duration-300 transform -translate-y-8 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-[#BD9958]"
+          >
             Confirm Password
           </label>
-          <div className="relative">
-            <input
-              {...register('confirmPassword')}
-              type={showConfirmPassword ? 'text' : 'password'}
-              id="confirmPassword"
-              className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Confirm your password"
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            >
-              {showConfirmPassword ? (
-                <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-              ) : (
-                <EyeIcon className="h-5 w-5 text-gray-400" />
-              )}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute inset-y-0 right-0 top-2 flex items-center px-2 text-[#BD9958]/60 hover:text-[#BD9958] transition-colors"
+          >
+            {showConfirmPassword ? (
+              <EyeSlashIcon className="h-5 w-5" />
+            ) : (
+              <EyeIcon className="h-5 w-5" />
+            )}
+          </button>
           {errors.confirmPassword && (
-            <p className="text-red-600 text-sm mt-1">{errors.confirmPassword.message}</p>
+            <p className="text-red-400 text-sm mt-1 absolute -bottom-5 left-0">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isSubmitting || signup.isPending}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          {isSubmitting || signup.isPending ? 'Creating account...' : 'Create Account'}
-        </button>
+        <div className="pt-8">
+          <button
+            type="submit"
+            disabled={isSubmitting || signup.isPending}
+            className="w-full bg-[#BD9958] text-[#27190B] py-3 px-4 rounded-lg font-semibold tracking-wider hover:bg-[#BD9958]/90 focus:outline-none focus:ring-2 focus:ring-[#BD9958]/50 focus:ring-offset-2 focus:ring-offset-[#27190B] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg active:scale-[0.98]"
+          >
+            {isSubmitting || signup.isPending
+              ? "Creating account..."
+              : "Create Account"}
+          </button>
+        </div>
 
         {/* Switch to Login */}
         {onSwitchToLogin && (
-          <div className="text-center">
-            <p className="text-gray-600">
-              Already have an account?{' '}
+          <div className="text-center mt-6">
+            <p className="text-[#BD9958]/70 font-cormorant text-lg">
+              Already have an account?{" "}
               <button
                 type="button"
                 onClick={onSwitchToLogin}
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-primaryRed border-b border-transparent hover:border-primaryRed font-medium transition-all duration-300 ml-1"
               >
                 Sign in
               </button>

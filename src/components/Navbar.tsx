@@ -157,7 +157,6 @@ export default function Navbar({
       })(),
     },
   ];
-  console.log("categories ------- ", categories);
   const closeMenu = () => setIsMenuOpen(false);
 
   return (

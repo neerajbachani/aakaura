@@ -1,19 +1,23 @@
-'use client';
+"use client";
 
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { LoginForm } from './LoginForm';
-import { SignupForm } from './SignupForm';
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { LoginForm } from "./LoginForm";
+import { SignupForm } from "./SignupForm";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultMode?: 'login' | 'signup';
+  defaultMode?: "login" | "signup";
 }
 
-export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalProps) {
-  const [mode, setMode] = useState<'login' | 'signup'>(defaultMode);
+export function AuthModal({
+  isOpen,
+  onClose,
+  defaultMode = "login",
+}: AuthModalProps) {
+  const [mode, setMode] = useState<"login" | "signup">(defaultMode);
 
   const handleClose = () => {
     onClose();
@@ -47,7 +51,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-[#27190B] px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 {/* Close Button */}
                 <div className="absolute right-0 top-0 pr-4 pt-4">
                   <button
@@ -62,14 +66,14 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
 
                 {/* Modal Content */}
                 <div className="mt-3 sm:mt-0">
-                  {mode === 'login' ? (
+                  {mode === "login" ? (
                     <LoginForm
-                      onSwitchToSignup={() => setMode('signup')}
+                      onSwitchToSignup={() => setMode("signup")}
                       onClose={handleClose}
                     />
                   ) : (
                     <SignupForm
-                      onSwitchToLogin={() => setMode('login')}
+                      onSwitchToLogin={() => setMode("login")}
                       onClose={handleClose}
                     />
                   )}
