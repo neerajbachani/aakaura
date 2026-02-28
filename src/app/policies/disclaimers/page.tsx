@@ -48,6 +48,19 @@ export default function DisclaimersPage() {
 
           <section>
             <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-primaryBeige border-b border-primaryBeige/20 pb-2">
+              QUIZ DISCLAIMER
+            </h2>
+            <p>
+              The &lsquo;Welcome Home&rsquo; quiz is for educational and
+              self-awareness purposes only. It does not diagnose, treat, cure,
+              or prevent any medical or psychological condition. If you are
+              experiencing health concerns, please consult a licensed healthcare
+              professional.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-primaryBeige border-b border-primaryBeige/20 pb-2">
               RESULTS MAY VARY DISCLAIMER
             </h2>
             <p className="mb-2">

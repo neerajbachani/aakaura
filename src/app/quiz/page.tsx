@@ -58,6 +58,8 @@ const chakraNames: Record<ChakraSlug, string> = {
 // --- Components ---
 
 function IntroStep({ onStart }: { onStart: () => void }) {
+  const [accepted, setAccepted] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -73,12 +75,10 @@ function IntroStep({ onStart }: { onStart: () => void }) {
           This quiz reads where your energy is right now.
           <br />
           Not where it should be. Not where it was.
-          <br />
-          Where it is.
         </p>
       </div>
 
-      <div className="space-y-4 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-6 md:p-8 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm">
+      {/* <div className="space-y-4 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-6 md:p-8 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm">
         <p className="font-medium text-[#F5E6D3]">
           Balance is not a personality trait.
         </p>
@@ -97,17 +97,36 @@ function IntroStep({ onStart }: { onStart: () => void }) {
             The energy is responding appropriately to life at this moment.
           </p>
         </div>
-      </div>
+      </div> */}
 
-      <div className="space-y-3 text-sm text-[#F5E6D3]/60">
+      <div className="space-y-4 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-6 md:p-8 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm">
         <p>No prior understanding of chakras is needed.</p>
         <p>No right or wrong answers exist.</p>
         <p>Just choose what feels most true in the moment.</p>
       </div>
 
+      <div className="flex items-center justify-center gap-3 pt-2">
+        <label className="flex items-center gap-3 cursor-pointer text-[#F5E6D3]/80 hover:text-[#F5E6D3] transition-colors">
+          <input
+            type="checkbox"
+            checked={accepted}
+            onChange={(e) => setAccepted(e.target.checked)}
+            className="w-5 h-5 rounded border-[#F5E6D3]/20 bg-[#F5E6D3]/5 text-[#27190B] focus:ring-[#F5E6D3]/50 cursor-pointer accent-[#F5E6D3]"
+          />
+          <span className="text-sm md:text-base select-none">
+            I understand this is not medical advice.
+          </span>
+        </label>
+      </div>
+
       <button
         onClick={onStart}
-        className="group relative px-8 py-3 bg-[#F5E6D3] text-[#27190B] font-medium text-lg rounded-full hover:bg-white transition-all duration-300 transform hover:scale-105"
+        disabled={!accepted}
+        className={`group relative px-8 py-3 font-medium text-lg rounded-full transition-all duration-300 transform ${
+          accepted
+            ? "bg-[#F5E6D3] text-[#27190B] hover:bg-white hover:scale-105"
+            : "bg-[#F5E6D3]/20 text-[#F5E6D3]/50 cursor-not-allowed"
+        }`}
       >
         Begin
       </button>
