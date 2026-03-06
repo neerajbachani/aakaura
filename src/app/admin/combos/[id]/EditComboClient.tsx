@@ -10,9 +10,11 @@ import { useRouter } from "next/navigation";
 export default function EditComboClient({
   allProducts,
   combo,
+  imageMap,
 }: {
   allProducts: Product[];
   combo: Combo;
+  imageMap: Record<string, string>;
 }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,6 +50,7 @@ export default function EditComboClient({
       mode="edit"
       initialData={combo}
       allProducts={allProducts}
+      imageMap={imageMap}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
     />

@@ -21,6 +21,7 @@ interface ComboFormProps {
   mode: "add" | "edit";
   initialData?: Combo;
   allProducts: Product[];
+  imageMap?: Record<string, string>;
   onSubmit: (data: any) => Promise<void>;
   isSubmitting: boolean;
 }
@@ -40,6 +41,7 @@ export default function ComboForm({
   mode,
   initialData,
   allProducts,
+  imageMap = {},
   onSubmit,
   isSubmitting,
 }: ComboFormProps) {
@@ -54,6 +56,7 @@ export default function ComboForm({
     description: "",
     chakras: [] as string[],
     images: [] as string[],
+    mobileImages: [] as string[],
     externalLinks: [] as { label: string; url: string }[],
   });
 
@@ -78,6 +81,7 @@ export default function ComboForm({
         description: initialData.description || "",
         chakras: initialData.chakras || [],
         images: initialData.images || [],
+        mobileImages: initialData.mobileImages || [],
         externalLinks: initialData.externalLinks || [],
       });
 
@@ -140,14 +144,41 @@ export default function ComboForm({
 
   // Image Handlers
   const handleAddImage = (url: string) => {
-    setFormData((prev) => ({ ...prev, images: [...prev.images, url] }));
+    // Determine the corresponding mobile URL using the provided map
+    const defaultMobileUrl = imageMap[url] || "";
+
+    setFormData((prev) => {
+      const currentImages = prev.images || [];
+      const currentMobileImages = [...(prev.mobileImages || [])];
+
+      // Pad mobileImages with empty strings until it matches currentImages length
+      while (currentMobileImages.length < currentImages.length) {
+        currentMobileImages.push("");
+      }
+
+      return {
+        ...prev,
+        images: [...currentImages, url],
+        mobileImages: [...currentMobileImages, defaultMobileUrl],
+      };
+    });
     setShowImageModal(false);
+  };
+
+  const handleMobileImageChange = (index: number, url: string) => {
+    setFormData((prev) => {
+      const newMobileImages = [...(prev.mobileImages || [])];
+      while (newMobileImages.length <= index) newMobileImages.push("");
+      newMobileImages[index] = url;
+      return { ...prev, mobileImages: newMobileImages };
+    });
   };
 
   const removeImage = (index: number) => {
     setFormData((prev) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
+      mobileImages: (prev.mobileImages || []).filter((_, i) => i !== index),
     }));
   };
 
@@ -161,7 +192,19 @@ export default function ComboForm({
     const draggedImage = newImages[dragIndex];
     newImages.splice(dragIndex, 1);
     newImages.splice(hoverIndex, 0, draggedImage);
-    setFormData((prev) => ({ ...prev, images: newImages }));
+
+    const newMobileImages = [...(formData.mobileImages || [])];
+    while (newMobileImages.length < formData.images.length)
+      newMobileImages.push("");
+    const draggedMobileImage = newMobileImages[dragIndex];
+    newMobileImages.splice(dragIndex, 1);
+    newMobileImages.splice(hoverIndex, 0, draggedMobileImage);
+
+    setFormData((prev) => ({
+      ...prev,
+      images: newImages,
+      mobileImages: newMobileImages,
+    }));
   };
 
   // Item Handlers
@@ -391,11 +434,11 @@ export default function ComboForm({
             </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {formData.images.map((img, index) => (
               <div
                 key={index}
-                className="relative group aspect-square rounded-xl overflow-hidden border border-gray-200 bg-gray-50"
+                className="relative flex flex-col gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 group"
                 draggable
                 onDragStart={() => setDraggedImageIndex(index)}
                 onDragOver={(e) => e.preventDefault()}
@@ -406,29 +449,49 @@ export default function ComboForm({
                   setDraggedImageIndex(null);
                 }}
               >
-                <Image
-                  src={img}
-                  alt={`Image ${index}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <TrashIcon className="w-4 h-4" />
-                </button>
-                <div className="absolute bottom-0 inset-x-0 bg-black/40 text-white text-xs p-1 text-center opacity-0 group-hover:opacity-100">
-                  Drag to reorder
+                {/* Drag Handle Top Bar */}
+                <div className="absolute top-0 inset-x-0 h-6 cursor-grab active:cursor-grabbing text-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                  <div className="inline-block bg-black/60 text-white text-[10px] px-3 py-0.5 rounded-b-md">
+                    Drag to reorder
+                  </div>
+                </div>
+
+                {/* Desktop Image Section */}
+                <div className="relative aspect-video w-full rounded-lg overflow-hidden border border-gray-200 bg-white">
+                  <Image
+                    src={img}
+                    alt={`Image ${index}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                    Desktop
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Mobile Image Section */}
+                <div className="mt-1">
+                  <SingleImageUpload
+                    label="Mobile Version (Optional)"
+                    value={formData.mobileImages?.[index] || ""}
+                    onChange={(url) => handleMobileImageChange(index, url)}
+                    placeholder="Same as desktop if empty"
+                  />
                 </div>
               </div>
             ))}
             {formData.images.length === 0 && (
               <div
                 onClick={() => setShowImageModal(true)}
-                className="col-span-2 border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
+                className="col-span-1 border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
               >
                 <PhotoIcon className="w-12 h-12 mb-2" />
                 <span>Click to add images</span>

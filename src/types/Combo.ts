@@ -10,6 +10,7 @@ export interface Combo {
   description: string;
   chakras: string[];
   images: string[];
+  mobileImages: string[];
   externalLinks?: { label: string; url: string }[];
   products: ComboProduct[];
   createdAt: string;

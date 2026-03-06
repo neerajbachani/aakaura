@@ -69,6 +69,7 @@ export const POST = errorHandler(async (req: Request) => {
     description, 
     chakras, 
     images, 
+    mobileImages,
     externalLinks, 
     products 
   } = body;
@@ -96,6 +97,7 @@ export const POST = errorHandler(async (req: Request) => {
       description,
       chakras,
       images,
+      mobileImages: mobileImages || [],
       externalLinks,
       products: {
         create: products.map((p: {

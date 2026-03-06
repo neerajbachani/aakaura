@@ -262,6 +262,7 @@ model Combo {
   description   String
   chakras       String[]       // Array of chakra slugs
   images        String[]
+  mobileImages  String[]
   externalLinks Json?          // Array of { label, url }
   products      ComboProduct[]
   createdAt     DateTime       @default(now())

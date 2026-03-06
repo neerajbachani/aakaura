@@ -56,6 +56,7 @@ export const PUT = errorHandler(async (req: Request, { params }: { params: Promi
     description, 
     chakras, 
     images, 
+    mobileImages,
     externalLinks, 
     products 
   } = body;
@@ -96,6 +97,7 @@ export const PUT = errorHandler(async (req: Request, { params }: { params: Promi
       description,
       chakras,
       images,
+      mobileImages: mobileImages || [],
       externalLinks,
       products: {
         create: products.map((p: {

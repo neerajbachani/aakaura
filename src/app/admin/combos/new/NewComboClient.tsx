@@ -8,8 +8,10 @@ import { useRouter } from "next/navigation";
 
 export default function NewComboClient({
   allProducts,
+  imageMap,
 }: {
   allProducts: Product[];
+  imageMap: Record<string, string>;
 }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,6 +46,7 @@ export default function NewComboClient({
     <ComboForm
       mode="add"
       allProducts={allProducts}
+      imageMap={imageMap}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
     />

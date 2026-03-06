@@ -13,9 +13,39 @@ export default async function NewComboPage() {
     take: 1000,
   });
 
+  const journeys = await db.journey.findMany({
+    select: { content: true },
+  });
+
+  const imageToMobileMap: Record<string, string> = {};
+  journeys.forEach((j: any) => {
+    if (!j.content) return;
+    const sl = j.content["soul-luxury"] || [];
+    const ec = j.content["energy-curious"] || [];
+    const allJourneyProducts = [...sl, ...ec];
+
+    allJourneyProducts.forEach((p: any) => {
+      if (
+        p.images &&
+        Array.isArray(p.images) &&
+        p.mobileImages &&
+        Array.isArray(p.mobileImages)
+      ) {
+        p.images.forEach((img: string, idx: number) => {
+          if (p.mobileImages[idx] && typeof img === "string") {
+            imageToMobileMap[img] = p.mobileImages[idx];
+          }
+        });
+      }
+    });
+  });
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <NewComboClient allProducts={products || []} />
+      <NewComboClient
+        allProducts={products || []}
+        imageMap={imageToMobileMap}
+      />
     </div>
   );
 }
