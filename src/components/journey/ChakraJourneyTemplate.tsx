@@ -732,6 +732,28 @@ export default function ChakraJourneyTemplate({
                     data-lenis-prevent
                   >
                     <div className="max-w-5xl mx-auto">
+                      {/* Breadcrumbs */}
+                      <div className="flex items-center gap-2 text-[#f4f1ea] uppercase tracking-[0.2em] text-xs md:text-sm mb-8 flex-wrap">
+                        <Link
+                          href="/"
+                          className="opacity-50 hover:opacity-100 transition-opacity"
+                        >
+                          Home
+                        </Link>
+                        <span className="opacity-50">/</span>
+                        <button
+                          onClick={() => {
+                            handleCloseModal();
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
+                          className="font-bold opacity-100 hover:opacity-70 transition-opacity text-left cursor-pointer"
+                        >
+                          {chakra?.slug === "combos"
+                            ? "Combos"
+                            : chakra?.name || "Journey"}
+                        </button>
+                      </div>
+
                       {/* Client Type Toggle */}
                       {/* <div className="flex justify-center mb-8">
                         <div className="bg-[#f4f1ea]/10 p-1 rounded-full flex relative">
@@ -1350,6 +1372,17 @@ export default function ChakraJourneyTemplate({
                           </div>
                         </div>
                       </div> */}
+
+                      {/* Disclaimer */}
+                      <div className="mt-8 text-center pb-8 pt-4">
+                        <Link
+                          href="/policies/disclaimers"
+                          className="text-xs font-light opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
+                        >
+                          *Design Protected. Unauthorized copying or
+                          reproduction is strictly prohibited
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

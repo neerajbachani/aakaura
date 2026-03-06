@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     
     // Validate input
     const validatedData = signupSchema.parse(body);
-    const { name, email, password } = validatedData;
+    const { name, email, phone, password } = validatedData;
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         email: email.toLowerCase(),
+        phone,
         password: hashedPassword,
       },
       select: {

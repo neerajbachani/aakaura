@@ -176,7 +176,9 @@ export function JourneyProductPanel({
       : undefined;
 
   const displayImage =
-    isMobile && mappedMobileImage ? mappedMobileImage : activeDesktopImage;
+    isMobile && (mappedMobileImage || product.mobileImages?.[0])
+      ? mappedMobileImage || product.mobileImages?.[0]
+      : activeDesktopImage;
 
   return (
     <div className="panel w-full md:w-screen h-screen aspect-[16/9] flex-shrink-0 sticky md:relative top-0 flex flex-col md:block bg-[#27190b] mb-[20vh] md:mb-0">

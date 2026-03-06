@@ -96,6 +96,28 @@ export function SignupForm({ onSwitchToLogin, onClose }: SignupFormProps) {
           )}
         </div>
 
+        {/* Phone Number */}
+        <div className="relative group pt-2">
+          <input
+            {...register("phone")}
+            type="tel"
+            id="phone"
+            className="w-full px-0 py-3 bg-transparent border-b border-[#BD9958]/30 font-cormorant text-lg text-[#BD9958] focus:outline-none focus:border-[#BD9958] focus:ring-0 peer transition-colors"
+            placeholder=" "
+          />
+          <label
+            htmlFor="phone"
+            className="absolute left-0 top-5 text-[#BD9958]/60 font-cormorant text-lg transition-all duration-300 transform -translate-y-8 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:text-[#BD9958]"
+          >
+            Phone Number
+          </label>
+          {errors.phone && (
+            <p className="text-red-400 text-sm mt-1 absolute -bottom-5 left-0">
+              {errors.phone.message}
+            </p>
+          )}
+        </div>
+
         {/* Password */}
         <div className="relative group pt-2">
           <input

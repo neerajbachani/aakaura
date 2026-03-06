@@ -107,15 +107,42 @@ export default function DisclaimersPage() {
 
           <section>
             <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-primaryBeige border-b border-primaryBeige/20 pb-2">
-              INTELLECTUAL PROPERTY & DESIGN NOTICE
+              INTELLECTUAL PROPERTY & ANTI-COPY NOTICE
             </h2>
-            <p className="mb-2">
-              All Aakaura designs, concepts, and creative expressions are
-              proprietary.
+            <p className="mb-4">
+              All wall hangings, wall pieces, decorative items, designs,
+              patterns, product concepts, images, and creative elements
+              displayed on this website are the original intellectual property
+              of Aakaura and are protected under applicable copyright, design,
+              and trademark laws in India and internationally.
             </p>
+            <p className="mb-2 font-semibold">
+              Strictly prohibited without prior written permission from Aakaura:
+            </p>
+            <ul className="list-disc pl-6 space-y-2 mb-4 marker:text-primaryRed">
+              <li>
+                Copying or replicating our wall hanging or decorative designs
+              </li>
+              <li>
+                Manufacturing similar or identical products based on our designs
+              </li>
+              <li>
+                Using our product images or graphics for commercial purposes
+              </li>
+              <li>
+                Selling look-alike or inspired products derived from our
+                original work
+              </li>
+              <li>Digital or physical reproduction of any design elements</li>
+            </ul>
             <p className="mb-2">
-              Unauthorized copying, imitation, or reproduction—whether physical
-              or digital—may invite legal action.
+              Any unauthorized use, imitation, or infringement will be subject
+              to legal action, including claims for damages, injunctions, and
+              other remedies available under law.
+            </p>
+            <p className="font-semibold italic">
+              We actively monitor marketplaces and online platforms for design
+              infringement.
             </p>
           </section>
 

@@ -88,6 +88,7 @@ export default async function CombosPage() {
           (cp: any) => `${cp.quantity}x ${cp.product.name}`,
         ),
         images: combo.images || [],
+        mobileImages: combo.mobileImages || [],
         step: index + 1,
         category:
           combo.tier === "PREMIUM"

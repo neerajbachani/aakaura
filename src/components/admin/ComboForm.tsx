@@ -73,6 +73,12 @@ export default function ComboForm({
   // Initialize Data
   useEffect(() => {
     if (initialData) {
+      const initialImages = initialData.images || [];
+      const initialMobileImages = [...(initialData.mobileImages || [])];
+      while (initialMobileImages.length < initialImages.length) {
+        initialMobileImages.push("");
+      }
+
       setFormData({
         name: initialData.name || "",
         slug: initialData.slug || "",
@@ -80,8 +86,8 @@ export default function ComboForm({
         tagline: initialData.tagline || "",
         description: initialData.description || "",
         chakras: initialData.chakras || [],
-        images: initialData.images || [],
-        mobileImages: initialData.mobileImages || [],
+        images: initialImages,
+        mobileImages: initialMobileImages,
         externalLinks: initialData.externalLinks || [],
       });
 
