@@ -164,15 +164,20 @@ export default function Navbar({
       {/* Navbar */}
       <nav className={`${className} `}>
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
-          <Link href="/" className="w-36 md:w-44 h-14 relative">
-            <Image
-              src="/images/logo.png"
-              alt="Aakaura"
-              fill
-              className="object-contain"
-              quality={100}
-              priority
-            />
+          <Link href="/" className="w-36 md:w-44 h-14 relative flex">
+            <div className="w-full h-full relative">
+              <Image
+                src="/images/logo.png"
+                alt="Aakaura"
+                fill
+                className="object-contain"
+                quality={100}
+                priority
+              />
+            </div>
+            <span className="absolute -right-2 md:-right-4 top-2 text-sm md:text-xl text-[#764640] font-bold">
+              &trade;
+            </span>
           </Link>
         </div>
       </nav>

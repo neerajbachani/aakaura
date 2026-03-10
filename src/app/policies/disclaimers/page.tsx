@@ -117,6 +117,21 @@ export default function DisclaimersPage() {
               and trademark laws in India and internationally.
             </p>
             <p className="mb-2 font-semibold">
+              Registered Design / Patent Applications:
+            </p>
+            <ul className="list-disc pl-6 space-y-2 mb-4 marker:text-primaryRed">
+              <li>
+                <strong>470584-001</strong> - SAHASRARA CHAKRA
+              </li>
+              <li>
+                <strong>470585-001</strong> - THIRD EYE CHAKRA (AJNA)
+              </li>
+              <li>
+                <strong>477044-001</strong> - YARN-BOMBED PLANTS &ndash; LIVING
+                ENERGY FIELDS
+              </li>
+            </ul>
+            <p className="mb-2 font-semibold">
               Strictly prohibited without prior written permission from Aakaura:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4 marker:text-primaryRed">

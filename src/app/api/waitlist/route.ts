@@ -1,15 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
+import { sendWaitlistEmail } from '@/lib/email';
 
 // GET /api/waitlist - Get current user's waitlist items
 export async function GET(request: NextRequest) {
     try {
         const user = await requireAuth(request);
 
+        if (!user.userId) {
+            return NextResponse.json(
+                { error: 'User ID is required' },
+                { status: 400 }
+            );
+        }
+
+        const userId = user.userId;
+
         const waitlistItems = await prisma.waitlistItem.findMany({
             where: {
-                userId: user.userId,
+                userId: userId,
             },
             orderBy: {
                 createdAt: 'desc',
@@ -43,12 +53,14 @@ export async function POST(request: NextRequest) {
         const { journeySlug, productId, productName, clientType } = body;
 
         // Validate required fields
-        if (!journeySlug || !productId || !productName || !clientType) {
+        if (!user.userId || !journeySlug || !productId || !productName || !clientType) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
                 { status: 400 }
             );
         }
+
+        const userId = user.userId;
 
         // Validate clientType
         if (!['soul-luxury', 'energy-curious'].includes(clientType)) {
@@ -62,7 +74,7 @@ export async function POST(request: NextRequest) {
         const waitlistItem = await prisma.waitlistItem.upsert({
             where: {
                 userId_journeySlug_productId_clientType: {
-                    userId: user.userId,
+                    userId: userId,
                     journeySlug,
                     productId,
                     clientType,
@@ -72,13 +84,22 @@ export async function POST(request: NextRequest) {
                 productName, // Update product name in case it changed
             },
             create: {
-                userId: user.userId,
+                userId: userId,
                 journeySlug,
                 productId,
                 productName,
                 clientType,
             },
         });
+
+        // Send email notifications
+        if (user.email) {
+            // We don't await this so the API response isn't delayed
+            sendWaitlistEmail({ 
+                userEmail: user.email, 
+                productName
+            }).catch(console.error);
+        }
 
         return NextResponse.json({
             message: 'Added to waitlist',
@@ -111,18 +132,20 @@ export async function DELETE(request: NextRequest) {
         const productId = searchParams.get('productId');
         const clientType = searchParams.get('clientType');
 
-        if (!journeySlug || !productId || !clientType) {
+        if (!user.userId || !journeySlug || !productId || !clientType) {
             return NextResponse.json(
                 { error: 'Missing required parameters' },
                 { status: 400 }
             );
         }
 
+        const userId = user.userId;
+
         // Delete the waitlist item
         await prisma.waitlistItem.delete({
             where: {
                 userId_journeySlug_productId_clientType: {
-                    userId: user.userId,
+                    userId: userId,
                     journeySlug,
                     productId,
                     clientType,

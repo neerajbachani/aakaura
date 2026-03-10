@@ -108,9 +108,15 @@ export default function Footer() {
       </Container>
 
       {/* Bottom Bar */}
-      <div className="mt-16 border-t border-primaryBeige/30 pt-6 text-center text-sm">
+      <div className="mt-16 border-t border-primaryBeige/30 pt-6 text-center text-sm flex flex-col items-center gap-2">
         <p className={`${fonts.specialElite}`}>
-          &copy; {new Date().getFullYear()} Aakaura. All rights reserved.
+          &copy; {new Date().getFullYear()} Aakaura&trade;. All rights reserved.
+        </p>
+        <p
+          className={`text-xs text-primaryBeige/70 ${fonts.mulish} max-w-2xl mx-auto px-4`}
+        >
+          The &quot;Aakaura&quot; name and logo are trademarks of Aakaura.
+          Unauthorized copying, reproduction, or use is strictly prohibited.
         </p>
       </div>
     </footer>
