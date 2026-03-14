@@ -63,6 +63,19 @@ export interface JourneyProduct {
     step?: number;
     description?: string;
   }[];
+  suggestedCombo?: {
+    title: string;
+    description: string;
+    price: string;
+    discountText: string;
+    products?: {
+      id: string;
+      name: string;
+      image: string;
+      url: string;
+      mobileUrl?: string;
+    }[];
+  };
 }
 
 export interface ChakraData {

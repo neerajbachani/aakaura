@@ -106,6 +106,7 @@ export default function AddProductPage() {
         onSubmit={handleSubmit}
         isSubmitting={addProduct.isPending}
         existingCategories={allCategories}
+        allJourneys={allJourneys}
       />
     </div>
   );

@@ -11,9 +11,42 @@ export type CategoryWithImages = {
 
 export async function getCategoriesWithImages(): Promise<CategoryWithImages[]> {
   try {
-    const categoryNames = await getUniqueCategories();
+    // Fetch all journeys to extract categories and their images from active journey products
+    const journeys = await prisma.journey.findMany();
     
-    // For each unique category name, look up the DB category to get product images
+    // Map to track active images per category
+    const categoryImagesMap = new Map<string, Set<string>>();
+    
+    journeys.forEach((journey) => {
+      const content = journey.content as any;
+      if (!content) return;
+      
+      (['soul-luxury', 'energy-curious'] as const).forEach((clientType) => {
+        const products = content[clientType] || [];
+        products.forEach((p: any) => {
+          const catName = p.category?.trim();
+          if (catName) {
+            if (!categoryImagesMap.has(catName)) {
+              categoryImagesMap.set(catName, new Set());
+            }
+            
+            // Add images if present
+            if (p.images && Array.isArray(p.images)) {
+              const currentImages = categoryImagesMap.get(catName)!;
+              p.images.forEach((img: string) => {
+                if (img && currentImages.size < 4) {
+                  currentImages.add(img);
+                }
+              });
+            }
+          }
+        });
+      });
+    });
+
+    const categoryNames = Array.from(categoryImagesMap.keys()).sort();
+    
+    // For each unique category name, look up the DB category to get its ID (important for routing/references)
     const categoriesWithImages = await Promise.all(
       categoryNames.map(async (name) => {
         // Find category in the database
@@ -21,43 +54,14 @@ export async function getCategoriesWithImages(): Promise<CategoryWithImages[]> {
           where: { 
             name: { 
               equals: name, 
-              // Prisma with PostgreSQL doesn't always support insensitive mode depending on provider settings,
-              // but assuming it does based on route.ts
               mode: 'insensitive' 
             } 
           },
-          include: {
-            products: {
-              select: { images: true },
-              take: 4,
-            },
-          },
+          select: { id: true }
         });
 
-        let images: string[] = [];
-        let id: string = name; // Default id to name 
-
-        if (dbCategory) {
-          id = dbCategory.id;
-          if (dbCategory.products) {
-            images = dbCategory.products.flatMap((p) => p.images || []).slice(0, 4);
-          }
-        } else {
-            // Fallback: If category doesn't exist in the Category table, try to find products directly
-            const products = await prisma.product.findMany({
-                where: {
-                    category: {
-                        name: {
-                            equals: name,
-                            mode: 'insensitive'
-                        }
-                    }
-                },
-                select: { images: true },
-                take: 4
-            });
-            images = products.flatMap((p) => p.images || []).slice(0, 4);
-        }
+        const id = dbCategory ? dbCategory.id : name;
+        const images = Array.from(categoryImagesMap.get(name) || []).slice(0, 4);
 
         return {
           id,

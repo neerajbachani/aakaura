@@ -282,6 +282,7 @@ export default function ChakraJourneyTemplate({
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [activeBgImage, setActiveBgImage] = useState<string>("");
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [activeComboImage, setActiveComboImage] = useState<string>("");
   const router = useRouter();
 
   // When filtering changes, reset expanded card
@@ -1331,58 +1332,167 @@ export default function ChakraJourneyTemplate({
                                 ))}
                         </div>
                       </div>
-
                       {/* Suggested Combo */}
-                      {/* <div className="py-16 mt-8">
-                        <div className="bg-[#f4f1ea] rounded-[24px] p-8 text-[#27190b] relative overflow-hidden">
-                          <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
-                            <div className="w-full h-full bg-gradient-to-l from-[#27190b] to-transparent" />
-                          </div>
+                      {product.suggestedCombo && (
+                        <div className="py-16 mt-8">
+                          <div className="bg-[#f4f1ea] rounded-[24px] p-8 text-[#27190b] relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+                              <div className="w-full h-full bg-gradient-to-l from-[#27190b] to-transparent" />
+                            </div>
 
-                          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                            <div>
-                              <span className="text-sm uppercase tracking-widest opacity-60 mb-4 block">
-                                Curated for{" "}
-                                {clientType === "energy-curious"
-                                  ? "Deep Healing"
-                                  : "Complete Care"}
-                              </span>
-                              <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-6">
-                                The {chakra.tone} Ritual Set
-                              </h2>
-                              <p className="font-light text-base opacity-80 mb-8 leading-relaxed">
-                                Enhance your experience by combining the{" "}
-                                {product.name} with our signature {chakra.name}{" "}
-                                Journal and Meditation Oil. Designed to work in
-                                harmony.
-                              </p>
+                            <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                              <div>
+                                <span className="text-sm uppercase tracking-widest opacity-60 mb-4 block">
+                                  Curated for{" "}
+                                  {clientType === "energy-curious"
+                                    ? "Deep Healing"
+                                    : "Complete Care"}
+                                </span>
+                                <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-6">
+                                  {product.suggestedCombo.title || `The ${chakra.tone} Ritual Set`}
+                                </h2>
+                                <p className="font-light text-base opacity-80 mb-8 leading-relaxed whitespace-pre-line">
+                                  {product.suggestedCombo.description || `Enhance your experience by combining the ${product.name} with our signature ${chakra.name} Journal and Meditation Oil. Designed to work in harmony.`}
+                                </p>
 
-                              <div className="flex flex-col gap-4">
-                                <div className="flex items-center gap-4 p-4 bg-[#27190b]/5 rounded-xl border border-[#27190b]/10">
-                                  <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0" />
-                                  <div>
-                                    <div className="font-cormorant text-lg">
-                                      {product.name}
+                                <div className="flex flex-col gap-4">
+                                  {product.suggestedCombo.products && product.suggestedCombo.products.length > 0 ? (
+                                    [
+                                      // 1. Current Product always at the top
+                                      {
+                                        name: product.name,
+                                        url: `#${product.id}`,
+                                        image: product.images?.[0] || "",
+                                      },
+                                      // 2. Spread the rest of the combo products
+                                      ...product.suggestedCombo.products
+                                    ].map((p, idx) => (
+                                      <a
+                                        href={p.url || "#"}
+                                        key={idx}
+                                        className="flex items-center gap-4 p-4 bg-[#27190b]/5 rounded-xl border border-[#27190b]/10 hover:bg-[#27190b]/10 transition-colors"
+                                      >
+                                        <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0 overflow-hidden">
+                                          {p.image ? (
+                                            <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                                          ) : null}
+                                        </div>
+                                        <div>
+                                          <div className="font-cormorant text-lg">
+                                            {p.name}
+                                          </div>
+                                          <div className="text-xs opacity-60">
+                                            Included
+                                          </div>
+                                        </div>
+                                      </a>
+                                    ))
+                                  ) : (
+                                    <div className="flex items-center gap-4 p-4 bg-[#27190b]/5 rounded-xl border border-[#27190b]/10">
+                                      <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0 overflow-hidden">
+                                        {/* Fallback to current product image if combo is not setup */}
+                                        {product.images && product.images[0] && (
+                                          <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                                        )}
+                                      </div>
+                                      <div>
+                                        <div className="font-cormorant text-lg">
+                                          {product.name}
+                                        </div>
+                                        <div className="text-xs opacity-60">
+                                          Included
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="text-xs opacity-60">
-                                      Included
-                                    </div>
-                                  </div>
+                                  )}
+                                </div>
+
+                                <div className="mt-10 flex flex-col sm:flex-row items-center gap-6">
+                                  <button className="bg-[#27190b] text-[#f4f1ea] px-8 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:scale-105 w-full sm:w-auto">
+                                    Add Bundle • {product.suggestedCombo.price || '₹7,500'}
+                                  </button>
+                                  {product.suggestedCombo.discountText && (
+                                    <span className="text-xs opacity-60">
+                                      {product.suggestedCombo.discountText}
+                                    </span>
+                                  )}
+                                  {!product.suggestedCombo.discountText && (
+                                    <span className="text-xs opacity-60">
+                                      Save 15% when bought together
+                                    </span>
+                                  )}
                                 </div>
                               </div>
 
-                              <div className="mt-10 flex flex-col sm:flex-row items-center gap-6">
-                                <button className="bg-[#27190b] text-[#f4f1ea] px-8 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:scale-105 w-full sm:w-auto">
-                                  Add Bundle • ₹7,500
-                                </button>
-                                <span className="text-xs opacity-60">
-                                  Save 15% when bought together
-                                </span>
+                              {/* Right Column - Images Gallery */}
+                              <div className="w-full flex flex-col items-center justify-center lg:items-end">
+                                {product.suggestedCombo.products && product.suggestedCombo.products.length > 0 ? (
+                                  <div className="flex flex-col gap-4 w-full max-w-[400px]">
+                                    {/* Main Spotlight Image */}
+                                    <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[#27190b]/5 shadow-sm">
+                                      <img 
+                                        src={activeComboImage || product.suggestedCombo?.products?.[0]?.mobileUrl || product.suggestedCombo?.products?.[0]?.image} 
+                                        alt="Suggested Combo Highlight" 
+                                        className="w-full h-full object-cover transition-opacity duration-500" 
+                                      />
+                                    </div>
+                                    
+                                    {/* Thumbnail Row */}
+                                    {product.suggestedCombo.products && product.suggestedCombo.products.length > 1 && (
+                                      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#27190b]/20">
+                                        {/* Original Product Box (Always Present) */}
+                                        {product.images?.[0] && (
+                                           <button 
+                                             onClick={() => setActiveComboImage(product.images?.[0] || "")}
+                                             className={`relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                                               (activeComboImage || (product.suggestedCombo?.products?.[0]?.mobileUrl || product.suggestedCombo?.products?.[0]?.image)) === product.images[0]
+                                                 ? 'border-[#27190b] shadow-md'
+                                                 : 'border-transparent opacity-70 hover:opacity-100 bg-[#27190b]/5'
+                                             }`}
+                                           >
+                                             <img src={product.images[0]} alt="Original Product" className="w-full h-full object-cover" />
+                                           </button>
+                                        )}
+                                        
+                                        {/* Combo Product Thumbnails */}
+                                        {product.suggestedCombo?.products?.map((p, idx) => (
+                                          <button 
+                                            key={idx}
+                                            onClick={() => setActiveComboImage(p.mobileUrl || p.image)}
+                                            className={`relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                                              (activeComboImage || (product.suggestedCombo?.products?.[0]?.mobileUrl || product.suggestedCombo?.products?.[0]?.image)) === (p.mobileUrl || p.image)
+                                                ? 'border-[#27190b] shadow-md' 
+                                                : 'border-transparent opacity-70 hover:opacity-100 bg-[#27190b]/5'
+                                            }`}
+                                          >
+                                            {p.mobileUrl || p.image ? (
+                                              <img 
+                                                src={p.mobileUrl || p.image} 
+                                                alt={p.name} 
+                                                className="w-full h-full object-cover" 
+                                              />
+                                            ) : null}
+                                          </button>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div className="w-full max-w-[320px] aspect-[4/5] rounded-2xl overflow-hidden bg-[#27190b]/5 shadow-sm">
+                                    {product.images?.[0] && (
+                                      <img 
+                                        src={product.images[0]} 
+                                        alt={product.name} 
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                                      />
+                                    )}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div> */}
+                      )}
                     </div>
                   </div>
                 </motion.div>

@@ -133,6 +133,7 @@ export default function EditProductPage() {
         onSubmit={handleSubmit}
         isSubmitting={updateProduct.isPending}
         existingCategories={allCategories}
+        allJourneys={allJourneys}
       />
     </div>
   );
