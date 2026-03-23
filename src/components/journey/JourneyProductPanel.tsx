@@ -359,10 +359,15 @@ export function JourneyProductPanel({
                   </div>
                 </div>
 
-                {/* Product Name - Slot 2 */}
-                <h2 className="text-lg md:text-xl text-center order-1 md:order-2">
-                  {product.name.toUpperCase()}
-                </h2>
+                {/* Product Name & Price - Slot 2 */}
+                <div className="flex flex-col items-center order-1 md:order-2">
+                  <h2 className="text-lg md:text-xl text-center">
+                    {product.name.toUpperCase()}
+                  </h2>
+                  <span className="text-sm md:text-base opacity-70 tracking-widest mt-1">
+                    {product.price}
+                  </span>
+                </div>
 
                 {/* View Description - Slot 3 */}
                 <button
@@ -385,10 +390,15 @@ export function JourneyProductPanel({
               </>
             ) : (
               <>
-                {/* Product Name (Left) - Slot 1 */}
-                <h2 className="text-lg md:text-xl text-center md:text-left order-1">
-                  {product.name.toUpperCase()}
-                </h2>
+                {/* Product Name & Price (Left) - Slot 1 */}
+                <div className="flex flex-col items-center md:items-start order-1">
+                  <h2 className="text-lg md:text-xl text-center md:text-left">
+                    {product.name.toUpperCase()}
+                  </h2>
+                  <span className="text-sm md:text-base opacity-70 tracking-widest mt-1">
+                    {product.price}
+                  </span>
+                </div>
 
                 {/* View Description (Right) - Slot 2 */}
                 <button

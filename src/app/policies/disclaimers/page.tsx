@@ -121,14 +121,13 @@ export default function DisclaimersPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4 marker:text-primaryRed">
               <li>
-                <strong>470584-001</strong> - SAHASRARA CHAKRA
+                <strong>470584-001</strong>
               </li>
               <li>
-                <strong>470585-001</strong> - THIRD EYE CHAKRA (AJNA)
+                <strong>470585-001</strong>
               </li>
               <li>
-                <strong>477044-001</strong> - YARN-BOMBED PLANTS &ndash; LIVING
-                ENERGY FIELDS
+                <strong>477044-001</strong>
               </li>
             </ul>
             <p className="mb-2 font-semibold">

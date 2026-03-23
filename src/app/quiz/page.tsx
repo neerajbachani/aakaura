@@ -327,9 +327,9 @@ const STABLE_INFO = (
     </p>
     <p>Think of it like:</p>
     <ul className="list-disc pl-5 space-y-1">
-      <li>A phone at 70% battery — fully usable, not stressed</li>
-      <li>A calm flame — strong but not wild</li>
-      <li>A muscle that’s trained — flexible, not tight, not weak</li>
+      <li>A phone at 70% battery - fully usable, not stressed</li>
+      <li>A calm flame - strong but not wild</li>
+      <li>A muscle that’s trained - flexible, not tight, not weak</li>
     </ul>
   </>
 );
@@ -349,7 +349,7 @@ const EXCESS_INFO = (
       <li>A phone running too many apps at once</li>
       <li>A muscle that’s tense all the time</li>
     </ul>
-    <p>It’s not “powerful” — it’s excess without control.</p>
+    <p>It’s not “powerful” - it’s excess without control.</p>
   </>
 );
 
@@ -386,7 +386,7 @@ function ResultStep({
   >(null);
 
   const results = useMemo(() => {
-    // Signed total per chakra — each answer contributes its weight directly
+    // Signed total per chakra - each answer contributes its weight directly
     const chakraTotals: Record<ChakraSlug, number> = {
       root: 0,
       sacral: 0,
@@ -479,7 +479,7 @@ function ResultStep({
         <p className="text-xl md:text-2xl text-[#F5E6D3]/80 font-light">
           No one is fully balanced all the time.
           <br />
-          That's not failure — that's just being human.
+          That's not failure - that's just being human.
         </p>
       </div>
 
@@ -502,7 +502,7 @@ function ResultStep({
             </div>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
               These energies are cooperating with your life right now. Enjoy
-              them. They will change — as they should.
+              them. They will change - as they should.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               {stableChakras.map((chakra) => (
@@ -533,7 +533,7 @@ function ResultStep({
               </button>
             </div>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
-              This energy is running hot. Useful in bursts — but it's costing
+              This energy is running hot. Useful in bursts - but it's costing
               you. Pushing, controlling, clinging. It wants to move, not force.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
@@ -566,7 +566,7 @@ function ResultStep({
             </div>
             <p className="text-[#F5E6D3]/80 font-light text-lg md:text-xl">
               This energy is withdrawing. Shutting down, going quiet, pulling
-              inward. Not broken — just asking to be acknowledged.
+              inward. Not broken - just asking to be acknowledged.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               {deficitChakras.map((chakra) => (
@@ -581,14 +581,14 @@ function ResultStep({
           </div>
         )}
 
-        {/* No Stable Message — absence of stable is expected and normal */}
+        {/* No Stable Message - absence of stable is expected and normal */}
         {stableChakras.length === 0 && (
           <div className="bg-[#F5E6D3]/05 border border-[#F5E6D3]/10 p-8 rounded-3xl backdrop-blur-md space-y-4 text-center">
             <h2 className="text-2xl md:text-3xl font-serif text-[#F5E6D3]">
               No chakras are currently stable.
             </h2>
             <p className="text-[#F5E6D3]/80 font-light max-w-2xl mx-auto text-lg md:text-xl">
-              That's not failure — that's honest. Life pulls energy where it's
+              That's not failure - that's honest. Life pulls energy where it's
               needed. The read just means there's movement happening.
               <br />
               Awareness is the first step.
@@ -632,7 +632,7 @@ function ResultStep({
 
         <p className="text-lg md:text-xl text-[#F5E6D3]/60 text-center pt-8 max-w-2xl mx-auto">
           This quiz is not medical or diagnostic. It is an invitation to
-          observe—not label.
+          observe-not label.
         </p>
       </div>
 

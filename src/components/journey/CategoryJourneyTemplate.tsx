@@ -262,11 +262,16 @@ function WaitlistButtonLarge({
           : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
       }`}
     >
-      {isLoading
-        ? "Processing..."
-        : isInWaitlist
-          ? `✓ In Waitlist`
-          : `Add to Waitlist`}
+      {isLoading ? (
+        "Processing..."
+      ) : isInWaitlist ? (
+        `✓ In Waitlist`
+      ) : (
+        <span className="flex items-center justify-center gap-2">
+          Add to Waitlist <span className="opacity-40 select-none">•</span>{" "}
+          <span className="text-lg md:text-xl font-bold">{product.price}</span>
+        </span>
+      )}
     </button>
   );
 }
@@ -572,10 +577,10 @@ export default function CategoryJourneyTemplate({
                       <div className="mb-6 text-left">
                         <Link
                           href="/policies/disclaimers"
-                          className="text-xs font-light opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
+                          className="text-xs font-light md:text-base opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
                         >
                           *Design Protected. Unauthorized copying or
-                          reproduction is strictly prohibited
+                          reproduction is strictly prohibited.
                         </Link>
                       </div>
 
@@ -617,6 +622,9 @@ export default function CategoryJourneyTemplate({
                             <h2 className="text-4xl md:text-6xl font-cormorant font-light mb-2 text-[#f4f1ea]">
                               {product.name}
                             </h2>
+                            <p className="text-2xl md:text-3xl font-cormorant font-light mb-4 text-[#f4f1ea] opacity-80">
+                              {product.price}
+                            </p>
                             <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
                               {product.sanskritName}
                             </p>

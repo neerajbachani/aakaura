@@ -33,7 +33,7 @@ const ProductPage: React.FC = () => {
     Promise.all([
       fetch(`/api/products/${id}`).then((r) => (r.ok ? r.json() : null)),
       fetch(`/api/products/${id}/recommendations`).then((r) =>
-        r.ok ? r.json() : []
+        r.ok ? r.json() : [],
       ),
     ]).then(([prod, recs]) => {
       setProduct(prod.data);
@@ -355,7 +355,9 @@ const ProductPage: React.FC = () => {
 
               {/* Quantity Selector */}
               <div className="flex items-center gap-4">
-                <span className={`${fonts.mulish} font-medium text-primaryBrown`}>
+                <span
+                  className={`${fonts.mulish} font-medium text-primaryBrown`}
+                >
                   Quantity:
                 </span>
                 <div className="flex items-center border border-neutral-200 rounded-lg">
@@ -388,21 +390,36 @@ const ProductPage: React.FC = () => {
                   className={`flex-1 ${fonts.merriweather}`}
                   variant="primary"
                   size="lg"
-                  disabled={selectedVariation ? !selectedVariation.inStock : false}
+                  disabled={
+                    selectedVariation ? !selectedVariation.inStock : false
+                  }
                 >
-                  {selectedVariation && !selectedVariation.inStock ? 'Out of Stock' : 'Add to Cart'}
+                  {selectedVariation && !selectedVariation.inStock
+                    ? "Out of Stock"
+                    : "Add to Cart"}
                 </AddToCartButton>
 
                 <button
                   onClick={() => {
                     // For now, just redirect to checkout - you could implement buy now functionality
-                    router.push('/checkout');
+                    router.push("/checkout");
                   }}
-                  disabled={selectedVariation ? !selectedVariation.inStock : false}
+                  disabled={
+                    selectedVariation ? !selectedVariation.inStock : false
+                  }
                   className={`flex-1 inline-flex items-center justify-center gap-2 bg-primaryRed text-white px-6 py-3 rounded-lg font-semibold hover:bg-primaryRed/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${fonts.merriweather}`}
                 >
                   <BsLightning className="w-4 h-4" />
-                  Buy Now
+                  <span className="flex items-center gap-1.5">
+                    Buy Now <span className="opacity-40 select-none">•</span>
+                    <span className="text-xl font-bold">
+                      ₹
+                      {selectedVariation
+                        ? (selectedVariation.offerPrice ??
+                          selectedVariation.price)
+                        : (product.offerPrice ?? product.price)}
+                    </span>
+                  </span>
                 </button>
               </div>
 

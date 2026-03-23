@@ -737,10 +737,10 @@ export default function ChakraJourneyTemplate({
                       <div className="mb-6 text-left">
                         <Link
                           href="/policies/disclaimers"
-                          className="text-xs font-light opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
+                          className="text-xs font-light md:text-base opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
                         >
                           *Design Protected. Unauthorized copying or
-                          reproduction is strictly prohibited
+                          reproduction is strictly prohibited.
                         </Link>
                       </div>
 
@@ -800,6 +800,9 @@ export default function ChakraJourneyTemplate({
                             <h2 className="text-4xl md:text-6xl font-cormorant font-light mb-2 text-[#f4f1ea]">
                               {product.name}
                             </h2>
+                            <p className="text-2xl md:text-3xl font-cormorant font-light mb-4 text-[#f4f1ea] opacity-80">
+                              {product.price}
+                            </p>
                             <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
                               {product.sanskritName}
                             </p>
@@ -1349,14 +1352,17 @@ export default function ChakraJourneyTemplate({
                                     : "Complete Care"}
                                 </span>
                                 <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-6">
-                                  {product.suggestedCombo.title || `The ${chakra.tone} Ritual Set`}
+                                  {product.suggestedCombo.title ||
+                                    `The ${chakra.tone} Ritual Set`}
                                 </h2>
                                 <p className="font-light text-base opacity-80 mb-8 leading-relaxed whitespace-pre-line">
-                                  {product.suggestedCombo.description || `Enhance your experience by combining the ${product.name} with our signature ${chakra.name} Journal and Meditation Oil. Designed to work in harmony.`}
+                                  {product.suggestedCombo.description ||
+                                    `Enhance your experience by combining the ${product.name} with our signature ${chakra.name} Journal and Meditation Oil. Designed to work in harmony.`}
                                 </p>
 
                                 <div className="flex flex-col gap-4">
-                                  {product.suggestedCombo.products && product.suggestedCombo.products.length > 0 ? (
+                                  {product.suggestedCombo.products &&
+                                  product.suggestedCombo.products.length > 0 ? (
                                     [
                                       // 1. Current Product always at the top
                                       {
@@ -1365,7 +1371,7 @@ export default function ChakraJourneyTemplate({
                                         image: product.images?.[0] || "",
                                       },
                                       // 2. Spread the rest of the combo products
-                                      ...product.suggestedCombo.products
+                                      ...product.suggestedCombo.products,
                                     ].map((p, idx) => (
                                       <a
                                         href={p.url || "#"}
@@ -1374,7 +1380,11 @@ export default function ChakraJourneyTemplate({
                                       >
                                         <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0 overflow-hidden">
                                           {p.image ? (
-                                            <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                                            <img
+                                              src={p.image}
+                                              alt={p.name}
+                                              className="w-full h-full object-cover"
+                                            />
                                           ) : null}
                                         </div>
                                         <div>
@@ -1391,9 +1401,14 @@ export default function ChakraJourneyTemplate({
                                     <div className="flex items-center gap-4 p-4 bg-[#27190b]/5 rounded-xl border border-[#27190b]/10">
                                       <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0 overflow-hidden">
                                         {/* Fallback to current product image if combo is not setup */}
-                                        {product.images && product.images[0] && (
-                                          <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
-                                        )}
+                                        {product.images &&
+                                          product.images[0] && (
+                                            <img
+                                              src={product.images[0]}
+                                              alt={product.name}
+                                              className="w-full h-full object-cover"
+                                            />
+                                          )}
                                       </div>
                                       <div>
                                         <div className="font-cormorant text-lg">
@@ -1409,7 +1424,15 @@ export default function ChakraJourneyTemplate({
 
                                 <div className="mt-10 flex flex-col sm:flex-row items-center gap-6">
                                   <button className="bg-[#27190b] text-[#f4f1ea] px-8 py-3 rounded-full text-xs uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:scale-105 w-full sm:w-auto">
-                                    Add Bundle • {product.suggestedCombo.price || '₹7,500'}
+                                    <span className="flex items-center justify-center gap-2">
+                                      Add Bundle{" "}
+                                      <span className="opacity-40 select-none">
+                                        •
+                                      </span>{" "}
+                                      <span className="text-base font-bold">
+                                        {product.suggestedCombo.price || "-"}
+                                      </span>
+                                    </span>
                                   </button>
                                   {product.suggestedCombo.discountText && (
                                     <span className="text-xs opacity-60">
@@ -1426,64 +1449,100 @@ export default function ChakraJourneyTemplate({
 
                               {/* Right Column - Images Gallery */}
                               <div className="w-full flex flex-col items-center justify-center lg:items-end">
-                                {product.suggestedCombo.products && product.suggestedCombo.products.length > 0 ? (
+                                {product.suggestedCombo.products &&
+                                product.suggestedCombo.products.length > 0 ? (
                                   <div className="flex flex-col gap-4 w-full max-w-[400px]">
                                     {/* Main Spotlight Image */}
                                     <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[#27190b]/5 shadow-sm">
-                                      <img 
-                                        src={activeComboImage || product.suggestedCombo?.products?.[0]?.mobileUrl || product.suggestedCombo?.products?.[0]?.image} 
-                                        alt="Suggested Combo Highlight" 
-                                        className="w-full h-full object-cover transition-opacity duration-500" 
+                                      <img
+                                        src={
+                                          activeComboImage ||
+                                          product.suggestedCombo?.products?.[0]
+                                            ?.mobileUrl ||
+                                          product.suggestedCombo?.products?.[0]
+                                            ?.image
+                                        }
+                                        alt="Suggested Combo Highlight"
+                                        className="w-full h-full object-cover transition-opacity duration-500"
                                       />
                                     </div>
-                                    
+
                                     {/* Thumbnail Row */}
-                                    {product.suggestedCombo.products && product.suggestedCombo.products.length > 1 && (
-                                      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#27190b]/20">
-                                        {/* Original Product Box (Always Present) */}
-                                        {product.images?.[0] && (
-                                           <button 
-                                             onClick={() => setActiveComboImage(product.images?.[0] || "")}
-                                             className={`relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
-                                               (activeComboImage || (product.suggestedCombo?.products?.[0]?.mobileUrl || product.suggestedCombo?.products?.[0]?.image)) === product.images[0]
-                                                 ? 'border-[#27190b] shadow-md'
-                                                 : 'border-transparent opacity-70 hover:opacity-100 bg-[#27190b]/5'
-                                             }`}
-                                           >
-                                             <img src={product.images[0]} alt="Original Product" className="w-full h-full object-cover" />
-                                           </button>
-                                        )}
-                                        
-                                        {/* Combo Product Thumbnails */}
-                                        {product.suggestedCombo?.products?.map((p, idx) => (
-                                          <button 
-                                            key={idx}
-                                            onClick={() => setActiveComboImage(p.mobileUrl || p.image)}
-                                            className={`relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
-                                              (activeComboImage || (product.suggestedCombo?.products?.[0]?.mobileUrl || product.suggestedCombo?.products?.[0]?.image)) === (p.mobileUrl || p.image)
-                                                ? 'border-[#27190b] shadow-md' 
-                                                : 'border-transparent opacity-70 hover:opacity-100 bg-[#27190b]/5'
-                                            }`}
-                                          >
-                                            {p.mobileUrl || p.image ? (
-                                              <img 
-                                                src={p.mobileUrl || p.image} 
-                                                alt={p.name} 
-                                                className="w-full h-full object-cover" 
+                                    {product.suggestedCombo.products &&
+                                      product.suggestedCombo.products.length >
+                                        1 && (
+                                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#27190b]/20">
+                                          {/* Original Product Box (Always Present) */}
+                                          {product.images?.[0] && (
+                                            <button
+                                              onClick={() =>
+                                                setActiveComboImage(
+                                                  product.images?.[0] || "",
+                                                )
+                                              }
+                                              className={`relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                                                (activeComboImage ||
+                                                  product.suggestedCombo
+                                                    ?.products?.[0]
+                                                    ?.mobileUrl ||
+                                                  product.suggestedCombo
+                                                    ?.products?.[0]?.image) ===
+                                                product.images[0]
+                                                  ? "border-[#27190b] shadow-md"
+                                                  : "border-transparent opacity-70 hover:opacity-100 bg-[#27190b]/5"
+                                              }`}
+                                            >
+                                              <img
+                                                src={product.images[0]}
+                                                alt="Original Product"
+                                                className="w-full h-full object-cover"
                                               />
-                                            ) : null}
-                                          </button>
-                                        ))}
-                                      </div>
-                                    )}
+                                            </button>
+                                          )}
+
+                                          {/* Combo Product Thumbnails */}
+                                          {product.suggestedCombo?.products?.map(
+                                            (p, idx) => (
+                                              <button
+                                                key={idx}
+                                                onClick={() =>
+                                                  setActiveComboImage(
+                                                    p.mobileUrl || p.image,
+                                                  )
+                                                }
+                                                className={`relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                                                  (activeComboImage ||
+                                                    product.suggestedCombo
+                                                      ?.products?.[0]
+                                                      ?.mobileUrl ||
+                                                    product.suggestedCombo
+                                                      ?.products?.[0]
+                                                      ?.image) ===
+                                                  (p.mobileUrl || p.image)
+                                                    ? "border-[#27190b] shadow-md"
+                                                    : "border-transparent opacity-70 hover:opacity-100 bg-[#27190b]/5"
+                                                }`}
+                                              >
+                                                {p.mobileUrl || p.image ? (
+                                                  <img
+                                                    src={p.mobileUrl || p.image}
+                                                    alt={p.name}
+                                                    className="w-full h-full object-cover"
+                                                  />
+                                                ) : null}
+                                              </button>
+                                            ),
+                                          )}
+                                        </div>
+                                      )}
                                   </div>
                                 ) : (
                                   <div className="w-full max-w-[320px] aspect-[4/5] rounded-2xl overflow-hidden bg-[#27190b]/5 shadow-sm">
                                     {product.images?.[0] && (
-                                      <img 
-                                        src={product.images[0]} 
-                                        alt={product.name} 
-                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                                      <img
+                                        src={product.images[0]}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                                       />
                                     )}
                                   </div>
@@ -1596,11 +1655,18 @@ function WaitlistButton({
       disabled={isLoading}
       className="max-w-md hidden md:block hover:opacity-70 transition-opacity disabled:opacity-50"
     >
-      {isLoading
-        ? "Processing..."
-        : isInWaitlist
-          ? "✓ In Waitlist"
-          : "Add to Waitlist"}
+      {isLoading ? (
+        "Processing..."
+      ) : isInWaitlist ? (
+        "✓ In Waitlist"
+      ) : (
+        <span className="flex items-center gap-1.5">
+          Add to Waitlist <span className="opacity-40 select-none">•</span>{" "}
+          <span className="text-base md:text-xl font-bold">
+            {product.price}
+          </span>
+        </span>
+      )}
     </button>
   );
 }
@@ -1664,11 +1730,16 @@ function WaitlistButtonLarge({
           : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
       }`}
     >
-      {isLoading
-        ? "Processing..."
-        : isInWaitlist
-          ? `✓ In Waitlist`
-          : `Add to Waitlist`}
+      {isLoading ? (
+        "Processing..."
+      ) : isInWaitlist ? (
+        `✓ In Waitlist`
+      ) : (
+        <span className="flex items-center justify-center gap-2">
+          Add to Waitlist <span className="opacity-40 select-none">•</span>{" "}
+          <span className="text-lg md:text-xl font-bold">{product.price}</span>
+        </span>
+      )}
     </button>
   );
 }
