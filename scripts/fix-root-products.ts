@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 // ========== BONSAI DATA ==========
 const bonsaiPremiumDetail = `**About Aarohma Ekam**
 
-Aarohma Ekam is a living bonsai collection designed to represent growth as a continuous ascent — not a destination.
+Aarohma Ekam is a living bonsai collection designed to represent growth as a continuous ascent - not a destination.
 
 Each piece features a resilient Adenium (Desert Rose) bonsai, chosen for its slow growth cycle and ability to thrive with minimal intervention. A natural symbol of patience and inner strength. The plant's vertical form mirrors ascension, while its rooted base keeps the design grounded in earth energy.
 
 **Chakra-Aligned Design Language**
 
-Every bonsai corresponds to a specific chakra frequency — expressed through aura-toned yarn work, color placement, and form. Acting as a visual and spatial reminder rather than a healing claim.
+Every bonsai corresponds to a specific chakra frequency - expressed through aura-toned yarn work, color placement, and form. Acting as a visual and spatial reminder rather than a healing claim.
 
 Colors are selected based on:
 - Traditional chakra symbolism
@@ -25,7 +25,7 @@ Colors are selected based on:
 - Terracotta bases anchor the piece, reinforcing grounding and stability
 - Minimal symbolic detailing keeps the design modern, uncluttered, and timeless
 
-The spiral structure reflects growth that is non-linear — upward, adaptive, and alive.
+The spiral structure reflects growth that is non-linear - upward, adaptive, and alive.
 
 **Energetic Preparation**
 
@@ -64,7 +64,7 @@ const wallHangingDesignBreakdown = [
   },
   {
     title: 'Square Mandala',
-    description: 'Symbol of the Earth element (Prithvi) — solidity, structure, stability, and physical existence'
+    description: 'Symbol of the Earth element (Prithvi) - solidity, structure, stability, and physical existence'
   },
   {
     title: 'Downward-Pointing Triangle',
@@ -76,7 +76,7 @@ const wallHangingDesignBreakdown = [
   },
   {
     title: 'Wooden Inscription Element',
-    description: 'A solid wooden log plaque, engraved with "Grounded." (English) and "स्थिर (Sthir)" — meaning steady, stable, unmoving'
+    description: 'A solid wooden log plaque, engraved with "Grounded." (English) and "स्थिर (Sthir)" - meaning steady, stable, unmoving'
   }
 ];
 
@@ -89,8 +89,8 @@ const wallHangingSpecs = {
   'Weight': 'Approx. 450 grams',
   'Finish': 'Acrylic matte finish (Uniform, non-glossy surface designed for visual calm and longevity)',
   'Color': 'Unified Aakaura colour tone with natural wood accents and brass detailing (Consistent across all chakra wall hangings)',
-  'Crafting': 'Hand-crafted — Each piece is hand-moulded, hand-painted, and hand-assembled',
-  'Durability': 'Long-lasting for indoor use — Stable structure with age-resistant brass elements',
+  'Crafting': 'Hand-crafted - Each piece is hand-moulded, hand-painted, and hand-assembled',
+  'Durability': 'Long-lasting for indoor use - Stable structure with age-resistant brass elements',
   'Packaging': 'Secure packaging'
 };
 
@@ -184,10 +184,10 @@ async function main() {
         careInstructions: 'Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.',
         symbolism: 'Represents grounding, stability, continuity, and the infinite foundation of existence. Acts as a physical reminder of your connection to Earth energy.',
         idealFor: 'Entrances, meditation spaces, workspaces, living areas, and intentional gifting',
-        languageEngraving: 'English & Sanskrit — "Grounded." and "स्थिर (Sthir)"',
+        languageEngraving: 'English & Sanskrit - "Grounded." and "स्थिर (Sthir)"',
         whenToUse: wallHangingWhenToUse,
       };
-      console.log('✅ Fixed SL Wall Hanging — added specs, designBreakdown, careInstructions, symbolism, idealFor, languageEngraving, whenToUse');
+      console.log('✅ Fixed SL Wall Hanging - added specs, designBreakdown, careInstructions, symbolism, idealFor, languageEngraving, whenToUse');
     } else {
       console.warn('⚠️  SL Wall Hanging not found (root-wall-hanging-sl)');
     }
@@ -217,9 +217,9 @@ Root Chakra Aarohma Ekam is a reminder that growth is strongest when the foundat
         careInstructions: '• Place in bright, indirect sunlight\n• Water sparingly; allow soil to dry between watering\n• Avoid overwatering and prolonged damp conditions\n• Protect from extreme cold',
         symbolism: 'Stability, grounding, inner security, strength, survival, and connection to the physical world',
         idealFor: 'Meditation spaces, workspaces, living areas that invite pause and mindfulness',
-        languageEngraving: 'Sanskrit — "Muladhara" (Root foundation)',
+        languageEngraving: 'Sanskrit - "Muladhara" (Root foundation)',
       };
-      console.log('✅ Fixed SL Bonsai — added specs, designBreakdown, premiumDetailing, careInstructions, symbolism, idealFor, languageEngraving');
+      console.log('✅ Fixed SL Bonsai - added specs, designBreakdown, premiumDetailing, careInstructions, symbolism, idealFor, languageEngraving');
     } else {
       console.warn('⚠️  SL Bonsai not found (bonsai-root-chakra-sl)');
     }
@@ -244,7 +244,7 @@ Root Chakra Aarohma Ekam is a reminder that growth is strongest when the foundat
         specificDescription: existing.description, // Keep full text as specific
         premiumDetailing: bonsaiPremiumDetail,
       };
-      console.log('✅ Fixed EC Bonsai — added premiumDetailing, shortened description, set step');
+      console.log('✅ Fixed EC Bonsai - added premiumDetailing, shortened description, set step');
     }
 
     // ==========================================
@@ -255,15 +255,15 @@ Root Chakra Aarohma Ekam is a reminder that growth is strongest when the foundat
       const existing = content['energy-curious'][ecWallIdx];
       content['energy-curious'][ecWallIdx] = {
         ...existing,
-        premiumDetailing: `**Prithvi Aayam — Grounding Through Intentional Design**
+        premiumDetailing: `**Prithvi Aayam - Grounding Through Intentional Design**
 
 **Why wall art matters for energy:**
-The spaces we inhabit directly influence our energetic state. A carefully crafted wall presence serves as a visual and vibrational anchor — subtly reinforcing stability, awareness, and calm throughout the day.
+The spaces we inhabit directly influence our energetic state. A carefully crafted wall presence serves as a visual and vibrational anchor - subtly reinforcing stability, awareness, and calm throughout the day.
 
 **The Muladhara Connection:**
 This wall hanging is designed around the root chakra's symbolic language:
 - The four-petaled lotus represents the four fundamental functions of the mind
-- The square mandala embodies the Earth element — solidity and structure
+- The square mandala embodies the Earth element - solidity and structure
 - The downward-pointing triangle channels energy toward grounding
 
 **Brass Ghungroo Bells:**
@@ -273,12 +273,12 @@ The nine brass bells (three clusters of three) are not decorative. They create s
 - Create a gentle vibrational presence in your space
 
 **Why Aakaura uses terracotta:**
-Terracotta is earth-based material — connecting directly to the root chakra's element. The hand-moulding process ensures each piece carries the intention and energy of the maker.
+Terracotta is earth-based material - connecting directly to the root chakra's element. The hand-moulding process ensures each piece carries the intention and energy of the maker.
 
 **Wooden Inscription:**
-Engraved with "Grounded." (English) and "स्थिर (Sthir)" (Sanskrit) — meaning steady, stable, unmoving. This serves as a daily visual reminder of your intention.`,
+Engraved with "Grounded." (English) and "स्थिर (Sthir)" (Sanskrit) - meaning steady, stable, unmoving. This serves as a daily visual reminder of your intention.`,
       };
-      console.log('✅ Fixed EC Wall Hanging — added premiumDetailing');
+      console.log('✅ Fixed EC Wall Hanging - added premiumDetailing');
     }
 
     // ==========================================

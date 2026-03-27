@@ -7,7 +7,7 @@ import CategoryCard from "@/components/ui/CategoryCard";
 export const dynamic = "force-dynamic";
 
 export default async function CombosPage() {
-  // Query Prisma directly — avoids circular HTTP self-fetch that fails on Vercel SSR
+  // Query Prisma directly - avoids circular HTTP self-fetch that fails on Vercel SSR
   const db = prisma as any;
   const combos = await db.combo.findMany({
     include: {

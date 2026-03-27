@@ -137,6 +137,11 @@ model Order {
   paymentMethod   PaymentMethod?
   trackingNumber  String?
   
+  // Razorpay
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  razorpaySignature String?
+  
   // Shipping Address (denormalized for order history)
   shippingName    String
   shippingPhone   String

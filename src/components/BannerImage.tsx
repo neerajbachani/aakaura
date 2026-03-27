@@ -63,7 +63,7 @@ const chakrasConfig = [
     shadow: "rgba(6,182,212,0.6)",
     image: "/chakras/throat-symbol.svg",
     position: "upper-right",
-    info: "The right to speak the truth.\nWhen aligned, words carry weight, not noise.\nWhen blocked, truth suffocates into compliance.\nExpression without distortion. Silence without fear.\nThis chakra governs honesty—with others and with the self.",
+    info: "The right to speak the truth.\nWhen aligned, words carry weight, not noise.\nWhen blocked, truth suffocates into compliance.\nExpression without distortion. Silence without fear.\nThis chakra governs honesty-with others and with the self.",
   },
   {
     id: "insight",

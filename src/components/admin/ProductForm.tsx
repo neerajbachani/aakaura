@@ -69,7 +69,13 @@ export default function ProductForm({
       description: string;
       price: string;
       discountText: string;
-      products: { id: string; name: string; image: string; url: string; mobileUrl?: string }[];
+      products: {
+        id: string;
+        name: string;
+        image: string;
+        url: string;
+        mobileUrl?: string;
+      }[];
     };
   }>({
     id: "",
@@ -286,16 +292,20 @@ export default function ProductForm({
     // Find the product data across all journeys
     let foundProduct = null;
     let journeySlug = "";
-    
+
     for (const j of allJourneys) {
-      const slMatch = j.content?.["soul-luxury"]?.find((p: any) => p.id === productId);
+      const slMatch = j.content?.["soul-luxury"]?.find(
+        (p: any) => p.id === productId,
+      );
       if (slMatch) {
         foundProduct = slMatch;
         journeySlug = j.slug;
         break;
       }
-      
-      const ecMatch = j.content?.["energy-curious"]?.find((p: any) => p.id === productId);
+
+      const ecMatch = j.content?.["energy-curious"]?.find(
+        (p: any) => p.id === productId,
+      );
       if (ecMatch) {
         foundProduct = ecMatch;
         journeySlug = j.slug;
@@ -307,17 +317,20 @@ export default function ProductForm({
       setFormData((prev) => {
         // Only add if not already present
         if (prev.suggestedCombo.products.some((p) => p.id === productId)) {
-            return prev;
+          return prev;
         }
 
         const newProductRef = {
           id: foundProduct.id,
           name: foundProduct.name,
           image: foundProduct.images?.[0] || "",
-          mobileUrl: foundProduct.mobileImages && foundProduct.mobileImages[0] ? foundProduct.mobileImages[0] : "",
+          mobileUrl:
+            foundProduct.mobileImages && foundProduct.mobileImages[0]
+              ? foundProduct.mobileImages[0]
+              : "",
           url: `/journey/${journeySlug}/#${foundProduct.id}`,
         };
-        
+
         return {
           ...prev,
           suggestedCombo: {
@@ -327,7 +340,7 @@ export default function ProductForm({
         };
       });
     }
-    
+
     // Reset selection
     e.target.value = "";
   };
@@ -695,7 +708,7 @@ export default function ProductForm({
                   handleChange("languageEngraving", e.target.value)
                 }
                 rows={3}
-                placeholder='Sanskrit — "Muladhara"'
+                placeholder='Sanskrit - "Muladhara"'
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>
@@ -1065,46 +1078,67 @@ export default function ProductForm({
         {/* Suggested Combo Section */}
         <div className="border border-gray-200 p-6 rounded-xl bg-gray-50/50">
           <div className="mb-4">
-            <h3 className="font-semibold text-gray-900 leading-tight">Suggested Combo (Optional)</h3>
-            <p className="text-sm text-gray-500 mt-1">Configure the upsell item presented at the bottom of the product page.</p>
+            <h3 className="font-semibold text-gray-900 leading-tight">
+              Suggested Combo (Optional)
+            </h3>
+            <p className="text-sm text-gray-500 mt-1">
+              Configure the upsell item presented at the bottom of the product
+              page.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Combo Title</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Combo Title
+              </label>
               <input
                 type="text"
                 value={formData.suggestedCombo.title}
-                onChange={(e) => handleSuggestedComboChange("title", e.target.value)}
+                onChange={(e) =>
+                  handleSuggestedComboChange("title", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-sm"
                 placeholder="e.g. The Grounding Ritual Set"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Combo Price Display</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Combo Price Display
+              </label>
               <input
                 type="text"
                 value={formData.suggestedCombo.price}
-                onChange={(e) => handleSuggestedComboChange("price", e.target.value)}
+                onChange={(e) =>
+                  handleSuggestedComboChange("price", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-sm"
                 placeholder="e.g. ₹7,500"
               />
             </div>
             <div className="col-span-1 md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Combo Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Combo Description
+              </label>
               <textarea
                 value={formData.suggestedCombo.description}
-                onChange={(e) => handleSuggestedComboChange("description", e.target.value)}
+                onChange={(e) =>
+                  handleSuggestedComboChange("description", e.target.value)
+                }
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-sm"
                 placeholder="e.g. Enhance your experience by combining the..."
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Discount Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Discount Text
+              </label>
               <input
                 type="text"
                 value={formData.suggestedCombo.discountText}
-                onChange={(e) => handleSuggestedComboChange("discountText", e.target.value)}
+                onChange={(e) =>
+                  handleSuggestedComboChange("discountText", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-sm"
                 placeholder="e.g. Save 15% when bought together"
               />
@@ -1113,69 +1147,95 @@ export default function ProductForm({
 
           {/* Combo Products Selection UI */}
           <div className="mt-6 border-t pt-6">
-             <div className="flex justify-between items-center mb-4">
-                <label className="block text-sm font-medium text-gray-900">Included Products</label>
-             </div>
-             
-             {/* Product Selection List */}
-             {formData.suggestedCombo.products.length > 0 ? (
-               <div className="space-y-3 mb-4">
-                 {formData.suggestedCombo.products.map((p, index) => (
-                   <div key={p.id} className="flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3">
-                     <div className="flex items-center gap-3">
-                       <div className="w-10 h-10 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
-                         {p.image ? (
-                           <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
-                         ) : (
-                           <PhotoIcon className="w-6 h-6 text-gray-400 m-auto mt-2" />
-                         )}
-                       </div>
-                       <div>
-                         <p className="text-sm font-medium text-gray-900">{p.name}</p>
-                         <p className="text-xs text-gray-500">{p.url}</p>
-                       </div>
-                     </div>
-                     <button
-                        type="button"
-                        onClick={() => removeComboProduct(index)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100"
-                        title="Remove from combo"
-                      >
-                       <TrashIcon className="w-4 h-4" />
-                     </button>
-                   </div>
-                 ))}
-               </div>
-             ) : (
-               <div className="text-sm text-gray-500 italic mb-4 p-4 border border-dashed rounded-lg text-center">
-                 No products added yet. The default product configuration will be used as a fallback on the frontend.
-               </div>
-             )}
+            <div className="flex justify-between items-center mb-4">
+              <label className="block text-sm font-medium text-gray-900">
+                Included Products
+              </label>
+            </div>
 
-             {/* Dropdown to add products */}
-             <div>
-               <select
-                 onChange={handleAddComboProduct}
-                 value=""
-                 className="w-full px-3 py-2 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 text-sm bg-indigo-50/30 text-indigo-800"
-               >
-                 <option value="" disabled>+ Select a Product to Add to Combo</option>
-                 {allJourneys.map((j: any) => (
-                   <optgroup key={j.slug} label={j.name}>
-                     {j.content?.["soul-luxury"]?.map((p: any) => (
-                       <option key={p.id} value={p.id} disabled={formData.suggestedCombo.products.some(cp => cp.id === p.id)}>
-                         {p.name} (Soul Luxury)
-                       </option>
-                     ))}
-                     {j.content?.["energy-curious"]?.map((p: any) => (
-                       <option key={p.id} value={p.id} disabled={formData.suggestedCombo.products.some(cp => cp.id === p.id)}>
-                         {p.name} (Energy Curious)
-                       </option>
-                     ))}
-                   </optgroup>
-                 ))}
-               </select>
-             </div>
+            {/* Product Selection List */}
+            {formData.suggestedCombo.products.length > 0 ? (
+              <div className="space-y-3 mb-4">
+                {formData.suggestedCombo.products.map((p, index) => (
+                  <div
+                    key={p.id}
+                    className="flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
+                        {p.image ? (
+                          <img
+                            src={p.image}
+                            alt={p.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <PhotoIcon className="w-6 h-6 text-gray-400 m-auto mt-2" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">
+                          {p.name}
+                        </p>
+                        <p className="text-xs text-gray-500">{p.url}</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeComboProduct(index)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100"
+                      title="Remove from combo"
+                    >
+                      <TrashIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-sm text-gray-500 italic mb-4 p-4 border border-dashed rounded-lg text-center">
+                No products added yet. The default product configuration will be
+                used as a fallback on the frontend.
+              </div>
+            )}
+
+            {/* Dropdown to add products */}
+            <div>
+              <select
+                onChange={handleAddComboProduct}
+                value=""
+                className="w-full px-3 py-2 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 text-sm bg-indigo-50/30 text-indigo-800"
+              >
+                <option value="" disabled>
+                  + Select a Product to Add to Combo
+                </option>
+                {allJourneys.map((j: any) => (
+                  <optgroup key={j.slug} label={j.name}>
+                    {j.content?.["soul-luxury"]?.map((p: any) => (
+                      <option
+                        key={p.id}
+                        value={p.id}
+                        disabled={formData.suggestedCombo.products.some(
+                          (cp) => cp.id === p.id,
+                        )}
+                      >
+                        {p.name} (Soul Luxury)
+                      </option>
+                    ))}
+                    {j.content?.["energy-curious"]?.map((p: any) => (
+                      <option
+                        key={p.id}
+                        value={p.id}
+                        disabled={formData.suggestedCombo.products.some(
+                          (cp) => cp.id === p.id,
+                        )}
+                      >
+                        {p.name} (Energy Curious)
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 

@@ -43,7 +43,7 @@ const soulLuxuryProduct = {
     name: "Jal Aayam Wall Hanging",
     sanskritName: "Sacral Chakra Wall Hanging",
     description: "A handcrafted terracotta piece symbolizing creativity, emotion, and movement.",
-    specificDescription: "A handcrafted terracotta piece symbolizing creativity, emotion, and movement. Designed around the Svadhisthana chakra geometry, it carries the energy of fluidity and emotional intelligence. The Six-Petaled Lotus represents key aspects of human nature that must be brought into balance—anger, jealousy, cruelty, hatred, pride, and desire—and is traditionally depicted in shades of orange or vermilion, symbolizing vitality and dynamic energy. Finished with soft bells and a wooden plaque engraved with “प्रवाह” (Flow): a reminder that life moves best when resistance dissolves.",
+    specificDescription: "A handcrafted terracotta piece symbolizing creativity, emotion, and movement. Designed around the Svadhisthana chakra geometry, it carries the energy of fluidity and emotional intelligence. The Six-Petaled Lotus represents key aspects of human nature that must be brought into balance-anger, jealousy, cruelty, hatred, pride, and desire-and is traditionally depicted in shades of orange or vermilion, symbolizing vitality and dynamic energy. Finished with soft bells and a wooden plaque engraved with “प्रवाह” (Flow): a reminder that life moves best when resistance dissolves.",
     price: "₹4,500",
     ethos: "Hand-crafted: Each piece is moulded, painted, and assembled manually. Designed to support emotional fluidity and creative expression.",
     whatItsFor: "A visual and energetic anchor for emotional balance and creativity. Designed for those seeking to reconnect with their feelings, heal relationships, or overcome creative blocks.",
@@ -71,7 +71,7 @@ const soulLuxuryProduct = {
     careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
     idealFor: "Emotional balance, creativity practices, relationship healing, meditation spaces, bedrooms, and intentional gifting",
     symbolism: "Represents fluidity, creativity, emotional balance, pleasure, and the continuity of life energy",
-    languageEngraving: "English & Sanskrit — “Flow.” and “प्रवाह”",
+    languageEngraving: "English & Sanskrit - “Flow.” and “प्रवाह”",
     designBreakdown: [
         {
             title: "Six-Petaled Lotus (Svadhisthana Symbol)",

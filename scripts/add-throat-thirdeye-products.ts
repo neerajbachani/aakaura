@@ -47,7 +47,7 @@ const throatProductBase = {
     name: "Akasha Aayam Wall Hanging",
     sanskritName: "Throat Chakra Wall Hanging",
     description: "A handcrafted terracotta piece symbolizing clarity, expression, and authenticity.",
-    specificDescription: "A handcrafted terracotta piece symbolizing clarity, expression, and authenticity. Designed around the Vishuddha chakra geometry, it carries the energy of honest communication and inner alignment. The sixteen-petaled lotus represents the sixteen vowels of the Sanskrit language, symbolizing refined expression, creativity, and harmonious sound. At its center, the inverted triangle signifies the upward movement of energy from the lower chakras toward higher states of spiritual awareness. Enclosing this form, the white circle or full moon represents the element of ether (Akasha). Finished with soft bells and a wooden plaque engraved with “सत्य” (Truth) — a reminder that expression is most powerful when it is pure.",
+    specificDescription: "A handcrafted terracotta piece symbolizing clarity, expression, and authenticity. Designed around the Vishuddha chakra geometry, it carries the energy of honest communication and inner alignment. The sixteen-petaled lotus represents the sixteen vowels of the Sanskrit language, symbolizing refined expression, creativity, and harmonious sound. At its center, the inverted triangle signifies the upward movement of energy from the lower chakras toward higher states of spiritual awareness. Enclosing this form, the white circle or full moon represents the element of ether (Akasha). Finished with soft bells and a wooden plaque engraved with “सत्य” (Truth) - a reminder that expression is most powerful when it is pure.",
     price: "₹4,500",
     ethos: "Hand-crafted: Each piece is moulded, painted, and assembled manually. Designed to support clear communication and self-expression.",
     whatItsFor: "A visual and energetic anchor for truth and authenticity. Designed for those seeking to unblock communication, enhance creativity, and express their inner reality.",
@@ -75,7 +75,7 @@ const throatProductBase = {
     careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
     idealFor: "Clear communication, self-expression practices, sound meditation, creative spaces, workspaces, spiritual décor, and intentional gifting",
     symbolism: "Represents purification, truthful expression, clarity of thought, and the refinement of sound and communication",
-    languageEngraving: "English & Sanskrit — “truth.” and “सत्य”",
+    languageEngraving: "English & Sanskrit - “truth.” and “सत्य”",
     designBreakdown: [
         {
             title: "Sixteen-Petaled Lotus (Vishuddha Symbol)",
@@ -87,7 +87,7 @@ const throatProductBase = {
         },
         {
             title: "Circular Mandala / White Disc",
-            description: "Represents Akasha (ether/space) — the subtle element associated with sound, openness, clarity, and expansive awareness."
+            description: "Represents Akasha (ether/space) - the subtle element associated with sound, openness, clarity, and expansive awareness."
         },
         {
             title: "Brass Ghungroo Clusters",
@@ -158,7 +158,7 @@ const thirdEyeProductBase = {
     name: "Jnana Aayam Wall Hanging",
     sanskritName: "Third Eye Chakra Wall Hanging",
     description: "A handcrafted terracotta piece symbolizing perception, insight, and inner knowing.",
-    specificDescription: "A handcrafted terracotta piece symbolizing perception, insight, and inner knowing. Designed around the Ajna chakra geometry, it carries the energy of clarity, focus, and intuitive intelligence. The two-petaled lotus represents the fundamental duality of existence (Ida and Pingala) converging at the center, symbolizing the transition from dualistic perception to non-dual awareness. The downward-pointing triangle signifies the descent and integration of higher consciousness. The inner circle marks the subtle void—the seat of the inner Guru. Finished with soft bells and a wooden plaque engraved with “दृष्टि” (Vision): a reminder that true sight comes from within.",
+    specificDescription: "A handcrafted terracotta piece symbolizing perception, insight, and inner knowing. Designed around the Ajna chakra geometry, it carries the energy of clarity, focus, and intuitive intelligence. The two-petaled lotus represents the fundamental duality of existence (Ida and Pingala) converging at the center, symbolizing the transition from dualistic perception to non-dual awareness. The downward-pointing triangle signifies the descent and integration of higher consciousness. The inner circle marks the subtle void-the seat of the inner Guru. Finished with soft bells and a wooden plaque engraved with “दृष्टि” (Vision): a reminder that true sight comes from within.",
     price: "₹4,500",
     ethos: "Hand-crafted: Each piece is moulded, painted, and assembled manually. Designed to support clarity, focus, and intuitive intelligence.",
     whatItsFor: "A visual and energetic anchor for insight and inner vision. Designed for those seeking to enhance intuition, mental clarity, and focus.",
@@ -186,7 +186,7 @@ const thirdEyeProductBase = {
     careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
     idealFor: "Meditation spaces, intuitive practices, study areas, workspaces, spiritual décor, and intentional gifting",
     symbolism: "Represents perception, insight, awareness beyond sensory input, and integration of intellect with intuition",
-    languageEngraving: "English & Sanskrit — “vision.” and “दृष्टि (Drishti)”",
+    languageEngraving: "English & Sanskrit - “vision.” and “दृष्टि (Drishti)”",
     designBreakdown: [
         {
             title: "Two-Petaled Lotus (Ajna Symbol)",
@@ -198,7 +198,7 @@ const thirdEyeProductBase = {
         },
         {
             title: "Central Bindhu / Circle",
-            description: "Symbolizes the point of awareness, the seat of observation beyond thought — where perception occurs without distortion."
+            description: "Symbolizes the point of awareness, the seat of observation beyond thought - where perception occurs without distortion."
         },
         {
             title: "Brass Ghungroo Clusters",
@@ -206,7 +206,7 @@ const thirdEyeProductBase = {
         },
         {
             title: "Wooden Inscription Element",
-            description: "A solid wooden log plaque, engraved with “Clear.” (English) and “दृष्टि (Drishti)” — meaning vision, perception, insight."
+            description: "A solid wooden log plaque, engraved with “Clear.” (English) and “दृष्टि (Drishti)” - meaning vision, perception, insight."
         }
     ],
     additionalSection: {

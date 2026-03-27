@@ -102,7 +102,7 @@ const sacralBonsai = {
     designBreakdown: [
         {
             title: "Living Core & Water Storage Biology",
-            description: "At the center is a living Adenium bonsai, known for its enlarged caudex — a botanical adaptation for water storage. In arid environments, Adenium species survive by: Storing water in their swollen base, Regulating internal hydration, Releasing stored reserves gradually during dry periods. This biological structure mirrors the conceptual theme of the sacral region — preservation, fluid regulation, and sustained vitality. From a biophilic standpoint, interaction with living plant systems has been associated with: Reduced stress reactivity, Enhanced emotional regulation, Increased cognitive flexibility (Ulrich et al., 1991; Kaplan & Kaplan, 1989). Fluid growth requires stable reserves."
+            description: "At the center is a living Adenium bonsai, known for its enlarged caudex - a botanical adaptation for water storage. In arid environments, Adenium species survive by: Storing water in their swollen base, Regulating internal hydration, Releasing stored reserves gradually during dry periods. This biological structure mirrors the conceptual theme of the sacral region - preservation, fluid regulation, and sustained vitality. From a biophilic standpoint, interaction with living plant systems has been associated with: Reduced stress reactivity, Enhanced emotional regulation, Increased cognitive flexibility (Ulrich et al., 1991; Kaplan & Kaplan, 1989). Fluid growth requires stable reserves."
         },
         {
             title: "Orange Spectrum & Motivational Activation",
@@ -110,15 +110,15 @@ const sacralBonsai = {
         },
         {
             title: "Blue Accents & Emotional Depth",
-            description: "Deep blue tones introduce counterbalance. Blue is associated with: Calm regulation, Cognitive stability, Reduced physiological arousal. The pairing of orange (activation) and blue (regulation) creates chromatic tension and balance — visually reflecting the dynamic between passion and composure. Too much activation leads to volatility. Too much calm leads to stagnation. Integration creates flow."
+            description: "Deep blue tones introduce counterbalance. Blue is associated with: Calm regulation, Cognitive stability, Reduced physiological arousal. The pairing of orange (activation) and blue (regulation) creates chromatic tension and balance - visually reflecting the dynamic between passion and composure. Too much activation leads to volatility. Too much calm leads to stagnation. Integration creates flow."
         },
         {
             title: "Spiral Geometry & Rhythmic Motion",
-            description: "The upward spiral mimics wave-like progression. Curvilinear forms are processed as safer and more harmonious than angular forms (Vartanian et al., 2013). Continuous curves encourage perceptual flow — the eye moves without interruption. This mirrors psychological flow states: Engagement without force, Movement without resistance, Immersion without fragmentation. Creativity thrives in continuity."
+            description: "The upward spiral mimics wave-like progression. Curvilinear forms are processed as safer and more harmonious than angular forms (Vartanian et al., 2013). Continuous curves encourage perceptual flow - the eye moves without interruption. This mirrors psychological flow states: Engagement without force, Movement without resistance, Immersion without fragmentation. Creativity thrives in continuity."
         },
         {
             title: "Lunar Symbolism & Tidal Science (Clarified)",
-            description: "The crescent moon element references cyclical rhythm. Scientifically: The moon’s gravitational pull influences ocean tides. Human bodies are composed of approximately 60% water (not 80%). There is no conclusive scientific evidence that lunar cycles directly influence human fluid systems in a measurable physiological tidal way. However: Humans are deeply responsive to cyclical patterns — circadian rhythms (sun-based) and monthly hormonal cycles are biologically real regulatory systems. The moon here symbolizes rhythm and cycle — not gravitational control over the body. Symbolic rhythm. Not literal tide mechanics."
+            description: "The crescent moon element references cyclical rhythm. Scientifically: The moon’s gravitational pull influences ocean tides. Human bodies are composed of approximately 60% water (not 80%). There is no conclusive scientific evidence that lunar cycles directly influence human fluid systems in a measurable physiological tidal way. However: Humans are deeply responsive to cyclical patterns - circadian rhythms (sun-based) and monthly hormonal cycles are biologically real regulatory systems. The moon here symbolizes rhythm and cycle - not gravitational control over the body. Symbolic rhythm. Not literal tide mechanics."
         },
         {
             title: "Suspended Yarn Elements & Adaptive Motion",
@@ -130,7 +130,7 @@ const sacralBonsai = {
         },
         {
             title: "Environmental Conditioning & Creative Association",
-            description: "Behavioral research shows environments shape cognitive output (Wood & Neal, 2007). Placed in: Creative studios, Bedrooms, Writing desks, Artistic workspaces. This bonsai may become associated with: Idea generation, Emotional expression, Playful experimentation. Not because it activates fertility or tides — but because consistent visual cues reinforce behavioral states."
+            description: "Behavioral research shows environments shape cognitive output (Wood & Neal, 2007). Placed in: Creative studios, Bedrooms, Writing desks, Artistic workspaces. This bonsai may become associated with: Idea generation, Emotional expression, Playful experimentation. Not because it activates fertility or tides - but because consistent visual cues reinforce behavioral states."
         }
     ]
 };
@@ -172,7 +172,7 @@ const rootBonsai = {
     designBreakdown: [
         {
             title: "Living Core & Structural Resilience",
-            description: "At the center is a living Adenium bonsai, distinguished by its thick caudex; a natural adaptation for survival in harsh, dry climates. Botanically, the caudex: Stores water and nutrients, Buffers against environmental instability, Regulates slow, sustainable growth. This biological resilience mirrors the functional theme of the root — security through preparedness. From a biophilic design standpoint, exposure to living plant systems has been shown to: Reduce stress reactivity, Increase feelings of environmental safety, Improve attentional steadiness (Ulrich et al., 1991; Kaplan & Kaplan, 1989). Security is not abstract. It begins with regulated systems."
+            description: "At the center is a living Adenium bonsai, distinguished by its thick caudex; a natural adaptation for survival in harsh, dry climates. Botanically, the caudex: Stores water and nutrients, Buffers against environmental instability, Regulates slow, sustainable growth. This biological resilience mirrors the functional theme of the root - security through preparedness. From a biophilic design standpoint, exposure to living plant systems has been shown to: Reduce stress reactivity, Increase feelings of environmental safety, Improve attentional steadiness (Ulrich et al., 1991; Kaplan & Kaplan, 1989). Security is not abstract. It begins with regulated systems."
         },
         {
             title: "Red Spectrum & Survival Signaling",

@@ -43,7 +43,7 @@ const baseMuffler = {
 const commonDesignBreakdown = [
     {
         title: "Why the neck matters?",
-        description: "The neck is one of the most sensitive and functionally important areas of the body. It contains major blood vessels that regulate blood flow to the brain, is closely connected to the nervous system, including pathways that influence calm and stress response, and is a key zone for heat regulation — the body loses warmth quickly when the neck is exposed. Covering the neck helps maintain thermal balance and overall comfort, especially in colder environments. This is why mufflers have traditionally been used as a protective layer, not just an accessory."
+        description: "The neck is one of the most sensitive and functionally important areas of the body. It contains major blood vessels that regulate blood flow to the brain, is closely connected to the nervous system, including pathways that influence calm and stress response, and is a key zone for heat regulation - the body loses warmth quickly when the neck is exposed. Covering the neck helps maintain thermal balance and overall comfort, especially in colder environments. This is why mufflers have traditionally been used as a protective layer, not just an accessory."
     },
     {
         title: "Why does Aakaura encourage a muffler around this area?",
@@ -51,7 +51,7 @@ const commonDesignBreakdown = [
     },
     {
         title: "The role of colour in daily wear",
-        description: "Colour isn’t just visual — it subtly influences how we feel and experience our surroundings. From a scientific and psychological perspective: Colours affect mood and perception through visual processing in the brain. Clothing colours remain in our peripheral vision, influencing comfort and focus throughout the day. Certain colour tones are widely associated with calm, warmth, or stability across cultures."
+        description: "Colour isn’t just visual - it subtly influences how we feel and experience our surroundings. From a scientific and psychological perspective: Colours affect mood and perception through visual processing in the brain. Clothing colours remain in our peripheral vision, influencing comfort and focus throughout the day. Certain colour tones are widely associated with calm, warmth, or stability across cultures."
     },
     {
         title: "Why Aakaura uses chakra-aligned colour palettes?",
@@ -59,22 +59,22 @@ const commonDesignBreakdown = [
     },
     {
         title: "Why Aamvaraah exists?",
-        description: "Aamvaraah is made for people who value: Practical warmth, Thoughtful design, Subtle meaning integrated into everyday wear. It is not about fixing or changing anything — it is about comfort, awareness, and conscious choice."
+        description: "Aamvaraah is made for people who value: Practical warmth, Thoughtful design, Subtle meaning integrated into everyday wear. It is not about fixing or changing anything - it is about comfort, awareness, and conscious choice."
     }
 ];
 
 // Journey specific data map
 const journeyMap: Record<string, any> = {
     'grounding': {
-        chakra: "Root Chakra — Muladhara (Red)",
+        chakra: "Root Chakra - Muladhara (Red)",
         color: "Red",
         detail: {
             title: "Color Science: Red (Root Chakra)",
-            description: "**Color:** Red\n**Visible Frequency:** ~400–484 THz\n**Wavelength:** ~620–740 nm\n**Associated Energy:** Grounding, survival, stability\n\n**Meaning & Resonance:** Red has the lowest frequency of the seven chakra hues, representing the densest and most physical energy — like being rooted in the Earth and feeling safe in your body and environment. This grounding effect helps stabilize energy so all other chakras can develop.\n\n**Color Science:** Red light has the longest wavelength in the visible spectrum, which metaphorically mirrors the deep, foundational resonance of the Root Chakra."
+            description: "**Color:** Red\n**Visible Frequency:** ~400–484 THz\n**Wavelength:** ~620–740 nm\n**Associated Energy:** Grounding, survival, stability\n\n**Meaning & Resonance:** Red has the lowest frequency of the seven chakra hues, representing the densest and most physical energy - like being rooted in the Earth and feeling safe in your body and environment. This grounding effect helps stabilize energy so all other chakras can develop.\n\n**Color Science:** Red light has the longest wavelength in the visible spectrum, which metaphorically mirrors the deep, foundational resonance of the Root Chakra."
         }
     },
     'flow': {
-        chakra: "Sacral Chakra — Svadhishthana (Orange)",
+        chakra: "Sacral Chakra - Svadhishthana (Orange)",
         color: "Orange",
         detail: {
             title: "Color Science: Orange (Sacral Chakra)",
@@ -82,15 +82,15 @@ const journeyMap: Record<string, any> = {
         }
     },
     'power': {
-        chakra: "Solar Plexus Chakra — Manipura (Yellow)",
+        chakra: "Solar Plexus Chakra - Manipura (Yellow)",
         color: "Yellow",
         detail: {
             title: "Color Science: Yellow (Solar Plexus Chakra)",
-            description: "**Color:** Yellow\n**Visible Frequency:** ~508–526 THz\n**Wavelength:** ~565–590 nm\n**Associated Energy:** Personal power, confidence, intellect\n\n**Meaning & Resonance:** Yellow is bright and stimulating like the sun — it reflects clarity, self-esteem, and self-direction. Its higher light frequency aligns with the Solar Plexus’s role in personal empowerment and identity."
+            description: "**Color:** Yellow\n**Visible Frequency:** ~508–526 THz\n**Wavelength:** ~565–590 nm\n**Associated Energy:** Personal power, confidence, intellect\n\n**Meaning & Resonance:** Yellow is bright and stimulating like the sun - it reflects clarity, self-esteem, and self-direction. Its higher light frequency aligns with the Solar Plexus’s role in personal empowerment and identity."
         }
     },
     'love': {
-        chakra: "Heart Chakra — Anahata (Green)",
+        chakra: "Heart Chakra - Anahata (Green)",
         color: "Green",
         detail: {
             title: "Color Science: Green (Heart Chakra)",

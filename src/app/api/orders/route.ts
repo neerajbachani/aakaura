@@ -3,17 +3,21 @@ import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
 const createOrderSchema = z.object({
   items: z.array(z.object({
-    productId: z.string().uuid(),
-    variationId: z.string().uuid().optional(),
+    productId: z.string().min(1),
+    variationId: z.string().min(1).optional(),
     quantity: z.number().int().min(1),
     price: z.number().min(0),
   })),
   total: z.number().min(0),
+  razorpayPaymentId: z.string().optional(),
+  razorpayOrderId: z.string().optional(),
+  razorpaySignature: z.string().optional(),
 });
 
 // Create order from cart
@@ -30,7 +34,27 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     const validatedData = createOrderSchema.parse(body);
-    const { items, total } = validatedData;
+    const { items, total, razorpayPaymentId, razorpayOrderId, razorpaySignature } = validatedData;
+
+    // If razorpay details are present, verify signature
+    let paymentStatus: 'PENDING' | 'PAID' = 'PENDING';
+    
+    if (razorpayPaymentId && razorpayOrderId && razorpaySignature) {
+      if (!process.env.RAZORPAY_KEY_SECRET) {
+        return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 });
+      }
+
+      const expectedSignature = crypto
+        .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
+        .digest('hex');
+
+      if (expectedSignature === razorpaySignature) {
+        paymentStatus = 'PAID';
+      } else {
+        return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 });
+      }
+    }
 
     // Create order with items in a transaction
     const order = await prisma.$transaction(async (tx) => {
@@ -40,22 +64,45 @@ export async function POST(request: NextRequest) {
           userId: decoded.userId,
           total,
           status: 'PENDING',
+          paymentStatus,
+          razorpayOrderId,
+          razorpayPaymentId,
+          razorpaySignature,
+          shippingName: '',
+          shippingPhone: '',
+          shippingAddress: '',
+          shippingCity: '',
+          shippingState: '',
+          shippingPincode: '',
         },
+      });
+
+      // Get product details for snapshot
+      const products = await tx.product.findMany({
+        where: { id: { in: items.map(i => i.productId) } },
+        include: { variations: true }
       });
 
       // Create order items
       const orderItems = await Promise.all(
-        items.map(item =>
-          tx.orderItem.create({
+        items.map(item => {
+          const prod = products.find(p => p.id === item.productId);
+          const variation = prod?.variations?.find(v => v.id === item.variationId);
+          
+          return tx.orderItem.create({
             data: {
               orderId: newOrder.id,
               productId: item.productId,
               variationId: item.variationId,
               quantity: item.quantity,
               price: item.price,
+              productName: prod?.name || 'Unknown Product',
+              productImage: prod?.images?.[0] || '/images/placeholder.png',
+              variationName: variation?.name || undefined,
+              total: item.quantity * item.price,
             },
-          })
-        )
+          });
+        })
       );
 
       // Clear the user's cart

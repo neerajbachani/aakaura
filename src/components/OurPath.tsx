@@ -50,7 +50,7 @@ export default function OurPath() {
                     </span>{" "}
                     We&apos;ve experienced how energy, self-love, and healing
                     can transform our lives. Like everyone, we&apos;ve faced
-                    darkness — but by honoring our own energy, we discovered
+                    darkness - but by honoring our own energy, we discovered
                     that true fulfillment comes from within.
                   </li>
                   <li>
@@ -118,7 +118,7 @@ export default function OurPath() {
                 >
                   <p>
                     Every product we craft carries the love and dedication of
-                    local artisans — individuals who pour their hearts into each
+                    local artisans - individuals who pour their hearts into each
                     creation. Our collaboration goes beyond artistry; we share
                     the beauty of energies and auras, inviting them to explore
                     these concepts as they infuse their work with meaning.

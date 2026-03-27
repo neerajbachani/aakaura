@@ -8,13 +8,19 @@ import toast from "react-hot-toast";
 import { DocumentDuplicateIcon, ShareIcon } from "@heroicons/react/24/outline";
 
 const CHAKRAS_MAP: Record<string, { name: string; path: string }> = {
-  "root": { name: "Root Chakra", path: "/chakras/root-symbol.svg" },
-  "sacral": { name: "Sacral Chakra", path: "/chakras/sacral-symbol.svg" },
-  "solar-plexus": { name: "Solar Plexus Chakra", path: "/chakras/solar-plexus-symbol.svg" },
-  "heart": { name: "Heart Chakra", path: "/chakras/heart-symbol.svg" },
-  "throat": { name: "Throat Chakra", path: "/chakras/throat-symbol.svg" },
-  "third-eye": { name: "Third Eye Chakra", path: "/chakras/third-eye-symbol.svg" },
-  "crown": { name: "Crown Chakra", path: "/chakras/crown-symbol.svg" },
+  root: { name: "Root Chakra", path: "/chakras/root-symbol.svg" },
+  sacral: { name: "Sacral Chakra", path: "/chakras/sacral-symbol.svg" },
+  "solar-plexus": {
+    name: "Solar Plexus Chakra",
+    path: "/chakras/solar-plexus-symbol.svg",
+  },
+  heart: { name: "Heart Chakra", path: "/chakras/heart-symbol.svg" },
+  throat: { name: "Throat Chakra", path: "/chakras/throat-symbol.svg" },
+  "third-eye": {
+    name: "Third Eye Chakra",
+    path: "/chakras/third-eye-symbol.svg",
+  },
+  crown: { name: "Crown Chakra", path: "/chakras/crown-symbol.svg" },
 };
 
 export default function BouquetViewPage() {
@@ -26,7 +32,7 @@ export default function BouquetViewPage() {
 
   useEffect(() => {
     if (!id) return;
-    
+
     fetch(`/api/bouquet/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -48,9 +54,16 @@ export default function BouquetViewPage() {
   if (error || !bouquet) {
     return (
       <div className="min-h-screen bg-[#27190B] text-white flex flex-col items-center justify-center p-4">
-        <h1 className="text-3xl font-cormorant text-[#BD9958] mb-4">Aura Not Found</h1>
-        <p className="text-white/60 mb-8">{error || "This bouquet has withered away back to the source."}</p>
-        <Link href="/bouquet" className="border border-[#BD9958] px-6 py-2 text-[#BD9958] uppercase tracking-widest font-cormorant hover:bg-[#BD9958] hover:text-black transition-colors">
+        <h1 className="text-3xl font-cormorant text-[#BD9958] mb-4">
+          Aura Not Found
+        </h1>
+        <p className="text-white/60 mb-8">
+          {error || "This bouquet has withered away back to the source."}
+        </p>
+        <Link
+          href="/bouquet"
+          className="border border-[#BD9958] px-6 py-2 text-[#BD9958] uppercase tracking-widest font-cormorant hover:bg-[#BD9958] hover:text-black transition-colors"
+        >
           Create A New Bouquet
         </Link>
       </div>
@@ -94,15 +107,20 @@ export default function BouquetViewPage() {
         {bouquet.chakras.map((chakraId: string, idx: number) => {
           const chakra = CHAKRAS_MAP[chakraId];
           if (!chakra) return null;
-          
+
           // Generate somewhat random pseudo-positions for an organic bouquet look
           const offset = idx % 2 === 0 ? "translate-y-4" : "-translate-y-4";
-          const rotation = idx % 3 === 0 ? "rotate-12" : idx % 3 === 1 ? "-rotate-6" : "rotate-0";
+          const rotation =
+            idx % 3 === 0
+              ? "rotate-12"
+              : idx % 3 === 1
+                ? "-rotate-6"
+                : "rotate-0";
           const scale = 1 + (idx % 3) * 0.1;
 
           return (
-            <div 
-              key={`${chakraId}-${idx}`} 
+            <div
+              key={`${chakraId}-${idx}`}
               className={`relative flex flex-col items-center transition-transform hover:scale-110 duration-500 ${offset} ${rotation}`}
               style={{ transform: `scale(${scale})` }}
             >
@@ -121,11 +139,15 @@ export default function BouquetViewPage() {
 
       {/* The Card */}
       <div className="relative z-10 max-w-xl w-full bg-white/[0.03] backdrop-blur-md border border-[#BD9958]/30 p-10 md:p-14 mb-16 shadow-[0_0_40px_rgba(189,153,88,0.1)]">
-        <p className="text-[#BD9958] font-cormorant text-2xl mb-8 italic">Dear {bouquet.to},</p>
+        <p className="text-[#BD9958] font-cormorant text-2xl mb-8 italic">
+          Dear {bouquet.to},
+        </p>
         <p className="text-white/80 font-light leading-relaxed whitespace-pre-wrap text-lg font-cormorant mb-12">
           {bouquet.message}
         </p>
-        <p className="text-right text-[#BD9958] font-cormorant text-xl italic">— {bouquet.from}</p>
+        <p className="text-right text-[#BD9958] font-cormorant text-xl italic">
+          - {bouquet.from}
+        </p>
       </div>
 
       {/* Actions */}

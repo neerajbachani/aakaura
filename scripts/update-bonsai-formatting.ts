@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 // Premium detailing WITHOUT specifications (only narrative content)
 const bonsaiPremiumDetailing = `**About Aarohma Ekam**
 
-Aarohma Ekam is a living bonsai collection designed to represent growth as a continuous ascent — not a destination.
+Aarohma Ekam is a living bonsai collection designed to represent growth as a continuous ascent - not a destination.
 
 Each piece features a resilient Adenium (Desert Rose) bonsai, chosen for its slow growth cycle and ability to thrive with minimal intervention. A natural symbol of patience and inner strength. The plant's vertical form mirrors ascension, while its rooted base keeps the design grounded in earth energy.
 
 **Chakra-Aligned Design Language**
 
-Every bonsai corresponds to a specific chakra frequency — expressed through aura-toned yarn work, color placement, and form. Acting as a visual and spatial reminder rather than a healing claim.
+Every bonsai corresponds to a specific chakra frequency - expressed through aura-toned yarn work, color placement, and form. Acting as a visual and spatial reminder rather than a healing claim.
 
 Colors are selected based on:
 - Traditional chakra symbolism
@@ -25,7 +25,7 @@ Colors are selected based on:
 - Terracotta bases anchor the piece, reinforcing grounding and stability
 - Minimal symbolic detailing keeps the design modern, uncluttered, and timeless
 
-The spiral structure reflects growth that is non-linear — upward, adaptive, and alive.
+The spiral structure reflects growth that is non-linear - upward, adaptive, and alive.
 
 **Energetic Preparation**
 

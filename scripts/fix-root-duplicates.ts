@@ -2,8 +2,8 @@
  * fix-root-duplicates.ts
  *
  * The root/grounding chakra products exist twice in the products table:
- * - Old UUID rows (e.g. "3a3225ba-...") — likely linked to combos, but have stale images
- * - New slug-ID rows (e.g. "root-wall-hanging-sl") — current journey content IDs, correct images
+ * - Old UUID rows (e.g. "3a3225ba-...") - likely linked to combos, but have stale images
+ * - New slug-ID rows (e.g. "root-wall-hanging-sl") - current journey content IDs, correct images
  *
  * This script:
  * 1. Finds all duplicates (same name, different IDs)
@@ -73,7 +73,7 @@ async function main() {
     const nonJourneyRows = group.filter((p) => !journeyProductMap.has(p.id));
 
     if (!journeyRow) {
-      console.log(`   ⚠️  None of these IDs found in journey content — skipping\n`);
+      console.log(`   ⚠️  None of these IDs found in journey content - skipping\n`);
       continue;
     }
 
@@ -106,7 +106,7 @@ async function main() {
           );
           fixed++;
         } else {
-          console.log(`   ✅ Old UUID row images already match — no update needed`);
+          console.log(`   ✅ Old UUID row images already match - no update needed`);
           alreadyOk++;
         }
       } else {
@@ -126,7 +126,7 @@ async function main() {
           fixed++;
         } else {
           console.log(
-            `   ⚠️  Stale duplicate has ${cartItems.length} cart items, ${orderItems.length} order items — not deleting`
+            `   ⚠️  Stale duplicate has ${cartItems.length} cart items, ${orderItems.length} order items - not deleting`
           );
         }
       }

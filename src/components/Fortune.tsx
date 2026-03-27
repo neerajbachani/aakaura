@@ -18,7 +18,7 @@ const fortuneCards: FortuneCardType[] = [
   {
     title: "You Are The Universe",
     image: "/images/fortune/universe.png",
-    content1: `You are not separate from the universe—you are the universe. It's a continuous circle; when you align with the universe, it aligns with you. You are the universe itself.`,
+    content1: `You are not separate from the universe-you are the universe. It's a continuous circle; when you align with the universe, it aligns with you. You are the universe itself.`,
     content2: `The universe is aligning every particle, every event, every connection in their favor. And they only need to do one thing: align their energy with the universe's plan. Align their energy to be so, so pure, so present, so full of life, that the universe looks at them and says, Yes, this soul is ready for the path I've carved for them.`,
     blogLink: "https://aakaura.in/blogs/1c7a4c21-fa55-430c-9ae9-129ac8c39072",
   },
@@ -53,7 +53,7 @@ const fortuneCards: FortuneCardType[] = [
     title: "You Are The Only Reality",
     image: "/images/fortune/reality.png",
     content1:
-      "Everything you experience is a reflection of your inner world. If someone treats you well, it's because your energy aligns with that kindness. If someone treats you poorly, that experience is filtered through your perception. The world doesn't exist outside of you — it exists through you. Your emotions, thoughts, and beliefs color everything you see. Once you understand that your reality is your creation, you gain the power to reshape it.",
+      "Everything you experience is a reflection of your inner world. If someone treats you well, it's because your energy aligns with that kindness. If someone treats you poorly, that experience is filtered through your perception. The world doesn't exist outside of you - it exists through you. Your emotions, thoughts, and beliefs color everything you see. Once you understand that your reality is your creation, you gain the power to reshape it.",
   },
   {
     title: "It All Starts With You",
@@ -61,14 +61,14 @@ const fortuneCards: FortuneCardType[] = [
     content1:
       "The only way out of this is- self-awareness. Take the time to evaluate everything you have ever been taught, read, heard, or made to believe in. What feels true to you? What aligns with your core values? What makes you feel more like you? Respect other people's choices, sure, but do not let them define you, no.",
     content2:
-      "True love has always felt liberating, not constraining. It is not about being perfect—it is about accepting yourself fully while continuously striving to grow.",
+      "True love has always felt liberating, not constraining. It is not about being perfect-it is about accepting yourself fully while continuously striving to grow.",
     blogLink: "https://aakaura.in/blogs/d7361316-3dc3-4bd0-98a4-d993943f8222",
   },
   {
     title: "Protect & Show Up For Yourself",
     image: "/images/fortune/protect.png",
     content1:
-      "But what if love isn't supposed to be a sacrifice, at all? What if we're meant to have healthy relationships with people who love and understand us — not perfectly, but willingly?…. And maybe we were never meant to carry relationships that don’t carry us back. :)",
+      "But what if love isn't supposed to be a sacrifice, at all? What if we're meant to have healthy relationships with people who love and understand us - not perfectly, but willingly?…. And maybe we were never meant to carry relationships that don’t carry us back. :)",
     content2:
       "I've started to understand that love is a state of being, but emotions like anger or sadness are fleeting visitors. They’re meant to be felt, acknowledged, and released, not suppressed or judged. And maybe that’s the most human thing of all, don’t you think?",
     blogLink: "https://aakaura.in/blogs/9a133678-28da-4f15-b55c-f87fdfd8e20d",
@@ -77,16 +77,16 @@ const fortuneCards: FortuneCardType[] = [
     title: "The Only Way Out Is In",
     image: "/images/fortune/way.png",
     content1:
-      "You have to be so protected, so powerful, so grounded in your own self that you never feel the need to shut yourself off. Because you know: I've got me. I have got myself. This is all the reality that could ever sustain itself — and it already exists within me.",
+      "You have to be so protected, so powerful, so grounded in your own self that you never feel the need to shut yourself off. Because you know: I've got me. I have got myself. This is all the reality that could ever sustain itself - and it already exists within me.",
     content2:
-      "So maybe the problem was never with being vulnerable. Maybe the problem was always with the fear of being hurt. And well, buddy — that's an inner work. Just like 100% of the works. It's an inner work, and it starts and ends with you.",
+      "So maybe the problem was never with being vulnerable. Maybe the problem was always with the fear of being hurt. And well, buddy - that's an inner work. Just like 100% of the works. It's an inner work, and it starts and ends with you.",
     blogLink: "https://aakaura.in/blogs/910e1575-a6fa-4f9f-a08f-44102b22a1c1",
   },
 ];
 
 const Fortune = () => {
   const [selectedCard, setSelectedCard] = useState<FortuneCardType | null>(
-    null
+    null,
   );
   const [showContent, setShowContent] = useState(false);
 

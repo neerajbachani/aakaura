@@ -13,15 +13,15 @@ const prisma = new PrismaClient();
 const MUFFLER_CHAKRA_DATA: Record<string, { symbolism: string; languageEngraving: string }> = {
   'grounding': {
     symbolism: 'Stability, security, warmth, and connection to the physical world. The muffler anchors the wearer in earth energy through material and intention.',
-    languageEngraving: 'Sanskrit — "Muladhara" (Root support)',
+    languageEngraving: 'Sanskrit - "Muladhara" (Root support)',
   },
   'compassion': {
     symbolism: 'Love, compassion, emotional warmth, and heart-centered connection. The muffler wraps the wearer in the energy of unconditional care.',
-    languageEngraving: 'Sanskrit — "Anahata" (Unstruck sound)',
+    languageEngraving: 'Sanskrit - "Anahata" (Unstruck sound)',
   },
   'clarity': {
     symbolism: 'Intuition, inner clarity, perception, and higher awareness. The muffler supports the energy of insight and deep knowing.',
-    languageEngraving: 'Sanskrit — "Ajna" (Command center)',
+    languageEngraving: 'Sanskrit - "Ajna" (Command center)',
   },
 };
 

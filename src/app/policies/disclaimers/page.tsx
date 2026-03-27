@@ -35,8 +35,8 @@ export default function DisclaimersPage() {
               NO MEDICAL ADVICE DISCLAIMER
             </h2>
             <p className="mb-2">
-              Any information provided on this website—whether related to
-              energy, chakras, rituals, or practices—is for informational
+              Any information provided on this website-whether related to
+              energy, chakras, rituals, or practices-is for informational
               purposes only.
             </p>
             <p>

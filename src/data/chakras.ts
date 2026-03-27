@@ -101,6 +101,7 @@ export interface ChakraData {
     'soul-luxury': JourneyProduct[];
     'energy-curious': JourneyProduct[];
   };
+  productSettings?: Record<string, { isWaitlist: boolean }>;
 }
 
 const TEMPLATE_SL_PRODUCT = {
@@ -111,7 +112,7 @@ const TEMPLATE_SL_PRODUCT = {
   specificDescription: "Handcrafted Winter Muffler. Premium wool-blend yarn (soft-touch, breathable & skin-friendly). Traditional handwoven flat knit.",
   price: "₹4,500",
   ethos: "Artisan-crafted in India. Small-batch, slow-made, supporting traditional craftsmanship.",
-  whatItsFor: "Aamvaraah isn't made for fast fashion. It's made for those who appreciate things that last — warm, dependable, and rooted. The kind of muffler your grandfather would approve of… but your wardrobe desperately needed an upgrade. Classic sense, modern soul.",
+  whatItsFor: "Aamvaraah isn't made for fast fashion. It's made for those who appreciate things that last - warm, dependable, and rooted. The kind of muffler your grandfather would approve of… but your wardrobe desperately needed an upgrade. Classic sense, modern soul.",
   features: [
     "Retains warmth without trapping excess heat",
     "Breathable weave for all-day comfort",
@@ -181,7 +182,7 @@ export const chakrasData: Record<string, ChakraData> = {
           specificDescription: "A handcrafted terracotta wall hanging designed to bring grounding energy, stability, and the essence of earth element into your space. Features solid wood inscription elements and traditional brass ghungroo bells.",
           price: "₹4,500",
           ethos: "Artisan-crafted in India using traditional hand-moulding techniques. Each piece is individually hand-moulded, hand-painted, and hand-assembled with care. Small-batch production supporting traditional craftsmanship and conscious making.",
-          whatItsFor: "Prithvi Aayam isn't decorative art. It's a physical anchor for your space — designed for those who understand that environment shapes energy. Whether placed at an entrance, workspace, or meditation corner, this piece creates a subtle but steady presence. The kind of grounding you don't announce, you feel.",
+          whatItsFor: "Prithvi Aayam isn't decorative art. It's a physical anchor for your space - designed for those who understand that environment shapes energy. Whether placed at an entrance, workspace, or meditation corner, this piece creates a subtle but steady presence. The kind of grounding you don't announce, you feel.",
           features: [
             "Hand-moulded terracotta base with natural texture",
             "Solid wood inscription element",
@@ -197,14 +198,14 @@ export const chakrasData: Record<string, ChakraData> = {
             color: "Unified Aakaura colour tone with natural wood accents and brass detailing (Consistent across all chakra wall hangings)",
             dimensions: "Approx. 33 × 19 × 1 cm (Length × Width × Depth)",
             weight: "Approx. 450 grams",
-            crafting: "Hand-crafted — Each piece is hand-moulded, hand-painted, and hand-assembled",
-            durability: "Long-lasting for indoor use — Stable structure with age-resistant brass elements",
+            crafting: "Hand-crafted - Each piece is hand-moulded, hand-painted, and hand-assembled",
+            durability: "Long-lasting for indoor use - Stable structure with age-resistant brass elements",
             packaging: "Secure packaging"
           },
           careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
           idealFor: "Meditation spaces, grounding practices, entrances, workspaces, spiritual décor, and intentional gifting",
           symbolism: "Represents grounding, stability, continuity, and the infinite foundation of existence",
-          languageEngraving: "English & Sanskrit — \"Grounded.\" and \"स्थिर (Sthir)\"",
+          languageEngraving: "English & Sanskrit - \"Grounded.\" and \"स्थिर (Sthir)\"",
           designBreakdown: [
             {
               title: "Four-Petaled Lotus (Muladhara Symbol)",
@@ -212,7 +213,7 @@ export const chakrasData: Record<string, ChakraData> = {
             },
             {
               title: "Square Mandala",
-              description: "Symbol of the Earth element (Prithvi) — solidity, structure, stability, and physical existence"
+              description: "Symbol of the Earth element (Prithvi) - solidity, structure, stability, and physical existence"
             },
             {
               title: "Downward-Pointing Triangle",
@@ -224,7 +225,7 @@ export const chakrasData: Record<string, ChakraData> = {
             },
             {
               title: "Wooden Inscription Element",
-              description: "A solid wooden log plaque, engraved with \"Grounded.\" (English) and \"स्थिर (Sthir)\" — meaning steady, stable, unmoving"
+              description: "A solid wooden log plaque, engraved with \"Grounded.\" (English) and \"स्थिर (Sthir)\" - meaning steady, stable, unmoving"
             }
           ],
           whenToUse: {
@@ -299,7 +300,7 @@ export const chakrasData: Record<string, ChakraData> = {
           specificDescription: "A sacred energy anchor handcrafted to stabilize your auric field and connect you to earth frequencies. Infused with the intention of grounding, safety, and foundational stability.",
           price: "₹5,500",
           ethos: "Consciously crafted to align with root chakra frequencies. Each piece is energetically cleansed and blessed by trained Pranic Healers before dispatch, ensuring it carries coherence and clarity rather than emotional residue from the making process.",
-          whatItsFor: "For the energy-aware seeker who understands that objects hold vibration. This isn't wall décor — it's an energetic foundation for your space. The bells aren't for decoration; they create subtle sound vibrations that help recalibrate scattered energy. The symbols aren't symbolic; they're vibrational templates. Place it where you need grounding most.",
+          whatItsFor: "For the energy-aware seeker who understands that objects hold vibration. This isn't wall décor - it's an energetic foundation for your space. The bells aren't for decoration; they create subtle sound vibrations that help recalibrate scattered energy. The symbols aren't symbolic; they're vibrational templates. Place it where you need grounding most.",
           features: [
             "Energetically aligned and pranic-blessed before shipping",
             "Hand-moulded using earth-based materials to maintain energetic integrity",
@@ -315,14 +316,14 @@ export const chakrasData: Record<string, ChakraData> = {
             color: "Unified Aakaura colour tone with natural wood accents and brass detailing (Consistent across all chakra wall hangings)",
             dimensions: "Approx. 33 × 19 × 1 cm (Length × Width × Depth)",
             weight: "Approx. 450 grams",
-            crafting: "Hand-crafted — Each piece is hand-moulded, hand-painted, and hand-assembled",
-            durability: "Long-lasting for indoor use — Stable structure with age-resistant brass elements",
+            crafting: "Hand-crafted - Each piece is hand-moulded, hand-painted, and hand-assembled",
+            durability: "Long-lasting for indoor use - Stable structure with age-resistant brass elements",
             packaging: "Secure packaging"
           },
           careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes. Periodically cleanse energetically using sage smoke or sound.",
           idealFor: "Meditation spaces, grounding practices, entrances, workspaces, energy healing rooms, and intentional gifting to those on spiritual paths",
           symbolism: "Represents grounding, stability, continuity, and the infinite foundation of existence. Acts as a physical reminder of your connection to Earth energy.",
-          languageEngraving: "English & Sanskrit — \"Grounded.\" and \"स्थिर (Sthir)\"",
+          languageEngraving: "English & Sanskrit - \"Grounded.\" and \"स्थिर (Sthir)\"",
           designBreakdown: [
             {
               title: "Four-Petaled Lotus (Muladhara Symbol)",
@@ -330,7 +331,7 @@ export const chakrasData: Record<string, ChakraData> = {
             },
             {
               title: "Square Mandala",
-              description: "Symbol of the Earth element (Prithvi) — solidity, structure, stability, and physical existence"
+              description: "Symbol of the Earth element (Prithvi) - solidity, structure, stability, and physical existence"
             },
             {
               title: "Downward-Pointing Triangle",
@@ -342,7 +343,7 @@ export const chakrasData: Record<string, ChakraData> = {
             },
             {
               title: "Wooden Inscription Element",
-              description: "A solid wooden log plaque, engraved with \"Grounded.\" (English) and \"स्थिर (Sthir)\" — meaning steady, stable, unmoving"
+              description: "A solid wooden log plaque, engraved with \"Grounded.\" (English) and \"स्थिर (Sthir)\" - meaning steady, stable, unmoving"
             }
           ],
           whenToUse: {

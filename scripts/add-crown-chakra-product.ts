@@ -45,7 +45,7 @@ const crownProductBase = {
     name: "Brahma Aayam Wall Hanging",
     sanskritName: "Crown Chakra Wall Hanging",
     description: "A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding.",
-    specificDescription: "A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding. Designed around the Sahasrara chakra geometry, it carries the energy of clarity, surrender, and inner silence. The sacred thousand-petaled lotus symbolizes the infinite and expansive nature of consciousness. Rendered in violet or white, it reflects purity, transcendence, and high-frequency spiritual energy. The enclosing circle represents wholeness, completion, and the boundless, uncontained nature of energy. Finished with soft bells and a wooden plaque engraved with “अनन्त” (Infinite) — a reminder that awareness is not something to seek, but to remember.",
+    specificDescription: "A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding. Designed around the Sahasrara chakra geometry, it carries the energy of clarity, surrender, and inner silence. The sacred thousand-petaled lotus symbolizes the infinite and expansive nature of consciousness. Rendered in violet or white, it reflects purity, transcendence, and high-frequency spiritual energy. The enclosing circle represents wholeness, completion, and the boundless, uncontained nature of energy. Finished with soft bells and a wooden plaque engraved with “अनन्त” (Infinite) - a reminder that awareness is not something to seek, but to remember.",
     price: "₹4,500",
     ethos: "Hand-crafted: Each piece is moulded, painted, and assembled manually. Designed to support spiritual study, contemplation, and inner silence.",
     whatItsFor: "A visual and energetic anchor for transcendence and unity consciousness. Designed for those seeking to dissolve separation and realize oneness.",
@@ -73,7 +73,7 @@ const crownProductBase = {
     careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
     idealFor: "Meditation spaces, contemplative areas, spiritual study rooms, quiet corners, and intentional gifting",
     symbolism: "Represents awareness beyond identity, unity consciousness, stillness, and dissolution of separation",
-    languageEngraving: "English & Sanskrit — “infinite.” and “अनन्त”",
+    languageEngraving: "English & Sanskrit - “infinite.” and “अनन्त”",
     designBreakdown: [
         {
             title: "Thousand-Petaled Lotus (Sahasrara Symbol)",
@@ -89,7 +89,7 @@ const crownProductBase = {
         },
         {
             title: "Absence of Geometric Direction",
-            description: "Unlike other chakras, no triangle or square dominates. This absence is intentional—the Crown Chakra transcends structure, form, and polarity."
+            description: "Unlike other chakras, no triangle or square dominates. This absence is intentional-the Crown Chakra transcends structure, form, and polarity."
         },
         {
             title: "Brass Ghungroo Clusters",

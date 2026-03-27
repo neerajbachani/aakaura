@@ -35,6 +35,7 @@ export async function GET(request: NextRequest) {
         phone: true,
         createdAt: true,
         updatedAt: true,
+        addresses: true,
       },
     });
 

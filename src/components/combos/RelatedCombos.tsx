@@ -12,7 +12,7 @@ interface RelatedCombosProps {
 export default async function RelatedCombos({
   chakraSlug,
 }: RelatedCombosProps) {
-  // Query Prisma directly — avoids HTTP self-fetch that fails on Vercel SSR
+  // Query Prisma directly - avoids HTTP self-fetch that fails on Vercel SSR
   const db = prisma as any;
   const combos: Combo[] = await db.combo.findMany({
     where: {

@@ -32,9 +32,9 @@
 //   const searchParams = useSearchParams();
 //   const initialClientType = searchParams.get('type') as ClientType | null;
 //   const [clientType, setClientType] = useState<ClientType>(initialClientType || 'soul-luxury');
-  
+
 //   const chakra = chakrasData[params.slug];
-  
+
 //   if (!chakra) {
 //     notFound();
 //   }
@@ -64,7 +64,7 @@
 //       price: "₹4,500",
 //       description: "Handcrafted Winter Muffler. Premium wool-blend yarn (soft-touch, breathable & skin-friendly). Traditional handwoven flat knit.",
 //       ethos: "Artisan-crafted in India. Small-batch, slow-made, supporting traditional craftsmanship.",
-//       whatItsFor: "Aamvaraah isn’t made for fast fashion. It’s made for those who appreciate things that last — warm, dependable, and rooted. The kind of muffler your grandfather would approve of… but your wardrobe desperately needed an upgrade. Classic sense, modern soul.",
+//       whatItsFor: "Aamvaraah isn’t made for fast fashion. It’s made for those who appreciate things that last - warm, dependable, and rooted. The kind of muffler your grandfather would approve of… but your wardrobe desperately needed an upgrade. Classic sense, modern soul.",
 //       features: [
 //         "Retains warmth without trapping excess heat",
 //         "Breathable weave for all-day comfort",
@@ -106,7 +106,7 @@
 //     <div className="min-h-screen bg-[#f4f1ea] text-[#27190b]">
 //       {/* Navigation */}
 //       <nav className="fixed top-0 left-0 right-0 p-6 z-50 flex justify-between items-center">
-//         <Link 
+//         <Link
 //           href={`/journey/${params.slug}`}
 //           className="flex items-center gap-2 text-[#f4f1ea] hover:opacity-80 transition-opacity mix-blend-difference"
 //         >
@@ -117,7 +117,7 @@
 
 //       {/* Hero Section */}
 //       <section className="relative h-screen w-full overflow-hidden">
-//         <motion.div 
+//         <motion.div
 //           className="absolute inset-0"
 //           initial={false}
 //           animate={{ opacity: 1 }}
@@ -151,22 +151,22 @@
 //             {/* Client Type Toggle */}
 //             <div className="flex justify-center mb-12">
 //               <div className="bg-[#f4f1ea]/10 backdrop-blur-md p-1 rounded-full flex relative border border-[#f4f1ea]/20">
-//                 <motion.div 
+//                 <motion.div
 //                   className="absolute top-1 bottom-1 bg-[#f4f1ea] rounded-full shadow-lg"
 //                   initial={false}
-//                   animate={{ 
+//                   animate={{
 //                     left: clientType === 'soul-luxury' ? '4px' : '50%',
 //                     width: 'calc(50% - 4px)'
 //                   }}
 //                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
 //                 />
-//                 <button 
+//                 <button
 //                   onClick={() => setClientType('soul-luxury')}
 //                   className={`relative z-10 px-8 py-3 rounded-full text-sm uppercase tracking-widest transition-colors duration-300 ${clientType === 'soul-luxury' ? 'text-[#27190b]' : 'text-[#f4f1ea]'}`}
 //                 >
 //                   Soul Luxury
 //                 </button>
-//                 <button 
+//                 <button
 //                   onClick={() => setClientType('energy-curious')}
 //                   className={`relative z-10 px-8 py-3 rounded-full text-sm uppercase tracking-widest transition-colors duration-300 ${clientType === 'energy-curious' ? 'text-[#27190b]' : 'text-[#f4f1ea]'}`}
 //                 >
@@ -259,20 +259,20 @@
 //           <h2 className="text-3xl md:text-4xl font-cormorant font-light mb-12 text-center">
 //             Complete Your {chakra.name} Journey
 //           </h2>
-          
+
 //           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 //             {chakra.products
 //               .filter(p => slugify(p.name) !== params.productSlug)
 //               .slice(0, 3)
 //               .map((p, i) => (
-//                 <Link 
+//                 <Link
 //                   href={`/journey/${params.slug}/product/${slugify(p.name)}?type=${clientType}`}
 //                   key={i}
 //                   className="group block bg-[#f4f1ea] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
 //                 >
 //                   <div className="aspect-[4/5] relative overflow-hidden bg-[#27190b]/10">
 //                     {/* Placeholder for product image - using chakra color as fallback */}
-//                     <div 
+//                     <div
 //                       className="absolute inset-0 opacity-20"
 //                       style={{ backgroundColor: chakra.colors.primary }}
 //                     />
@@ -316,7 +316,7 @@
 //               <p className="font-light text-lg opacity-80 mb-8 leading-relaxed">
 //                 Enhance your experience by combining the {product.name} with our signature {chakra.name} Journal and Meditation Oil. Designed to work in harmony.
 //               </p>
-              
+
 //               <div className="flex flex-col gap-4">
 //                 <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
 //                   <div className="w-16 h-16 bg-white/10 rounded-lg flex-shrink-0" />

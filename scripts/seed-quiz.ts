@@ -168,7 +168,7 @@ const questions = [
     ],
   },
 
-  // ── CROWN (Sahasrara) — 4 questions ──────────────────────────────
+  // ── CROWN (Sahasrara) - 4 questions ──────────────────────────────
   {
     question:
       "You feel unsure about your direction for weeks. You:",

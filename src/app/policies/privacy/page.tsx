@@ -12,7 +12,7 @@ export default function PrivacyPage() {
           <section>
             <p className="text-xl md:text-2xl italic mb-4 text-primaryBeige/90">
               At Aakaura, your privacy is respected like your personal
-              energy—handled carefully and never misused.
+              energy-handled carefully and never misused.
             </p>
           </section>
 

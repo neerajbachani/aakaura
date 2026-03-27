@@ -179,6 +179,9 @@ export const useAddToCart = () => {
     },
     onError: (error, newItem, context) => {
       // Rollback on error
+      console.log("error", error)
+      console.log("newItem", newItem)
+      console.log("context", context)
       if (context?.previousCart) {
         queryClient.setQueryData(queryKeys.cart, context.previousCart);
       }
@@ -191,6 +194,7 @@ export const useAddToCart = () => {
     },
   });
 };
+
 
 export const useUpdateCartItem = () => {
   const queryClient = useQueryClient();

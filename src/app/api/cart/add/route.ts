@@ -7,8 +7,8 @@ import { prisma } from '@/lib/prisma';
 
 
 const addToCartSchema = z.object({
-  productId: z.string().uuid(),
-  variationId: z.string().uuid().optional(),
+  productId: z.string().min(1),
+  variationId: z.string().min(1).optional(),
   quantity: z.number().int().min(1).max(99),
 });
 

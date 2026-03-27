@@ -13,7 +13,7 @@ const thirdEyeBonsai = {
     description: "Inspired by the Ajna (Third Eye) Chakra, this bonsai represents perception beyond surface information- clarity, awareness, and inner alignment.",
     specificDescription: "Inspired by the Ajna (Third Eye) Chakra, this bonsai represents perception beyond surface information- clarity, awareness, and inner alignment. The indigo and violet tones are central to this piece. Indigo is associated with cognitive depth, focus, and pattern recognition, while violet reflects higher-order thinking and perspective. Psychologically, these colours are linked to introspection and reduced mental noise, making them ideal for spaces meant for thinking and reflection. The eye motif is symbolic of observation rather than judgment. It represents awareness - the ability to see situations as they are, without distortion from impulse or emotion. The white spiral surrounding the structure signifies mental order. White is neutral and grounding, visually reinforcing balance and coherence when thoughts feel scattered. The two yarn balls represent the dual nature of the Third Eye (Ajna) Chakra, which is traditionally associated with the number 2. They symbolise balance between two modes of perception: Logic and intuition, rational thinking and inner knowing, left brain and right brain processing. In practical terms, the Third Eye isn’t about “seeing visions.” It’s about integrating information- what you observe externally and what you sense internally- and then arriving at clarity. Ideal for workspaces and study areas, creative thinking zones, environments requiring focus and calm decision-making. Think of them as two inputs, one understanding. That’s Ajna done properly- grounded, not dramatic.",
     price: "₹8,500",
-    ethos: "This piece integrates a living Adenium bonsai, aligning with principles of biophilic design — the human tendency to seek connection with natural systems.",
+    ethos: "This piece integrates a living Adenium bonsai, aligning with principles of biophilic design - the human tendency to seek connection with natural systems.",
     whatItsFor: "Think of them as two inputs, one understanding. That’s Ajna done properly- grounded, not dramatic. Ideal for workspaces and study areas, creative thinking zones, environments requiring focus and calm decision-making.",
     features: [
         "Living Adenium bonsai",
@@ -39,7 +39,7 @@ const thirdEyeBonsai = {
     designBreakdown: [
         {
             title: "Biophilic Integration (Living Adenium Core)",
-            description: "At its center is a living Adenium bonsai, grounding the piece in biophilic design principles; the scientifically supported idea that humans experience measurable cognitive and emotional benefits from interaction with living systems (Wilson, 1984). Studies in environmental psychology demonstrate that exposure to plant life Improves attentional restoration, Reduces stress reactivity, Enhances perceived environmental coherence (Ulrich et al., 1991; Kaplan & Kaplan, 1989). The living core ensures this is not symbolic abstraction — it is biologically present."
+            description: "At its center is a living Adenium bonsai, grounding the piece in biophilic design principles; the scientifically supported idea that humans experience measurable cognitive and emotional benefits from interaction with living systems (Wilson, 1984). Studies in environmental psychology demonstrate that exposure to plant life Improves attentional restoration, Reduces stress reactivity, Enhances perceived environmental coherence (Ulrich et al., 1991; Kaplan & Kaplan, 1989). The living core ensures this is not symbolic abstraction - it is biologically present."
         },
         {
             title: "Indigo & Violet Spectrum (Cognitive Color Psychology)",
@@ -187,7 +187,7 @@ const heartBonsai = {
         },
         {
             title: "Bilateral Color Balance & Symmetry",
-            description: "The interplay between green (cool equilibrium) and pink (warm empathy) creates chromatic balance. Balanced color contrast improves perceptual harmony. Too much cool becomes sterile. Too much warmth becomes overstimulating. The visual midpoint between these tones mirrors emotional regulation — integration of stability and compassion. Not dominance. Integration."
+            description: "The interplay between green (cool equilibrium) and pink (warm empathy) creates chromatic balance. Balanced color contrast improves perceptual harmony. Too much cool becomes sterile. Too much warmth becomes overstimulating. The visual midpoint between these tones mirrors emotional regulation - integration of stability and compassion. Not dominance. Integration."
         },
         {
             title: "Environmental Conditioning & Emotional Context",

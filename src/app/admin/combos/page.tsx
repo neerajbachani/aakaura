@@ -12,7 +12,7 @@ import DeleteComboButton from "./components/DeleteComboButton";
 export const dynamic = "force-dynamic";
 
 export default async function CombosAdmin() {
-  // Query Prisma directly — avoids circular HTTP self-fetch that fails on Vercel SSR
+  // Query Prisma directly - avoids circular HTTP self-fetch that fails on Vercel SSR
   const db = prisma as any;
   const combos: Combo[] = await db.combo.findMany({
     include: {

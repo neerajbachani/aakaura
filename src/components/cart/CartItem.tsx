@@ -44,62 +44,62 @@ export function CartItem({ item, compact = false }: CartItemProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className={`flex gap-4 p-4 bg-white rounded-lg border ${compact ? 'border-gray-100' : 'border-gray-200'}`}
+      className={`flex gap-4 p-4 bg-transparent rounded-xl border ${compact ? 'border-[#BD9958]/10' : 'border-[#BD9958]/20'} hover:border-[#BD9958]/40 transition-colors`}
     >
       {/* Product Image */}
-      <div className={`flex-shrink-0 ${compact ? 'w-16 h-16' : 'w-20 h-20'}`}>
+      <div className={`flex-shrink-0 ${compact ? 'w-16 h-16' : 'w-24 h-24'}`}>
         <Image
           src={item.product.images[0] || '/placeholder-product.jpg'}
           alt={item.product.name}
-          width={compact ? 64 : 80}
-          height={compact ? 64 : 80}
-          className="w-full h-full object-cover rounded-md"
+          width={compact ? 64 : 96}
+          height={compact ? 64 : 96}
+          className="w-full h-full object-cover rounded-lg border border-[#BD9958]/20"
         />
       </div>
 
       {/* Product Details */}
-      <div className="flex-1 min-w-0">
-        <h3 className={`font-medium text-gray-900 ${compact ? 'text-sm' : 'text-base'} truncate`}>
+      <div className="flex-1 min-w-0 flex flex-col justify-center">
+        <h3 className={`font-semibold text-[#BD9958] font-cormorant tracking-wide ${compact ? 'text-lg' : 'text-xl md:text-2xl'} truncate`}>
           {item.product.name}
         </h3>
         
         {item.variation && (
-          <p className={`text-gray-500 ${compact ? 'text-xs' : 'text-sm'} mt-1`}>
+          <p className={`text-[#BD9958]/70 ${compact ? 'text-xs' : 'text-sm'} mt-1`}>
             {item.variation.name}
           </p>
         )}
 
         {/* Price */}
-        <div className="flex items-center gap-2 mt-2">
-          <span className={`font-semibold text-gray-900 ${compact ? 'text-sm' : 'text-base'}`}>
+        <div className="flex items-center gap-3 mt-2">
+          <span className={`font-medium text-white ${compact ? 'text-sm' : 'text-base'}`}>
             ₹{currentPrice.toFixed(2)}
           </span>
           {hasDiscount && (
-            <span className={`text-gray-500 line-through ${compact ? 'text-xs' : 'text-sm'}`}>
+            <span className={`text-[#BD9958]/50 line-through ${compact ? 'text-xs' : 'text-sm'}`}>
               ₹{originalPrice.toFixed(2)}
             </span>
           )}
         </div>
 
         {/* Quantity Controls */}
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center border border-gray-300 rounded-md">
+        <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center border border-[#BD9958]/30 rounded-md overflow-hidden bg-[#27190B]/50">
             <button
               onClick={() => handleQuantityChange(quantity - 1)}
               disabled={quantity <= 1 || updateCartItem.isPending}
-              className="p-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1.5 text-[#BD9958] hover:bg-[#BD9958]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <MinusIcon className="h-4 w-4" />
             </button>
             
-            <span className="px-3 py-1 text-sm font-medium min-w-[2rem] text-center">
+            <span className="px-3 py-1 text-sm font-medium min-w-[2.5rem] text-center text-white">
               {quantity}
             </span>
             
             <button
               onClick={() => handleQuantityChange(quantity + 1)}
               disabled={quantity >= 99 || updateCartItem.isPending}
-              className="p-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1.5 text-[#BD9958] hover:bg-[#BD9958]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
             </button>
@@ -107,7 +107,7 @@ export function CartItem({ item, compact = false }: CartItemProps) {
 
           {/* Item Total */}
           <div className="text-right">
-            <p className={`font-semibold text-gray-900 ${compact ? 'text-sm' : 'text-base'}`}>
+            <p className={`font-bold text-[#BD9958] ${compact ? 'text-sm' : 'text-lg'}`}>
               ₹{itemTotal.toFixed(2)}
             </p>
           </div>
@@ -115,11 +115,11 @@ export function CartItem({ item, compact = false }: CartItemProps) {
       </div>
 
       {/* Remove Button */}
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 ml-2">
         <button
           onClick={handleRemove}
           disabled={removeFromCart.isPending}
-          className="p-2 text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
+          className="p-2 text-[#BD9958]/50 hover:text-red-400 hover:bg-red-400/10 rounded-full transition-all disabled:opacity-50"
           aria-label="Remove item"
         >
           <TrashIcon className="h-5 w-5" />

@@ -5,10 +5,10 @@ const prisma = new PrismaClient();
 // Common premium detailing for all bonsai products
 const commonPremiumDetail = `Aarohma Ekam is a bonsai collection designed to represent growth as a continuous ascent, not a destination.
 
-Each piece features a living Adenium bonsai, chosen for its resilience, slow growth cycle, and ability to thrive with minimal intervention — a natural symbol of patience and inner strength. The plant's vertical form mirrors ascension, while its rooted base keeps the design grounded in earth energy.
+Each piece features a living Adenium bonsai, chosen for its resilience, slow growth cycle, and ability to thrive with minimal intervention - a natural symbol of patience and inner strength. The plant's vertical form mirrors ascension, while its rooted base keeps the design grounded in earth energy.
 
 **Chakra-aligned design language**
-Every bonsai in the Aarohma Ekam collection corresponds to a specific chakra frequency — Root, Sacral, Solar, Heart, Throat, Third Eye, or Crown.
+Every bonsai in the Aarohma Ekam collection corresponds to a specific chakra frequency - Root, Sacral, Solar, Heart, Throat, Third Eye, or Crown.
 
 The chakra association is expressed through aura-toned yarn work, colour placement, and form, acting as a visual and spatial reminder rather than a healing claim.
 
@@ -23,7 +23,7 @@ These colours are selected based on:
 - Terracotta bases anchor the piece, reinforcing grounding and stability
 - Minimal symbolic detailing keeps the design modern, uncluttered, and timeless
 
-The spiral structure reflects growth that is non-linear — upward, adaptive, and alive.
+The spiral structure reflects growth that is non-linear - upward, adaptive, and alive.
 
 **Energetic preparation**
 Each Aarohma Ekam bonsai is:
@@ -78,7 +78,7 @@ Crown Chakra Aarohma Ekam is not about escape - it is about presence, perspectiv
       chakra: 'Crown (Sahasrara)',
       colors: 'Violet and soft white',
       symbolism: 'Clarity, awareness, higher consciousness, mental stillness, and connection beyond the material',
-      languageEngraving: 'Sanskrit — "Sahasrara" (Thousand-petaled lotus)',
+      languageEngraving: 'Sanskrit - "Sahasrara" (Thousand-petaled lotus)',
     };
 
     // Solar Plexus Bonsai for Confidence Journey
@@ -100,7 +100,7 @@ Solar Plexus Aarohma Ekam represents grounded ambition- power that is calm, stea
       chakra: 'Solar Plexus (Manipura)',
       colors: 'Sun-yellow and warm golden tones',
       symbolism: 'Confidence, willpower, clarity of action, inner strength, personal power, and self-belief',
-      languageEngraving: 'Sanskrit — "Manipura" (Lustrous gem)',
+      languageEngraving: 'Sanskrit - "Manipura" (Lustrous gem)',
     };
 
     const bonsais = [
@@ -132,7 +132,7 @@ Solar Plexus Aarohma Ekam represents grounded ambition- power that is calm, stea
         description: bonsai.description,
         specificDescription: bonsai.description,
         images: [bonsai.image],
-        ethos: 'Each Aarohma Ekam bonsai is hand-finished with intention, pranic-cleansed, and consciously nurtured. No two pieces are identical — variations are celebrated as marks of authenticity.',
+        ethos: 'Each Aarohma Ekam bonsai is hand-finished with intention, pranic-cleansed, and consciously nurtured. No two pieces are identical - variations are celebrated as marks of authenticity.',
         features: [
           'Living Adenium (Desert Rose) bonsai',
           'Handcrafted terracotta pot',

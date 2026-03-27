@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function NewComboPage() {
   const db = prisma as any;
-  // Fetch all products directly via Prisma — avoids HTTP self-fetch that fails on Vercel SSR
+  // Fetch all products directly via Prisma - avoids HTTP self-fetch that fails on Vercel SSR
   const products = await db.product.findMany({
     include: { category: true, variations: true },
     orderBy: { name: "asc" },

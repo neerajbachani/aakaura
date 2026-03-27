@@ -11,7 +11,7 @@ export default function RefundPage() {
         <div className="space-y-10 text-lg md:text-xl leading-relaxed text-secondaryBeige">
           <section>
             <p className="text-xl md:text-2xl italic mb-4 text-primaryBeige/90">
-              We believe in fairness—both ways.
+              We believe in fairness-both ways.
             </p>
           </section>
 

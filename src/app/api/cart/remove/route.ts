@@ -7,7 +7,7 @@ import { z } from 'zod';
 const prisma = new PrismaClient();
 
 const removeFromCartSchema = z.object({
-  cartItemId: z.string().uuid(),
+  cartItemId: z.string().min(1),
 });
 
 export async function DELETE(request: NextRequest) {

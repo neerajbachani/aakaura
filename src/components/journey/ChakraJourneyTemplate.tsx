@@ -15,8 +15,10 @@ import {
   useRemoveFromWaitlist,
   useIsInWaitlist,
 } from "@/hooks/useWaitlist";
+import { useAddToCart } from "@/hooks/useCart";
 import { toast } from "react-hot-toast";
 import { JourneyProductPanel } from "./JourneyProductPanel";
+import CartSuccessModal from "../cart/CartSuccessModal";
 
 // Register GSAP plugin
 if (typeof window !== "undefined") {
@@ -1182,7 +1184,7 @@ export default function ChakraJourneyTemplate({
 
                       {/* Footer Action */}
                       <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col md:flex-row gap-4 justify-center items-center">
-                        <WaitlistButtonLarge
+                         <WaitlistButtonLarge
                           product={product}
                           journeySlug={chakra.slug}
                           clientType={clientType}
@@ -1192,6 +1194,7 @@ export default function ChakraJourneyTemplate({
                           addToWaitlist={addToWaitlist}
                           removeFromWaitlist={removeFromWaitlist}
                           useIsInWaitlist={useIsInWaitlist}
+                          isWaitlistSetting={(chakra as any).productSettings?.[product.id]?.isWaitlist ?? true}
                         />
                         {product.category && chakra.slug !== "combos" && (
                           <Link
@@ -1604,6 +1607,7 @@ interface WaitlistButtonProps {
     productId: string,
     clientType: "soul-luxury" | "energy-curious",
   ) => boolean;
+  isWaitlistSetting?: boolean;
 }
 
 function WaitlistButton({
@@ -1682,11 +1686,25 @@ function WaitlistButtonLarge({
   addToWaitlist,
   removeFromWaitlist,
   useIsInWaitlist,
+  isWaitlistSetting = true,
 }: WaitlistButtonProps) {
+  const router = useRouter();
+  const addToCart = useAddToCart();
   const isInWaitlist = useIsInWaitlist(journeySlug, product.id, clientType);
   const isLoading = addToWaitlist.isPending || removeFromWaitlist.isPending;
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleClick = () => {
+    if (!isWaitlistSetting) {
+      addToCart.mutateAsync({
+        productId: product.id,
+        quantity: 1,
+      }).then(() => {
+        setShowSuccessModal(true);
+      });
+      return;
+    }
+
     if (!isAuthenticated) {
       toast.error("Please login to add items to waitlist");
       onAuthRequired();
@@ -1721,16 +1739,24 @@ function WaitlistButtonLarge({
   }
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={isLoading}
+    <>
+      <button
+        onClick={handleClick}
+        disabled={isWaitlistSetting ? isLoading : false}
       className={`px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 ${
-        isInWaitlist
-          ? "bg-green-600 text-white hover:bg-green-700"
-          : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
+        !isWaitlistSetting
+          ? "bg-[#27190b] text-[#f4f1ea] border border-[#f4f1ea] hover:bg-[#f4f1ea] hover:text-[#27190b]"
+          : isInWaitlist
+            ? "bg-green-600 text-white hover:bg-green-700"
+            : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
       }`}
     >
-      {isLoading ? (
+      {!isWaitlistSetting ? (
+        <span className="flex items-center justify-center gap-2">
+          Add to Cart <span className="opacity-40 select-none">•</span>{" "}
+          <span className="text-lg md:text-xl font-bold">{product.price}</span>
+        </span>
+      ) : isLoading ? (
         "Processing..."
       ) : isInWaitlist ? (
         `✓ In Waitlist`
@@ -1741,6 +1767,12 @@ function WaitlistButtonLarge({
         </span>
       )}
     </button>
+    <CartSuccessModal
+      isOpen={showSuccessModal}
+      onClose={() => setShowSuccessModal(false)}
+      category={product.category}
+    />
+    </>
   );
 }
 // Product Panel Component (extracted to handle local state for variants)

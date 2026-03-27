@@ -58,6 +58,9 @@ export interface CreateOrderRequest {
     price: number;
   }[];
   total: number;
+  razorpayPaymentId?: string;
+  razorpayOrderId?: string;
+  razorpaySignature?: string;
 }
 
 export interface Order {

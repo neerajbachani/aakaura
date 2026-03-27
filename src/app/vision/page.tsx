@@ -82,7 +82,7 @@ export default function VisionPage() {
             className="space-y-6"
           >
             <h3 className="text-3xl md:text-4xl text-white">
-              Our <span className="text-[#BD9958] italic">Founder</span> —
+              Our <span className="text-[#BD9958] italic">Founder</span> -
               Lakshika Singh Ratnu
             </h3>
             <div className="h-[1px] w-20 bg-[#BD9958]" />
@@ -109,7 +109,7 @@ export default function VisionPage() {
             className="space-y-6"
           >
             <h3 className="text-3xl md:text-4xl text-white">
-              Our <span className="text-[#BD9958] italic">CEO</span> — Ananya
+              Our <span className="text-[#BD9958] italic">CEO</span> - Ananya
               Singh Chauhan
             </h3>
             <div className="h-[1px] w-20 bg-[#BD9958]" />
@@ -198,7 +198,7 @@ export default function VisionPage() {
               <div className="pl-6 border-l-2 border-[#BD9958]">
                 <p className="text-xl italic text-white">
                   "That modern life conditions humans to forget their innate
-                  awareness—and that remembrance begins with intention,
+                  awareness-and that remembrance begins with intention,
                   curiosity, and conscious engagement."
                 </p>
               </div>

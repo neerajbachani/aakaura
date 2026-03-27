@@ -22,22 +22,22 @@ Aamvaraah is made to endure…to wrap you in warmth while allowing you to remain
 
 Wear it as a layer of winter. Carry it as a layer of expression.`;
 
-const DETAILED_DESCRIPTION = `Aamvaraah Muffler — Thoughtful Warmth, Designed with Intention
+const DETAILED_DESCRIPTION = `Aamvaraah Muffler - Thoughtful Warmth, Designed with Intention
 
 Why the neck matters:
-The neck is one of the most sensitive and functionally important areas of the body. It contains major blood vessels that regulate blood flow to the brain, is closely connected to the nervous system (including pathways that influence calm and stress response), and is a key zone for heat regulation — the body loses warmth quickly when the neck is exposed.
+The neck is one of the most sensitive and functionally important areas of the body. It contains major blood vessels that regulate blood flow to the brain, is closely connected to the nervous system (including pathways that influence calm and stress response), and is a key zone for heat regulation - the body loses warmth quickly when the neck is exposed.
 
 Why Aakaura designed a muffler around this area:
 Aamvaraah is designed to sit comfortably around the neck, providing steady warmth without bulk. Its purpose is simple: to support the body where regulation and comfort meet. The design prioritizes even insulation, soft contact with skin, and ease of movement throughout the day.
 
 The role of colour in daily wear:
-Colour isn't just visual — it subtly influences how we feel and experience our surroundings. Colours affect mood and perception through visual processing in the brain, remain in our peripheral vision (influencing comfort and focus throughout the day), and certain colour tones are widely associated with calm, warmth, or stability across cultures.
+Colour isn't just visual - it subtly influences how we feel and experience our surroundings. Colours affect mood and perception through visual processing in the brain, remain in our peripheral vision (influencing comfort and focus throughout the day), and certain colour tones are widely associated with calm, warmth, or stability across cultures.
 
 Why Aakaura uses chakra-aligned colour palettes:
 Each Aamvaraah colour is chosen because it aligns with widely understood emotional and psychological associations, reflects traditional colour symbolism rooted in Indian knowledge systems, and allows customers to choose a tone that matches their personal preference or daily intention.
 
 Why Aamvaraah exists:
-Aamvaraah is made for people who value practical warmth, thoughtful design, and subtle meaning integrated into everyday wear. It is not about fixing or changing anything — it is about comfort, awareness, and conscious choice.`;
+Aamvaraah is made for people who value practical warmth, thoughtful design, and subtle meaning integrated into everyday wear. It is not about fixing or changing anything - it is about comfort, awareness, and conscious choice.`;
 
 // Soul-Luxury Product Data
 const MUFFLER_SOUL_LUXURY = {
@@ -47,7 +47,7 @@ const MUFFLER_SOUL_LUXURY = {
   specificDescription: DETAILED_DESCRIPTION,
   price: "₹4,500",
   ethos: "Artisan-crafted in India using traditional techniques. Small-batch, slow-made, supporting traditional craftsmanship and conscious making.",
-  whatItsFor: "For those who appreciate quality and intentional design. This muffler combines practical warmth with thoughtful craftsmanship — designed to endure seasons while allowing you to remain comfortable, still, and aware.",
+  whatItsFor: "For those who appreciate quality and intentional design. This muffler combines practical warmth with thoughtful craftsmanship - designed to endure seasons while allowing you to remain comfortable, still, and aware.",
   features: [
     "Premium wool blend for superior insulation",
     "Soft, dense texture suitable for cold winter weather",
@@ -80,10 +80,10 @@ const MUFFLER_ENERGY_CURIOUS = {
   specificDescription: DETAILED_DESCRIPTION + `
 
 Energetic Alignment:
-Each Aamvaraah Muffler is energetically cleansed and blessed before dispatch. The neck area houses the throat chakra — a vital energy center for expression and authentic communication. This muffler is designed to provide both physical warmth and energetic protection, creating a gentle boundary that supports clarity while maintaining comfort.`,
+Each Aamvaraah Muffler is energetically cleansed and blessed before dispatch. The neck area houses the throat chakra - a vital energy center for expression and authentic communication. This muffler is designed to provide both physical warmth and energetic protection, creating a gentle boundary that supports clarity while maintaining comfort.`,
   price: "₹5,500",
   ethos: "Consciously crafted and energetically aligned. Each piece is blessed by trained Pranic Healers before dispatch, ensuring it carries coherence and clarity rather than emotional residue from the making process.",
-  whatItsFor: "For the energy-aware individual who understands that clothing carries vibration. This muffler serves as both physical warmth and energetic protection — supporting your throat chakra while creating a gentle boundary between you and the external environment.",
+  whatItsFor: "For the energy-aware individual who understands that clothing carries vibration. This muffler serves as both physical warmth and energetic protection - supporting your throat chakra while creating a gentle boundary between you and the external environment.",
   features: [
     "Energetically cleansed and blessed before shipping",
     "Premium wool blend maintaining auric integrity",

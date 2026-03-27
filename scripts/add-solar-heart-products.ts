@@ -46,7 +46,7 @@ const solarProductBase = {
     name: "Agni Aayam Wall Hanging",
     sanskritName: "Solar Plexus Chakra Wall Hanging",
     description: "A handcrafted terracotta piece symbolizing confidence, will, and inner strength.",
-    specificDescription: "A handcrafted terracotta piece symbolizing confidence, will, and inner strength. Designed around the Manipura chakra geometry, it carries the energy of self-belief and decisive action. The inverted triangle represents the fire element (Agni)—the inner digestive and transformative force that processes experiences, converts energy into purposeful action, and embodies personal power. Surrounding it, the ten-petaled lotus symbolizes the ten pranas or vrittis that govern the body and mind. Finished with soft bells and a wooden plaque engraved with “शक्ति” (Power): a reminder that true power is grounded, not forceful.",
+    specificDescription: "A handcrafted terracotta piece symbolizing confidence, will, and inner strength. Designed around the Manipura chakra geometry, it carries the energy of self-belief and decisive action. The inverted triangle represents the fire element (Agni)-the inner digestive and transformative force that processes experiences, converts energy into purposeful action, and embodies personal power. Surrounding it, the ten-petaled lotus symbolizes the ten pranas or vrittis that govern the body and mind. Finished with soft bells and a wooden plaque engraved with “शक्ति” (Power): a reminder that true power is grounded, not forceful.",
     price: "₹4,500",
     ethos: "Hand-crafted: Each piece is moulded, painted, and assembled manually. Designed to support confidence building and decision-making clarity.",
     whatItsFor: "A visual and energetic anchor for personal power and will. Designed for those seeking to boost confidence, self-discipline, and leadership energy.",
@@ -74,7 +74,7 @@ const solarProductBase = {
     careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
     idealFor: "Confidence building, decision-making clarity, leadership energy, self-discipline practices, workspaces, meditation areas, and intentional gifting",
     symbolism: "Represents personal power, transformation, willpower, self-confidence, and purposeful action",
-    languageEngraving: "English & Sanskrit — “Power.” and “शक्ति”",
+    languageEngraving: "English & Sanskrit - “Power.” and “शक्ति”",
     designBreakdown: [
         {
             title: "Ten-Petaled Lotus (Manipura Symbol)",
@@ -187,7 +187,7 @@ const heartProductBase = {
     careInstructions: "Clean gently with a soft, dry cloth. Avoid water, moisture, chemicals, and perfumes.",
     idealFor: "Emotional balance, relationship harmony, inner healing practices, meditation spaces, bedrooms, spiritual décor, and intentional gifting",
     symbolism: "Represents love, compassion, balance, emotional intelligence, and integration of inner and outer worlds",
-    languageEngraving: "English & Sanskrit — “love.” and “प्रेम”",
+    languageEngraving: "English & Sanskrit - “love.” and “प्रेम”",
     designBreakdown: [
         {
             title: "Twelve-Petaled Lotus (Anahata Symbol)",

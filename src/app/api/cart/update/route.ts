@@ -7,7 +7,7 @@ import { z } from 'zod';
 const prisma = new PrismaClient();
 
 const updateCartSchema = z.object({
-  cartItemId: z.string().uuid(),
+  cartItemId: z.string().min(1),
   quantity: z.number().int().min(1).max(99),
 });
 

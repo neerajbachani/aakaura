@@ -47,8 +47,8 @@ export default function TermsPage() {
               Intellectual Property
             </h2>
             <p className="mb-2">
-              All content on this website—including text, visuals, designs,
-              product concepts, names, descriptions, and branding—belongs
+              All content on this website-including text, visuals, designs,
+              product concepts, names, descriptions, and branding-belongs
               exclusively to Aakaura.
             </p>
             <p>

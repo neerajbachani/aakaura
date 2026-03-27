@@ -12,13 +12,13 @@ Aamvaraah is made to endure…to wrap you in warmth while allowing you to remain
 Wear it as a layer of winter. Carry it as a layer of expression.`;
 
 // Premium Detailing (accordion content)
-const PREMIUM_DETAILING = `**Aamvaraah Muffler — Thoughtful Warmth, Designed with Intention**
+const PREMIUM_DETAILING = `**Aamvaraah Muffler - Thoughtful Warmth, Designed with Intention**
 
 **Why the neck matters:**
 The neck is one of the most sensitive and functionally important areas of the body.
 - It contains major blood vessels that regulate blood flow to the brain
 - It is closely connected to the nervous system, including pathways that influence calm and stress response
-- It is a key zone for heat regulation — the body loses warmth quickly when the neck is exposed
+- It is a key zone for heat regulation - the body loses warmth quickly when the neck is exposed
 
 Covering the neck helps maintain thermal balance and overall comfort, especially in colder environments. This is why mufflers have traditionally been used as a protective layer, not just an accessory.
 
@@ -31,7 +31,7 @@ The design prioritizes:
 - Ease of movement throughout the day
 
 **The role of colour in daily wear:**
-Colour isn't just visual — it subtly influences how we feel and experience our surroundings. From a scientific and psychological perspective:
+Colour isn't just visual - it subtly influences how we feel and experience our surroundings. From a scientific and psychological perspective:
 - Colours affect mood and perception through visual processing in the brain
 - Clothing colours remain in our peripheral vision, influencing comfort and focus throughout the day
 - Certain colour tones are widely associated with calm, warmth, or stability across cultures
@@ -55,13 +55,13 @@ Aamvaraah is made for people who value:
 - Thoughtful design
 - Subtle meaning integrated into everyday wear
 
-It is not about fixing or changing anything — it is about comfort, awareness, and conscious choice.`;
+It is not about fixing or changing anything - it is about comfort, awareness, and conscious choice.`;
 
 // Energy-Curious specific premium detailing addition
 const EC_PREMIUM_ADDITION = `
 
 **Energetic Alignment:**
-Each Aamvaraah Muffler is energetically cleansed and blessed before dispatch. The neck area houses the throat chakra — a vital energy center for expression and authentic communication. This muffler is designed to provide both physical warmth and energetic protection, creating a gentle boundary that supports clarity while maintaining comfort.`;
+Each Aamvaraah Muffler is energetically cleansed and blessed before dispatch. The neck area houses the throat chakra - a vital energy center for expression and authentic communication. This muffler is designed to provide both physical warmth and energetic protection, creating a gentle boundary that supports clarity while maintaining comfort.`;
 
 async function main() {
   try {
@@ -102,7 +102,7 @@ async function main() {
         premiumDetailing: PREMIUM_DETAILING,
         price: "₹4,500",
         ethos: "Artisan-crafted in India using traditional techniques. Small-batch, slow-made, supporting traditional craftsmanship and conscious making.",
-        whatItsFor: "For those who appreciate quality and intentional design. This muffler combines practical warmth with thoughtful craftsmanship — designed to endure seasons while allowing you to remain comfortable, still, and aware.",
+        whatItsFor: "For those who appreciate quality and intentional design. This muffler combines practical warmth with thoughtful craftsmanship - designed to endure seasons while allowing you to remain comfortable, still, and aware.",
         features: [
           "Premium wool blend for superior insulation",
           "Soft, dense texture suitable for cold winter weather",
@@ -137,7 +137,7 @@ async function main() {
         premiumDetailing: PREMIUM_DETAILING + EC_PREMIUM_ADDITION,
         price: "₹5,500",
         ethos: "Consciously crafted and energetically aligned. Each piece is blessed by trained Pranic Healers before dispatch, ensuring it carries coherence and clarity rather than emotional residue from the making process.",
-        whatItsFor: "For the energy-aware individual who understands that clothing carries vibration. This muffler serves as both physical warmth and energetic protection — supporting your throat chakra while creating a gentle boundary between you and the external environment.",
+        whatItsFor: "For the energy-aware individual who understands that clothing carries vibration. This muffler serves as both physical warmth and energetic protection - supporting your throat chakra while creating a gentle boundary between you and the external environment.",
         features: [
           "Energetically cleansed and blessed before shipping",
           "Premium wool blend maintaining auric integrity",

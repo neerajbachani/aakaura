@@ -33,9 +33,7 @@ async function getProductsByCategoryFromDB(category: string) {
       tone: journey.tone,
       colors: journey.colors as any,
       content: content,
-      // Add other required fields if JourneyProductPanel needs them
-      // missing: element, mantra, symbol, description, crystals, benefits.
-      // But JourneyProductPanel mostly uses slug, name, tone, colors.
+      productSettings: journey.productSettings as any,
     } as any;
 
     (["soul-luxury", "energy-curious"] as const).forEach((clientType) => {
