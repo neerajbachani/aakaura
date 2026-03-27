@@ -56,7 +56,7 @@ export function CartSummary({
           </>
         )}
 
-        <div className="flex justify-between text-xl font-bold font-cormorant tracking-wide">
+        <div className="flex justify-between text-2xl font-bold font-cormorant tracking-wide mt-2">
           <span className="text-[#BD9958]">Total</span>
           <div className="text-right">
             {hasDiscount ? (

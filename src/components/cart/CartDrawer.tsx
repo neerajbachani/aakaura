@@ -36,7 +36,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -52,15 +52,15 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col bg-white shadow-xl">
+                  <div className="flex h-full flex-col bg-[#191919] border-l border-[#BD9958]/20 shadow-2xl">
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200">
-                      <Dialog.Title className="text-lg font-medium text-gray-900">
+                    <div className="flex items-center justify-between px-6 py-6 border-b border-[#BD9958]/20">
+                      <Dialog.Title className="font-cormorant text-2xl md:text-3xl text-[#BD9958] font-light">
                         Shopping Cart
                       </Dialog.Title>
                       <button
                         type="button"
-                        className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-[#BD9958]/70 hover:text-[#BD9958] transition-colors p-1"
                         onClick={onClose}
                       >
                         <span className="sr-only">Close panel</span>
@@ -69,43 +69,43 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 overflow-y-auto">
+                    <div className="flex-1 overflow-y-auto scrollbar-hide pb-8" data-lenis-prevent="true">
                       {isLoading ? (
                         <div className="flex items-center justify-center h-32">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#BD9958]"></div>
                         </div>
                       ) : error ? (
-                        <div className="flex flex-col items-center justify-center h-32 text-gray-500">
-                          <p>Failed to load cart</p>
+                        <div className="flex flex-col items-center justify-center h-32 text-[#BD9958]/70">
+                          <p className="font-light">Failed to load cart</p>
                           <button 
                             onClick={() => window.location.reload()} 
-                            className="mt-2 text-blue-600 hover:text-blue-700"
+                            className="mt-2 text-[#BD9958] hover:text-[#f4f1ea] transition-colors uppercase tracking-widest text-xs"
                           >
                             Try again
                           </button>
                         </div>
                       ) : !cart || cart.items.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-                          <ShoppingBagIcon className="h-16 w-16 mb-4" />
-                          <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
-                          <p className="text-sm text-center mb-4">
+                        <div className="flex flex-col items-center justify-center h-64 text-[#BD9958]/70 px-6">
+                          <ShoppingBagIcon className="h-16 w-16 mb-4 opacity-50 text-[#BD9958]" />
+                          <h3 className="font-cormorant text-2xl mb-2 text-[#BD9958]">Your cart is empty</h3>
+                          <p className="text-sm text-center mb-8 font-light text-[#f4f1ea]/70">
                             Add some products to get started
                           </p>
                           <Link
                             href="/products"
                             onClick={onClose}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                            className="px-8 py-3 rounded-full text-sm uppercase tracking-widest bg-[#BD9958] text-[#27190B] hover:bg-[#A8874D] transition-colors text-center font-medium"
                           >
                             Continue Shopping
                           </Link>
                         </div>
                       ) : (
-                        <div className="px-4 py-6">
+                        <div className="px-6 py-6">
                           {/* Cart Items */}
                           <div className="space-y-4 mb-6">
                             <AnimatePresence>
                               {cart.items.map((item) => (
-                                <CartItem key={item.id} item={item} compact />
+                                <CartItem key={item.id} item={item} />
                               ))}
                             </AnimatePresence>
                           </div>
@@ -115,7 +115,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             <button
                               onClick={handleClearCart}
                               disabled={clearCart.isPending}
-                              className="w-full text-sm text-red-600 hover:text-red-700 py-2 disabled:opacity-50"
+                              className="w-full flex items-center justify-center mt-6 py-3 rounded-full text-xs uppercase tracking-widest border border-transparent text-[#BD9958]/50 hover:text-[#BD9958] hover:bg-[#BD9958]/10 hover:border-[#BD9958]/30 transition-all disabled:opacity-30"
                             >
                               {clearCart.isPending ? 'Clearing...' : 'Clear Cart'}
                             </button>
@@ -126,14 +126,14 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
                     {/* Footer with Summary and Actions */}
                     {cart && cart.items.length > 0 && (
-                      <div className="border-t border-gray-200 px-4 py-6">
-                        <CartSummary cart={cart} />
+                      <div className="border-t border-[#BD9958]/20 px-6 py-6 bg-[#27190b]/50 backdrop-blur-sm">
+                        <CartSummary cart={cart} className="!bg-transparent !border-none !p-0 !shadow-none mb-6" />
                         
-                        <div className="mt-6 space-y-3">
+                        <div className="flex flex-col gap-4">
                           <Link
                             href="/cart"
                             onClick={onClose}
-                            className="w-full bg-gray-100 text-gray-900 px-4 py-3 rounded-md text-center font-medium hover:bg-gray-200 transition-colors block"
+                            className="w-full px-6 py-3 rounded-full text-sm uppercase tracking-widest border border-[#BD9958]/50 text-[#BD9958] hover:bg-[#BD9958]/10 transition-colors text-center"
                           >
                             View Cart
                           </Link>
@@ -141,7 +141,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           <Link
                             href="/checkout"
                             onClick={onClose}
-                            className="w-full bg-blue-600 text-white px-4 py-3 rounded-md text-center font-medium hover:bg-blue-700 transition-colors block"
+                            className="w-full px-6 py-3 rounded-full text-sm uppercase tracking-widest bg-[#BD9958] text-[#27190B] hover:bg-[#A8874D] transition-colors text-center font-medium"
                           >
                             Checkout
                           </Link>
