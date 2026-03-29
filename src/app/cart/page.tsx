@@ -3,13 +3,20 @@
 import { useCart, useClearCart } from '@/hooks/useCart';
 import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
-import { ShoppingBagIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ShoppingBagIcon, ArrowLeftIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuthStatus } from '@/hooks/useAuth';
+import { AuthModal } from '@/components/auth/AuthModal';
+import { useState } from 'react';
 
 export default function CartPage() {
   const { data: cart, isLoading, error } = useCart();
   const clearCart = useClearCart();
+  const router = useRouter();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { isAuthenticated, isLoading: authLoading } = useAuthStatus();
 
   const handleClearCart = () => {
     if (window.confirm('Are you sure you want to clear your cart?')) {
@@ -47,18 +54,45 @@ export default function CartPage() {
     );
   }
 
+  if (!authLoading && !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#27190B] py-8 pt-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-20 bg-[#191919] rounded-2xl border border-[#BD9958]/20 shadow-2xl"
+          >
+            <LockClosedIcon className="h-24 w-24 text-[#BD9958]/40 mb-6" />
+            <h2 className="text-3xl font-semibold text-[#BD9958] font-cormorant mb-3 tracking-wide">Please log in</h2>
+            <p className="text-[#BD9958]/70 mb-8 text-center max-w-md text-lg">
+              You must be logged in to view your cart.
+            </p>
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              className="bg-[#BD9958] text-[#27190B] px-10 py-4 rounded-md font-semibold hover:bg-[#FFD700] transition-all transform hover:scale-105 duration-300 tracking-wide"
+            >
+              Log In
+            </button>
+          </motion.div>
+        </div>
+        <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#27190B] py-8 pt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="mb-8">
-          <Link
-            href="/products"
+          <button
+            onClick={() => window.history.length > 2 ? router.back() : router.push('/products')}
             className="inline-flex items-center text-[#BD9958] hover:text-[#FFD700] mb-4 transition-colors font-cormorant text-lg"
           >
             <ArrowLeftIcon className="h-5 w-5 mr-2" />
             Continue Shopping
-          </Link>
+          </button>
           
           <div className="flex items-center justify-between">
             <h1 className="text-4xl md:text-5xl font-bold text-[#BD9958] font-cormorant tracking-wide">Shopping Cart</h1>
@@ -126,12 +160,12 @@ export default function CartPage() {
                     Proceed to Checkout
                   </Link>
                   
-                  <Link
-                    href="/products"
+                  <button
+                    onClick={() => window.history.length > 2 ? router.back() : router.push('/products')}
                     className="w-full bg-transparent border border-[#BD9958]/50 text-[#BD9958] px-6 py-4 rounded-md font-medium hover:bg-[#BD9958]/10 transition-colors text-center block"
                   >
                     Continue Shopping
-                  </Link>
+                  </button>
                 </div>
 
                 {/* Security Badge */}
@@ -153,6 +187,7 @@ export default function CartPage() {
             </div>
           </div>
         )}
+        <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       </div>
     </div>
   );

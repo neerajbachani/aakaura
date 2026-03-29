@@ -92,12 +92,21 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
               </div>
 
               {/* Chakra Symbols Overlaid on "Eclipse" Shapes - Added padding to prevent clipping */}
-              <div className="absolute inset-0 z-10">
+              <div className="absolute inset-0 z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
                 <svg
                   viewBox="0 0 900 900"
                   className="w-full h-full"
-                  style={{ filter: "drop-shadow(0 0 10px rgba(0,0,0,0.5))", overflow: "visible" }}
+                  style={{ overflow: "visible" }}
                 >
+                  <defs>
+                    <filter id="brightness">
+                      <feComponentTransfer>
+                        <feFuncR type="linear" slope="1.5" />
+                        <feFuncG type="linear" slope="1.5" />
+                        <feFuncB type="linear" slope="1.5" />
+                      </feComponentTransfer>
+                    </filter>
+                  </defs>
                   {chakras.map((chakra, index) => (
                     <motion.g
                       key={chakra.id}
@@ -132,12 +141,13 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                       {/* Chakra symbol image - Increased size */}
                       <image
                         href={chakra.symbol}
+                        xlinkHref={chakra.symbol}
                         x={chakra.x - 50}
                         y={chakra.y - 50}
                         width="100"
                         height="100"
                         className="cursor-pointer hover:scale-110 transition-transform"
-                        style={{ filter: "brightness(1.5)" }}
+                        filter="url(#brightness)"
                       />
                       
                       {/* Label on Hover Area (invisible but functional) - Larger clickable area */}

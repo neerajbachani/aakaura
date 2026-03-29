@@ -10,17 +10,11 @@ import { DocumentDuplicateIcon, ShareIcon } from "@heroicons/react/24/outline";
 const CHAKRAS_MAP: Record<string, { name: string; path: string }> = {
   root: { name: "Root Chakra", path: "/chakras/root-symbol.svg" },
   sacral: { name: "Sacral Chakra", path: "/chakras/sacral-symbol.svg" },
-  "solar-plexus": {
-    name: "Solar Plexus Chakra",
-    path: "/chakras/solar-plexus-symbol.svg",
-  },
   heart: { name: "Heart Chakra", path: "/chakras/heart-symbol.svg" },
-  throat: { name: "Throat Chakra", path: "/chakras/throat-symbol.svg" },
-  "third-eye": {
-    name: "Third Eye Chakra",
-    path: "/chakras/third-eye-symbol.svg",
-  },
-  crown: { name: "Crown Chakra", path: "/chakras/crown-symbol.svg" },
+  "third-eye": { name: "Third Eye Chakra", path: "/chakras/third-eye-symbol.svg" },
+  ...[1, 2, 3, 4, 5].reduce((acc, i) => ({ ...acc, [`solar-plexus-${i}`]: { name: "Solar Plexus Chakra", path: `/bouquet/solar (${i}).webp` } }), {}),
+  ...[1, 2, 3, 4, 5].reduce((acc, i) => ({ ...acc, [`throat-${i}`]: { name: "Throat Chakra", path: `/bouquet/throat (${i}).webp` } }), {}),
+  ...[1, 2, 3, 4, 5].reduce((acc, i) => ({ ...acc, [`crown-${i}`]: { name: "Crown Chakra", path: `/bouquet/crown (${i}).webp` } }), {}),
 };
 
 export default function BouquetViewPage() {
@@ -129,7 +123,11 @@ export default function BouquetViewPage() {
                   src={chakra.path}
                   alt={chakra.name}
                   fill
-                  className="filter brightness-0 invert drop-shadow-[0_0_15px_rgba(189,153,88,0.5)] opacity-90 object-contain"
+                  className={`object-contain transition-opacity ${
+                    chakra.path.endsWith('.svg')
+                      ? 'filter brightness-0 invert opacity-70 drop-shadow-[0_0_15px_rgba(189,153,88,0.5)]'
+                      : 'opacity-100 drop-shadow-[0_0_15px_rgba(189,153,88,0.6)]'
+                  }`}
                 />
               </div>
             </div>

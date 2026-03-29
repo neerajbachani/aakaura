@@ -27,7 +27,7 @@ export function AuthModal({
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleClose}>
+      <Dialog as="div" className="relative z-[99999]" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -53,10 +53,10 @@ export function AuthModal({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-[#27190B] px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 {/* Close Button */}
-                <div className="absolute right-0 top-0 pr-4 pt-4">
+                <div className="absolute right-0 top-0 z-20 pr-4 pt-4">
                   <button
                     type="button"
-                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="rounded-md bg-[#27190B] text-[#BD9958]/70 hover:text-[#BD9958] focus:outline-none focus:ring-2 focus:ring-[#BD9958] focus:ring-offset-2 focus:ring-offset-[#27190B] transition-colors"
                     onClick={handleClose}
                   >
                     <span className="sr-only">Close</span>
@@ -65,7 +65,7 @@ export function AuthModal({
                 </div>
 
                 {/* Modal Content */}
-                <div className="mt-3 sm:mt-0">
+                <div className="mt-3 sm:mt-0 max-h-[80vh] overflow-y-auto scrollbar-hide px-2 pb-4 pt-2" data-lenis-prevent="true">
                   {mode === "login" ? (
                     <LoginForm
                       onSwitchToSignup={() => setMode("signup")}

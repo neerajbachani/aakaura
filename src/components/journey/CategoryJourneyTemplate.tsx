@@ -19,6 +19,7 @@ import { useAddToCart } from "@/hooks/useCart";
 import { toast } from "react-hot-toast";
 import { JourneyProductPanel } from "./JourneyProductPanel";
 import CartSuccessModal from "../cart/CartSuccessModal";
+import { AuthModal } from "@/components/auth/AuthModal";
 
 // Register GSAP plugin
 if (typeof window !== "undefined") {
@@ -228,6 +229,12 @@ function WaitlistButtonLarge({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleClick = () => {
+    if (!isAuthenticated) {
+      toast.error(`Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`);
+      onAuthRequired();
+      return;
+    }
+
     if (!isWaitlistSetting) {
       addToCart
         .mutateAsync({
@@ -236,13 +243,10 @@ function WaitlistButtonLarge({
         })
         .then(() => {
           setShowSuccessModal(true);
+        })
+        .catch(() => {
+          toast.error("Failed to add to cart");
         });
-      return;
-    }
-
-    if (!isAuthenticated) {
-      toast.error("Please login to add items to waitlist");
-      onAuthRequired();
       return;
     }
 
@@ -1101,6 +1105,7 @@ export default function CategoryJourneyTemplate({
 
       {/* Related Categories Section */}
       {relatedCategories}
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </div>
   );
 }

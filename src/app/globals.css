@@ -27,6 +27,20 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Modal scrollable body — hidden scrollbar, forced scroll */
+.modal-scroll-body {
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: calc(90vh - 160px);
+  overscroll-behavior: contain;
+}
+
+.modal-scroll-body::-webkit-scrollbar {
+  display: none;
+}
+
+
 /* @theme Inline {
   --font-cormorant: var(--font-cormorant-garamond);
 } */

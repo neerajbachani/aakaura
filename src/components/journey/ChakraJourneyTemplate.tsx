@@ -19,6 +19,7 @@ import { useAddToCart } from "@/hooks/useCart";
 import { toast } from "react-hot-toast";
 import { JourneyProductPanel } from "./JourneyProductPanel";
 import CartSuccessModal from "../cart/CartSuccessModal";
+import { AuthModal } from "@/components/auth/AuthModal";
 
 // Register GSAP plugin
 if (typeof window !== "undefined") {
@@ -1588,6 +1589,7 @@ export default function ChakraJourneyTemplate({
 
       {/* Related Combos Section */}
       {relatedCombos}
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </div>
   );
 }
@@ -1695,19 +1697,21 @@ function WaitlistButtonLarge({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleClick = () => {
+    if (!isAuthenticated) {
+      toast.error(`Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`);
+      onAuthRequired();
+      return;
+    }
+
     if (!isWaitlistSetting) {
       addToCart.mutateAsync({
         productId: product.id,
         quantity: 1,
       }).then(() => {
         setShowSuccessModal(true);
+      }).catch(() => {
+        toast.error("Failed to add to cart");
       });
-      return;
-    }
-
-    if (!isAuthenticated) {
-      toast.error("Please login to add items to waitlist");
-      onAuthRequired();
       return;
     }
 

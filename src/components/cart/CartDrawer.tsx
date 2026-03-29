@@ -2,12 +2,15 @@
 
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, ShoppingBagIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import { useCart, useClearCart } from '@/hooks/useCart';
+import { useAuthStatus } from '@/hooks/useAuth';
+import { AuthModal } from '@/components/auth/AuthModal';
 import { CartItem } from './CartItem';
 import { CartSummary } from './CartSummary';
 import Link from 'next/link';
 import { AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -17,6 +20,8 @@ interface CartDrawerProps {
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { data: cart, isLoading, error } = useCart();
   const clearCart = useClearCart();
+  const { isAuthenticated, isLoading: authLoading } = useAuthStatus();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleClearCart = () => {
     if (window.confirm('Are you sure you want to clear your cart?')) {
@@ -25,8 +30,9 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   };
 
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+    <>
+      <Transition.Root show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-300"
@@ -70,9 +76,23 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
                     {/* Content */}
                     <div className="flex-1 overflow-y-auto scrollbar-hide pb-8" data-lenis-prevent="true">
-                      {isLoading ? (
+                      {isLoading || authLoading ? (
                         <div className="flex items-center justify-center h-32">
                           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#BD9958]"></div>
+                        </div>
+                      ) : !isAuthenticated ? (
+                        <div className="flex flex-col items-center justify-center h-64 text-[#BD9958]/70 px-6">
+                          <LockClosedIcon className="h-16 w-16 mb-4 opacity-50 text-[#BD9958]" />
+                          <h3 className="font-cormorant text-2xl mb-2 text-[#BD9958]">Please log in</h3>
+                          <p className="text-sm text-center mb-8 font-light text-[#f4f1ea]/70">
+                            You must be logged in to view your cart
+                          </p>
+                          <button
+                            onClick={() => setIsAuthModalOpen(true)}
+                            className="px-8 py-3 rounded-full text-sm uppercase tracking-widest bg-[#BD9958] text-[#27190B] hover:bg-[#A8874D] transition-colors text-center font-medium"
+                          >
+                            Log In
+                          </button>
                         </div>
                       ) : error ? (
                         <div className="flex flex-col items-center justify-center h-32 text-[#BD9958]/70">
@@ -156,5 +176,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         </div>
       </Dialog>
     </Transition.Root>
+    <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+    </>
   );
 }

@@ -212,8 +212,7 @@ export default function BlogSection() {
   });
 
   // --- DESKTOP ANIMATIONS (Scroll Scrub) ---
-  const headerOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
-  const headerY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
+  // Header stays static — no scroll animation on it
 
   // SMOOTH SLIDE-UP ANIMATION (No Momentum)
   const card0Y = useTransform(
@@ -283,30 +282,21 @@ export default function BlogSection() {
   return (
     <div
       ref={containerRef}
-      className={`relative bg-[#BD9958] w-full ${isDesktop ? "h-[180vh]" : "h-auto py-16"}`}
+      className={`relative bg-[#BD9958] w-full ${isDesktop ? "h-auto py-20" : "h-auto py-16"}`}
     >
       {/* Sticky Wrapper - Only sticky on Desktop */}
-      <div
-        className={`${isDesktop ? "sticky bg-[#BD9958] top-0 h-screen overflow-hidden" : "relative h-auto"}`}
-      >
+      <div className="relative h-auto">
         <section
-          className="relative w-full h-full flex items-center bg-cover bg-center bg-no-repeat"
+          className="relative w-full h-full flex items-center justify-center bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/about-bannergh (2).jpg')" }}
         >
           {/* Dark overlay */}
           <div className="absolute inset-0 "></div>
 
           {/* Content */}
-          <div className="relative z-10 w-full  px-4 sm:px-6 md:px-12 lg:px-16 py-10 lg:py-0">
+          <div className="relative z-10 w-full px-4 sm:px-6 md:px-12 lg:px-16 py-16 md:py-20 lg:py-0">
             {/* Header */}
-            <motion.div
-              className="mb-8 md:mb-12 lg:mb-16 max-w-4xl"
-              style={isDesktop ? { opacity: headerOpacity, y: headerY } : {}}
-              initial={isDesktop ? {} : { opacity: 0, y: 30 }}
-              whileInView={isDesktop ? {} : { opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="mb-8 md:mb-12 lg:mb-16 max-w-4xl">
               <p
                 className={`font-cormorant text-[#27190B] text-base sm:text-lg md:text-xl lg:text-3xl font-medium tracking-wider mb-2 sm:mb-3 md:mb-4 lg:mb-6`}
               >
@@ -323,49 +313,46 @@ export default function BlogSection() {
                 Awakening isn't an event. It's a quiet remembering that happens
                 when noise finally loses its grip.
               </p>
-            </motion.div>
+            </div>
 
             {/* Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-2">
               {blogSection.map((item, index) => {
                 return (
-                  <motion.div
-                    key={index}
-                    className="bg-[#27190B] py-8 sm:py-10 md:py-12 px-5 sm:px-6 md:px-8 lg:px-6 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
-                    // Desktop: Use Scroll Transforms
-                    style={isDesktop ? cardTransforms[index] : {}}
-                    // Mobile: Static (No Animation)
-                    initial={{ opacity: 1, y: 0 }}
-                    whileInView={undefined}
-                    viewport={undefined}
-                    transition={{ duration: 0 }}
-                  >
-                    {/* Icon with glow effect */}
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 relative">
-                      <div className="absolute inset-0 bg-purple-400 blur-xl opacity-50 rounded-full"></div>
-                      <Image
-                        src={item.icon}
-                        alt={item.title}
-                        width={58}
-                        height={58}
-                        className="w-full h-full object-contain relative z-10"
-                      />
-                    </div>
-
-                    {/* Title */}
-                    <h3
-                      className={`font-cormorant text-[#BD9958] text-xl sm:text-2xl font-semibold`}
-                    >
+                  <div key={index} className="relative pt-8 flex flex-col">
+                    {/* Title — outside the box, top-right */}
+                    <h3 className="absolute top-0 left-0 font-cormorant text-[#27190B] text-xl sm:text-2xl font-semibold text-right pr-1">
                       {item.title}
                     </h3>
 
-                    {/* Description */}
-                    <p
-                      className={`text-[#BD9958] text-sm sm:text-base lg:text-lg  leading-relaxed font-cormorant`}
+                    <motion.div
+                      className="flex-1 bg-[#27190B] py-8 sm:py-10 md:py-12 px-5 sm:px-6 md:px-8 lg:px-6 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
+                      // Desktop: Use Scroll Transforms
+                      style={isDesktop ? cardTransforms[index] : {}}
+                      // Mobile: Static (No Animation)
+                      initial={{ opacity: 1, y: 0 }}
+                      whileInView={undefined}
+                      viewport={undefined}
+                      transition={{ duration: 0 }}
                     >
-                      {item.description}
-                    </p>
-                  </motion.div>
+                      {/* Icon with glow effect */}
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 relative">
+                        <div className="absolute inset-0 bg-purple-400 blur-xl opacity-50 rounded-full"></div>
+                        <Image
+                          src={item.icon}
+                          alt={item.title}
+                          width={58}
+                          height={58}
+                          className="w-full h-full object-contain relative z-10"
+                        />
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-[#BD9958] text-sm sm:text-base lg:text-lg leading-relaxed font-cormorant">
+                        {item.description}
+                      </p>
+                    </motion.div>
+                  </div>
                 );
               })}
             </div>
