@@ -189,6 +189,7 @@ function ExpandableFlower({
                     src={path}
                     alt={`${chakra.name} variant ${idx + 1}`}
                     fill
+                    priority
                     className="object-contain drop-shadow-[0_0_15px_rgba(189,153,88,0.5)]"
                   />
                 </motion.button>
@@ -281,6 +282,19 @@ export default function BouquetCreationPage() {
       className="min-h-screen bg-[#FDFBF7] text-[#27190B] py-20 px-4 font-sans relative overflow-x-hidden"
       onClick={() => setExpandedChakra(null)}
     >
+      {CHAKRAS.flatMap((c) =>
+        c.variants?.map((path) => (
+          <link key={path} rel="preload" as="image" href={path} />
+        ))
+      )}
+      <div className="hidden" aria-hidden="true">
+        {CHAKRAS.flatMap((chakra) =>
+          chakra.variants?.map((path, i) => (
+            <Image key={`${chakra.id}-${i}`} src={path} alt="" fill priority />
+          ))
+        )}
+      </div>
+
       <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-[#BD9958]/20 to-transparent blur-3xl opacity-50 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
