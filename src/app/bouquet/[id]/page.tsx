@@ -8,13 +8,27 @@ import toast from "react-hot-toast";
 import { DocumentDuplicateIcon, ShareIcon } from "@heroicons/react/24/outline";
 
 const CHAKRAS_MAP: Record<string, { name: string; path: string }> = {
-  root: { name: "Root Chakra", path: "/chakras/root-symbol.svg" },
-  sacral: { name: "Sacral Chakra", path: "/chakras/sacral-symbol.svg" },
-  heart: { name: "Heart Chakra", path: "/chakras/heart-symbol.svg" },
-  "third-eye": { name: "Third Eye Chakra", path: "/chakras/third-eye-symbol.svg" },
-  ...[1, 2, 3, 4, 5].reduce((acc, i) => ({ ...acc, [`solar-plexus-${i}`]: { name: "Solar Plexus Chakra", path: `/bouquet/solar (${i}).webp` } }), {}),
-  ...[1, 2, 3, 4, 5].reduce((acc, i) => ({ ...acc, [`throat-${i}`]: { name: "Throat Chakra", path: `/bouquet/throat (${i}).webp` } }), {}),
-  ...[1, 2, 3, 4, 5].reduce((acc, i) => ({ ...acc, [`crown-${i}`]: { name: "Crown Chakra", path: `/bouquet/crown (${i}).webp` } }), {}),
+  "root-main": { name: "Root Chakra", path: "/bouquet/root-main.webp" },
+  "root-1": { name: "Root Chakra", path: "/bouquet/root (1).webp" },
+  "root-2": { name: "Root Chakra", path: "/bouquet/root (2).webp" },
+  "sacral-main": { name: "Sacral Chakra", path: "/bouquet/sacral-main.webp" },
+  "sacral-1": { name: "Sacral Chakra", path: "/bouquet/sacral (1).webp" },
+  "sacral-2": { name: "Sacral Chakra", path: "/bouquet/sacral (2).webp" },
+  "solar-plexus-main": { name: "Solar Plexus Chakra", path: "/bouquet/solar-main.webp" },
+  "solar-plexus-1": { name: "Solar Plexus Chakra", path: "/bouquet/solar (3).webp" },
+  "solar-plexus-2": { name: "Solar Plexus Chakra", path: "/bouquet/solar (4).webp" },
+  "heart-main": { name: "Heart Chakra", path: "/bouquet/heart-main.webp" },
+  "heart-1": { name: "Heart Chakra", path: "/bouquet/heart (1).webp" },
+  "heart-2": { name: "Heart Chakra", path: "/bouquet/heart (2).webp" },
+  "throat-main": { name: "Throat Chakra", path: "/bouquet/throat-main.webp" },
+  "throat-1": { name: "Throat Chakra", path: "/bouquet/throat (6).webp" },
+  "throat-2": { name: "Throat Chakra", path: "/bouquet/throat (7).webp" },
+  "third-eye-main": { name: "Third Eye Chakra", path: "/bouquet/thirdeye-main.webp" },
+  "third-eye-1": { name: "Third Eye Chakra", path: "/bouquet/thirdeye (1).webp" },
+  "third-eye-2": { name: "Third Eye Chakra", path: "/bouquet/thirdeye (2).webp" },
+  "crown-main": { name: "Crown Chakra", path: "/bouquet/crown-main.webp" },
+  "crown-1": { name: "Crown Chakra", path: "/bouquet/crown (1).webp" },
+  "crown-2": { name: "Crown Chakra", path: "/bouquet/crown (5).webp" },
 };
 
 export default function BouquetViewPage() {
@@ -123,11 +137,7 @@ export default function BouquetViewPage() {
                   src={chakra.path}
                   alt={chakra.name}
                   fill
-                  className={`object-contain transition-opacity ${
-                    chakra.path.endsWith('.svg')
-                      ? 'filter brightness-0 invert opacity-70 drop-shadow-[0_0_15px_rgba(189,153,88,0.5)]'
-                      : 'opacity-100 drop-shadow-[0_0_15px_rgba(189,153,88,0.6)]'
-                  }`}
+                  className="object-contain transition-opacity opacity-100 drop-shadow-[0_0_15px_rgba(189,153,88,0.6)]"
                 />
               </div>
             </div>

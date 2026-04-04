@@ -154,6 +154,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo, useState, useEffect } from "react";
 
@@ -193,6 +194,22 @@ No “unlock”, no “transform your life”, no fairy dust. Awakening isn't an
 export default function BlogSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [dynamicBlogs, setDynamicBlogs] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch("/api/blogs");
+        const json = await res.json();
+        if (json.status === 200 && json.data) {
+          setDynamicBlogs(json.data.slice(0, 4));
+        }
+      } catch (error) {
+        console.error("Failed to fetch blogs:", error);
+      }
+    };
+    fetchBlogs();
+  }, []);
 
   // Check if we are on desktop to enable the sticky scroll effect
   useEffect(() => {
@@ -315,9 +332,23 @@ export default function BlogSection() {
               </p>
             </div>
 
-            {/* Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-2">
               {blogSection.map((item, index) => {
+                const dbBlog = dynamicBlogs[index];
+                const displayImage = dbBlog?.coverImage || item.icon;
+                
+                // Keep the same fallback titles: item.title
+                // Clean markdown from blog content if exists, fallback to item.description
+                let rawContent = dbBlog?.content || item.description;
+                // Basic markdown/HTML strip for summary
+                const textContent = rawContent
+                  .replace(/<[^>]*>?/gm, "")
+                  .replace(/[#_*\[\]`>]/g, "")
+                  .trim();
+                const displayDescription = textContent.length > 200 
+                  ? textContent.slice(0, 200) + "..." 
+                  : textContent;
+
                 return (
                   <div key={index} className="relative pt-8 flex flex-col">
                     {/* Title — outside the box, top-right */}
@@ -326,7 +357,7 @@ export default function BlogSection() {
                     </h3>
 
                     <motion.div
-                      className="flex-1 bg-[#27190B] py-8 sm:py-10 md:py-12 px-5 sm:px-6 md:px-8 lg:px-6 space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl cursor-pointer hover:scale-[1.02]"
+                      className="flex-1 bg-[#27190B] p-4 sm:p-5 flex flex-col space-y-3 sm:space-y-4 hover:shadow-xl transition-all duration-300 rounded-xl lg:rounded-2xl hover:scale-[1.02] overflow-hidden group relative"
                       // Desktop: Use Scroll Transforms
                       style={isDesktop ? cardTransforms[index] : {}}
                       // Mobile: Static (No Animation)
@@ -335,22 +366,37 @@ export default function BlogSection() {
                       viewport={undefined}
                       transition={{ duration: 0 }}
                     >
-                      {/* Icon with glow effect */}
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 relative">
-                        <div className="absolute inset-0 bg-purple-400 blur-xl opacity-50 rounded-full"></div>
-                        <Image
-                          src={item.icon}
+                      {/* Image that covers the top part of the box */}
+                      <div className="w-full h-40 sm:h-48 relative rounded-lg overflow-hidden shrink-0 mb-4">
+                        <img
+                          src={displayImage}
                           alt={item.title}
-                          width={58}
-                          height={58}
-                          className="w-full h-full object-contain relative z-10"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
 
                       {/* Description */}
-                      <p className="text-[#BD9958] text-sm sm:text-base lg:text-lg leading-relaxed font-cormorant">
-                        {item.description}
-                      </p>
+                      <div className="flex-1 flex flex-col justify-between">
+                        <p className="text-[#BD9958] text-sm sm:text-base lg:text-lg leading-relaxed font-cormorant line-clamp-4">
+                          {displayDescription}
+                        </p>
+
+                        {/* Read More Button */}
+                        <div className="mt-4">
+                          {dbBlog ? (
+                            <Link 
+                              href={`/blogs/${dbBlog.id}`} 
+                              className="text-[#BD9958] font-bold text-sm sm:text-base font-cormorant hover:text-white transition-colors duration-300 inline-block mt-3 uppercase tracking-wider cursor-pointer z-10 relative"
+                            >
+                              Read More →
+                            </Link>
+                          ) : (
+                            <span className="text-[#BD9958] opacity-50 font-bold text-sm sm:text-base font-cormorant inline-block mt-3 uppercase tracking-wider cursor-not-allowed">
+                              Read More →
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </motion.div>
                   </div>
                 );
