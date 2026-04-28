@@ -93,12 +93,12 @@ export default function AboutHeader() {
 
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/quiz" className="block w-full">
-                      Check your energy level
+                      Quick Energy Level Check
                     </Link>
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/journey" className="block w-full">
-                      Begin Where You Are
+                      Start with what you feel
                     </Link>
                   </li>
                 </ul>

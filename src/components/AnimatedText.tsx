@@ -263,14 +263,14 @@ export default function AnimatedText({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 pointer-events-auto px-4"
+                className="absolute top-[65%] sm:top-[60%] md:top-auto md:bottom-10 left-0 w-full flex flex-col items-center justify-center gap-3 z-30 pointer-events-auto px-4"
               >
                 {/* Subtitle */}
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, duration: 0.5 }}
-                  className="text-[#BD9958]/70 text-sm md:text-base text-center max-w-sm leading-snug tracking-wide"
+                  className="text-[#BD9958]/80 text-xs sm:text-sm md:text-base text-center leading-snug tracking-wide max-w-[90vw] md:max-w-md drop-shadow-md"
                 >
                   An exclusive community for those who have arrived.
                 </motion.p>
@@ -284,14 +284,14 @@ export default function AnimatedText({
                   whileTap={!isLoading && paymentStatus !== 'success' ? { scale: 0.97 } : {}}
                   className={`
                     relative group overflow-hidden
-                    flex items-center gap-3
-                    px-7 py-3.5 rounded-full
-                    text-sm md:text-base font-semibold tracking-widest uppercase
-                    transition-all duration-300
+                    flex items-center justify-center gap-2 md:gap-3
+                    px-4 sm:px-6 md:px-7 py-3 md:py-3.5 rounded-full
+                    text-[11px] sm:text-xs md:text-base font-semibold tracking-widest uppercase whitespace-nowrap
+                    transition-all duration-300 shadow-xl
                     border border-[#BD9958]/60
                     ${paymentStatus === 'success'
-                      ? 'bg-emerald-900/40 border-emerald-400/60 text-emerald-300 cursor-default'
-                      : 'bg-[#27190B]/80 backdrop-blur-sm text-[#BD9958] hover:border-[#BD9958] hover:shadow-[0_0_28px_rgba(189,153,88,0.35)] cursor-pointer'
+                      ? 'bg-emerald-900/60 border-emerald-400/60 text-emerald-300 cursor-default'
+                      : 'bg-[#150f08]/90 backdrop-blur-md text-[#BD9958] hover:border-[#BD9958] hover:shadow-[0_0_28px_rgba(189,153,88,0.35)] cursor-pointer'
                     }
                     disabled:opacity-60 disabled:cursor-wait
                   `}
@@ -299,39 +299,40 @@ export default function AnimatedText({
                   {/* Shimmer sweep on hover */}
                   {paymentStatus !== 'success' && (
                     <span
-                      className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-[#BD9958]/15 to-transparent pointer-events-none"
+                      className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent pointer-events-none"
                       aria-hidden="true"
                     />
                   )}
 
                   {/* Icon */}
                   {paymentStatus === 'success' ? (
-                    <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <svg className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   ) : isLoading ? (
-                    <svg className="w-4 h-4 animate-spin text-[#BD9958]" fill="none" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 md:w-5 md:h-5 animate-spin text-[#BD9958] shrink-0" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
                   ) : (
-                    <FaWhatsapp className="w-4 h-4 text-[#BD9958]" />
+                    <FaWhatsapp className="w-4 h-4 md:w-5 md:h-5 text-[#BD9958] shrink-0" />
                   )}
 
                   {/* Label */}
-                  <span>
-                    {paymentStatus === 'success'
-                      ? 'Welcome to the Circle'
-                      : paymentStatus === 'verifying'
-                      ? 'Verifying…'
-                      : paymentStatus === 'loading'
-                      ? 'Preparing…'
-                      : "Join the Aakaura Inner Circle"}
+                  <span className="truncate flex items-center">
+                    {paymentStatus === 'success' ? 'Welcome to the Circle' : 
+                     paymentStatus === 'verifying' ? 'Verifying…' : 
+                     paymentStatus === 'loading' ? 'Preparing…' : (
+                      <>
+                        <span className="hidden sm:inline">Join the Aakaura Inner Circle</span>
+                        <span className="sm:hidden">Join Inner Circle</span>
+                      </>
+                    )}
                   </span>
 
                   {/* Price tag — shown in idle state only */}
                   {(paymentStatus === 'idle' || paymentStatus === 'error') && (
-                    <span className="ml-1 px-2 py-0.5 rounded-full bg-[#BD9958]/15 text-[#BD9958] text-xs font-bold tracking-normal border border-[#BD9958]/30">
+                    <span className="ml-0.5 md:ml-1 px-1.5 md:px-2 py-0.5 rounded-full bg-[#BD9958]/20 text-[#BD9958] text-[10px] md:text-xs font-bold tracking-normal border border-[#BD9958]/40 shrink-0">
                       ₹5
                     </span>
                   )}
@@ -343,7 +344,7 @@ export default function AnimatedText({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.4 }}
-                    className="text-[#BD9958]/40 text-xs text-center tracking-wide"
+                    className="text-[#BD9958]/50 text-[10px] md:text-xs text-center tracking-wide px-2 max-w-[95vw] drop-shadow-sm"
                   >
                     ₹5 entry fee · Redirected to WhatsApp after payment
                   </motion.p>

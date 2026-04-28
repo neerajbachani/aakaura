@@ -539,7 +539,7 @@ export default function JourneysPage() {
                 href="/quiz"
                 className={`${fonts.mulish} inline-block px-8 py-4 bg-[#BD9958] text-[#27190B] rounded-full text-lg font-medium tracking-wide hover:bg-[#BD9958]/90 transition-colors`}
               >
-                Check your energy level
+                Quick Energy Level Check
               </a>
             </motion.div>
           </motion.div>

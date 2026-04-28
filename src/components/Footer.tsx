@@ -14,8 +14,8 @@ export default function Footer() {
             Contact Us
           </h3>
           {/* <p className={`text-base ${fonts.mulish}`}>support@aakaura.in</p> */}
-          <p className={`text-base ${fonts.mulish}`}>+91 8619029656</p>
-          <p className={`text-base ${fonts.mulish}`}>Jaipur, Rajasthan</p>
+          <p className={`text-base ${fonts.merriweather}`}>+91 8619029656</p>
+          <p className={`text-base ${fonts.merriweather}`}>Jaipur, Rajasthan</p>
         </div>
 
         {/* Quick Links */}

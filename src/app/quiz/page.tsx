@@ -99,13 +99,15 @@ function IntroStep({ onStart }: { onStart: () => void }) {
         </div>
       </div> */}
 
-      <div className="space-y-6 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-8 md:p-10 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm font-light">
+      <div className="space-y-6 text-md md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-8 md:p-10 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm font-light">
         <p>
-          There is no right or wrong choice here.<br />
+          There is no right or wrong choice here.
+          <br />
           Only the most honest one.
         </p>
         <p>
-          Start where you are.<br />
+          Start where you are.
+          <br />
           We’ll meet you there.
         </p>
       </div>

@@ -987,34 +987,36 @@ export default function CategoryJourneyTemplate({
                       <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col items-center gap-8">
                         <div className="max-w-2xl text-center">
                           <p className="text-[#f4f1ea] opacity-70 font-light text-base md:text-lg leading-relaxed italic">
-                            "This is not a magical object that changes your life overnight. If you don’t shift your awareness, this won’t either. Join the Aakaura Community."
+                            This is not a magical object that changes your life
+                            overnight. If you don’t shift your awareness, this
+                            won’t either.
                           </p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-                        <WaitlistButtonLarge
-                          product={product}
-                          journeySlug={chakra?.slug || "unknown"}
-                          clientType={clientType}
-                          isAuthenticated={isAuthenticated}
-                          authLoading={authLoading}
-                          onAuthRequired={() => setShowAuthModal(true)}
-                          addToWaitlist={addToWaitlist}
-                          removeFromWaitlist={removeFromWaitlist}
-                          useIsInWaitlist={useIsInWaitlist}
-                          isWaitlistSetting={
-                            chakra?.productSettings?.[product.id]?.isWaitlist ??
-                            true
-                          }
-                          categoryName={categoryName}
-                        />
-                        {chakra && (
-                          <Link
-                            href={`/journey/${chakra.slug}`}
-                            className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
-                          >
-                            View all {chakra.name}
-                          </Link>
-                        )}
+                          <WaitlistButtonLarge
+                            product={product}
+                            journeySlug={chakra?.slug || "unknown"}
+                            clientType={clientType}
+                            isAuthenticated={isAuthenticated}
+                            authLoading={authLoading}
+                            onAuthRequired={() => setShowAuthModal(true)}
+                            addToWaitlist={addToWaitlist}
+                            removeFromWaitlist={removeFromWaitlist}
+                            useIsInWaitlist={useIsInWaitlist}
+                            isWaitlistSetting={
+                              chakra?.productSettings?.[product.id]
+                                ?.isWaitlist ?? true
+                            }
+                            categoryName={categoryName}
+                          />
+                          {chakra && (
+                            <Link
+                              href={`/journey/${chakra.slug}`}
+                              className="bg-transparent border border-[#f4f1ea] text-[#f4f1ea] px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:bg-[#f4f1ea] hover:text-[#27190b] hover:scale-105"
+                            >
+                              View all {chakra.name}
+                            </Link>
+                          )}
                         </div>
                       </div>
 

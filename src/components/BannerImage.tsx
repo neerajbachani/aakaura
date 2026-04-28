@@ -316,7 +316,7 @@ export default function BannerImage() {
             Welcome to Aakaura
           </h1>
           <p className="text-base md:text-xl text-[#BD9958]/80 mb-6 font-light">
-            (आकर to your aura);
+            (आकार to your aura);
           </p>
           <p className="text-sm md:text-lg text-[#BD9958] font-medium tracking-widest uppercase">
             we do not create magical tools; we seek the magic within.
