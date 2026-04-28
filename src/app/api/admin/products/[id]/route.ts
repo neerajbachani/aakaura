@@ -41,10 +41,8 @@ export const PUT = errorHandler(
       if (imageFiles.length > 0) {
         const newImageUrls = await Promise.all(
           imageFiles.map(async (file) => {
-            if (!(file instanceof Blob)) {
-              throw new ApiError("Invalid image file", 400);
-            }
-            return await uploadToCloudinary(file, "products");
+            const uploadResult = await uploadToCloudinary(file, "products");
+            return uploadResult.secure_url;
           })
         );
         imageUrls = [...existingImages, ...newImageUrls];

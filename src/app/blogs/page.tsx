@@ -7,7 +7,7 @@ import { generateSEO } from "@/lib/seo";
 export const dynamic = "force-dynamic";
 
 export const metadata = generateSEO({
-  title: "Aakaura - Our Thoughts",
+  title: "Aakaura - Aakaura Speaks",
   description:
     "Explore the latest blogs from Aakaura, covering topics on spirituality, wellness, healing, meditation, and more.",
   url: "https://aakaura.in/blogs",
@@ -21,7 +21,7 @@ export default async function Blogs() {
       <Container>
         {/* Section Title */}
         <div className="text-center mb-12 md:mb-16">
-          <Heading title="Our Thoughts" />
+          <Heading title="Aakaura Speaks" />
         </div>
 
         {/* All Blogs */}

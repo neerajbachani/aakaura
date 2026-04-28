@@ -45,7 +45,14 @@ const crownProductBase = {
     name: "Brahma Aayam Wall Hanging",
     sanskritName: "Crown Chakra Wall Hanging",
     description: "A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding.",
-    specificDescription: "A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding. Designed around the Sahasrara chakra geometry, it carries the energy of clarity, surrender, and inner silence. The sacred thousand-petaled lotus symbolizes the infinite and expansive nature of consciousness. Rendered in violet or white, it reflects purity, transcendence, and high-frequency spiritual energy. The enclosing circle represents wholeness, completion, and the boundless, uncontained nature of energy. Finished with soft bells and a wooden plaque engraved with “अनन्त” (Infinite) - a reminder that awareness is not something to seek, but to remember.",
+    specificDescription: `A handcrafted terracotta piece symbolizing awareness, stillness, and higher understanding. Designed around the Sahasrara chakra geometry, it carries the energy of clarity, surrender, and inner silence.
+
+• The sacred thousand-petaled lotus symbolizes the infinite and expansive nature of consciousness. Rendered in violet or white, it reflects purity, transcendence, and high-frequency spiritual energy.
+
+• The enclosing circle represents wholeness, completion, and the boundless, uncontained nature of energy. 
+
+• Finished with soft bells and a wooden plaque engraved with “अनन्त” (Infinite) - a reminder that awareness is not something to seek, but to remember.`,
+    cardTagline: "For when your mind feels loud… and you need silence.",
     price: "₹4,500",
     ethos: "Hand-crafted: Each piece is moulded, painted, and assembled manually. Designed to support spiritual study, contemplation, and inner silence.",
     whatItsFor: "A visual and energetic anchor for transcendence and unity consciousness. Designed for those seeking to dissolve separation and realize oneness.",

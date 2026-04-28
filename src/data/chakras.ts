@@ -4,6 +4,7 @@ export interface JourneyProduct {
   sanskritName: string;
   description: string;
   specificDescription: string;
+  cardTagline?: string;
   price: string;
   ethos: string;
   whatItsFor: string;

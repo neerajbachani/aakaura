@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { getOptimizedCloudinaryUrl } from "@/utils/cloudinaryDelivery";
 import { ChakraData, JourneyProduct, chakrasData } from "@/data/chakras";
 import { useRevealer } from "@/hooks/useRevealer";
 import gsap from "gsap";
@@ -124,7 +125,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          src={images[selectedImageIndex]}
+          src={getOptimizedCloudinaryUrl(images[selectedImageIndex])}
           alt={`${product.name} - Image ${selectedImageIndex + 1}`}
           className="w-full h-full object-cover"
         />
@@ -168,7 +169,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
               }`}
             >
               <img
-                src={image}
+                src={getOptimizedCloudinaryUrl(image, 400)}
                 alt={`${product.name} thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
               />
@@ -623,14 +624,14 @@ export default function ChakraJourneyTemplate({
         style={{ willChange: "opacity, transform" }}
       >
         <img
-          src={
+          src={getOptimizedCloudinaryUrl(
             expandedCard !== null && filteredProducts[expandedCard]
               ? activeBgImage ||
-                filteredProducts[expandedCard]?.variants?.[0]?.image ||
-                filteredProducts[expandedCard]?.images?.[0] ||
-                undefined
-              : undefined
-          }
+                  filteredProducts[expandedCard]?.variants?.[0]?.image ||
+                  filteredProducts[expandedCard]?.images?.[0] ||
+                  undefined
+              : undefined,
+          )}
           alt={
             expandedCard !== null && filteredProducts[expandedCard]
               ? filteredProducts[expandedCard]?.name
@@ -730,17 +731,28 @@ export default function ChakraJourneyTemplate({
                     <XMarkIcon className="w-8 h-8 text-[#f4f1ea]" />
                   </button>
 
+                  {/* Vertical Disclaimer (Desktop) */}
+                  <div className="absolute left-4 md:left-8 bottom-12 z-50 origin-bottom-left -rotate-90 hidden md:block">
+                    <Link
+                      href="/policies/disclaimers"
+                      className="text-[0.67rem] font-light tracking-[0.1em] opacity-30 hover:opacity-100 transition-opacity text-[#f4f1ea] uppercase whitespace-nowrap"
+                    >
+                      *Design Protected. Unauthorized copying or reproduction is
+                      strictly prohibited.
+                    </Link>
+                  </div>
+
                   {/* Scrollable Content */}
                   <div
                     className="overflow-y-auto h-full p-8 md:p-16 custom-scrollbar overscroll-y-contain"
                     data-lenis-prevent
                   >
                     <div className="max-w-5xl mx-auto">
-                      {/* Disclaimer */}
-                      <div className="mb-6 text-left">
+                      {/* Disclaimer (Mobile) */}
+                      <div className="mb-6 text-left md:hidden">
                         <Link
                           href="/policies/disclaimers"
-                          className="text-xs font-light md:text-base opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
+                          className="text-xs font-light opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
                         >
                           *Design Protected. Unauthorized copying or
                           reproduction is strictly prohibited.
@@ -798,14 +810,21 @@ export default function ChakraJourneyTemplate({
 
                       {/* Header */}
                       <div className="mb-12 border-b border-[#f4f1ea]/20 pb-8 text-center md:text-left">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                          <div>
-                            <h2 className="text-4xl md:text-6xl font-cormorant font-light mb-2 text-[#f4f1ea]">
+                        {product.cardTagline && (
+                          <p className="text-xl md:text-2xl font-light italic text-[#BD9958] mb-6">
+                            {product.cardTagline}
+                          </p>
+                        )}
+                        <div className="flex flex-col gap-4 w-full">
+                          <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-2 md:gap-4">
+                            <h2 className="text-4xl md:text-6xl font-cormorant font-light text-[#f4f1ea]">
                               {product.name}
                             </h2>
-                            <p className="text-2xl md:text-3xl font-cormorant font-light mb-4 text-[#f4f1ea] opacity-80">
+                            <p className="text-2xl md:text-3xl font-cormorant font-light text-[#f4f1ea] opacity-80 whitespace-nowrap">
                               {product.price}
                             </p>
+                          </div>
+                          <div>
                             <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
                               {product.sanskritName}
                             </p>
@@ -829,9 +848,9 @@ export default function ChakraJourneyTemplate({
                             className="text-[#f4f1ea]"
                           >
                             <h3 className="text-base uppercase tracking-widest font-bold mb-6 opacity-60">
-                              Description
+                              Meaning Behind
                             </h3>
-                            <p className="font-light text-xl leading-relaxed">
+                            <p className="font-light text-xl leading-relaxed whitespace-pre-line">
                               {product.specificDescription ||
                                 product.description}
                             </p>
@@ -1184,8 +1203,14 @@ export default function ChakraJourneyTemplate({
                       </div>
 
                       {/* Footer Action */}
-                      <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col md:flex-row gap-4 justify-center items-center">
-                         <WaitlistButtonLarge
+                      <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col items-center gap-8">
+                        <div className="max-w-2xl text-center">
+                          <p className="text-[#f4f1ea] opacity-70 font-light text-base md:text-lg leading-relaxed italic">
+                            "This is not a magical object that changes your life overnight. If you don’t shift your awareness, this won’t either. Join the Aakaura Community."
+                          </p>
+                        </div>
+                        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                        <WaitlistButtonLarge
                           product={product}
                           journeySlug={chakra.slug}
                           clientType={clientType}
@@ -1195,7 +1220,10 @@ export default function ChakraJourneyTemplate({
                           addToWaitlist={addToWaitlist}
                           removeFromWaitlist={removeFromWaitlist}
                           useIsInWaitlist={useIsInWaitlist}
-                          isWaitlistSetting={(chakra as any).productSettings?.[product.id]?.isWaitlist ?? true}
+                          isWaitlistSetting={
+                            (chakra as any).productSettings?.[product.id]
+                              ?.isWaitlist ?? true
+                          }
                         />
                         {product.category && chakra.slug !== "combos" && (
                           <Link
@@ -1205,6 +1233,7 @@ export default function ChakraJourneyTemplate({
                             View all {product.category}s
                           </Link>
                         )}
+                        </div>
                       </div>
 
                       {/* Suggested Products (Other products in the same journey/type) */}
@@ -1242,7 +1271,10 @@ export default function ChakraJourneyTemplate({
                                   <div className="aspect-[4/5] relative overflow-hidden bg-[#f4f1ea]/10 flex-shrink-0">
                                     {p.image ? (
                                       <img
-                                        src={p.image}
+                                        src={getOptimizedCloudinaryUrl(
+                                          p.image,
+                                          400,
+                                        )}
                                         alt={p.name}
                                         className="w-full h-full object-cover"
                                       />
@@ -1298,11 +1330,12 @@ export default function ChakraJourneyTemplate({
                                       {(p.images && p.images[0]) ||
                                       (p.variants && p.variants[0]?.image) ? (
                                         <img
-                                          src={
+                                          src={getOptimizedCloudinaryUrl(
                                             p.variants?.[0]?.image ||
-                                            p.images?.[0] ||
-                                            ""
-                                          }
+                                              p.images?.[0] ||
+                                              "",
+                                            400,
+                                          )}
                                           alt={p.name}
                                           className="w-full h-full object-cover"
                                         />
@@ -1385,7 +1418,10 @@ export default function ChakraJourneyTemplate({
                                         <div className="w-12 h-12 bg-[#27190b]/10 rounded-lg flex-shrink-0 overflow-hidden">
                                           {p.image ? (
                                             <img
-                                              src={p.image}
+                                              src={getOptimizedCloudinaryUrl(
+                                                p.image,
+                                                200,
+                                              )}
                                               alt={p.name}
                                               className="w-full h-full object-cover"
                                             />
@@ -1408,7 +1444,10 @@ export default function ChakraJourneyTemplate({
                                         {product.images &&
                                           product.images[0] && (
                                             <img
-                                              src={product.images[0]}
+                                              src={getOptimizedCloudinaryUrl(
+                                                product.images[0],
+                                                200,
+                                              )}
                                               alt={product.name}
                                               className="w-full h-full object-cover"
                                             />
@@ -1459,13 +1498,13 @@ export default function ChakraJourneyTemplate({
                                     {/* Main Spotlight Image */}
                                     <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[#27190b]/5 shadow-sm">
                                       <img
-                                        src={
+                                        src={getOptimizedCloudinaryUrl(
                                           activeComboImage ||
-                                          product.suggestedCombo?.products?.[0]
-                                            ?.mobileUrl ||
-                                          product.suggestedCombo?.products?.[0]
-                                            ?.image
-                                        }
+                                            product.suggestedCombo
+                                              ?.products?.[0]?.mobileUrl ||
+                                            product.suggestedCombo
+                                              ?.products?.[0]?.image,
+                                        )}
                                         alt="Suggested Combo Highlight"
                                         className="w-full h-full object-cover transition-opacity duration-500"
                                       />
@@ -1497,7 +1536,10 @@ export default function ChakraJourneyTemplate({
                                               }`}
                                             >
                                               <img
-                                                src={product.images[0]}
+                                                src={getOptimizedCloudinaryUrl(
+                                                  product.images[0],
+                                                  200,
+                                                )}
                                                 alt="Original Product"
                                                 className="w-full h-full object-cover"
                                               />
@@ -1529,13 +1571,16 @@ export default function ChakraJourneyTemplate({
                                               >
                                                 {p.mobileUrl || p.image ? (
                                                   <img
-                                                    src={p.mobileUrl || p.image}
+                                                    src={getOptimizedCloudinaryUrl(
+                                                      p.mobileUrl || p.image,
+                                                      200,
+                                                    )}
                                                     alt={p.name}
                                                     className="w-full h-full object-cover"
                                                   />
                                                 ) : null}
                                               </button>
-                                            ),
+                                            )
                                           )}
                                         </div>
                                       )}
@@ -1544,7 +1589,9 @@ export default function ChakraJourneyTemplate({
                                   <div className="w-full max-w-[320px] aspect-[4/5] rounded-2xl overflow-hidden bg-[#27190b]/5 shadow-sm">
                                     {product.images?.[0] && (
                                       <img
-                                        src={product.images[0]}
+                                        src={getOptimizedCloudinaryUrl(
+                                          product.images[0],
+                                        )}
                                         alt={product.name}
                                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                                       />
@@ -1589,7 +1636,10 @@ export default function ChakraJourneyTemplate({
 
       {/* Related Combos Section */}
       {relatedCombos}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </div>
   );
 }
@@ -1698,20 +1748,25 @@ function WaitlistButtonLarge({
 
   const handleClick = () => {
     if (!isAuthenticated) {
-      toast.error(`Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`);
+      toast.error(
+        `Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`,
+      );
       onAuthRequired();
       return;
     }
 
     if (!isWaitlistSetting) {
-      addToCart.mutateAsync({
-        productId: product.id,
-        quantity: 1,
-      }).then(() => {
-        setShowSuccessModal(true);
-      }).catch(() => {
-        toast.error("Failed to add to cart");
-      });
+      addToCart
+        .mutateAsync({
+          productId: product.id,
+          quantity: 1,
+        })
+        .then(() => {
+          setShowSuccessModal(true);
+        })
+        .catch(() => {
+          toast.error("Failed to add to cart");
+        });
       return;
     }
 
@@ -1747,35 +1802,39 @@ function WaitlistButtonLarge({
       <button
         onClick={handleClick}
         disabled={isWaitlistSetting ? isLoading : false}
-      className={`px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 ${
-        !isWaitlistSetting
-          ? "bg-[#27190b] text-[#f4f1ea] border border-[#f4f1ea] hover:bg-[#f4f1ea] hover:text-[#27190b]"
-          : isInWaitlist
-            ? "bg-green-600 text-white hover:bg-green-700"
-            : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
-      }`}
-    >
-      {!isWaitlistSetting ? (
-        <span className="flex items-center justify-center gap-2">
-          Add to Cart <span className="opacity-40 select-none">•</span>{" "}
-          <span className="text-lg md:text-xl font-bold">{product.price}</span>
-        </span>
-      ) : isLoading ? (
-        "Processing..."
-      ) : isInWaitlist ? (
-        `✓ In Waitlist`
-      ) : (
-        <span className="flex items-center justify-center gap-2">
-          Add to Waitlist <span className="opacity-40 select-none">•</span>{" "}
-          <span className="text-lg md:text-xl font-bold">{product.price}</span>
-        </span>
-      )}
-    </button>
-    <CartSuccessModal
-      isOpen={showSuccessModal}
-      onClose={() => setShowSuccessModal(false)}
-      category={product.category}
-    />
+        className={`px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 ${
+          !isWaitlistSetting
+            ? "bg-[#27190b] text-[#f4f1ea] border border-[#f4f1ea] hover:bg-[#f4f1ea] hover:text-[#27190b]"
+            : isInWaitlist
+              ? "bg-green-600 text-white hover:bg-green-700"
+              : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
+        }`}
+      >
+        {!isWaitlistSetting ? (
+          <span className="flex items-center justify-center gap-2">
+            Add to Cart <span className="opacity-40 select-none">•</span>{" "}
+            <span className="text-lg md:text-xl font-bold">
+              {product.price}
+            </span>
+          </span>
+        ) : isLoading ? (
+          "Processing..."
+        ) : isInWaitlist ? (
+          `✓ In Waitlist`
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            Add to Waitlist <span className="opacity-40 select-none">•</span>{" "}
+            <span className="text-lg md:text-xl font-bold">
+              {product.price}
+            </span>
+          </span>
+        )}
+      </button>
+      <CartSuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        category={product.category}
+      />
     </>
   );
 }

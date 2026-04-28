@@ -1,7 +1,8 @@
 import Container from "./ui/Container";
 import fonts from "@/config/fonts";
 import Link from "next/link";
-import { FaThreads, FaInstagram } from "react-icons/fa6";
+import { FaInstagram, FaYoutube, FaXTwitter } from "react-icons/fa6";
+import { SiLinktree } from "react-icons/si";
 
 export default function Footer() {
   return (
@@ -35,7 +36,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="/blogs" className="hover:text-primaryRed transition">
-                Our Thoughts
+                Aakaura Speaks
               </Link>
             </li>
             <li>
@@ -92,16 +93,36 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="text-primaryBeige hover:text-primaryRed transition"
+              title="Instagram"
             >
               <FaInstagram size={24} />
             </a>
             <a
-              href="https://www.threads.net/@aakaura.in?invite=0"
+              href="https://www.youtube.com/@TheAakauraStudio"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primaryBeige hover:text-primaryRed transition"
+              title="YouTube"
             >
-              <FaThreads size={24} />
+              <FaYoutube size={24} />
+            </a>
+            <a
+              href="https://x.com/_Aakaura_?s=20"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primaryBeige hover:text-primaryRed transition"
+              title="X (Twitter)"
+            >
+              <FaXTwitter size={24} />
+            </a>
+            <a
+              href="https://linktr.ee/aakaura0508"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primaryBeige hover:text-primaryRed transition"
+              title="LinkTree"
+            >
+              <SiLinktree size={24} />
             </a>
           </div>
         </div>

@@ -27,7 +27,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const imageUrl = await uploadToCloudinary(image);
+    const uploadResult = await uploadToCloudinary(image);
+    const imageUrl = uploadResult.secure_url;
     
     return Response.json(
       { success: true, data: { imageUrl }, message: "Image uploaded successfully" },

@@ -13,114 +13,148 @@ import fonts from "@/config/fonts";
 const journeys = [
   {
     id: "grounding",
-    name: "Root Chakra",
-    title: "The Grounded Journey",
+    name: "The Grounded Journey",
+    title: "Muladhara Chakra",
     color: "#ef4444",
     symbol: "/chakras/root-symbol.svg",
     chooseIf: [
-      "You feel unsafe even when nothing is wrong",
-      "Money, stability, or survival thoughts dominate your mind",
-      "You're always planning for worst-case scenarios",
-      "Rest feels undeserved",
+      "You feel on edge.. even when everything is fine",
+      "Your mind keeps going to “what if everything goes wrong?”",
+      "You prepare for worst case scenarios, even when unnecessary",
+      "You are unable to relax without feeling guilty for ‘wasting’ time",
+      "You obsessively plan for your finances (stability, survival) all the time",
+      "Your nervous system is almost every time in survival mode and therefore the constant need to control everything possible",
     ],
+    teachesHeading: "What shifts this inner journey brings:",
     teaches:
-      "Safety is not outside you. The body must feel rooted before the mind can rise.",
-    wisdom: "A tree that ignores its roots falls in the first storm.",
+      "You stop living in survival mode. Your body starts feeling rooted to finally support the mind to rise.",
+    wisdom:
+      "Old wisdom says: A tree that ignores its roots falls in the first storm.",
+    buttonText: "Begin your journey",
   },
   {
     id: "flow",
-    name: "Sacral Chakra",
-    title: "The Flow Journey",
+    name: "The Flow Journey",
+    title: "Svadhisthana Chakra",
     color: "#f97316",
     symbol: "/chakras/sacral-symbol.svg",
     chooseIf: [
-      "You feel emotionally numb or creatively blocked",
-      "Pleasure feels guilty",
-      "Relationships feel forced or draining",
-      "You overthink feelings instead of feeling them",
+      "You are unable to express emotions or often lack creativity (solutions) at work",
+      "You are unable to feel pleasure without feeling guilty",
+      "Relationships feel suffocating after sometime for no reason (also includes self- sabotaging relationships because of fear of real intimacy or co-dependency)",
+      "You are unable to come out of an overthinking spiral when it comes to feeling emotions (intense mood swings as well)",
+      "You are subconsciously giving access to people who you do not know properly (hypersexuality)",
+      "You also tend to subconsciously indulge in manipulative behaviours to have control over others",
     ],
+    teachesHeading: "What shifts this inner journey brings:",
     teaches:
-      "Life is meant to move. Suppressed emotion always leaks elsewhere.",
+      "You start allowing life to simply flow. Suppressed emotions are not a thing anymore, the unhealthy leakage of emotions stops and you feel emotions with space.",
     wisdom:
-      "Traditionally known as the seat of creation… not just art, but life-force itself.",
+      "Traditionally known as the seat of creation.. not just art, but life-force itself.",
+    buttonText: "Begin your journey",
   },
   {
     id: "power",
-    name: "Solar Plexus Chakra",
-    title: "The Power Journey",
+    name: "The Power Journey",
+    title: "Manipura Chakra",
     color: "#eab308",
     symbol: "/chakras/solar-plexus-symbol.svg",
     chooseIf: [
-      "You doubt yourself despite being capable",
-      "You give power away easily",
-      "Anger simmers beneath calmness",
-      "You struggle with boundaries",
+      "You are capable beyond measure but you still doubt your decisions a lot",
+      "You are very clumsy with giving power upon yourself, your feelings and emotions",
+      "You feel anger but do not understand how to express it properly until it converts into aggression (or into numbed calmness).",
+      "You are unable to set boundaries because you feel guilty for setting them",
+      "You are arrogant or egotistical with the knowledge you have",
+      "Perfectionism does not leave you- for yourself (harsh self-judgement) & others (my way or the highway)",
     ],
-    teaches: "Power is not domination. It's self-trust.",
+    teachesHeading: "What shifts this inner journey brings:",
+    teaches:
+      "For you- power is not domination anymore, it is now self-trust. A non-negotiable.",
     wisdom:
       "Ancient systems placed fire at the center for a reason…without it, nothing transforms.",
+    buttonText: "Begin your journey",
   },
   {
     id: "love",
-    name: "Heart Chakra",
-    title: "The Love Journey",
+    name: "The Compassion Journey",
+    title: "Anahata Chakra",
     color: "#22c55e",
     symbol: "/chakras/heart-symbol.svg",
     chooseIf: [
-      "You love deeply but protect heavily",
-      "Forgiveness feels impossible",
-      "You oscillate between attachment and detachment",
-      "You feel isolated even among people",
+      "You have different worlds- one with you in isolation with yAakaura Speaks, one with everyone else including loved ones",
+      "You love deeply but protect heavily (self sabotage) suddenly when it feels too real",
+      "You are not at all able to forgive those who did you wrong",
+      "You are always confused between getting attached and detached",
+      "You have a poor sense of self-love which results in jealousy, poor boundaries, obsession with your loved one(s), constant overthinking in love relations",
+      "You give way too much combined with levels of self-neglect which is not healthy",
     ],
-    teaches: "The heart is not weak. It's the bridge between earth and sky.",
+    teachesHeading: "What shifts this inner journey brings:",
+    teaches:
+      "Your heart is free to breathe now- no fear of vulnerability, only feeling of security, even when the weather is turbulent. It becomes the bridge between earth and sky- powerful beyond galaxies.",
     wisdom:
       "Traditionally, this was considered the balance point… where human meets divine.",
+    buttonText: "Begin your journey",
   },
   {
     id: "expression",
-    name: "Throat Chakra",
-    title: "The Truth Journey",
+    name: "The Truth Journey",
+    title: "Vishuddha Chakra",
     color: "#06b6d4",
     symbol: "/chakras/throat-symbol.svg",
     chooseIf: [
-      "You struggle to speak your truth",
-      "You're misunderstood often",
-      "You swallow words to keep peace",
-      "You express everything except how you really feel",
+      "You are unable to speak your truest feelings to even your closest people",
+      "You over-explain but still somehow feel misunderstood often",
+      "You feel swallowing words will help you keep the peace even among family",
+      "You express everything (even violently sometimes) except how you really feel (which makes you cry often in arguments)",
+      "You have a habit of talking excessively to dominate conversations or becoming verbally aggressive",
+      "You unintentionally interrupt others during discussions to prove a point; you love gossiping",
     ],
-    teaches: "Truth unspoken becomes tension stored.",
-    wisdom: "Old cultures believed words carry energy… silence does too.",
+    teachesHeading: "What shifts this inner journey brings:",
+    teaches:
+      "Your truth does not remain unspoken anymore. Your words become more balanced, perspective more nuanced and you are not party to the common ‘silent treatment.’",
+    wisdom: "Old cultures knew words carry energy… silence does too..",
+    buttonText: "Begin your journey",
   },
   {
     id: "insight",
-    name: "Third Eye Chakra",
-    title: "The Vision Journey",
+    name: "The Vision Journey",
+    title: "Third Eye Chakra",
     color: "#3b82f6",
     symbol: "/chakras/third-eye-symbol.svg",
     chooseIf: [
-      "You sense things but dismiss them",
-      "Logic dominates intuition",
-      "You feel disconnected from meaning",
-      "You seek answers outside instead of within",
+      "You sense things but dismiss them because of lack of trust in your own instincts",
+      "If a decision does not particularly follow logic but intuition, you are unsure of it",
+      "You feel disconnected from your higher purpose and are stagnant",
+      "You seek answers for validation outside instead of within; lack of inner compass",
+      "You overthink everything and you cannot sit in silence; quieting the mind is a task",
+      "You use spirituality as a bypass to avoid dealing with practical life or humans in general",
     ],
-    teaches: "Seeing isn't visual. It's perceptual.",
+    teachesHeading: "What this journey teaches:",
+    teaches:
+      "You stop seeing things for what they are supposed to be and become perceptual for what they are. Repeating patterns are no more an everyday thing, you take full control over your life decisions, personality and stability in relations.",
     wisdom: "Ancient science placed intuition above intellect, not against it.",
+    buttonText: "Begin your journey",
   },
   {
     id: "expansion",
-    name: "Crown Chakra",
-    title: "The Surrender Journey",
+    name: "The Surrender Journey",
+    title: "Crown Chakra",
     color: "#9333ea",
     symbol: "/chakras/crown-symbol.svg",
     chooseIf: [
-      "You're searching for purpose",
-      "Success feels hollow",
-      "You feel guided yet confused",
-      "You're ready to release control",
+      "You’re constantly searching for purpose but unable to find anything",
+      "Achievements leave you feeling hollow; success feels numbing",
+      "You feel guided yet confused and unsure of the path ahead",
+      "You have ‘programmed’ spirituality into your life resulting in total cut off from the external environment and responsibilities",
+      "You feel disconnected from everything, even your own body sometimes (insomnia or vivid dreams that do not let you sleep properly)",
+      "You’re ready to release control",
     ],
-    teaches: "You are not separate from existence.",
+    teachesHeading: "What this journey teaches:",
+    teaches:
+      "You finally realise that you are not separate from existence. You are the subtle cause for everything around you- this device, your breath, others’ actions- everything is revolving around you and you are the universe interacting with itself all the time.",
     wisdom:
       "Traditions never treated surrender as weakness, it was the highest intelligence.",
+    buttonText: "Begin your journey",
   },
 ];
 
@@ -202,6 +236,17 @@ function JourneySection({
                 >
                   {journey.name}
                 </motion.p>
+                {(journey as any).subtitle && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.45 }}
+                    className={`${fonts.mulish} text-white/60 text-lg italic mt-3 max-w-sm mx-auto md:mx-0`}
+                  >
+                    {(journey as any).subtitle}
+                  </motion.p>
+                )}
               </div>
             </div>
 
@@ -218,7 +263,7 @@ function JourneySection({
                 <h3
                   className={`${fonts.playfair} text-2xl font-medium text-[#BD9958]`}
                 >
-                  Choose this journey if:
+                  Do any of these feel like you?
                 </h3>
                 <ul className={`${fonts.mulish} space-y-3 text-white/80`}>
                   {journey.chooseIf.map((item, idx) => (
@@ -248,10 +293,19 @@ function JourneySection({
                 transition={{ duration: 0.6, delay: 1 }}
                 className="space-y-3"
               >
+                <div className="flex items-center gap-3 pt-2">
+                  <div
+                    className={`w-8 h-[1px]`}
+                    style={{ background: journey.color }}
+                  />
+                  <span className={`${fonts.mulish} text-white/50 italic`}>
+                    If yes,
+                  </span>
+                </div>
                 <h3
                   className={`${fonts.playfair} text-2xl font-medium text-[#BD9958]`}
                 >
-                  What this journey teaches:
+                  {journey.teachesHeading}
                 </h3>
                 <p
                   className={`${fonts.mulish} text-white/90 text-lg leading-relaxed`}
@@ -300,7 +354,7 @@ function JourneySection({
                   <span
                     className={`${fonts.mulish} relative z-10 text-[#BD9958] group-hover:text-white tracking-widest uppercase text-sm font-medium transition-colors duration-300`}
                   >
-                    Begin This Journey
+                    This feels like me
                   </span>
 
                   <svg
@@ -392,6 +446,62 @@ export default function JourneysPage() {
         </motion.div>
       </section>
 
+      {/* Intro Section */}
+      <section className="py-20 relative z-10">
+        <Container className="max-w-4xl mx-auto text-center space-y-8">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={`${fonts.playfair} text-3xl md:text-5xl text-[#BD9958] font-light`}
+          >
+            Congratulations! Welcome back to consciousness.
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className={`${fonts.mulish} text-white/80 text-lg md:text-xl leading-relaxed space-y-6`}
+          >
+            <p>
+              A chakra (vital energy centers located along the human spine) can
+              either be in excess energy or deficit energy. It should be
+              balanced (a little difficult in this oversimulated world but who
+              doesn&apos;t like challenges? Especially when it comes to inner
+              work.) Let&apos;s see!
+            </p>
+
+            <div className="relative p-8 md:p-12 rounded-3xl bg-gradient-to-br from-[#BD9958]/10 to-transparent border border-[#BD9958]/20 backdrop-blur-sm text-center max-w-3xl mx-auto shadow-2xl">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#27190B] px-6 rounded-full border border-[#BD9958]/20 shadow-sm">
+                <span className="text-[#BD9958] tracking-[0.2em] uppercase text-xs font-semibold py-1 block">
+                  Small Note
+                </span>
+              </div>
+
+              <div className="space-y-6 text-white/90 text-lg md:text-xl font-light flex flex-col items-center mt-2">
+                <p className="leading-relaxed opacity-90">
+                  We are spiritual beings having a human experience.
+                  <br />
+                  We don’t “become spiritual” overnight.
+                  <br />
+                  We don’t heal everything at once.
+                  <br />
+                  And we don’t need to understand energy to feel it.
+                </p>
+
+                <div className="w-16 h-[1px] bg-[#BD9958]/40 my-2"></div>
+
+                <p className="leading-relaxed font-medium text-[#BD9958] italic text-xl md:text-2xl">
+                  What matters is honesty about where we are right now.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </Container>
+      </section>
+
       {/* Journey Sections */}
       {journeys.map((journey, index) => (
         <JourneySection key={journey.id} journey={journey} index={index} />
@@ -429,7 +539,7 @@ export default function JourneysPage() {
                 href="/quiz"
                 className={`${fonts.mulish} inline-block px-8 py-4 bg-[#BD9958] text-[#27190B] rounded-full text-lg font-medium tracking-wide hover:bg-[#BD9958]/90 transition-colors`}
               >
-                Take the Quiz
+                Check your energy level
               </a>
             </motion.div>
           </motion.div>

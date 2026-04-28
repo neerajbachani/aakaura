@@ -68,3 +68,69 @@ export const sendWaitlistEmail = async ({ userEmail, productName }: SendWaitlist
         return { success: false, error };
     }
 };
+
+export const sendOrderConfirmationEmail = async (orderData: any, userEmail: string, userName: string) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT) || 587,
+            secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
+            },
+        });
+
+        // Send email to customer
+        const customerMailOptions = {
+            from: process.env.SMTP_USER,
+            to: userEmail,
+            subject: `Order Confirmation - ${orderData.orderNumber}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+                    <h2 style="color: #BD9958;">Order Confirmation</h2>
+                    <p>Hello ${userName || 'Customer'},</p>
+                    <p>Thank you for your order! Your order <strong>${orderData.orderNumber}</strong> has been confirmed.</p>
+                    <p>Order Total: ₹${orderData.total}</p>
+                    <p>We will notify you once it ships.</p>
+                    <p>Best regards,<br>The Aakaura Team</p>
+                </div>
+            `,
+        };
+
+        // Send email to admin
+        const adminEmail = process.env.ADMIN_CONTACT_EMAIL;
+        const adminMailOptions = {
+            from: process.env.SMTP_USER,
+            to: adminEmail,
+            subject: `New Order Received - ${orderData.orderNumber}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+                    <h2 style="color: #27190b;">New Order Received</h2>
+                    <p>A new order has been placed.</p>
+                    <ul>
+                        <li><strong>Order Number:</strong> ${orderData.orderNumber}</li>
+                        <li><strong>Customer Email:</strong> ${userEmail}</li>
+                        <li><strong>Total:</strong> ₹${orderData.total}</li>
+                    </ul>
+                </div>
+            `,
+        };
+
+        const results = await Promise.allSettled([
+            transporter.sendMail(customerMailOptions),
+            ...(adminEmail ? [transporter.sendMail(adminMailOptions)] : []),
+        ]);
+
+        results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+                console.error(`Failed to send order email to ${index === 0 ? 'customer' : 'admin'}:`, result.reason);
+            }
+        });
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error sending order emails:', error);
+        return { success: false, error };
+    }
+};

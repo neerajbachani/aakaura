@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { chakras, to, message, from } = body;
+    const { chakras, to, message, from, bouquetBase, flowerPositions } = body;
 
     if (!chakras || !Array.isArray(chakras) || chakras.length < 6 || chakras.length > 10) {
       return NextResponse.json(
@@ -28,6 +28,8 @@ export async function POST(req: Request) {
         to,
         message,
         from,
+        bouquetBase: bouquetBase || null,
+        flowerPositions: flowerPositions || null,
       },
     });
 

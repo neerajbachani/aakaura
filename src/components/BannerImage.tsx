@@ -12,80 +12,94 @@ const chakrasConfig = [
   {
     id: "grounding",
     slug: "grounding",
-    name: "Root",
-    sanskrit: "Mulādhāra",
+    name: "Root Chakra",
+    sanskrit: "Muladhara (Constant stress)",
+    devanagari: "मूलाधार",
     color: "#ef4444",
     shadow: "rgba(239,68,68,0.6)",
     image: "/chakras/root-symbol.svg",
     position: "lower-right",
     info: "The right to exist.\nThis is where survival becomes stillness.\nWhere fear learns discipline and chaos learns loyalty.\nWhen this chakra is awake, life stops feeling like a constant emergency.",
+    shortInfo: "You ground",
   },
   {
     id: "flow",
     slug: "flow",
-    name: "Sacral",
-    sanskrit: "Svādhiṣṭhāna",
+    name: "Sacral Chakra",
+    sanskrit: "Swadhisthana (Feeling disconnected)",
+    devanagari: "स्वाधिष्ठान",
     color: "#f97316",
     shadow: "rgba(249,115,22,0.6)",
     image: "/chakras/sacral-symbol.svg",
     position: "lower-left",
     offsetX: "-10%",
     info: "The right to feel.\nThis chakra doesn't beg permission to flow.\nBlocked sacral energy dries life into routine.\nCreation begins here; pleasure, emotion, intimacy, art.\nIt knows that softness is not weakness; it is intelligence in motion.",
+    shortInfo: "Feel deeply",
   },
   {
     id: "power",
     slug: "power",
-    name: "Solar Plexus",
-    sanskrit: "Maṇipūra",
+    name: "Solar Plexus Chakra",
+    sanskrit: "Manipura (Low confidence)",
+    devanagari: "मणिपुर",
     color: "#eab308",
     shadow: "rgba(234,179,8,0.6)",
     image: "/chakras/solar-plexus-symbol.svg",
     position: "middle-right",
     info: "The right to act.\nFire of will. Seat of self-respect.\nThis is where intention turns into direction.\nA balanced Maṇipūra doesn't dominate; it decides.",
+    shortInfo: "Power stabilizes",
   },
   {
     id: "love",
     slug: "love",
-    name: "Heart",
-    sanskrit: "Anāhata",
+    name: "Heart Chakra",
+    sanskrit: "Anahata (Emotional heaviness)",
+    devanagari: "अनाहत",
     color: "#22c55e",
     shadow: "rgba(34,197,94,0.6)",
     image: "/chakras/heart-symbol.svg",
     position: "middle-left",
     info: "The right to love.\nNot romance. Not attachment.\nAn open heart doesn't leak energy; it circulates it.\nThis is love as frequency: steady, forgiving, expansive.",
+    shortInfo: "You soften",
   },
   {
     id: "expression",
     slug: "expression",
-    name: "Throat",
-    sanskrit: "Viśuddha",
+    name: "Throat Chakra",
+    sanskrit: "Vishuddhi (Can’t express)",
+    devanagari: "विशुद्ध",
     color: "#06b6d4",
     shadow: "rgba(6,182,212,0.6)",
     image: "/chakras/throat-symbol.svg",
     position: "upper-right",
     info: "The right to speak the truth.\nWhen aligned, words carry weight, not noise.\nWhen blocked, truth suffocates into compliance.\nExpression without distortion. Silence without fear.\nThis chakra governs honesty-with others and with the self.",
+    shortInfo: "Truth flows",
   },
   {
     id: "insight",
     slug: "insight",
-    name: "Third Eye",
-    sanskrit: "Ājñā",
+    name: "Third Eye Chakra",
+    sanskrit: "Ajna (Something feels off)",
+    devanagari: "आज्ञा",
     color: "#3b82f6",
     shadow: "rgba(59,130,246,0.6)",
     image: "/chakras/third-eye-symbol.svg",
     position: "upper-left",
     info: "The right to see.\nBeyond logic. Beyond conditioning.\nOnce open, the illusion loses its grip.\nĀjñā doesn't predict the future; it recognises patterns.",
+    shortInfo: "Clarity begins",
   },
   {
     id: "expansion",
     slug: "expansion",
-    name: "Crown",
-    sanskrit: "Sahasrāra",
+    name: "Crown Chakra",
+    sanskrit: "Sahasrara (Overthinking)",
+    devanagari: "सहस्रार",
     color: "#9333ea",
     shadow: "rgba(147,51,234,0.9)",
     image: "/chakras/crown-symbol.svg",
     position: "center",
     info: 'Not escape. Not superiority.\nUnion. Stillness. Witnessing.\nThe right to know you are more.\nThis chakra dissolves the question of "why me?"\nHere, surrender becomes the highest form of power.',
+    shortInfo: "Awareness expands",
   },
 ];
 
@@ -107,15 +121,15 @@ function ChakraCircle({
 
   return (
     <div className="flex flex-col items-center gap-2 relative group">
-      {/* Sanskrit Name - Above Icon (Desktop Only) */}
+      {/* Short Info - Above Icon (Desktop Only) */}
       {!isMobile && (
         <p
-          className={`text-lg md:text-2xl font-light italic tracking-wide transition-opacity duration-300 ${
+          className={`text-sm md:text-lg font-medium tracking-wide transition-opacity duration-300 ${
             isHovered ? "opacity-100" : "opacity-0"
           }`}
           style={{ color: chakra.color }}
         >
-          {chakra.sanskrit}
+          {(chakra as any).shortInfo}
         </p>
       )}
 
@@ -173,22 +187,32 @@ function ChakraCircle({
           >
             <Image
               src={chakra.image}
-              alt={`${chakra.name} Chakra`}
+              alt={chakra.name}
               fill
               className="object-contain"
             />
           </div>
         </div>
       </div>
-      <p
-        className="text-sm md:text-xl leading-relaxed font-medium"
+      <div
+        className="flex flex-col items-center gap-1 mt-2"
         style={{
-          color: chakra.color,
           transform: `translateX(${(chakra as any).offsetX || "0"})`,
         }}
       >
-        {chakra.name}
-      </p>
+        <p
+          className="text-xs md:text-sm font-medium opacity-90"
+          style={{ color: chakra.color }}
+        >
+          {(chakra as any).devanagari}
+        </p>
+        <p
+          className="text-xs md:text-xl leading-relaxed font-normal opacity-80"
+          style={{ color: chakra.color }}
+        >
+          {chakra.name}
+        </p>
+      </div>
     </div>
   );
 }
@@ -246,7 +270,7 @@ export default function BannerImage() {
   };
 
   return (
-    <section className="min-h-[90vh] bg-transparent flex items-center justify-center px-4 relative">
+    <section className="min-h-[100vh] bg-transparent flex items-center justify-center px-4 relative">
       <style jsx>{`
         @keyframes fadeIn {
           from {
@@ -285,7 +309,20 @@ export default function BannerImage() {
       `}</style>
 
       {/* Main Layout - Spread Pattern (Visible on all screens) */}
-      <div className="flex flex-col items-center gap-2 w-full relative z-10">
+      <div className="flex flex-col items-center gap-2 w-full max-w-7xl mx-auto relative z-10 pt-16 md:pt-0">
+        {/* Header Lines */}
+        <div className="text-center mb-10 md:mb-16 animate-fadeIn z-20 px-4 max-w-4xl mx-auto">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl text-[#BD9958] font-light mb-2 tracking-wide">
+            Welcome to Aakaura
+          </h1>
+          <p className="text-base md:text-xl text-[#BD9958]/80 mb-6 font-light">
+            (आकर to your aura);
+          </p>
+          <p className="text-sm md:text-lg text-[#BD9958] font-medium tracking-widest uppercase">
+            we do not create magical tools; we seek the magic within.
+          </p>
+        </div>
+
         {/* Center - Crown Chakra */}
         {centerChakra && (
           <div className="flex justify-center">
@@ -300,7 +337,7 @@ export default function BannerImage() {
         )}
 
         {/* Upper Row */}
-        <div className="flex justify-between w-full max-w-xl">
+        <div className="flex justify-between w-[65%]">
           {upperChakras.map((chakra) => (
             <ChakraCircle
               key={chakra.id}
@@ -314,7 +351,7 @@ export default function BannerImage() {
         </div>
 
         {/* Middle Row with Central Info Display */}
-        <div className="flex justify-between w-full max-w-[60rem] relative">
+        <div className="flex justify-between w-[85%] relative">
           {middleChakras.map((chakra) => (
             <ChakraCircle
               key={chakra.id}
@@ -351,25 +388,28 @@ export default function BannerImage() {
         </div>
 
         {/* Lower Row */}
-        <div className="flex justify-between items-end w-full max-w-[80rem] relative">
+        <div className="flex items-end w-full relative">
+          {/* Left chakra - pinned to left */}
           {lowerChakras[0] && (
-            <ChakraCircle
-              chakra={lowerChakras[0]}
-              onNavigate={handleNavigation}
-              onHover={setHoveredChakra}
-              isMobile={isMobile}
-              onClick={() => setSelectedChakra(lowerChakras[0])}
-            />
+            <div className="flex-shrink-0">
+              <ChakraCircle
+                chakra={lowerChakras[0]}
+                onNavigate={handleNavigation}
+                onHover={setHoveredChakra}
+                isMobile={isMobile}
+                onClick={() => setSelectedChakra(lowerChakras[0])}
+              />
+            </div>
           )}
 
-          {/* Central CTA - Begin Where You Are (Desktop Only) */}
+          {/* CTA - absolutely centered relative to the full row */}
           <Link
             href="/journey"
-            className="hidden md:flex group relative flex-col items-center justify-center gap-2 mb-4 hover:scale-105 transition-transform duration-500"
+            className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-4 group flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-500"
           >
             <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
               <span className="relative z-10 font-cormorant text-2xl text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
-                Begin Where You Are
+                Start with what you feel
               </span>
 
               {/* Shine Effect */}
@@ -381,14 +421,20 @@ export default function BannerImage() {
             </span>
           </Link>
 
+          {/* Spacer to push right chakra to the edge */}
+          <div className="flex-1" />
+
+          {/* Right chakra - pinned to right */}
           {lowerChakras[1] && (
-            <ChakraCircle
-              chakra={lowerChakras[1]}
-              onNavigate={handleNavigation}
-              onHover={setHoveredChakra}
-              isMobile={isMobile}
-              onClick={() => setSelectedChakra(lowerChakras[1])}
-            />
+            <div className="flex-shrink-0">
+              <ChakraCircle
+                chakra={lowerChakras[1]}
+                onNavigate={handleNavigation}
+                onHover={setHoveredChakra}
+                isMobile={isMobile}
+                onClick={() => setSelectedChakra(lowerChakras[1])}
+              />
+            </div>
           )}
         </div>
 
@@ -399,7 +445,7 @@ export default function BannerImage() {
         >
           <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
             <span className="relative z-10 font-cormorant text-lg text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
-              Begin Where You Are
+              Start with what you feel
             </span>
 
             {/* Shine Effect */}

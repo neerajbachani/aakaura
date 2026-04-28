@@ -99,10 +99,15 @@ function IntroStep({ onStart }: { onStart: () => void }) {
         </div>
       </div> */}
 
-      <div className="space-y-4 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-6 md:p-8 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm">
-        <p>No prior understanding of chakras is needed.</p>
-        <p>No right or wrong answers exist.</p>
-        <p>Just choose what feels most true in the moment.</p>
+      <div className="space-y-6 text-base md:text-lg lg:text-2xl text-[#F5E6D3]/80 bg-[#F5E6D3]/05 p-8 md:p-10 rounded-2xl border border-[#F5E6D3]/10 backdrop-blur-sm font-light">
+        <p>
+          There is no right or wrong choice here.<br />
+          Only the most honest one.
+        </p>
+        <p>
+          Start where you are.<br />
+          We’ll meet you there.
+        </p>
       </div>
 
       <div className="flex items-center justify-center gap-3 pt-2">

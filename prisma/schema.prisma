@@ -319,10 +319,12 @@ model QuizAnswer {
 }
 
 model Bouquet {
-  id        String   @id @default(uuid())
-  chakras   String[] // List of selected chakra slugs
-  to        String
-  message   String
-  from      String
-  createdAt DateTime @default(now())
+  id              String   @id @default(uuid())
+  chakras         String[] // List of selected chakra slugs
+  to              String
+  message         String
+  from            String
+  bouquetBase     String?
+  flowerPositions Json?
+  createdAt       DateTime @default(now())
 }

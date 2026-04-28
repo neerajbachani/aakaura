@@ -18,10 +18,7 @@ export default function AboutHeader() {
 
   return (
     // CHANGED: Reduced height on mobile to speed up scroll-based animation
-    <div
-      ref={containerRef}
-      className="relative h-[250vh] sm:h-[400vh] lg:h-[500vh]"
-    >
+    <div ref={containerRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen min-h-[100dvh] overflow-hidden">
         {/* Aurora Background */}
         <div className="absolute inset-0 w-full h-full">
@@ -96,7 +93,7 @@ export default function AboutHeader() {
 
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/quiz" className="block w-full">
-                      Quiz
+                      Check your energy level
                     </Link>
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
@@ -117,6 +114,15 @@ export default function AboutHeader() {
             >
               NOT ANOTHER ESCAPE.
             </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-center text-[#BD9958] font-cormorant text-xl md:text-3xl mt-4 md:mt-8 tracking-[0.1em] uppercase max-w-4xl mx-auto px-4"
+            >
+              We don’t sell energy. We make people aware of it.
+            </motion.p>
           </div>
         </div>
       </div>

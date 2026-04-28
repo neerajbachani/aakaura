@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getOptimizedCloudinaryUrl } from "@/utils/cloudinaryDelivery";
 import { motion } from "framer-motion";
 import { ChakraData, JourneyProduct } from "@/data/chakras";
 import {
@@ -200,7 +201,7 @@ export function JourneyProductPanel({
           transition={{ duration: 0.5 }}
         >
           <img
-            src={displayImage}
+            src={getOptimizedCloudinaryUrl(displayImage)}
             alt={activeVariant ? activeVariant.name : product.name}
             className="w-full h-full object-cover"
             style={{ objectPosition: "center center" }}
@@ -292,7 +293,7 @@ export function JourneyProductPanel({
                   }`}
                 >
                   <img
-                    src={thumbSrc}
+                    src={getOptimizedCloudinaryUrl(thumbSrc, 200)}
                     alt={`View ${i + 1}`}
                     className="w-full h-full object-cover"
                   />
@@ -364,6 +365,11 @@ export function JourneyProductPanel({
                   <h2 className="text-lg md:text-xl text-center">
                     {product.name.toUpperCase()}
                   </h2>
+                  {product.sanskritName && (
+                    <p className="text-xs md:text-sm font-light opacity-80 mt-1 text-center max-w-xs">
+                      {product.sanskritName}
+                    </p>
+                  )}
                   <span className="text-sm md:text-base opacity-70 tracking-widest mt-1">
                     {product.price}
                   </span>
@@ -382,7 +388,7 @@ export function JourneyProductPanel({
                   }}
                   className="hover:opacity-70 text-lg md:text-2xl transition-opacity border-b border-white/50 pb-1 order-3"
                 >
-                  VIEW DESCRIPTION{" "}
+                  How to Use This{" "}
                   <span>
                     <ArrowUpCircleIcon className="w-4 h-4" />
                   </span>
@@ -395,6 +401,11 @@ export function JourneyProductPanel({
                   <h2 className="text-lg md:text-xl text-center md:text-left">
                     {product.name.toUpperCase()}
                   </h2>
+                  {product.sanskritName && (
+                    <p className="text-xs md:text-sm font-light opacity-80 mt-1 text-center md:text-left max-w-xs">
+                      {product.sanskritName}
+                    </p>
+                  )}
                   <span className="text-sm md:text-base opacity-70 tracking-widest mt-1">
                     {product.price}
                   </span>
@@ -412,7 +423,7 @@ export function JourneyProductPanel({
                   }}
                   className="hover:opacity-70 flex items-center gap-2 transition-opacity border-b border-white/50 mb-4 order-2"
                 >
-                  VIEW DESCRIPTION
+                  How to Use This
                   <ArrowUpRightIcon className="w-4 h-4" />
                 </button>
               </>

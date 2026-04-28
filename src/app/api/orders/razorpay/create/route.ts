@@ -6,6 +6,12 @@ import { z } from 'zod';
 
 const createRazorpayOrderSchema = z.object({
   total: z.number().min(1),
+  items: z.array(z.any()).optional(),
+  customerInfo: z.object({
+    name: z.string(),
+    email: z.string(),
+    phone: z.string(),
+  }).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -21,7 +27,7 @@ export async function POST(request: NextRequest) {
     jwt.verify(token, process.env.JWT_SECRET!);
 
     const body = await request.json();
-    const { total } = createRazorpayOrderSchema.parse(body);
+    const { total, items, customerInfo } = createRazorpayOrderSchema.parse(body);
 
     if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
       return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 });
@@ -32,11 +38,21 @@ export async function POST(request: NextRequest) {
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
-    const options = {
+    const options: any = {
       amount: Math.round(total * 100), // amount in the smallest currency unit
       currency: 'INR',
       receipt: `rcpt_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
     };
+
+    if (items || customerInfo) {
+      options.notes = {
+        customer_name: customerInfo?.name || 'N/A',
+        customer_email: customerInfo?.email || 'N/A',
+        customer_phone: customerInfo?.phone || 'N/A',
+        item_count: items?.length?.toString() || '0',
+        items_summary: items?.map((i: any) => `${i.productId}(${i.quantity})`).join(', ').substring(0, 250) || 'N/A',
+      };
+    }
 
     const order = await razorpay.orders.create(options);
 

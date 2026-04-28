@@ -24,6 +24,17 @@ export default function CartPage() {
     }
   };
 
+  const handleContinueShopping = () => {
+    if (typeof window !== 'undefined' && window.sessionStorage.getItem('returnFromCheckout') === 'true') {
+      window.sessionStorage.removeItem('returnFromCheckout');
+      router.push('/products');
+    } else if (window.history.length > 2) {
+      router.back();
+    } else {
+      router.push('/products');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#27190B] py-8 pt-24">
@@ -87,7 +98,7 @@ export default function CartPage() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => window.history.length > 2 ? router.back() : router.push('/products')}
+            onClick={handleContinueShopping}
             className="inline-flex items-center text-[#BD9958] hover:text-[#FFD700] mb-4 transition-colors font-cormorant text-lg"
           >
             <ArrowLeftIcon className="h-5 w-5 mr-2" />
@@ -161,7 +172,7 @@ export default function CartPage() {
                   </Link>
                   
                   <button
-                    onClick={() => window.history.length > 2 ? router.back() : router.push('/products')}
+                    onClick={handleContinueShopping}
                     className="w-full bg-transparent border border-[#BD9958]/50 text-[#BD9958] px-6 py-4 rounded-md font-medium hover:bg-[#BD9958]/10 transition-colors text-center block"
                   >
                     Continue Shopping

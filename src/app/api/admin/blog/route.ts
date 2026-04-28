@@ -24,7 +24,8 @@ export const POST = errorHandler(async (req: Request) => {
       throw new ApiError("Cover Image is required", 400);
     }
 
-    const imageUrl = await uploadToCloudinary(file);
+    const uploadResult = await uploadToCloudinary(file);
+    const imageUrl = uploadResult.secure_url;
 
     const validation = blogSchema.safeParse({
       title,

@@ -41,6 +41,10 @@ export async function PATCH(
                                 parseFloat(
                                     (product.price || '0').toString().replace(/[^0-9.]/g, '')
                                 ) || 0;
+                            const offerPriceNum =
+                                product.offerPrice
+                                    ? parseFloat((product.offerPrice.toString() || '').replace(/[^0-9.]/g, '')) || null
+                                    : null;
 
                             return prisma.product.upsert({
                                 where: { id: product.id },
@@ -49,6 +53,7 @@ export async function PATCH(
                                     description: product.description || '',
                                     images: product.images || [],
                                     price: priceNum,
+                                    offerPrice: offerPriceNum,
                                 },
                                 create: {
                                     id: product.id,
@@ -58,6 +63,7 @@ export async function PATCH(
                                         `Imported from ${journey.name} Journey`,
                                     images: product.images || [],
                                     price: priceNum,
+                                    offerPrice: offerPriceNum,
                                     categoryId: defaultCategory?.id || '',
                                     isFeatured: false,
                                 },

@@ -97,7 +97,15 @@ export default function CheckoutPage() {
       const response = await fetch("/api/orders/razorpay/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ total: orderData.total }),
+        body: JSON.stringify({ 
+          total: orderData.total,
+          items: orderData.items,
+          customerInfo: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            phone: formData.phone,
+          }
+        }),
       });
 
       const rzpData = await response.json();
@@ -120,6 +128,16 @@ export default function CheckoutPage() {
             // 3. Verify on backend & create order
             const finalOrderData = {
               ...orderData,
+              shippingDetails: {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                address: formData.address,
+                city: formData.city,
+                state: formData.state,
+                zipCode: formData.zipCode,
+                country: formData.country,
+                phone: formData.phone,
+              },
               razorpayPaymentId: paymentResponse.razorpay_payment_id,
               razorpayOrderId: paymentResponse.razorpay_order_id,
               razorpaySignature: paymentResponse.razorpay_signature,
@@ -210,6 +228,7 @@ export default function CheckoutPage() {
           <div className="mb-10">
             <Link
               href="/cart"
+              onClick={() => sessionStorage.setItem('returnFromCheckout', 'true')}
               className="inline-flex items-center text-[#BD9958] hover:text-[#FFD700] mb-4 transition-colors font-cormorant text-lg"
             >
               <ArrowLeftIcon className="h-5 w-5 mr-2" />

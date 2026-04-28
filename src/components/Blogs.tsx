@@ -16,7 +16,7 @@ interface BlogsProps {
   blogs: Blog[];
 }
 
-export default function Blogs({ title = "Our Thoughts", blogs }: BlogsProps) {
+export default function Blogs({ title = "Aakaura Speaks", blogs }: BlogsProps) {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);

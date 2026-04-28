@@ -78,7 +78,7 @@ export function CartSummary({
 
         {hasDiscount && (
           <div className="text-sm text-green-400 text-right mt-1">
-            You save ₹{savings.toFixed(2)}
+            You are already saving ₹{savings.toFixed(2)}
           </div>
         )}
       </div>

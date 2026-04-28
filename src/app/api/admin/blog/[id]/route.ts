@@ -31,7 +31,8 @@ export const PATCH = errorHandler(
 
       let imageUrl: string | undefined;
       if (file && file instanceof Blob) {
-        imageUrl = await uploadToCloudinary(file);
+        const uploadResult = await uploadToCloudinary(file);
+        imageUrl = uploadResult.secure_url;
       }
 
       const updatedData: Partial<BlogUpdateData> = {};

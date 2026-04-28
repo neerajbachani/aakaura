@@ -37,15 +37,15 @@ export const POST = errorHandler(async (req: Request) => {
       throw new ApiError("At least one image is required", 400);
     }
 
-    // Upload all images to Cloudinary
-    const imageUrls = await Promise.all(
-      imageFiles.map(async (file) => {
-        if (!(file instanceof Blob)) {
-          throw new ApiError("Invalid image file", 400);
-        }
-        return await uploadToCloudinary(file, "products");
-      })
-    );
+    // Upload all images to Cloudinary sequentially
+    const imageUrls: string[] = [];
+    for (const file of imageFiles) {
+      if (!(file instanceof Blob)) {
+        throw new ApiError("Invalid image file", 400);
+      }
+      const result = await uploadToCloudinary(file, "products");
+      imageUrls.push(result.secure_url);
+    }
 
     const validation = productSchema.safeParse({
       name,

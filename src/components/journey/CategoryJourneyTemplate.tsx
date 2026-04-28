@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { getOptimizedCloudinaryUrl } from "@/utils/cloudinaryDelivery";
 import { ChakraData, JourneyProduct } from "@/data/chakras";
 import { useRevealer } from "@/hooks/useRevealer";
 import gsap from "gsap";
@@ -230,7 +231,9 @@ function WaitlistButtonLarge({
 
   const handleClick = () => {
     if (!isAuthenticated) {
-      toast.error(`Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`);
+      toast.error(
+        `Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`,
+      );
       onAuthRequired();
       return;
     }
@@ -511,14 +514,14 @@ export default function CategoryJourneyTemplate({
         style={{ willChange: "opacity, transform" }}
       >
         <img
-          src={
-            expandedCard !== null && items[expandedCard]
+          src={getOptimizedCloudinaryUrl(
+            (expandedCard !== null && items[expandedCard]
               ? activeBgImage ||
                 items[expandedCard].product.variants?.[0]?.image ||
                 items[expandedCard].product.images?.[0] ||
-                undefined
-              : undefined
-          }
+                ""
+              : "") as string,
+          )}
           alt=""
           className={`w-full h-full object-cover transition-opacity duration-500 ${
             expandedCard !== null ? "opacity-100" : "opacity-0"
@@ -610,17 +613,28 @@ export default function CategoryJourneyTemplate({
                     <XMarkIcon className="w-8 h-8 text-[#f4f1ea]" />
                   </button>
 
+                  {/* Vertical Disclaimer (Desktop) */}
+                  <div className="absolute left-4 md:left-8 bottom-12 z-50 origin-bottom-left -rotate-90 hidden md:block">
+                    <Link
+                      href="/policies/disclaimers"
+                      className="text-[0.67rem] font-light tracking-[0.1em] opacity-30 hover:opacity-100 transition-opacity text-[#f4f1ea] uppercase whitespace-nowrap"
+                    >
+                      *Design Protected. Unauthorized copying or reproduction is
+                      strictly prohibited.
+                    </Link>
+                  </div>
+
                   {/* Scrollable Content */}
                   <div
                     className="overflow-y-auto h-full p-8 md:p-16 custom-scrollbar overscroll-y-contain"
                     data-lenis-prevent
                   >
                     <div className="max-w-5xl mx-auto">
-                      {/* Disclaimer */}
-                      <div className="mb-6 text-left">
+                      {/* Disclaimer (Mobile) */}
+                      <div className="mb-6 text-left md:hidden">
                         <Link
                           href="/policies/disclaimers"
-                          className="text-xs font-light md:text-base opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
+                          className="text-xs font-light opacity-50 hover:opacity-100 transition-opacity text-[#f4f1ea] italic"
                         >
                           *Design Protected. Unauthorized copying or
                           reproduction is strictly prohibited.
@@ -660,14 +674,21 @@ export default function CategoryJourneyTemplate({
 
                       {/* Header */}
                       <div className="mb-12 border-b border-[#f4f1ea]/20 pb-8 text-center md:text-left">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                          <div>
-                            <h2 className="text-4xl md:text-6xl font-cormorant font-light mb-2 text-[#f4f1ea]">
+                        {product.cardTagline && (
+                          <p className="text-xl md:text-2xl font-light italic text-[#BD9958] mb-6">
+                            {product.cardTagline}
+                          </p>
+                        )}
+                        <div className="flex flex-col gap-4 w-full">
+                          <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-2 md:gap-4">
+                            <h2 className="text-4xl md:text-6xl font-cormorant font-light text-[#f4f1ea]">
                               {product.name}
                             </h2>
-                            <p className="text-2xl md:text-3xl font-cormorant font-light mb-4 text-[#f4f1ea] opacity-80">
+                            <p className="text-2xl md:text-3xl font-cormorant font-light text-[#f4f1ea] opacity-80 whitespace-nowrap">
                               {product.price}
                             </p>
+                          </div>
+                          <div>
                             <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
                               {product.sanskritName}
                             </p>
@@ -687,9 +708,9 @@ export default function CategoryJourneyTemplate({
                             className="text-[#f4f1ea]"
                           >
                             <h3 className="text-base uppercase tracking-widest font-bold mb-6 opacity-60">
-                              Description
+                              Meaning Behind
                             </h3>
-                            <p className="font-light text-xl leading-relaxed">
+                            <p className="font-light text-xl leading-relaxed whitespace-pre-line">
                               {product.specificDescription ||
                                 product.description}
                             </p>
@@ -963,7 +984,13 @@ export default function CategoryJourneyTemplate({
                       </div>
 
                       {/* Footer Action */}
-                      <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col md:flex-row gap-4 justify-center items-center">
+                      <div className="mt-16 pt-8 border-t border-[#f4f1ea]/20 flex flex-col items-center gap-8">
+                        <div className="max-w-2xl text-center">
+                          <p className="text-[#f4f1ea] opacity-70 font-light text-base md:text-lg leading-relaxed italic">
+                            "This is not a magical object that changes your life overnight. If you don’t shift your awareness, this won’t either. Join the Aakaura Community."
+                          </p>
+                        </div>
+                        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
                         <WaitlistButtonLarge
                           product={product}
                           journeySlug={chakra?.slug || "unknown"}
@@ -988,6 +1015,7 @@ export default function CategoryJourneyTemplate({
                             View all {chakra.name}
                           </Link>
                         )}
+                        </div>
                       </div>
 
                       {/* Suggested Products (Other products in the same category) */}
@@ -1029,11 +1057,12 @@ export default function CategoryJourneyTemplate({
                                   (item.product.variants &&
                                     item.product.variants[0]?.image) ? (
                                     <img
-                                      src={
+                                      src={getOptimizedCloudinaryUrl(
                                         item.product.variants?.[0]?.image ||
-                                        item.product.images?.[0] ||
-                                        ""
-                                      }
+                                          item.product.images?.[0] ||
+                                          "",
+                                        400,
+                                      )}
                                       alt={item.product.name}
                                       className="w-full h-full object-cover"
                                     />
@@ -1105,7 +1134,10 @@ export default function CategoryJourneyTemplate({
 
       {/* Related Categories Section */}
       {relatedCategories}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </div>
   );
 }

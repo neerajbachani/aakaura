@@ -61,14 +61,14 @@ export default async function Home() {
         <ProductsSwiper products={featuredProducts} title="Featured Products" />
       </Container> */}
       {/* Featured Blogs Section */}
-     
 
-      <AboutHeader/>
-      <BlogSection/>
+      <AboutHeader />
+      <ScrollTransition />
+      <BlogSection />
       {/* <HumanBranches /> */}
-      <ScrollTransition/>
-      <AnimatedText/>
-      {/* {featuredBlogs && <Blogs title="Our Thoughts" blogs={featuredBlogs} />} */}
+
+      <AnimatedText />
+      {/* {featuredBlogs && <Blogs title="Aakaura Speaks" blogs={featuredBlogs} />} */}
 
       {/* About/Our Story Section */}
       {/* <OurPath /> */}

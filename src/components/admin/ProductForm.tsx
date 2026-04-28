@@ -47,7 +47,9 @@ export default function ProductForm({
     sanskritName: string;
     description: string;
     specificDescription: string;
+    cardTagline: string;
     price: string;
+    offerPrice: string;
     // ethos: string;
     // whatItsFor: string;
     features: string[];
@@ -83,7 +85,9 @@ export default function ProductForm({
     sanskritName: "",
     description: "",
     specificDescription: "",
+    cardTagline: "",
     price: "",
+    offerPrice: "",
     // ethos: "",
     // whatItsFor: "",
     features: [""],
@@ -132,7 +136,9 @@ export default function ProductForm({
         sanskritName: initialData.sanskritName || "",
         description: initialData.description || "",
         specificDescription: initialData.specificDescription || "",
+        cardTagline: initialData.cardTagline || "",
         price: initialData.price || "",
+        offerPrice: initialData.offerPrice || "",
         // ethos: initialData.ethos || "",
         // whatItsFor: initialData.whatItsFor || "",
         features:
@@ -474,6 +480,9 @@ export default function ProductForm({
             )
           : undefined,
       category: formData.category.trim() || undefined,
+      price: formData.price.trim(),
+      offerPrice: formData.offerPrice.trim() || undefined,
+      cardTagline: formData.cardTagline.trim() || undefined,
       symbolism: formData.symbolism.trim() || undefined,
       languageEngraving: formData.languageEngraving.trim() || undefined,
       designBreakdown: formData.designBreakdown.trim() || undefined,
@@ -637,6 +646,23 @@ export default function ProductForm({
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
+              Discount / Offer Price
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={formData.offerPrice}
+                onChange={(e) => handleChange("offerPrice", e.target.value)}
+                placeholder="₹3,500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              Leave blank if no discount. This calculates the 'You are currently saving' text in the cart.
+            </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Sanskrit Name
             </label>
             <input
@@ -660,6 +686,19 @@ export default function ProductForm({
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             required
             placeholder="Brief overview shown on cards"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Card Tagline (Optional)
+          </label>
+          <input
+            type="text"
+            value={formData.cardTagline}
+            onChange={(e) => handleChange("cardTagline", e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            placeholder="e.g. For when your mind feels loud… and you need silence."
           />
         </div>
 

@@ -98,14 +98,6 @@ export default function Navbar({
   }, [isMenuOpen]);
 
   const navItems = [
-    {
-      title: "Hi!",
-      submenuItems: [{ name: "About us :)", href: "/about" }],
-    },
-    {
-      title: "Read On",
-      submenuItems: [{ name: "Aakaura Speaks", href: "/blogs" }],
-    },
     // {
     //   title: "Journey",
     //   submenuItems: [
@@ -117,7 +109,6 @@ export default function Navbar({
     //     { name: "Sacral", href: "/journey/sacral" },
     //     { name: "Root", href: "/journey/root" },
     //   ],
-    // },
     // },
     {
       title: "Product Categories",
@@ -326,6 +317,34 @@ export default function Navbar({
                 transition={{ delay: 0.3, duration: 0.3 }}
                 className="py-4 md:py-6 divide-y divide-primaryBrown/10"
               >
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ delay: 0.35, duration: 0.3 }}
+                >
+                  <Link
+                    href="/about"
+                    onClick={closeMenu}
+                    className="block px-6 py-4 text-xl md:text-2xl text-[#27190b] hover:text-primaryRed"
+                  >
+                    About us :)
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ delay: 0.40, duration: 0.3 }}
+                >
+                  <Link
+                    href="/blogs"
+                    onClick={closeMenu}
+                    className="block px-6 py-4 text-xl md:text-2xl text-[#27190b] hover:text-primaryRed"
+                  >
+                    Aakaura Speaks
+                  </Link>
+                </motion.div>
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.title}
@@ -350,7 +369,7 @@ export default function Navbar({
                     onClick={closeMenu}
                     className={`block py-2 text-[#27190b] text-lg hover:text-primaryRed`}
                   >
-                    Begin Where You Are
+                    Start with what you feel
                   </Link>
                   <Link
                     href="/cart"
