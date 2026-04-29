@@ -19,7 +19,7 @@ export default function ScrollTransition() {
   const blocksContent = [
     "At Aakaura, we collaborate closely with skilled Indian artisans across India..craftspeople whose knowledge has been passed down through generations. Each piece is shaped slowly, intentionally, and with pride; honouring both the maker and the material.",
     "By bringing traditional craftsmanship into contemporary forms, we aim to preserve cultural wisdom, restore confidence in handmade work, and build livelihoods that are sustainable, dignified, and deeply human.",
-    "We work with form, earth, and silence. Not to change you, but to remove what never belonged. Everything here is made slowly. Because energy doesn’t respond to urgency."
+    "We work with form, earth, and silence. Not to change you, but to remove what never belonged. Everything here is made slowly. Because energy doesn’t respond to urgency.",
   ];
 
   useLayoutEffect(() => {
@@ -183,7 +183,7 @@ export default function ScrollTransition() {
     "/images/artisan/artisan-4.png",
     "/images/artisan/artisan-5.png",
     "/images/artisan/artisan-9.jpeg",
-    "/images/artisan/artisan-7.jpg",
+    // "/images/artisan/artisan-7.jpg",
     "/images/artisan/artisan-8.jpg",
   ];
   // Triplicate the items
