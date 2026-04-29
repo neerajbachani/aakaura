@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { getUserFromRequest } from '@/lib/auth';
 import { addressSchema } from '@/lib/validations/auth';
 import { z } from 'zod';
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // Optional fields for update
 const updateAddressSchema = addressSchema.partial();

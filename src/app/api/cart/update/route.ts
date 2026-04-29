@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 const updateCartSchema = z.object({
   cartItemId: z.string().min(1),
