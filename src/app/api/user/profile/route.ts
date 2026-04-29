@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 import { getUserFromRequest } from '@/lib/auth';
 import { updateProfileSchema } from '@/lib/validations/auth';
 
-import { prisma } from "@/lib/prisma";
+const prisma = new PrismaClient();
 
 // Get user profile
 export async function GET(request: NextRequest) {

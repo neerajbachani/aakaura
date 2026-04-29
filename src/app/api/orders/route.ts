@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 import crypto from 'crypto';
 import { sendOrderConfirmationEmail } from '@/lib/email';
 
-import { prisma } from "@/lib/prisma";
+const prisma = new PrismaClient();
 
 const createOrderSchema = z.object({
   items: z.array(z.object({

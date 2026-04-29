@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
-import { prisma } from "@/lib/prisma";
+const prisma = new PrismaClient();
 
 // Get user cart
 export async function GET() {
