@@ -161,6 +161,16 @@ const BUSH_OPTIONS = [
   "/bouquet/bush-4.png",
 ];
 
+const DEFAULT_CHAKRA_MESSAGES: Record<string, string> = {
+  "root": "Sending you root chakra grounding and stability energy",
+  "sacral": "Sending you sacral chakra flow and emotional energy",
+  "solar-plexus": "Sending you solar plexus chakra confidence and power energy",
+  "heart": "Sending you heart chakra healing energy",
+  "throat": "Sending you throat chakra clarity and expression energy",
+  "third-eye": "Sending you third eye chakra clarity and insight energy",
+  "crown": "Sending you crown chakra awareness and alignment energy",
+};
+
 // ─── Pyramid rows (for Step 1 layout) ────────────────────────────────────────
 
 // Replaced PYRAMID_ROWS with direct layout inspired by BannerImage for dynamic pyramid widths
@@ -339,6 +349,7 @@ export default function BouquetCreationPage() {
       setFlowers([]);
       flowerPositionsRef.current = {};
       nextUidRef.current = 0;
+      setFormData(prev => ({ ...prev, message: DEFAULT_CHAKRA_MESSAGES[id] || "" }));
     }
     setSelectedChakraId(id);
     setStep(2);
@@ -808,7 +819,7 @@ export default function BouquetCreationPage() {
                           setFormData({ ...formData, from: e.target.value })
                         }
                         className={inputClasses}
-                        placeholder="Sincerely, Secret Admirer"
+                        placeholder="Sincerely, Your Name"
                       />
                     </div>
                   </div>

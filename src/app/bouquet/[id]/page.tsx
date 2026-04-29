@@ -125,7 +125,7 @@ export default function BouquetViewPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[600px] bg-gradient-to-b from-amber-500/10 via-[#BD9958]/10 to-transparent blur-[100px] pointer-events-none rounded-full max-w-2xl" />
 
       <h1 className="text-4xl md:text-5xl text-center text-[#BD9958] font-cormorant mb-16 tracking-widest relative z-10">
-        A Gift of Energy
+        A Gift of Energy from Aakaura
       </h1>
 
       <div className="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10 mb-20 px-0 md:px-8 xl:px-0">
