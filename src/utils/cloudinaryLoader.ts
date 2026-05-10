@@ -15,7 +15,7 @@ export default function cloudinaryLoader({
   if (src.includes("res.cloudinary.com")) {
     return src.replace(
       /\/image\/upload\/(v\d+\/)?/,
-      `/image/upload/f_auto,q_${quality || "auto"},w_${width}/$1`
+      `/image/upload/c_limit,f_auto,q_${quality || "auto"},w_${width}/$1`
     );
   }
 
@@ -30,5 +30,5 @@ export default function cloudinaryLoader({
     return src;
   }
 
-  return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_${quality || "auto"},w_${width}/${src}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/c_limit,f_auto,q_${quality || "auto"},w_${width}/${src}`;
 }

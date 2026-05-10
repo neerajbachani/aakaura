@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import Script from 'next/script';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaWhatsapp } from 'react-icons/fa';
+import { useEffect, useRef, useState, useCallback } from "react";
+import Script from "next/script";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaWhatsapp } from "react-icons/fa";
 
 interface AnimatedTextProps {
   text?: string;
   className?: string;
 }
 
-type PaymentStatus = 'idle' | 'loading' | 'verifying' | 'success' | 'error';
+type PaymentStatus = "idle" | "loading" | "verifying" | "success" | "error";
 
 export default function AnimatedText({
   text = "Still searching? Your search ends now.",
-  className = ""
+  className = "",
 }: AnimatedTextProps) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
@@ -22,12 +22,12 @@ export default function AnimatedText({
 
   const [mounted, setMounted] = useState(false);
   const [showButton, setShowButton] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   // Explicit direction sets
-  const upChars = new Set(['S', 'o', ',']);
-  const downChars = new Set(['a', 'r', 'e']);
+  const upChars = new Set(["S", "o", ","]);
+  const downChars = new Set(["a", "r", "e"]);
 
   useEffect(() => {
     setMounted(true);
@@ -67,7 +67,7 @@ export default function AnimatedText({
 
       // Horizontal translate
       const totalWidth = textWrapper.scrollWidth;
-      const targetTranslateX = (windowWidth / 2) - totalWidth;
+      const targetTranslateX = windowWidth / 2 - totalWidth;
       const translateX = scrollProgress * targetTranslateX;
 
       textWrapper.style.transform = `translate3d(${translateX}px, 0, 0)`;
@@ -96,12 +96,12 @@ export default function AnimatedText({
         const rawFactor = Math.max(0, Math.min(1, distance / fadeRange));
         const amplitudeFactor = rawFactor * rawFactor;
 
-        let sign = (index % 2 === 0) ? 1 : -1;
-        const char = (letter.textContent || '').trim();
+        let sign = index % 2 === 0 ? 1 : -1;
+        const char = (letter.textContent || "").trim();
         if (upChars.has(char)) sign = -1;
         if (downChars.has(char)) sign = 1;
 
-        const phase = (scrollProgress * 1.5) + (index * staggerBase);
+        const phase = scrollProgress * 1.5 + index * staggerBase;
         const angle = phase * Math.PI * frequency;
 
         const y = Math.sin(angle) * baseAmplitude * amplitudeFactor * sign;
@@ -122,45 +122,45 @@ export default function AnimatedText({
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', updateAnimation);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", updateAnimation);
     updateAnimation();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateAnimation);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateAnimation);
     };
   }, [mounted, upChars, downChars]);
 
   const handleJoinInnerCircle = useCallback(async () => {
-    setPaymentStatus('loading');
-    setErrorMsg('');
+    setPaymentStatus("loading");
+    setErrorMsg("");
 
     try {
       // Step 1: Create Razorpay order
-      const res = await fetch('/api/inner-circle/create', { method: 'POST' });
+      const res = await fetch("/api/inner-circle/create", { method: "POST" });
       const rzpData = await res.json();
 
       if (!res.ok) {
-        setErrorMsg(rzpData.error || 'Failed to initialize payment');
-        setPaymentStatus('error');
+        setErrorMsg(rzpData.error || "Failed to initialize payment");
+        setPaymentStatus("error");
         return;
       }
 
-      const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
+      const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "";
 
       // Step 2: Open Razorpay modal
       const options = {
         key: keyId,
         amount: rzpData.amount,
         currency: rzpData.currency,
-        name: 'Aakaura',
+        name: "Aakaura",
         description: "Join the Inner Circle — ₹5 Entry Fee",
         order_id: rzpData.id,
-        theme: { color: '#BD9958' },
+        theme: { color: "#BD9958" },
         modal: {
           ondismiss: () => {
-            setPaymentStatus('idle');
+            setPaymentStatus("idle");
           },
         },
         handler: async (paymentResponse: {
@@ -168,13 +168,13 @@ export default function AnimatedText({
           razorpay_order_id: string;
           razorpay_signature: string;
         }) => {
-          setPaymentStatus('verifying');
+          setPaymentStatus("verifying");
 
           // Step 3: Verify on server and get WhatsApp link
           try {
-            const verifyRes = await fetch('/api/inner-circle/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            const verifyRes = await fetch("/api/inner-circle/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 razorpay_payment_id: paymentResponse.razorpay_payment_id,
                 razorpay_order_id: paymentResponse.razorpay_order_id,
@@ -185,41 +185,58 @@ export default function AnimatedText({
             const verifyData = await verifyRes.json();
 
             if (verifyData.success && verifyData.redirectUrl) {
-              setPaymentStatus('success');
+              setPaymentStatus("success");
               setTimeout(() => {
-                window.open(verifyData.redirectUrl, '_blank', 'noopener,noreferrer');
+                window.open(
+                  verifyData.redirectUrl,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
               }, 800);
             } else {
-              setErrorMsg(verifyData.error || 'Payment verification failed');
-              setPaymentStatus('error');
+              setErrorMsg(verifyData.error || "Payment verification failed");
+              setPaymentStatus("error");
             }
           } catch {
-            setErrorMsg('Verification failed. Please contact support.');
-            setPaymentStatus('error');
+            setErrorMsg("Verification failed. Please contact support.");
+            setPaymentStatus("error");
           }
         },
       };
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const RazorpayConstructor = (window as unknown as { Razorpay: new (opts: typeof options) => { open: () => void; on: (event: string, cb: (r: { error: { description: string } }) => void) => void } }).Razorpay;
+      const RazorpayConstructor = (
+        window as unknown as {
+          Razorpay: new (opts: typeof options) => {
+            open: () => void;
+            on: (
+              event: string,
+              cb: (r: { error: { description: string } }) => void,
+            ) => void;
+          };
+        }
+      ).Razorpay;
       const rzp = new RazorpayConstructor(options);
-      rzp.on('payment.failed', (response: { error: { description: string } }) => {
-        setErrorMsg(response.error.description || 'Payment failed');
-        setPaymentStatus('error');
-      });
+      rzp.on(
+        "payment.failed",
+        (response: { error: { description: string } }) => {
+          setErrorMsg(response.error.description || "Payment failed");
+          setPaymentStatus("error");
+        },
+      );
       rzp.open();
 
-      setPaymentStatus('idle'); // Reset while modal is open (handler takes over)
+      setPaymentStatus("idle"); // Reset while modal is open (handler takes over)
     } catch {
-      setErrorMsg('Something went wrong. Please try again.');
-      setPaymentStatus('error');
+      setErrorMsg("Something went wrong. Please try again.");
+      setPaymentStatus("error");
     }
   }, []);
 
   // Split text into letters and spaces
   const renderText = () => {
-    return text.split('').map((char, index) => {
-      if (char === ' ') {
+    return text.split("").map((char, index) => {
+      if (char === " ") {
         return <span key={index} className="inline-block w-[0.3em]" />;
       }
       return (
@@ -236,16 +253,19 @@ export default function AnimatedText({
     });
   };
 
-  const isLoading = paymentStatus === 'loading' || paymentStatus === 'verifying';
+  const isLoading =
+    paymentStatus === "loading" || paymentStatus === "verifying";
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="lazyOnload"
+      />
 
       {/* Pin wrapper */}
       <div ref={pinWrapperRef} className="h-[400vh] relative">
         <div className="sticky top-0 w-screen h-screen flex items-center overflow-hidden bg-[#27190B] text-white">
-
           {/* Scrolling text */}
           <div
             ref={textWrapperRef}
@@ -279,9 +299,17 @@ export default function AnimatedText({
                 <motion.button
                   id="inner-circle-join-btn"
                   onClick={handleJoinInnerCircle}
-                  disabled={isLoading || paymentStatus === 'success'}
-                  whileHover={!isLoading && paymentStatus !== 'success' ? { scale: 1.04 } : {}}
-                  whileTap={!isLoading && paymentStatus !== 'success' ? { scale: 0.97 } : {}}
+                  disabled={isLoading || paymentStatus === "success"}
+                  whileHover={
+                    !isLoading && paymentStatus !== "success"
+                      ? { scale: 1.04 }
+                      : {}
+                  }
+                  whileTap={
+                    !isLoading && paymentStatus !== "success"
+                      ? { scale: 0.97 }
+                      : {}
+                  }
                   className={`
                     relative group overflow-hidden
                     flex items-center justify-center gap-2 md:gap-3
@@ -289,15 +317,16 @@ export default function AnimatedText({
                     text-[11px] sm:text-xs md:text-base font-semibold tracking-widest uppercase whitespace-nowrap
                     transition-all duration-300 shadow-xl
                     border border-[#BD9958]/60
-                    ${paymentStatus === 'success'
-                      ? 'bg-emerald-900/60 border-emerald-400/60 text-emerald-300 cursor-default'
-                      : 'bg-[#150f08]/90 backdrop-blur-md text-[#BD9958] hover:border-[#BD9958] hover:shadow-[0_0_28px_rgba(189,153,88,0.35)] cursor-pointer'
+                    ${
+                      paymentStatus === "success"
+                        ? "bg-emerald-900/60 border-emerald-400/60 text-emerald-300 cursor-default"
+                        : "bg-[#150f08]/90 backdrop-blur-md text-[#BD9958] hover:border-[#BD9958] hover:shadow-[0_0_28px_rgba(189,153,88,0.35)] cursor-pointer"
                     }
                     disabled:opacity-60 disabled:cursor-wait
                   `}
                 >
                   {/* Shimmer sweep on hover */}
-                  {paymentStatus !== 'success' && (
+                  {paymentStatus !== "success" && (
                     <span
                       className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent pointer-events-none"
                       aria-hidden="true"
@@ -305,14 +334,39 @@ export default function AnimatedText({
                   )}
 
                   {/* Icon */}
-                  {paymentStatus === 'success' ? (
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  {paymentStatus === "success" ? (
+                    <svg
+                      className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   ) : isLoading ? (
-                    <svg className="w-4 h-4 md:w-5 md:h-5 animate-spin text-[#BD9958] shrink-0" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    <svg
+                      className="w-4 h-4 md:w-5 md:h-5 animate-spin text-[#BD9958] shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      />
                     </svg>
                   ) : (
                     <FaWhatsapp className="w-4 h-4 md:w-5 md:h-5 text-[#BD9958] shrink-0" />
@@ -320,18 +374,24 @@ export default function AnimatedText({
 
                   {/* Label */}
                   <span className="truncate flex items-center">
-                    {paymentStatus === 'success' ? 'Welcome to the Circle' : 
-                     paymentStatus === 'verifying' ? 'Verifying…' : 
-                     paymentStatus === 'loading' ? 'Preparing…' : (
+                    {paymentStatus === "success" ? (
+                      "Welcome to the Circle"
+                    ) : paymentStatus === "verifying" ? (
+                      "Verifying…"
+                    ) : paymentStatus === "loading" ? (
+                      "Preparing…"
+                    ) : (
                       <>
-                        <span className="hidden sm:inline">Join the Aakaura Inner Circle</span>
+                        <span className="hidden sm:inline">
+                          Join the Aakaura Inner Circle
+                        </span>
                         <span className="sm:hidden">Join Inner Circle</span>
                       </>
                     )}
                   </span>
 
                   {/* Price tag — shown in idle state only */}
-                  {(paymentStatus === 'idle' || paymentStatus === 'error') && (
+                  {(paymentStatus === "idle" || paymentStatus === "error") && (
                     <span className="ml-0.5 md:ml-1 px-1.5 md:px-2 py-0.5 rounded-full bg-[#BD9958]/20 text-[#BD9958] text-[10px] md:text-xs font-bold tracking-normal border border-[#BD9958]/40 shrink-0">
                       ₹5
                     </span>
@@ -339,20 +399,21 @@ export default function AnimatedText({
                 </motion.button>
 
                 {/* Fine print */}
-                {(paymentStatus === 'idle' || paymentStatus === 'error') && (
+                {(paymentStatus === "idle" || paymentStatus === "error") && (
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.4 }}
                     className="text-[#BD9958]/50 text-[10px] md:text-xs text-center tracking-wide px-2 max-w-[95vw] drop-shadow-sm"
                   >
-                    ₹5 entry fee · Redirected to WhatsApp after payment
+                    ₹5 energy exchange fee · Redirected to WhatsApp after
+                    payment
                   </motion.p>
                 )}
 
                 {/* Error message */}
                 <AnimatePresence>
-                  {paymentStatus === 'error' && errorMsg && (
+                  {paymentStatus === "error" && errorMsg && (
                     <motion.p
                       key="error"
                       initial={{ opacity: 0, y: -4 }}
@@ -367,7 +428,7 @@ export default function AnimatedText({
 
                 {/* Success hint */}
                 <AnimatePresence>
-                  {paymentStatus === 'success' && (
+                  {paymentStatus === "success" && (
                     <motion.p
                       key="success"
                       initial={{ opacity: 0, y: -4 }}
@@ -382,7 +443,6 @@ export default function AnimatedText({
               </motion.div>
             )}
           </AnimatePresence>
-
         </div>
       </div>
     </>

@@ -81,17 +81,6 @@ export default function AboutHeader() {
               <div className="mt-8 sm:mt-12 flex gap-10 text-lg text-white lg:mt-0 lg:flex">
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3 sm:gap-x-8 sm:gap-y-2 lg:block lg:space-y-2 font-cormorant text-base sm:text-lg lg:text-xl">
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    <Link href="/about" className="block w-full">
-                      About Us
-                    </Link>
-                  </li>
-                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
-                    <Link href="/vision" className="block w-full">
-                      The Vision
-                    </Link>
-                  </li>
-
-                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/quiz" className="block w-full">
                       Quick Energy Level Check
                     </Link>
@@ -99,6 +88,17 @@ export default function AboutHeader() {
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/journey" className="block w-full">
                       Start with what you feel
+                    </Link>
+                  </li>
+
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    <Link href="/vision" className="block w-full">
+                      The Vision
+                    </Link>
+                  </li>
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    <Link href="/about" className="block w-full">
+                      About Us
                     </Link>
                   </li>
                 </ul>
