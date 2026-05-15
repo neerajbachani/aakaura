@@ -658,7 +658,8 @@ export default function ProductForm({
               />
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              Leave blank if no discount. This calculates the 'You are currently saving' text in the cart.
+              Leave blank if no discount. This calculates the 'You are currently
+              saving' text in the cart.
             </p>
           </div>
           <div>
@@ -688,7 +689,7 @@ export default function ProductForm({
             placeholder="Brief overview shown on cards"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Card Tagline (Optional)

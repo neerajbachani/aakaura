@@ -87,7 +87,7 @@ export default function AboutHeader() {
                   </li>
                   <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
                     <Link href="/journey" className="block w-full">
-                      Start with what you feel
+                      Start With What You Feel
                     </Link>
                   </li>
 

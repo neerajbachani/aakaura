@@ -409,7 +409,7 @@ export default function BannerImage() {
           >
             <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
               <span className="relative z-10 font-cormorant text-2xl text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
-                Start with what you feel
+                Start With What You Feel
               </span>
 
               {/* Shine Effect */}
@@ -445,7 +445,7 @@ export default function BannerImage() {
         >
           <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
             <span className="relative z-10 font-cormorant text-lg text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
-              Start with what you feel
+              Start With What You Feel
             </span>
 
             {/* Shine Effect */}

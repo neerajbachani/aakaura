@@ -335,7 +335,7 @@ export default function Navbar({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
-                  transition={{ delay: 0.40, duration: 0.3 }}
+                  transition={{ delay: 0.4, duration: 0.3 }}
                 >
                   <Link
                     href="/blogs"
@@ -369,7 +369,7 @@ export default function Navbar({
                     onClick={closeMenu}
                     className={`block py-2 text-[#27190b] text-lg hover:text-primaryRed`}
                   >
-                    Start with what you feel
+                    Start With What You Feel
                   </Link>
                   <Link
                     href="/cart"

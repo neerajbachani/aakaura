@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyAdminToken } from "@/middleware/auth";
+import { createShiprocketOrder } from "@/lib/shiprocket";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const adminUser = await verifyAdminToken(request);
     if (!adminUser) {
@@ -13,7 +15,7 @@ export async function GET(
     }
 
     const order = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         user: {
           select: {
@@ -60,8 +62,9 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const adminUser = await verifyAdminToken(request);
     if (!adminUser) {
@@ -107,7 +110,7 @@ export async function PATCH(
     }
 
     const updatedOrder = await prisma.order.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
       include: {
         user: {
@@ -137,6 +140,56 @@ export async function PATCH(
         }
       }
     });
+
+    // If order was marked as CONFIRMED, create the Shiprocket order
+    if (status === "CONFIRMED" && !updatedOrder.shiprocketOrderId) {
+      try {
+        const shiprocketResponse = await createShiprocketOrder(updatedOrder as any);
+        
+        if (shiprocketResponse?.order_id || shiprocketResponse?.shipment_id) {
+          const finalOrder = await prisma.order.update({
+            where: { id },
+            data: {
+              shiprocketOrderId: shiprocketResponse.order_id ? String(shiprocketResponse.order_id) : null,
+              shiprocketShipmentId: shiprocketResponse.shipment_id ? String(shiprocketResponse.shipment_id) : null,
+            },
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  phone: true
+                }
+              },
+              items: {
+                include: {
+                  product: {
+                    select: {
+                      id: true,
+                      name: true,
+                      images: true
+                    }
+                  },
+                  variation: {
+                    select: {
+                      id: true,
+                      name: true
+                    }
+                  }
+                }
+              }
+            }
+          });
+          return NextResponse.json({ order: finalOrder, shiprocketMessage: "Order successfully pushed to Shiprocket." });
+        }
+      } catch (shiprocketError: any) {
+        console.error("Failed to push to Shiprocket:", shiprocketError);
+        return NextResponse.json(
+          { order: updatedOrder, warning: `Order confirmed but failed to sync to Shiprocket: ${shiprocketError.message}` }
+        );
+      }
+    }
 
     return NextResponse.json({ order: updatedOrder });
 

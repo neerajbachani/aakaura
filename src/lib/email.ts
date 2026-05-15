@@ -81,19 +81,33 @@ export const sendOrderConfirmationEmail = async (orderData: any, userEmail: stri
             },
         });
 
+        const firstItem = orderData.items?.[0];
+        const productName = firstItem?.productName || 'Product';
+        const productType = firstItem?.variationName || 'Item';
+        const productPrice = orderData.total;
+        
+        let journeyName = 'Aakaura';
+        if (firstItem?.product?.category?.name) {
+            journeyName = firstItem.product.category.name.replace(/ Journey/i, '').trim();
+        } else if (productName && productName.toLowerCase().includes('journey')) {
+            journeyName = productName.split(' ')[0];
+        }
+
         // Send email to customer
         const customerMailOptions = {
             from: process.env.SMTP_USER,
             to: userEmail,
             subject: `Order Confirmation - ${orderData.orderNumber}`,
             html: `
-                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-                    <h2 style="color: #BD9958;">Order Confirmation</h2>
-                    <p>Hello ${userName || 'Customer'},</p>
-                    <p>Thank you for your order! Your order <strong>${orderData.orderNumber}</strong> has been confirmed.</p>
-                    <p>Order Total: ₹${orderData.total}</p>
-                    <p>We will notify you once it ships.</p>
-                    <p>Best regards,<br>The Aakaura Team</p>
+                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333; line-height: 1.6;">
+                    <p>Dear ${userName || 'Customer'},</p>
+                    <p>Thank you for your interest in ‘${productName}’ from Aakaura! 🌍❤️</p>
+                    <p>The ${journeyName} Journey at Aakaura is a great choice! (given you did read our premium detailing section nicely :)! )<br>
+                    We are glad to inform you that, the ‘${productName}’ ${productType} is now available and ready to energise your home at just ₹${productPrice}/-.</p>
+                    <p>To confirm your order, kindly reply to this mail with your WhatsApp contact number and address, or contact us at +91 8619029656.</p>
+                    <p>Thank you for your patience and for choosing Aakaura. 😃</p>
+                    <p>Best regards,<br>The Aakaura Team (+91 8619029656)</p>
+                    <p>Welcome back to consciousness. 🎊</p>
                 </div>
             `,
         };

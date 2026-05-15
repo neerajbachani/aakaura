@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 const createOrderSchema = z.object({
   items: z.array(z.object({
     productId: z.string().min(1),
-    variationId: z.string().min(1).optional(),
+    variationId: z.string().nullable().optional(),
     quantity: z.number().int().min(1),
     price: z.number().min(0),
   })),
@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
     const body = await request.json();
+    console.log('Incoming order payload:', JSON.stringify(body, null, 2));
     
     const validatedData = createOrderSchema.parse(body);
     const { items, total, shippingDetails, razorpayPaymentId, razorpayOrderId, razorpaySignature } = validatedData;
@@ -63,6 +64,7 @@ export async function POST(request: NextRequest) {
       if (expectedSignature === razorpaySignature) {
         paymentStatus = 'PAID';
       } else {
+        console.error('Invalid payment signature', { expectedSignature, razorpaySignature });
         return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 });
       }
     }
@@ -74,6 +76,7 @@ export async function POST(request: NextRequest) {
         data: {
           orderNumber: `ORD-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`,
           userId: decoded.userId,
+          subtotal: items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
           total,
           status: 'PENDING',
           paymentStatus,
@@ -137,6 +140,9 @@ export async function POST(request: NextRequest) {
                 id: true,
                 name: true,
                 images: true,
+                category: {
+                  select: { name: true }
+                }
               },
             },
             variation: {
@@ -157,6 +163,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(completeOrder, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error('Validation error for order payload:', error.errors);
       return NextResponse.json({ error: 'Invalid request data', details: error.errors }, { status: 400 });
     }
     

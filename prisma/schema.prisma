@@ -161,6 +161,10 @@ model Order {
   customerNotes   String?
   adminNotes      String?
   
+  // Shiprocket Tracking
+  shiprocketOrderId    String?
+  shiprocketShipmentId String?
+  
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 }
