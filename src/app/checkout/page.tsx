@@ -78,6 +78,18 @@ export default function CheckoutPage() {
       return;
     }
 
+    const hasBonsaiProduct = cart.items.some(
+      (item: any) => item.product.category?.name?.toLowerCase() === "bonsai"
+    );
+
+    if (hasBonsaiProduct) {
+      const isJaipurPincode = formData.zipCode.startsWith("302") || formData.zipCode.startsWith("303");
+      if (!isJaipurPincode) {
+        toast.error("Bonsai products can only be delivered within Jaipur (Pincodes starting with 302 or 303).");
+        return;
+      }
+    }
+
     try {
       const orderData = {
         items: cart.items.map((item) => ({
@@ -104,6 +116,7 @@ export default function CheckoutPage() {
             name: `${formData.firstName} ${formData.lastName}`,
             email: formData.email,
             phone: formData.phone,
+            zipCode: formData.zipCode,
           }
         }),
       });

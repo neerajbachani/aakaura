@@ -11,6 +11,7 @@ const createRazorpayOrderSchema = z.object({
     name: z.string(),
     email: z.string(),
     phone: z.string(),
+    zipCode: z.string().optional(),
   }).optional(),
 });
 
@@ -28,6 +29,24 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const { total, items, customerInfo } = createRazorpayOrderSchema.parse(body);
+
+    if (items && items.length > 0) {
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
+      const productIds = items.map((i: any) => i.productId);
+      const products = await prisma.product.findMany({
+        where: { id: { in: productIds } },
+        include: { category: true }
+      });
+
+      const hasBonsai = products.some((p: any) => p.category?.name?.toLowerCase() === 'bonsai');
+      if (hasBonsai) {
+        const zipCode = customerInfo?.zipCode || '';
+        if (!zipCode.startsWith('302') && !zipCode.startsWith('303')) {
+          return NextResponse.json({ error: 'Bonsai products are only available for delivery in Jaipur (Pincodes 302* and 303*).' }, { status: 400 });
+        }
+      }
+    }
 
     if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
       return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 });

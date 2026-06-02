@@ -69,6 +69,24 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Validate bonsai restriction before transaction
+    const productIds = items.map(i => i.productId);
+    const checkProducts = await prisma.product.findMany({
+      where: { id: { in: productIds } },
+      include: { category: true }
+    });
+
+    const hasBonsai = checkProducts.some(p => p.category?.name?.toLowerCase() === 'bonsai');
+    if (hasBonsai) {
+      const zipCode = shippingDetails?.zipCode || '';
+      if (!zipCode.startsWith('302') && !zipCode.startsWith('303')) {
+        return NextResponse.json(
+          { error: 'Bonsai products are only available for delivery in Jaipur (Pincodes 302* and 303*).' }, 
+          { status: 400 }
+        );
+      }
+    }
+
     // Create order with items in a transaction
     const order = await prisma.$transaction(async (tx) => {
       // Create the order
