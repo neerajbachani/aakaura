@@ -12,6 +12,8 @@ export interface Combo {
   images: string[];
   mobileImages: string[];
   externalLinks?: { label: string; url: string }[];
+  price?: number | null;
+  offerPrice?: number | null;
   products: ComboProduct[];
   createdAt: string;
   updatedAt: string;

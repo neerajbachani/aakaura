@@ -1,22 +1,43 @@
+import { Combo } from "@/types/Combo";
+
 export interface CartItem {
   id: string;
   userId: string;
-  productId: string;
-  variationId?: string;
+  productId?: string | null;
+  comboId?: string | null;
+  variationId?: string | null;
   quantity: number;
-  product: {
+  product?: {
     id: string;
     name: string;
     images: string[];
     price: number;
-    offerPrice?: number;
-  };
+    offerPrice?: number | null;
+    category?: { name: string };
+  } | null;
+  combo?: {
+    id: string;
+    name: string;
+    images: string[];
+    price?: number | null;
+    offerPrice?: number | null;
+    products?: {
+      quantity: number;
+      product: { price: number; offerPrice?: number | null };
+      variation?: { price?: number | null; offerPrice?: number | null } | null;
+    }[];
+  } | null;
   variation?: {
     id: string;
     name: string;
-    price?: number;
-    offerPrice?: number;
+    price?: number | null;
+    offerPrice?: number | null;
     inStock: boolean;
+  } | null;
+  /** Resolved at API layer for combo rows */
+  comboPricing?: {
+    original: number;
+    effective: number;
   };
   createdAt: Date;
   updatedAt: Date;
@@ -30,7 +51,8 @@ export interface Cart {
 }
 
 export interface AddToCartRequest {
-  productId: string;
+  productId?: string;
+  comboId?: string;
   variationId?: string;
   quantity: number;
 }
@@ -45,14 +67,16 @@ export interface RemoveFromCartRequest {
 }
 
 export interface GuestCartItem {
-  productId: string;
+  productId?: string;
+  comboId?: string;
   variationId?: string;
   quantity: number;
 }
 
 export interface CreateOrderRequest {
   items: {
-    productId: string;
+    productId?: string;
+    comboId?: string;
     variationId?: string;
     quantity: number;
     price: number;
@@ -67,7 +91,7 @@ export interface Order {
   id: string;
   userId: string;
   total: number;
-  status: 'PENDING' | 'CONFIRMED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+  status: "PENDING" | "CONFIRMED" | "SHIPPED" | "DELIVERED" | "CANCELLED";
   items: OrderItem[];
   createdAt: Date;
 }
@@ -75,17 +99,21 @@ export interface Order {
 export interface OrderItem {
   id: string;
   orderId: string;
-  productId: string;
-  variationId?: string;
+  productId?: string | null;
+  comboId?: string | null;
+  variationId?: string | null;
   quantity: number;
   price: number;
-  product: {
+  comboName?: string | null;
+  comboImage?: string | null;
+  product?: {
     id: string;
     name: string;
     images: string[];
-  };
+  } | null;
+  combo?: Combo | null;
   variation?: {
     id: string;
     name: string;
-  };
+  } | null;
 }

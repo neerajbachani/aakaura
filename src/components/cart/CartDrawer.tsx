@@ -39,8 +39,21 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const cartCategories = useMemo(() => {
     if (!cart?.items) return [];
     return [
-      ...new Set(cart.items.map((item) => item.product.categoryId)),
-    ].filter(Boolean);
+      ...new Set(
+        cart.items
+          .map((item) => item.product?.categoryId)
+          .filter(Boolean),
+      ),
+    ] as string[];
+  }, [cart?.items]);
+
+  const cartProductIds = useMemo(() => {
+    if (!cart?.items) return new Set<string>();
+    return new Set(
+      cart.items
+        .map((item) => item.productId ?? item.product?.id)
+        .filter(Boolean) as string[],
+    );
   }, [cart?.items]);
 
   const { data: suggestions } = useQuery({
@@ -59,11 +72,11 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     if (!suggestions || !cart?.items) return [];
 
     // Use a Set for fast lookup of product IDs already in the cart
-    const cartProductIds = new Set(cart.items.map((item) => item.product.id));
+    const cartProductIdsSet = cartProductIds;
 
     // Filter out items already in cart
     let availableSuggestions = suggestions.filter(
-      (p) => !cartProductIds.has(p.id),
+      (p) => !cartProductIdsSet.has(p.id),
     );
 
     // If we have categories in cart, prioritize items from those categories
@@ -81,7 +94,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
     // Return top 3
     return availableSuggestions.slice(0, 3);
-  }, [suggestions, cart?.items, cartCategories]);
+  }, [suggestions, cart?.items, cartCategories, cartProductIds]);
 
   return (
     <>

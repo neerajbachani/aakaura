@@ -98,15 +98,7 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                   className="w-full h-full"
                   style={{ overflow: "visible" }}
                 >
-                  <defs>
-                    <filter id="brightness">
-                      <feComponentTransfer>
-                        <feFuncR type="linear" slope="1.5" />
-                        <feFuncG type="linear" slope="1.5" />
-                        <feFuncB type="linear" slope="1.5" />
-                      </feComponentTransfer>
-                    </filter>
-                  </defs>
+
                   {chakras.map((chakra, index) => (
                     <motion.g
                       key={chakra.id}
@@ -147,7 +139,10 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                         width="100"
                         height="100"
                         className="cursor-pointer hover:scale-110 transition-transform"
-                        filter="url(#brightness)"
+                        style={{ 
+                          filter: "brightness(1.5)",
+                          transformOrigin: `${chakra.x}px ${chakra.y}px`
+                        }}
                       />
                       
                       {/* Label on Hover Area (invisible but functional) - Larger clickable area */}

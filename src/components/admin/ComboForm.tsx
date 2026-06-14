@@ -16,6 +16,10 @@ import { Combo, ComboProduct } from "@/types/Combo";
 import { Product } from "@/types/Product";
 import { toast } from "react-hot-toast";
 import SingleImageUpload from "./SingleImageUpload";
+import {
+  computeComboTotals,
+  formatComboPrice,
+} from "@/lib/comboPricing";
 
 interface ComboFormProps {
   mode: "add" | "edit";
@@ -58,6 +62,8 @@ export default function ComboForm({
     images: [] as string[],
     mobileImages: [] as string[],
     externalLinks: [] as { label: string; url: string }[],
+    price: "",
+    offerPrice: "",
   });
 
   const [items, setItems] = useState<
@@ -89,6 +95,12 @@ export default function ComboForm({
         images: initialImages,
         mobileImages: initialMobileImages,
         externalLinks: initialData.externalLinks || [],
+        price:
+          initialData.price != null ? String(initialData.price) : "",
+        offerPrice:
+          initialData.offerPrice != null
+            ? String(initialData.offerPrice)
+            : "",
       });
 
       if (initialData.products) {
@@ -107,6 +119,31 @@ export default function ComboForm({
       }
     }
   }, [initialData]);
+
+  const calculatedTotals = computeComboTotals(
+    items
+      .filter((item) => item.productId)
+      .map((item) => {
+        const product = allProducts.find((p) => p.id === item.productId);
+        const variation = product?.variations?.find(
+          (v) => v.id === item.variationId,
+        );
+        return {
+          quantity: item.quantity,
+          variationId: item.variationId,
+          product: {
+            price: product?.price ?? 0,
+            offerPrice: product?.offerPrice,
+          },
+          variation: variation
+            ? {
+                price: variation.price,
+                offerPrice: variation.offerPrice,
+              }
+            : null,
+        };
+      }),
+  );
 
   // Image Management Modal State
   const [showImageModal, setShowImageModal] = useState(false);
@@ -291,6 +328,8 @@ export default function ComboForm({
 
     await onSubmit({
       ...formData,
+      price: formData.price.trim() || null,
+      offerPrice: formData.offerPrice.trim() || null,
       products: productsWithOrder,
     });
   };
@@ -399,6 +438,47 @@ export default function ComboForm({
             onChange={(e) => handleChange("description", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
           />
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">Pricing</h3>
+          <p className="text-sm text-gray-500 mb-4">
+            Leave price blank to auto-use the sum of included items (
+            {formatComboPrice(calculatedTotals.original)}
+            {calculatedTotals.effective < calculatedTotals.original
+              ? ` · effective ${formatComboPrice(calculatedTotals.effective)}`
+              : ""}
+            ).
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Price (optional override)
+              </label>
+              <input
+                type="text"
+                value={formData.price}
+                onChange={(e) => handleChange("price", e.target.value)}
+                placeholder="₹12,500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Discount / Offer Price
+              </label>
+              <input
+                type="text"
+                value={formData.offerPrice}
+                onChange={(e) => handleChange("offerPrice", e.target.value)}
+                placeholder="₹10,500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Must be less than the resolved combo price.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Chakras */}

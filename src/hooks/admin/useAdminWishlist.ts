@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { queryKeys } from '@/lib/queryClient';
 
-export interface WaitlistItemWithUser {
+export interface WishlistItemWithUser {
     id: string;
     userId: string;
     journeySlug: string;
@@ -18,7 +18,7 @@ export interface WaitlistItemWithUser {
     };
 }
 
-export interface GroupedWaitlistItem {
+export interface GroupedWishlistItem {
     journeySlug: string;
     productId: string;
     productName: string;
@@ -33,14 +33,15 @@ export interface GroupedWaitlistItem {
     totalCount: number;
 }
 
-export interface AdminWaitlistResponse {
-    waitlistItems: WaitlistItemWithUser[];
-    groupedByProduct: GroupedWaitlistItem[];
+export interface AdminWishlistResponse {
+    wishlistItems: WishlistItemWithUser[];
+    groupedByProduct: GroupedWishlistItem[];
     totalItems: number;
 }
 
 export interface ProductSettings {
-    isWaitlist: boolean;
+    isWaitlist?: boolean;
+    isWishlistOnly?: boolean;
     updatedAt?: string;
     updatedBy?: string;
 }
@@ -51,13 +52,12 @@ export interface UpdateProductSettingsInput {
     isWaitlist: boolean;
 }
 
-// API functions
-const fetchAdminWaitlist = async (): Promise<AdminWaitlistResponse> => {
-    const response = await fetch('/api/admin/waitlist');
+const fetchAdminWishlist = async (): Promise<AdminWishlistResponse> => {
+    const response = await fetch('/api/admin/wishlist');
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to fetch waitlist data');
+        throw new Error(error.error || 'Failed to fetch wishlist data');
     }
 
     return response.json();
@@ -91,12 +91,11 @@ const updateProductSettings = async (input: UpdateProductSettingsInput) => {
     return response.json();
 };
 
-// Custom hooks
-export const useAdminWaitlist = () => {
-    return useQuery<AdminWaitlistResponse>({
-        queryKey: queryKeys.adminWaitlist,
-        queryFn: fetchAdminWaitlist,
-        staleTime: 1000 * 60 * 2, // 2 minutes
+export const useAdminWishlist = () => {
+    return useQuery<AdminWishlistResponse>({
+        queryKey: queryKeys.adminWishlist,
+        queryFn: fetchAdminWishlist,
+        staleTime: 1000 * 60 * 2,
     });
 };
 
@@ -105,7 +104,7 @@ export const useJourneyProductSettings = (slug: string) => {
         queryKey: queryKeys.adminJourneyProducts(slug),
         queryFn: () => fetchJourneyProductSettings(slug),
         enabled: !!slug,
-        staleTime: 1000 * 60 * 5, // 5 minutes
+        staleTime: 1000 * 60 * 5,
     });
 };
 
@@ -114,17 +113,18 @@ export const useUpdateProductSettings = () => {
 
     return useMutation({
         mutationFn: updateProductSettings,
-        onSuccess: (data, variables) => {
-            // Invalidate the specific journey's product settings
+        onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({
                 queryKey: queryKeys.adminJourneyProducts(variables.slug),
             });
 
             toast.success(
-                `Product ${variables.isWaitlist ? 'set to waitlist' : 'available for purchase'}`
+                variables.isWaitlist
+                    ? 'Product set to wishlist-only'
+                    : 'Product available for purchase'
             );
         },
-        onError: (error: any) => {
+        onError: (error: Error) => {
             toast.error(error.message || 'Failed to update product settings');
         },
     });

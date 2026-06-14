@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyAdminToken } from "@/middleware/auth";
 
-// GET /api/admin/waitlist - Get all waitlist items with user information
+// GET /api/admin/wishlist - Get all wishlist items with user information
 export async function GET(request: NextRequest) {
     try {
         const adminUser = await verifyAdminToken(request);
@@ -10,8 +10,7 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        // Get all waitlist items with user details
-        const waitlistItems = await prisma.waitlistItem.findMany({
+        const wishlistItems = await prisma.wishlistItem.findMany({
             include: {
                 user: {
                     select: {
@@ -28,10 +27,9 @@ export async function GET(request: NextRequest) {
             },
         });
 
-        // Group by product for easier admin viewing
         const groupedByProduct: Record<string, any> = {};
 
-        waitlistItems.forEach((item) => {
+        wishlistItems.forEach((item) => {
             const key = `${item.journeySlug}-${item.productId}-${item.clientType}`;
 
             if (!groupedByProduct[key]) {
@@ -57,12 +55,12 @@ export async function GET(request: NextRequest) {
         });
 
         return NextResponse.json({
-            waitlistItems,
+            wishlistItems,
             groupedByProduct: Object.values(groupedByProduct),
-            totalItems: waitlistItems.length,
+            totalItems: wishlistItems.length,
         });
     } catch (error: any) {
-        console.error('Error fetching admin waitlist:', error);
+        console.error('Error fetching admin wishlist:', error);
 
         if (error.message === 'Authentication required') {
             return NextResponse.json(
@@ -72,7 +70,7 @@ export async function GET(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { error: 'Failed to fetch waitlist data' },
+            { error: 'Failed to fetch wishlist data' },
             { status: 500 }
         );
     }

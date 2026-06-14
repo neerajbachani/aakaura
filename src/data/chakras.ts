@@ -6,6 +6,7 @@ export interface JourneyProduct {
   specificDescription: string;
   cardTagline?: string;
   price: string;
+  offerPrice?: string;
   ethos: string;
   whatItsFor: string;
   features: string[];
@@ -18,6 +19,8 @@ export interface JourneyProduct {
   }[];
   step: number;
   category?: string;
+  /** Database UUID for combo bundles (cart/checkout) */
+  comboDbId?: string;
 
   // Extended fields for comprehensive product information
   specifications?: {
@@ -102,7 +105,7 @@ export interface ChakraData {
     'soul-luxury': JourneyProduct[];
     'energy-curious': JourneyProduct[];
   };
-  productSettings?: Record<string, { isWaitlist: boolean }>;
+  productSettings?: Record<string, { isWaitlist?: boolean; isWishlistOnly?: boolean }>;
 }
 
 const TEMPLATE_SL_PRODUCT = {

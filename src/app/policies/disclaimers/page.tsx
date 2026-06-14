@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function DisclaimersPage() {
   return (
@@ -7,6 +8,17 @@ export default function DisclaimersPage() {
         <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center text-primaryBeige tracking-wide">
           DISCLAIMERS & NOTICES
         </h1>
+
+        <p className="text-center text-lg md:text-xl text-secondaryBeige mb-12">
+          For ritual philosophy and product interaction guides, see{" "}
+          <Link
+            href="/rituals"
+            className="text-[#BD9958] hover:text-primaryRed underline underline-offset-4 transition-colors"
+          >
+            Ritual Notes
+          </Link>
+          .
+        </p>
 
         <div className="grid grid-cols-1 gap-12 text-lg md:text-xl leading-relaxed text-secondaryBeige">
           <section>

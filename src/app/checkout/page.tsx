@@ -14,6 +14,12 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
+import { resolveComboPricing } from "@/lib/comboPricing";
+import {
+  cartHasBonsai,
+  getBonsaiCartLabels,
+  isJaipurPincode,
+} from "@/lib/cartRestrictions";
 import Script from "next/script";
 
 export default function CheckoutPage() {
@@ -78,30 +84,47 @@ export default function CheckoutPage() {
       return;
     }
 
-    const hasBonsaiProduct = cart.items.some(
-      (item: any) => item.product.category?.name?.toLowerCase() === "bonsai"
-    );
+    const hasBonsaiProduct = cartHasBonsai(cart.items);
 
     if (hasBonsaiProduct) {
-      const isJaipurPincode = formData.zipCode.startsWith("302") || formData.zipCode.startsWith("303");
-      if (!isJaipurPincode) {
-        toast.error("Bonsai products can only be delivered within Jaipur (Pincodes starting with 302 or 303).");
+      if (!isJaipurPincode(formData.zipCode)) {
+        const bonsaiLabels = getBonsaiCartLabels(cart.items);
+        const itemHint =
+          bonsaiLabels.length > 0
+            ? ` (${bonsaiLabels.join(", ")})`
+            : "";
+        toast.error(
+          `Your cart includes bonsai${itemHint}. Bonsai can only be delivered to Jaipur — use a pincode starting with 302 or 303. Your pincode ${formData.zipCode.trim()} is outside that area.`,
+        );
         return;
       }
     }
 
     try {
       const orderData = {
-        items: cart.items.map((item) => ({
-          productId: item.productId,
-          variationId: item.variationId,
-          quantity: item.quantity,
-          price:
-            item.variation?.offerPrice ||
-            item.variation?.price ||
-            item.product.offerPrice ||
-            item.product.price,
-        })),
+        items: cart.items.map((item) => {
+          if (item.comboId) {
+            const effective = item.combo
+              ? resolveComboPricing(item.combo).effective
+              : item.comboPricing?.effective ?? 0;
+            return {
+              comboId: item.comboId,
+              quantity: item.quantity,
+              price: effective,
+            };
+          }
+          return {
+            productId: item.productId!,
+            variationId: item.variationId,
+            quantity: item.quantity,
+            price:
+              item.variation?.offerPrice ??
+              item.variation?.price ??
+              item.product?.offerPrice ??
+              item.product?.price ??
+              0,
+          };
+        }),
         total: cart.totalOfferPrice || cart.totalPrice,
       };
 
@@ -229,6 +252,10 @@ export default function CheckoutPage() {
     "w-full px-4 py-3 bg-transparent border border-[#BD9958]/30 rounded-md focus:outline-none focus:ring-1 focus:ring-[#BD9958] focus:border-[#BD9958] text-white placeholder-[#BD9958]/40 transition-colors";
   const labelClasses = "block text-sm font-medium text-[#BD9958] mb-2";
 
+  const bonsaiInCart = cart ? cartHasBonsai(cart.items) : false;
+  const bonsaiLabels = cart ? getBonsaiCartLabels(cart.items) : [];
+  const zipIsJaipur = isJaipurPincode(formData.zipCode);
+
   return (
     <>
       <Script
@@ -252,6 +279,35 @@ export default function CheckoutPage() {
               Checkout
             </h1>
           </div>
+
+          {bonsaiInCart && (
+            <div
+              className={`mb-8 rounded-2xl border p-5 ${
+                zipIsJaipur
+                  ? "border-green-500/30 bg-green-500/10 text-green-100"
+                  : "border-amber-500/40 bg-amber-500/10 text-amber-50"
+              }`}
+            >
+              <p className="font-cormorant text-xl text-[#BD9958] mb-2">
+                Jaipur delivery required for bonsai
+              </p>
+              <p className="text-sm leading-relaxed text-[#f4f1ea]/80">
+                Your order includes bonsai
+                {bonsaiLabels.length > 0
+                  ? ` (${bonsaiLabels.join(", ")})`
+                  : ""}
+                . Bonsai is only delivered within Jaipur — pincode must start with{" "}
+                <strong>302</strong> or <strong>303</strong>.
+                {!zipIsJaipur && formData.zipCode.trim() && (
+                  <>
+                    {" "}
+                    The pincode you entered ({formData.zipCode.trim()}) is outside
+                    Jaipur (e.g. 390012 / 390018 are Vadodara, Gujarat).
+                  </>
+                )}
+              </p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit}>
             <div className="lg:grid lg:grid-cols-12 lg:gap-10">

@@ -80,7 +80,7 @@ model User {
   addresses     Address[]
   cartItems     CartItem[]
   orders        Order[]
-  waitlistItems WaitlistItem[]
+  wishlistItems WishlistItem[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -105,16 +105,19 @@ model Address {
 model CartItem {
   id          String            @id @default(uuid())
   userId      String
-  productId   String
+  productId   String?
   variationId String?
+  comboId     String?
   quantity    Int               @default(1)
   user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product     Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product     Product?          @relation(fields: [productId], references: [id], onDelete: Cascade)
   variation   ProductVariation? @relation(fields: [variationId], references: [id], onDelete: SetNull)
+  combo       Combo?            @relation(fields: [comboId], references: [id], onDelete: Cascade)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
   @@unique([userId, productId, variationId])
+  @@unique([userId, comboId])
 }
 
 model Order {
@@ -174,15 +177,19 @@ model OrderItem {
   orderId       String
   order         Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
   
-  productId     String
-  product       Product           @relation(fields: [productId], references: [id])
+  productId     String?
+  product       Product?          @relation(fields: [productId], references: [id])
+  comboId       String?
+  combo         Combo?            @relation(fields: [comboId], references: [id])
   
   variationId   String?
   variation     ProductVariation? @relation(fields: [variationId], references: [id])
   
-  // Snapshot of product details at time of order
+  // Snapshot of product/combo details at time of order
   productName   String
   productImage  String
+  comboName     String?
+  comboImage    String?
   variationName String?
   
   quantity      Int
@@ -245,7 +252,7 @@ model Journey {
   updatedAt    DateTime @updatedAt
 }
 
-model WaitlistItem {
+model WishlistItem {
   id          String   @id @default(uuid())
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -260,6 +267,7 @@ model WaitlistItem {
   @@unique([userId, journeySlug, productId, clientType])
   @@index([userId])
   @@index([journeySlug])
+  @@map("WaitlistItem")
 }
 
 model Combo {
@@ -273,7 +281,11 @@ model Combo {
   images        String[]
   mobileImages  String[]
   externalLinks Json?          // Array of { label, url }
+  price         Float?
+  offerPrice    Float?
   products      ComboProduct[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }

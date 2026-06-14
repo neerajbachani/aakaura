@@ -8,6 +8,10 @@ import { Combo } from "@/types/Combo";
 import AdminTabs from "@/components/ui/AdminTabs";
 import { prisma } from "@/lib/prisma";
 import DeleteComboButton from "./components/DeleteComboButton";
+import {
+  formatComboPrice,
+  resolveComboPricing,
+} from "@/lib/comboPricing";
 
 export const dynamic = "force-dynamic";
 
@@ -73,6 +77,9 @@ export default async function CombosAdmin() {
                     </th>
                     <th className="px-4 sm:px-6 py-4 text-left text-primaryBrown font-medium">
                       Items
+                    </th>
+                    <th className="px-4 sm:px-6 py-4 text-left text-primaryBrown font-medium">
+                      Price
                     </th>
                     <th className="px-4 sm:px-6 py-4 text-left text-primaryBrown font-medium">
                       Created
@@ -154,6 +161,24 @@ export default async function CombosAdmin() {
                         <span className="text-sm font-medium">
                           {combo.products?.length || 0} Items
                         </span>
+                      </td>
+
+                      <td className="px-4 sm:px-6 py-3">
+                        {(() => {
+                          const pricing = resolveComboPricing(combo);
+                          return (
+                            <div className="text-sm">
+                              <span className="font-medium text-primaryBrown">
+                                {formatComboPrice(pricing.effective)}
+                              </span>
+                              {pricing.effective < pricing.original && (
+                                <span className="block text-xs text-primaryBrown/50 line-through">
+                                  {formatComboPrice(pricing.original)}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })()}
                       </td>
 
                       {/* Date Column */}

@@ -1,13 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useUpdateProductSettings } from "@/hooks/admin/useAdminWaitlist";
+import { useUpdateProductSettings } from "@/hooks/admin/useAdminWishlist";
 import { useDeleteJourneyProduct } from "@/hooks/admin/useAdminJourney";
 import AdminTabs from "@/components/ui/AdminTabs";
 import { motion } from "framer-motion";
 import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { JourneyPriceDisplay } from "@/components/ui/JourneyPriceDisplay";
 
 // Fetch all journeys
 async function fetchJourneys() {
@@ -109,7 +110,7 @@ export default function AdminProductSettingsPage() {
           </h1>
           <p className="text-gray-600">
             Manage products and their availability: Create, edit, delete, and
-            toggle waitlist status
+            toggle wishlist-only status
           </p>
         </div>
 
@@ -201,9 +202,11 @@ export default function AdminProductSettingsPage() {
                                 </div>
 
                                 <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                                  <span className="text-sm font-medium text-gray-700">
-                                    {product.price}
-                                  </span>
+                                  <JourneyPriceDisplay
+                                    price={product.price}
+                                    offerPrice={product.offerPrice}
+                                    variant="admin"
+                                  />
                                   <div className="flex gap-2">
                                     <Link
                                       href={`/admin/products-settings/${journey.slug}/soul-luxury/${encodeURIComponent(product.id)}`}
@@ -241,7 +244,7 @@ export default function AdminProductSettingsPage() {
                                       } disabled:opacity-50`}
                                     >
                                       {isWaitlist
-                                        ? "📋 Waitlist"
+                                        ? "♥ Wishlist Only"
                                         : "🛒 Buy Now"}
                                     </button>
                                   </div>
@@ -302,9 +305,11 @@ export default function AdminProductSettingsPage() {
                                 </div>
 
                                 <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                                  <span className="text-sm font-medium text-gray-700">
-                                    {product.price}
-                                  </span>
+                                  <JourneyPriceDisplay
+                                    price={product.price}
+                                    offerPrice={product.offerPrice}
+                                    variant="admin"
+                                  />
                                   <div className="flex gap-2">
                                     <Link
                                       href={`/admin/products-settings/${journey.slug}/energy-curious/${encodeURIComponent(product.id)}`}
@@ -342,7 +347,7 @@ export default function AdminProductSettingsPage() {
                                       } disabled:opacity-50`}
                                     >
                                       {isWaitlist
-                                        ? "📋 Waitlist"
+                                        ? "♥ Wishlist Only"
                                         : "🛒 Buy Now"}
                                     </button>
                                   </div>

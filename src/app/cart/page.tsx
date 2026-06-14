@@ -9,14 +9,27 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStatus } from '@/hooks/useAuth';
 import { AuthModal } from '@/components/auth/AuthModal';
-import { useState } from 'react';
+import CartSuccessModal from '@/components/cart/CartSuccessModal';
+import {
+  hasSeenCartSuccessModal,
+  markCartSuccessModalSeen,
+} from '@/lib/cartSuccessModalSession';
+import { useState, useEffect } from 'react';
 
 export default function CartPage() {
   const { data: cart, isLoading, error } = useCart();
   const clearCart = useClearCart();
   const router = useRouter();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [showCartSuccessModal, setShowCartSuccessModal] = useState(false);
   const { isAuthenticated, isLoading: authLoading } = useAuthStatus();
+
+  useEffect(() => {
+    if (!cart || cart.items.length === 0) return;
+    if (hasSeenCartSuccessModal()) return;
+    setShowCartSuccessModal(true);
+    markCartSuccessModalSeen();
+  }, [cart]);
 
   const handleClearCart = () => {
     if (window.confirm('Are you sure you want to clear your cart?')) {
@@ -199,6 +212,13 @@ export default function CartPage() {
           </div>
         )}
         <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+        {cart && cart.items.length > 0 && (
+          <CartSuccessModal
+            isOpen={showCartSuccessModal}
+            onClose={() => setShowCartSuccessModal(false)}
+            context="cart-page"
+          />
+        )}
       </div>
     </div>
   );

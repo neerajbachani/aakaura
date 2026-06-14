@@ -22,7 +22,7 @@ interface AdminTabsProps {
     | "blogs"
     | "analytics"
     | "journeys"
-    | "waitlist"
+    | "wishlist"
     | "products-settings"
     | "combos"
     | "quiz";
@@ -67,10 +67,10 @@ export default function AdminTabs({ activeTab }: AdminTabsProps) {
     //   active: activeTab === "journeys",
     // },
     {
-      name: "Waitlist",
-      href: "/admin/waitlist",
+      name: "Wishlist",
+      href: "/admin/wishlist",
       icon: FaClipboardList,
-      active: activeTab === "waitlist",
+      active: activeTab === "wishlist",
     },
     {
       name: "Product Settings",

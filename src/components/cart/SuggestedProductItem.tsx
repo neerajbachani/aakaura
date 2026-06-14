@@ -22,7 +22,10 @@ export function SuggestedProductItem({ product }: SuggestedProductItemProps) {
     <div className="flex gap-4 p-4 bg-[#27190B]/30 rounded-xl border border-[#BD9958]/20 hover:border-[#BD9958]/40 transition-colors">
       <div className="flex-shrink-0 w-20 h-20">
         <Image
-          src={product.images[0] || "/placeholder-product.jpg"}
+          src={
+            product.images.find((img) => img?.trim()) ||
+            "/placeholder-product.jpg"
+          }
           alt={product.name}
           width={80}
           height={80}

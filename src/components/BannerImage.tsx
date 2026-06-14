@@ -319,7 +319,7 @@ export default function BannerImage() {
             (आकार to your aura);
           </p>
           <p className="text-sm md:text-lg text-[#BD9958] font-medium tracking-widest uppercase">
-            we do not create magical tools; we seek the magic within.
+            Choose your Journey
           </p>
         </div>
 

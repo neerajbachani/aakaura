@@ -133,6 +133,7 @@ export const useAddToCart = () => {
         // Add to guest cart
         addToGuestCartUtil({
           productId: data.productId,
+          comboId: data.comboId,
           variationId: data.variationId,
           quantity: data.quantity,
         });
@@ -148,9 +149,11 @@ export const useAddToCart = () => {
 
       // Optimistically update cart
       if (previousCart) {
-        const existingItemIndex = previousCart.items.findIndex(
-          item => item.productId === newItem.productId &&
-            item.variationId === newItem.variationId
+        const existingItemIndex = previousCart.items.findIndex((item) =>
+          newItem.comboId
+            ? item.comboId === newItem.comboId
+            : item.productId === newItem.productId &&
+              item.variationId === newItem.variationId,
         );
 
         let updatedItems;

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import fonts from "@/config/fonts";
+import { COMBO_CATEGORY_LINKS } from "@/config/comboCategories";
 import Image from "next/image";
 import { CartIcon } from "@/components/cart/CartIcon";
 import { CartDrawer } from "@/components/cart/CartDrawer";
@@ -146,6 +147,13 @@ export default function Navbar({
               { name: "Neck Warmer", href: "/shop/category/neck-warmer" },
             ];
       })(),
+    },
+    {
+      title: "Combo Categories",
+      submenuItems: COMBO_CATEGORY_LINKS.map((link) => ({
+        name: link.name,
+        href: link.href,
+      })),
     },
   ];
   const closeMenu = () => setIsMenuOpen(false);
@@ -345,6 +353,20 @@ export default function Navbar({
                     Aakaura Speaks
                   </Link>
                 </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ delay: 0.42, duration: 0.3 }}
+                >
+                  <Link
+                    href="/rituals"
+                    onClick={closeMenu}
+                    className="block px-6 py-4 text-xl md:text-2xl text-[#27190b] hover:text-primaryRed"
+                  >
+                    Ritual Notes
+                  </Link>
+                </motion.div>
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.title}
@@ -373,10 +395,7 @@ export default function Navbar({
                   </Link>
                   <Link
                     href="/cart"
-                    onClick={() => {
-                      setIsCartOpen(true);
-                      closeMenu();
-                    }}
+                    onClick={closeMenu}
                     className={`block py-2  text-[#27190b] text-lg hover:text-primaryRed`}
                   >
                     View Cart

@@ -72,6 +72,11 @@ export default function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/rituals" className="hover:text-primaryRed transition">
+                Ritual Notes
+              </Link>
+            </li>
+            <li>
               <Link
                 href="/policies/disclaimers"
                 className="hover:text-primaryRed transition"

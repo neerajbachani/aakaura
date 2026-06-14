@@ -8,6 +8,7 @@ interface CartSuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
   category?: string;
+  context?: "default" | "cart-page";
 }
 
 const MODAL_CONTENT = {
@@ -42,6 +43,7 @@ const MODAL_CONTENT = {
 export default function CartSuccessModal({
   isOpen,
   onClose,
+  context = "default",
 }: CartSuccessModalProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -168,10 +170,10 @@ export default function CartSuccessModal({
                   Continue Shopping
                 </button>
                 <Link
-                  href="/cart"
+                  href={context === "cart-page" ? "/checkout" : "/cart"}
                   className="px-6 py-3 rounded-full text-sm uppercase tracking-widest bg-[#BD9958] text-[#27190B] hover:bg-[#A8874D] transition-colors w-full sm:w-auto text-center font-medium"
                 >
-                  Confirm Purchase
+                  {context === "cart-page" ? "Proceed to Checkout" : "Confirm Purchase"}
                 </Link>
               </div>
             </div>

@@ -3,6 +3,7 @@ import { prisma } from "@/config/prisma";
 import { authenticate } from "@/middleware/auth";
 import { ApiError, errorHandler } from "@/middleware/errorHandler";
 import { successResponse } from "@/utils/response";
+import { parseComboPriceFields } from "@/lib/comboApiHelpers";
 // Cast prisma to any to avoid "Property 'combo' does not exist" type errors
 // which persist even after prisma generate in some dev environments
 const db = prisma as any;
@@ -58,8 +59,15 @@ export const PUT = errorHandler(async (req: Request, { params }: { params: Promi
     images, 
     mobileImages,
     externalLinks, 
-    products 
+    products,
+    price: priceInput,
+    offerPrice: offerPriceInput,
   } = body;
+
+  const { price, offerPrice } = parseComboPriceFields({
+    price: priceInput,
+    offerPrice: offerPriceInput,
+  });
 
   const existingCombo = await db.combo.findUnique({
     where: { id },
@@ -99,6 +107,8 @@ export const PUT = errorHandler(async (req: Request, { params }: { params: Promi
       images,
       mobileImages: mobileImages || [],
       externalLinks,
+      price,
+      offerPrice,
       products: {
         create: products.map((p: {
           productId: string;

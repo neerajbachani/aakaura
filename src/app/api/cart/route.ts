@@ -1,21 +1,50 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { prisma } from "@/lib/prisma";
+import { resolveComboPricing } from "@/lib/comboPricing";
 
-const prisma = new PrismaClient();
+function getItemRegularPrice(item: {
+  combo?: Parameters<typeof resolveComboPricing>[0] | null;
+  product?: { price: number } | null;
+  variation?: { price?: number | null } | null;
+}): number {
+  if (item.combo) {
+    return resolveComboPricing(item.combo).original;
+  }
+  return item.variation?.price ?? item.product?.price ?? 0;
+}
+
+function getItemEffectivePrice(item: {
+  combo?: Parameters<typeof resolveComboPricing>[0] | null;
+  product?: { price: number; offerPrice?: number | null } | null;
+  variation?: {
+    price?: number | null;
+    offerPrice?: number | null;
+  } | null;
+}): number {
+  if (item.combo) {
+    return resolveComboPricing(item.combo).effective;
+  }
+  const regular = item.variation?.price ?? item.product?.price ?? 0;
+  const offer = item.variation?.offerPrice ?? item.product?.offerPrice;
+  if (offer != null && offer < regular) return offer;
+  return regular;
+}
 
 // Get user cart
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const token = cookieStore.get("token")?.value;
 
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
 
     const cartItems = await prisma.cartItem.findMany({
       where: { userId: decoded.userId },
@@ -27,6 +56,28 @@ export async function GET() {
             images: true,
             price: true,
             offerPrice: true,
+            category: { select: { name: true } },
+          },
+        },
+        combo: {
+          select: {
+            id: true,
+            name: true,
+            images: true,
+            price: true,
+            offerPrice: true,
+      products: {
+        include: {
+          product: {
+            select: {
+              price: true,
+              offerPrice: true,
+              category: { select: { name: true } },
+            },
+          },
+          variation: { select: { price: true, offerPrice: true } },
+        },
+      },
           },
         },
         variation: {
@@ -39,36 +90,41 @@ export async function GET() {
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
 
-    // Calculate totals
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const items = cartItems.map((item) => {
+      if (!item.combo) return item;
+      const comboPricing = resolveComboPricing(item.combo);
+      return { ...item, comboPricing };
+    });
 
-    const totalPrice = cartItems.reduce((sum, item) => {
-      const itemPrice = item.variation?.price || item.product.price;
-      return sum + (itemPrice * item.quantity);
-    }, 0);
+    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
-    const totalOfferPrice = cartItems.reduce((sum, item) => {
-      const itemOfferPrice = item.variation?.offerPrice || item.product.offerPrice;
-      if (itemOfferPrice) {
-        return sum + (itemOfferPrice * item.quantity);
-      }
-      const itemPrice = item.variation?.price || item.product.price;
-      return sum + (itemPrice * item.quantity);
-    }, 0);
+    const totalPrice = items.reduce(
+      (sum, item) => sum + getItemRegularPrice(item) * item.quantity,
+      0,
+    );
+
+    const totalOfferPrice = items.reduce(
+      (sum, item) => sum + getItemEffectivePrice(item) * item.quantity,
+      0,
+    );
 
     const cart = {
-      items: cartItems,
+      items,
       totalItems,
       totalPrice,
-      totalOfferPrice: totalOfferPrice !== totalPrice ? totalOfferPrice : undefined,
+      totalOfferPrice:
+        totalOfferPrice !== totalPrice ? totalOfferPrice : undefined,
     };
 
     return NextResponse.json(cart);
   } catch (error) {
-    console.error('Error fetching cart:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Error fetching cart:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

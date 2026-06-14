@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
-import { sendWaitlistEmail } from '@/lib/email';
+import { sendWishlistEmail } from '@/lib/email';
 
-// GET /api/waitlist - Get current user's waitlist items
+// GET /api/wishlist - Get current user's wishlist items
 export async function GET(request: NextRequest) {
     try {
         const user = await requireAuth(request);
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
         const userId = user.userId;
 
-        const waitlistItems = await prisma.waitlistItem.findMany({
+        const wishlistItems = await prisma.wishlistItem.findMany({
             where: {
                 userId: userId,
             },
@@ -26,9 +26,9 @@ export async function GET(request: NextRequest) {
             },
         });
 
-        return NextResponse.json({ waitlistItems });
+        return NextResponse.json({ wishlistItems });
     } catch (error: any) {
-        console.error('Error fetching waitlist:', error);
+        console.error('Error fetching wishlist:', error);
 
         if (error.message === 'Authentication required') {
             return NextResponse.json(
@@ -38,13 +38,13 @@ export async function GET(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { error: 'Failed to fetch waitlist' },
+            { error: 'Failed to fetch wishlist' },
             { status: 500 }
         );
     }
 }
 
-// POST /api/waitlist - Add item to waitlist
+// POST /api/wishlist - Add item to wishlist
 export async function POST(request: NextRequest) {
     try {
         const user = await requireAuth(request);
@@ -52,7 +52,6 @@ export async function POST(request: NextRequest) {
 
         const { journeySlug, productId, productName, clientType } = body;
 
-        // Validate required fields
         if (!user.userId || !journeySlug || !productId || !productName || !clientType) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
@@ -62,7 +61,6 @@ export async function POST(request: NextRequest) {
 
         const userId = user.userId;
 
-        // Validate clientType
         if (!['soul-luxury', 'energy-curious'].includes(clientType)) {
             return NextResponse.json(
                 { error: 'Invalid client type' },
@@ -70,8 +68,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Create or update waitlist item (upsert to handle duplicates gracefully)
-        const waitlistItem = await prisma.waitlistItem.upsert({
+        const wishlistItem = await prisma.wishlistItem.upsert({
             where: {
                 userId_journeySlug_productId_clientType: {
                     userId: userId,
@@ -81,7 +78,7 @@ export async function POST(request: NextRequest) {
                 },
             },
             update: {
-                productName, // Update product name in case it changed
+                productName,
             },
             create: {
                 userId: userId,
@@ -92,21 +89,19 @@ export async function POST(request: NextRequest) {
             },
         });
 
-        // Send email notifications
         if (user.email) {
-            // We don't await this so the API response isn't delayed
-            sendWaitlistEmail({ 
-                userEmail: user.email, 
-                productName
+            sendWishlistEmail({
+                userEmail: user.email,
+                productName,
             }).catch(console.error);
         }
 
         return NextResponse.json({
-            message: 'Added to waitlist',
-            waitlistItem
+            message: 'Added to wishlist',
+            wishlistItem,
         });
     } catch (error: any) {
-        console.error('Error adding to waitlist:', error);
+        console.error('Error adding to wishlist:', error);
 
         if (error.message === 'Authentication required') {
             return NextResponse.json(
@@ -116,13 +111,13 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { error: 'Failed to add to waitlist' },
+            { error: 'Failed to add to wishlist' },
             { status: 500 }
         );
     }
 }
 
-// DELETE /api/waitlist - Remove item from waitlist
+// DELETE /api/wishlist - Remove item from wishlist
 export async function DELETE(request: NextRequest) {
     try {
         const user = await requireAuth(request);
@@ -141,8 +136,7 @@ export async function DELETE(request: NextRequest) {
 
         const userId = user.userId;
 
-        // Delete the waitlist item
-        await prisma.waitlistItem.delete({
+        await prisma.wishlistItem.delete({
             where: {
                 userId_journeySlug_productId_clientType: {
                     userId: userId,
@@ -154,10 +148,10 @@ export async function DELETE(request: NextRequest) {
         });
 
         return NextResponse.json({
-            message: 'Removed from waitlist'
+            message: 'Removed from wishlist',
         });
     } catch (error: any) {
-        console.error('Error removing from waitlist:', error);
+        console.error('Error removing from wishlist:', error);
 
         if (error.message === 'Authentication required') {
             return NextResponse.json(
@@ -166,16 +160,15 @@ export async function DELETE(request: NextRequest) {
             );
         }
 
-        // Handle case where item doesn't exist
         if (error.code === 'P2025') {
             return NextResponse.json(
-                { error: 'Item not found in waitlist' },
+                { error: 'Item not found in wishlist' },
                 { status: 404 }
             );
         }
 
         return NextResponse.json(
-            { error: 'Failed to remove from waitlist' },
+            { error: 'Failed to remove from wishlist' },
             { status: 500 }
         );
     }

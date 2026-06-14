@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { getOptimizedCloudinaryUrl } from "@/utils/cloudinaryDelivery";
 import { motion } from "framer-motion";
 import { ChakraData, JourneyProduct } from "@/data/chakras";
+import { JourneyPriceDisplay } from "@/components/ui/JourneyPriceDisplay";
+import { WishlistHeartButton } from "./WishlistHeartButton";
+import { isWishlistOnlyProduct, getProductSettings } from "./wishlistUtils";
+import { useAddToCart } from "@/hooks/useCart";
+import { toast } from "react-hot-toast";
 import {
   ArrowDownTrayIcon,
   ArrowLongUpIcon,
@@ -31,9 +36,6 @@ interface JourneyProductPanelProps {
   authLoading: boolean;
   onAuthRequired: () => void;
   setShowAuthModal: (show: boolean) => void;
-  addToWaitlist: any;
-  removeFromWaitlist: any;
-  useIsInWaitlist: any;
   customMainImage?: string;
   tagLine?: string;
 }
@@ -52,9 +54,6 @@ export function JourneyProductPanel({
   authLoading,
   onAuthRequired,
   setShowAuthModal,
-  addToWaitlist,
-  removeFromWaitlist,
-  useIsInWaitlist,
   customMainImage,
   tagLine,
 }: JourneyProductPanelProps) {
@@ -96,6 +95,53 @@ export function JourneyProductPanel({
   const thumbStripRef = React.useRef<HTMLDivElement>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const addToCart = useAddToCart();
+  const isWishlistOnly = isWishlistOnlyProduct(
+    getProductSettings(chakra),
+    product.id,
+  );
+
+  const handlePanelAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (authLoading) return;
+
+    if (!isAuthenticated) {
+      toast.error("Please login to add items to cart");
+      onAuthRequired();
+      return;
+    }
+
+    addToCart
+      .mutateAsync({
+        productId: product.id,
+        quantity: 1,
+      })
+      .catch(() => toast.error("Failed to add to cart"));
+  };
+
+  const panelCartWishlistActions = (
+    <div className="flex items-center justify-center gap-3 mt-3">
+      {!isWishlistOnly && (
+        <button
+          type="button"
+          onClick={handlePanelAddToCart}
+          disabled={addToCart.isPending || authLoading}
+          className="px-6 py-2 rounded-full text-xs md:text-sm uppercase tracking-widest border border-white/50 text-white hover:bg-white/10 transition-all disabled:opacity-50"
+        >
+          {addToCart.isPending ? "Adding..." : "Add to Cart"}
+        </button>
+      )}
+      <WishlistHeartButton
+        product={product}
+        journeySlug={chakra.slug}
+        clientType={clientType}
+        isAuthenticated={isAuthenticated}
+        authLoading={authLoading}
+        onAuthRequired={onAuthRequired}
+        size="sm"
+      />
+    </div>
+  );
 
   const checkScroll = () => {
     if (thumbStripRef.current) {
@@ -182,7 +228,7 @@ export function JourneyProductPanel({
       : activeDesktopImage;
 
   return (
-    <div className="panel w-full md:w-screen h-screen aspect-[16/9] flex-shrink-0 sticky md:relative top-0 flex flex-col md:block bg-[#27190b] mb-[20vh] md:mb-0">
+    <div className="panel w-full md:w-screen h-screen aspect-[16/9] flex-shrink-0 sticky md:relative top-0 flex flex-col md:block bg-[#27190b] mb-[20vh] md:mb-0 relative">
       {/* Background Image Container */}
       {/* Mobile: Relative 60% height */}
       {/* Desktop: Absolute Full Screen */}
@@ -370,9 +416,13 @@ export function JourneyProductPanel({
                       {product.sanskritName}
                     </p>
                   )}
-                  <span className="text-sm md:text-base opacity-70 tracking-widest mt-1">
-                    {product.price}
-                  </span>
+                  <JourneyPriceDisplay
+                    price={product.price}
+                    offerPrice={product.offerPrice}
+                    variant="panel"
+                    className="mt-1"
+                  />
+                  {panelCartWishlistActions}
                 </div>
 
                 {/* View Description - Slot 3 */}
@@ -406,12 +456,19 @@ export function JourneyProductPanel({
                       {product.sanskritName}
                     </p>
                   )}
-                  <span className="text-sm md:text-base opacity-70 tracking-widest mt-1">
-                    {product.price}
-                  </span>
+                  <JourneyPriceDisplay
+                    price={product.price}
+                    offerPrice={product.offerPrice}
+                    variant="panel"
+                    className="mt-1"
+                  />
                 </div>
 
-                {/* View Description (Right) - Slot 2 */}
+                <div className="flex justify-center items-center order-2">
+                  {panelCartWishlistActions}
+                </div>
+
+                {/* View Description (Right) - Slot 3 */}
                 <button
                   onClick={(e) => {
                     console.log(
@@ -421,7 +478,7 @@ export function JourneyProductPanel({
                     e.stopPropagation();
                     setExpandedCard(index);
                   }}
-                  className="hover:opacity-70 flex items-center gap-2 transition-opacity border-b border-white/50 mb-4 order-2"
+                  className="hover:opacity-70 flex items-center gap-2 transition-opacity border-b border-white/50 mb-4 order-3"
                 >
                   How to Use This
                   <ArrowUpRightIcon className="w-4 h-4" />

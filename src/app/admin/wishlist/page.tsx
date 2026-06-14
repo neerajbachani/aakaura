@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useAdminWaitlist } from "@/hooks/admin/useAdminWaitlist";
+import { useAdminWishlist } from "@/hooks/admin/useAdminWishlist";
 import AdminTabs from "@/components/ui/AdminTabs";
 import { motion } from "framer-motion";
 
-export default function AdminWaitlistPage() {
-  const { data, isLoading, error } = useAdminWaitlist();
+export default function AdminWishlistPage() {
+  const { data, isLoading, error } = useAdminWishlist();
   const [filter, setFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
 
@@ -14,11 +14,11 @@ export default function AdminWaitlistPage() {
     return (
       <div className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-7xl mx-auto">
-          <AdminTabs activeTab="waitlist" />
+          <AdminTabs activeTab="wishlist" />
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-              <p className="mt-4 text-gray-600">Loading waitlist data...</p>
+              <p className="mt-4 text-gray-600">Loading wishlist data...</p>
             </div>
           </div>
         </div>
@@ -30,10 +30,10 @@ export default function AdminWaitlistPage() {
     return (
       <div className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-7xl mx-auto">
-          <AdminTabs activeTab="waitlist" />
+          <AdminTabs activeTab="wishlist" />
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <p className="text-red-600">Error loading waitlist data</p>
+              <p className="text-red-600">Error loading wishlist data</p>
               <p className="text-sm text-gray-500 mt-2">{(error as Error).message}</p>
             </div>
           </div>
@@ -44,49 +44,43 @@ export default function AdminWaitlistPage() {
 
   const { groupedByProduct = [], totalItems = 0 } = data || {};
 
-  // Filter products based on journey
   const filteredProducts = groupedByProduct.filter((item) => {
     if (filter === "all") return true;
     return item.journeySlug === filter;
   });
 
-  // Further filter by search
   const searchedProducts = filteredProducts.filter((item) => {
     if (!search) return true;
     return (
       item.productName.toLowerCase().includes(search.toLowerCase()) ||
       item.journeySlug.toLowerCase().includes(search.toLowerCase()) ||
-      item.users.some((user) => 
+      item.users.some((user) =>
         user.email.toLowerCase().includes(search.toLowerCase()) ||
         user.name?.toLowerCase().includes(search.toLowerCase())
       )
     );
   });
 
-  // Get unique journeys for filter
   const journeys = Array.from(new Set(groupedByProduct.map((item) => item.journeySlug)));
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
-        <AdminTabs activeTab="waitlist" />
-        {/* Header */}
+        <AdminTabs activeTab="wishlist" />
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Waitlist Management</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Wishlist Management</h1>
           <p className="text-gray-600">
-            View and manage user waitlist entries across all journeys
+            View and manage user wishlist entries across all journeys
           </p>
           <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
             <p className="text-blue-800 font-medium">
-              Total Waitlist Entries: <span className="font-bold">{totalItems}</span>
+              Total Wishlist Entries: <span className="font-bold">{totalItems}</span>
             </p>
           </div>
         </div>
 
-        {/* Filters */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Journey Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Filter by Journey
@@ -105,7 +99,6 @@ export default function AdminWaitlistPage() {
               </select>
             </div>
 
-            {/* Search */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Search
@@ -121,11 +114,10 @@ export default function AdminWaitlistPage() {
           </div>
         </div>
 
-        {/* Waitlist Items */}
         <div className="space-y-6">
           {searchedProducts.length === 0 ? (
             <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-              <p className="text-gray-500">No waitlist items found</p>
+              <p className="text-gray-500">No wishlist items found</p>
             </div>
           ) : (
             searchedProducts.map((item, index) => (
@@ -136,7 +128,6 @@ export default function AdminWaitlistPage() {
                 transition={{ delay: index * 0.05 }}
                 className="bg-white rounded-lg shadow-sm overflow-hidden"
               >
-                {/* Product Header */}
                 <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
                   <div className="flex justify-between items-start">
                     <div>
@@ -157,10 +148,9 @@ export default function AdminWaitlistPage() {
                   </div>
                 </div>
 
-                {/* Users List */}
                 <div className="p-6">
                   <h4 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
-                    Waitlist Users
+                    Wishlist Users
                   </h4>
                   <div className="overflow-x-auto">
                     <table className="w-full">

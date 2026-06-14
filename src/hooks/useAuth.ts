@@ -154,7 +154,7 @@ export const useLogin = () => {
   });
 };
 
-export const useSignup = () => {
+export const useSignup = (options?: { disableRedirect?: boolean }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -172,10 +172,12 @@ export const useSignup = () => {
       
       toast.success('Account created successfully!');
       
-      // Redirect to intended page or home
-      const redirectTo = sessionStorage.getItem('redirectAfterLogin') || '/';
-      sessionStorage.removeItem('redirectAfterLogin');
-      router.push(redirectTo);
+      if (!options?.disableRedirect) {
+        // Redirect to intended page or home
+        const redirectTo = sessionStorage.getItem('redirectAfterLogin') || '/';
+        sessionStorage.removeItem('redirectAfterLogin');
+        router.push(redirectTo);
+      }
     },
     onError: (error) => {
       toast.error(error.message || 'Signup failed');

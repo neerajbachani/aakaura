@@ -101,6 +101,11 @@ export default function AboutHeader() {
                       About Us
                     </Link>
                   </li>
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    <Link href="/rituals" className="block w-full">
+                      Ritual Notes
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

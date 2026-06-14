@@ -18,7 +18,7 @@ import {
 import Link from "next/link";
 import Aurora from "@/components/ui/Aurora";
 
-type TabType = "profile" | "orders" | "addresses" | "waitlist";
+type TabType = "profile" | "orders" | "addresses" | "wishlist";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -48,7 +48,7 @@ export default function ProfilePage() {
     { id: "profile", name: "Altar & Details", icon: UserCircleIcon },
     { id: "orders", name: "My Order Journey", icon: ShoppingBagIcon },
     { id: "addresses", name: "Sanctuaries", icon: MapPinIcon },
-    { id: "waitlist", name: "My Waitlist", icon: HeartIcon },
+    { id: "wishlist", name: "My Wishlist", icon: HeartIcon },
   ];
 
   return (
@@ -127,7 +127,7 @@ export default function ProfilePage() {
               {activeTab === "profile" && <ProfileTab user={user} />}
               {activeTab === "orders" && <OrdersTab />}
               {activeTab === "addresses" && <AddressesTab userId={user.id} />}
-              {activeTab === "waitlist" && <WaitlistTab />}
+              {activeTab === "wishlist" && <WishlistTab />}
             </div>
           </div>
         </div>
@@ -762,15 +762,15 @@ function AddressForm({
   );
 }
 
-function WaitlistTab() {
+function WishlistTab() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchWaitlist = () => {
-    fetch("/api/waitlist")
+  const fetchWishlist = () => {
+    fetch("/api/wishlist")
       .then((res) => res.json())
       .then((data) => {
-        setItems(data.waitlistItems || []);
+        setItems(data.wishlistItems || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -780,18 +780,18 @@ function WaitlistTab() {
   };
 
   useEffect(() => {
-    fetchWaitlist();
+    fetchWishlist();
   }, []);
 
   const handleRemove = async (item: any) => {
     try {
       const res = await fetch(
-        `/api/waitlist?journeySlug=${item.journeySlug}&productId=${item.productId}&clientType=${item.clientType}`,
+        `/api/wishlist?journeySlug=${item.journeySlug}&productId=${item.productId}&clientType=${item.clientType}`,
         {
           method: "DELETE",
         },
       );
-      if (res.ok) fetchWaitlist();
+      if (res.ok) fetchWishlist();
     } catch (e) {
       console.error(e);
     }
@@ -814,10 +814,10 @@ function WaitlistTab() {
         <div className="text-center py-16 border border-white/10 bg-white/5">
           <HeartIcon className="mx-auto h-12 w-12 text-[#BD9958]/40 mb-4" />
           <h3 className="text-lg font-cormorant text-white tracking-wider">
-            No artifacts awaited.
+            No saved artifacts yet.
           </h3>
           <p className="mt-2 text-white/50 font-light">
-            Your desires will manifest here when marked.
+            Tap the heart on any journey product to save it here.
           </p>
         </div>
       ) : (

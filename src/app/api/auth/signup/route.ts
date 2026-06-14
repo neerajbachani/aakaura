@@ -61,26 +61,62 @@ export async function POST(request: NextRequest) {
       try {
         // Add guest cart items to user's cart
         for (const item of guestCartItems) {
-          await prisma.cartItem.upsert({
-            where: {
-              userId_productId_variationId: {
+          if (item.comboId) {
+            const existingCombo = await prisma.cartItem.findFirst({
+              where: { userId: user.id, comboId: item.comboId },
+            });
+            if (existingCombo) {
+              await prisma.cartItem.update({
+                where: { id: existingCombo.id },
+                data: { quantity: { increment: item.quantity } },
+              });
+            } else {
+              await prisma.cartItem.create({
+                data: {
+                  userId: user.id,
+                  comboId: item.comboId,
+                  quantity: item.quantity,
+                },
+              });
+            }
+            continue;
+          }
+
+          if (!item.productId) continue;
+
+          const existingProductItem = item.variationId
+            ? await prisma.cartItem.findUnique({
+                where: {
+                  userId_productId_variationId: {
+                    userId: user.id,
+                    productId: item.productId,
+                    variationId: item.variationId,
+                  },
+                },
+              })
+            : await prisma.cartItem.findFirst({
+                where: {
+                  userId: user.id,
+                  productId: item.productId,
+                  variationId: null,
+                },
+              });
+
+          if (existingProductItem) {
+            await prisma.cartItem.update({
+              where: { id: existingProductItem.id },
+              data: { quantity: { increment: item.quantity } },
+            });
+          } else {
+            await prisma.cartItem.create({
+              data: {
                 userId: user.id,
                 productId: item.productId,
                 variationId: item.variationId ?? null,
+                quantity: item.quantity,
               },
-            },
-            update: {
-              quantity: {
-                increment: item.quantity,
-              },
-            },
-            create: {
-              userId: user.id,
-              productId: item.productId,
-              variationId: item.variationId ?? null,
-              quantity: item.quantity,
-            },
-          });
+            });
+          }
         }
       } catch (cartError) {
         console.error('Error migrating guest cart:', cartError);

@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 
-interface SendWaitlistEmailParams {
+interface SendWishlistEmailParams {
     userEmail: string;
     productName: string;
 }
 
-export const sendWaitlistEmail = async ({ userEmail, productName }: SendWaitlistEmailParams) => {
+export const sendWishlistEmail = async ({ userEmail, productName }: SendWishlistEmailParams) => {
     try {
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -21,12 +21,12 @@ export const sendWaitlistEmail = async ({ userEmail, productName }: SendWaitlist
         const customerMailOptions = {
             from: process.env.SMTP_USER,
             to: userEmail,
-            subject: 'You have been added to the Waitlist!',
+            subject: 'You have been added to the Wishlist!',
             html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-                    <h2 style="color: #BD9958;">Waitlist Confirmation</h2>
+                    <h2 style="color: #BD9958;">Wishlist Confirmation</h2>
                     <p>Hello,</p>
-                    <p>Thank you for expressing interest in <strong>${productName}</strong>. You have been successfully added to our waitlist.</p>
+                    <p>Thank you for expressing interest in <strong>${productName}</strong>. You have been successfully added to your wishlist.</p>
                     <p>We will notify you as soon as the item becomes available.</p>
                     <p>Best regards,<br>The Aakaura Team</p>
                 </div>
@@ -38,11 +38,11 @@ export const sendWaitlistEmail = async ({ userEmail, productName }: SendWaitlist
         const adminMailOptions = {
             from: process.env.SMTP_USER,
             to: adminEmail,
-            subject: 'New Waitlist Addition',
+            subject: 'New Wishlist Addition',
             html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-                    <h2 style="color: #27190b;">New Waitlist Entry</h2>
-                    <p>A user has just been added to the waitlist.</p>
+                    <h2 style="color: #27190b;">New Wishlist Entry</h2>
+                    <p>A user has just added an item to their wishlist.</p>
                     <ul>
                         <li><strong>User Email:</strong> ${userEmail}</li>
                         <li><strong>Product Name:</strong> ${productName}</li>
@@ -64,7 +64,7 @@ export const sendWaitlistEmail = async ({ userEmail, productName }: SendWaitlist
 
         return { success: true };
     } catch (error) {
-        console.error('Error sending waitlist emails:', error);
+        console.error('Error sending wishlist emails:', error);
         return { success: false, error };
     }
 };

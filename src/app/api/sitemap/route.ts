@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const pages = ["/", "/about", "/blogs"]; // Add all important pages
+  const pages = ["/", "/about", "/blogs", "/rituals"];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

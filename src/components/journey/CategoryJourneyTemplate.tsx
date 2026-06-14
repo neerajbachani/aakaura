@@ -11,16 +11,11 @@ import { useLenis } from "@/context/LenisContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStatus } from "@/hooks/useAuth";
-import {
-  useAddToWaitlist,
-  useRemoveFromWaitlist,
-  useIsInWaitlist,
-} from "@/hooks/useWaitlist";
-import { useAddToCart } from "@/hooks/useCart";
-import { toast } from "react-hot-toast";
 import { JourneyProductPanel } from "./JourneyProductPanel";
-import CartSuccessModal from "../cart/CartSuccessModal";
 import { AuthModal } from "@/components/auth/AuthModal";
+import { JourneyProductFooterActions } from "./JourneyProductFooterActions";
+import { JourneyPriceDisplay } from "@/components/ui/JourneyPriceDisplay";
+import { isWishlistOnlyProduct, getProductSettings } from "./wishlistUtils";
 
 // Register GSAP plugin
 if (typeof window !== "undefined") {
@@ -191,137 +186,6 @@ const FormattedContent: React.FC<FormattedContentProps> = ({ content }) => {
   );
 };
 
-// Waitlist Button Component
-interface WaitlistButtonProps {
-  product: JourneyProduct;
-  journeySlug: string;
-  clientType: "soul-luxury" | "energy-curious";
-  isAuthenticated: boolean;
-  authLoading: boolean;
-  onAuthRequired: () => void;
-  addToWaitlist: any;
-  removeFromWaitlist: any;
-  useIsInWaitlist: (
-    journeySlug: string,
-    productId: string,
-    clientType: "soul-luxury" | "energy-curious",
-  ) => boolean;
-  isWaitlistSetting?: boolean;
-  categoryName?: string;
-}
-
-function WaitlistButtonLarge({
-  product,
-  journeySlug,
-  clientType,
-  isAuthenticated,
-  authLoading,
-  onAuthRequired,
-  addToWaitlist,
-  removeFromWaitlist,
-  useIsInWaitlist,
-  isWaitlistSetting = true,
-  categoryName,
-}: WaitlistButtonProps) {
-  const router = useRouter();
-  const addToCart = useAddToCart();
-  const isInWaitlist = useIsInWaitlist(journeySlug, product.id, clientType);
-  const isLoading = addToWaitlist.isPending || removeFromWaitlist.isPending;
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  const handleClick = () => {
-    if (!isAuthenticated) {
-      toast.error(
-        `Please login to add items to ${!isWaitlistSetting ? "cart" : "waitlist"}`,
-      );
-      onAuthRequired();
-      return;
-    }
-
-    if (!isWaitlistSetting) {
-      addToCart
-        .mutateAsync({
-          productId: product.id,
-          quantity: 1,
-        })
-        .then(() => {
-          setShowSuccessModal(true);
-        })
-        .catch(() => {
-          toast.error("Failed to add to cart");
-        });
-      return;
-    }
-
-    if (isInWaitlist) {
-      removeFromWaitlist.mutate({
-        journeySlug,
-        productId: product.id,
-        clientType,
-      });
-    } else {
-      addToWaitlist.mutate({
-        journeySlug,
-        productId: product.id,
-        productName: product.name,
-        clientType,
-      });
-    }
-  };
-
-  if (authLoading) {
-    return (
-      <button
-        className="bg-[#f4f1ea]/50 text-[#27190b] px-12 py-4 rounded-full text-sm uppercase tracking-widest"
-        disabled
-      >
-        Loading...
-      </button>
-    );
-  }
-
-  return (
-    <>
-      <button
-        onClick={handleClick}
-        disabled={isWaitlistSetting ? isLoading : false}
-        className={`px-12 py-4 rounded-full text-sm uppercase tracking-widest transition-all transform hover:scale-105 disabled:opacity-50 ${
-          !isWaitlistSetting
-            ? "bg-[#27190b] text-[#f4f1ea] border border-[#f4f1ea] hover:bg-[#f4f1ea] hover:text-[#27190b]"
-            : isInWaitlist
-              ? "bg-green-600 text-white hover:bg-green-700"
-              : "bg-[#f4f1ea] text-[#27190b] hover:bg-opacity-90"
-        }`}
-      >
-        {!isWaitlistSetting ? (
-          <span className="flex items-center justify-center gap-2">
-            Add to Cart <span className="opacity-40 select-none">•</span>{" "}
-            <span className="text-lg md:text-xl font-bold">
-              {product.price}
-            </span>
-          </span>
-        ) : isLoading ? (
-          "Processing..."
-        ) : isInWaitlist ? (
-          `✓ In Waitlist`
-        ) : (
-          <span className="flex items-center justify-center gap-2">
-            Add to Waitlist <span className="opacity-40 select-none">•</span>{" "}
-            <span className="text-lg md:text-xl font-bold">
-              {product.price}
-            </span>
-          </span>
-        )}
-      </button>
-      <CartSuccessModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-        category={product.category || categoryName}
-      />
-    </>
-  );
-}
-
 export default function CategoryJourneyTemplate({
   categoryName,
   items: initialItems,
@@ -363,14 +227,10 @@ export default function CategoryJourneyTemplate({
   const { lenis } = useLenis();
   const { isAuthenticated, isLoading: authLoading } = useAuthStatus();
 
+  useRevealer();
+
   // Store the horizontal scroll tween to share between effects
   const horizontalScrollTweenRef = useRef<gsap.core.Tween | null>(null);
-
-  // Waitlist hooks
-  const addToWaitlist = useAddToWaitlist();
-  const removeFromWaitlist = useRemoveFromWaitlist();
-
-  useRevealer();
 
   // Scroll to top on page load
   useLayoutEffect(() => {
@@ -561,9 +421,6 @@ export default function CategoryJourneyTemplate({
               authLoading={authLoading}
               onAuthRequired={() => setShowAuthModal(true)}
               setShowAuthModal={setShowAuthModal}
-              addToWaitlist={addToWaitlist}
-              removeFromWaitlist={removeFromWaitlist}
-              useIsInWaitlist={useIsInWaitlist}
               tagLine={`Viewing All ${categoryName}s`}
             />
           ))}
@@ -684,9 +541,11 @@ export default function CategoryJourneyTemplate({
                             <h2 className="text-4xl md:text-6xl font-cormorant font-light text-[#f4f1ea]">
                               {product.name}
                             </h2>
-                            <p className="text-2xl md:text-3xl font-cormorant font-light text-[#f4f1ea] opacity-80 whitespace-nowrap">
-                              {product.price}
-                            </p>
+                            <JourneyPriceDisplay
+                              price={product.price}
+                              offerPrice={product.offerPrice}
+                              variant="header"
+                            />
                           </div>
                           <div>
                             <p className="text-lg font-light tracking-wide opacity-80 text-[#f4f1ea]">
@@ -993,20 +852,17 @@ export default function CategoryJourneyTemplate({
                           </p>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-                          <WaitlistButtonLarge
+                          <JourneyProductFooterActions
                             product={product}
                             journeySlug={chakra?.slug || "unknown"}
                             clientType={clientType}
                             isAuthenticated={isAuthenticated}
                             authLoading={authLoading}
                             onAuthRequired={() => setShowAuthModal(true)}
-                            addToWaitlist={addToWaitlist}
-                            removeFromWaitlist={removeFromWaitlist}
-                            useIsInWaitlist={useIsInWaitlist}
-                            isWaitlistSetting={
-                              chakra?.productSettings?.[product.id]
-                                ?.isWaitlist ?? true
-                            }
+                            isWishlistOnly={isWishlistOnlyProduct(
+                              getProductSettings(chakra),
+                              product.id,
+                            )}
                             categoryName={categoryName}
                           />
                           {chakra && (

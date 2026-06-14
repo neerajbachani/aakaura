@@ -93,17 +93,17 @@ async function main() {
         });
       }
 
-      // 4. Update WaitlistItems (if any attached to product ID)
-      const waitlistItems = await prisma.waitlistItem.findMany({ where: { productId: dup.id } });
-      for (const wi of waitlistItems) {
+      // 4. Update WishlistItems (if any attached to product ID)
+      const wishlistItems = await prisma.wishlistItem.findMany({ where: { productId: dup.id } });
+      for (const wi of wishlistItems) {
          try {
-           await prisma.waitlistItem.update({
+           await prisma.wishlistItem.update({
              where: { id: wi.id },
              data: { productId: original.id }
            });
          } catch(e) {
-           console.error(`  Warning: WaitlistItem unique constraint issue.`);
-           await prisma.waitlistItem.delete({ where: { id: wi.id } });
+           console.error(`  Warning: WishlistItem unique constraint issue.`);
+           await prisma.wishlistItem.delete({ where: { id: wi.id } });
          }
       }
 

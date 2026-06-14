@@ -25,8 +25,9 @@ export const signupSchema = z.object({
     .email('Please enter a valid email address'),
   phone: z
     .string()
-    .min(1, 'Phone number is required')
+    .optional()
     .refine((phone) => {
+      if (!phone) return true;
       return /^\+?[\d\s\-\(\)]{10,}$/.test(phone);
     }, 'Please enter a valid phone number'),
   password: z

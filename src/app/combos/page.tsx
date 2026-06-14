@@ -3,6 +3,11 @@ import ChakraJourneyTemplate from "@/components/journey/ChakraJourneyTemplate";
 import { ChakraData, JourneyProduct, chakrasData } from "@/data/chakras";
 import { getCategoriesWithImages } from "@/actions/get-categories-with-images";
 import CategoryCard from "@/components/ui/CategoryCard";
+import { comboTierToCategoryLabel } from "@/config/comboCategories";
+import {
+  formatComboPrice,
+  resolveComboPricing,
+} from "@/lib/comboPricing";
 
 export const dynamic = "force-dynamic";
 
@@ -68,20 +73,20 @@ export default async function CombosPage() {
 
   const journeyProducts: JourneyProduct[] = combos.map(
     (combo: any, index: number) => {
-      // Calculate total price from products if not available on combo
-      // Note: Combo type usually doesn't have price, but products do.
-      const totalPrice = combo.products.reduce((sum: number, cp: any) => {
-        const pPrice = cp.product.price || 0;
-        return sum + pPrice * cp.quantity;
-      }, 0);
+      const totals = resolveComboPricing(combo);
 
       return {
         id: combo.slug, // Use combo slug as ID so ?product=slug works
+        comboDbId: combo.id,
         name: combo.name,
         sanskritName: "",
         description: combo.description,
         specificDescription: combo.description, // Use duplicate for now
-        price: `₹${totalPrice}`,
+        price: formatComboPrice(totals.original),
+        offerPrice:
+          totals.effective < totals.original
+            ? formatComboPrice(totals.effective)
+            : undefined,
         ethos: combo.tagline,
         whatItsFor: `A curated ${combo.tier.toLowerCase()} collection.`,
         features: combo.products.map(
@@ -90,12 +95,7 @@ export default async function CombosPage() {
         images: combo.images || [],
         mobileImages: combo.mobileImages || [],
         step: index + 1,
-        category:
-          combo.tier === "PREMIUM"
-            ? "Premium Collections"
-            : combo.tier === "CORE"
-              ? "Core Ritual Sets"
-              : "Starter Bundles",
+        category: comboTierToCategoryLabel(combo.tier),
         // We can use variants to show included products if we want to get fancy,
         // but for now let's stick to the main images.
         variants: [],
@@ -221,7 +221,10 @@ export default async function CombosPage() {
   const categories = await getCategoriesWithImages();
 
   const categoriesSection = (
-    <section className="py-16 md:py-24 bg-[#f4f1ea]/5 border-t border-[#f4f1ea]/10">
+    <section
+      key="combo-categories-section"
+      className="py-16 md:py-24 bg-[#f4f1ea]/5 border-t border-[#f4f1ea]/10"
+    >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-end mb-10">
           <div>

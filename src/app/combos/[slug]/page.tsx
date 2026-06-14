@@ -4,6 +4,11 @@ import { getComboById } from "@/lib/api";
 import { ChakraData, JourneyProduct } from "@/data/chakras";
 import { chakrasData } from "@/data/chakras";
 import { Combo } from "@/types/Combo";
+import { comboTierToCategoryLabel } from "@/config/comboCategories";
+import {
+  formatComboPrice,
+  resolveComboPricing,
+} from "@/lib/comboPricing";
 
 interface PageProps {
   params: Promise<{
@@ -13,47 +18,51 @@ interface PageProps {
 
 export const dynamic = "force-dynamic";
 
-// Helper to adapt Combo to ChakraData
 function adaptComboToChakra(combo: Combo): ChakraData {
-  // Use the primary chakra's theme (colors, etc.) or default to Root if not found
   const primaryChakraSlug = combo.chakras[0] || "grounding";
   const baseChakra = chakrasData[primaryChakraSlug] || chakrasData["grounding"];
+  const totals = resolveComboPricing(combo);
 
-  // Map ComboProducts to JourneyProducts
-  const journeyProducts: JourneyProduct[] = combo.products.map((cp, index) => {
-    const p = cp.product;
-    // Construct base JourneyProduct from DB Product
-    return {
-      id: p.id,
-      name: p.name,
-      sanskritName: "", // DB doesn't have this, maybe added in static merge
-      description: p.description,
-      specificDescription: p.description, // Fallback
-      price: `₹${p.price}`,
-      ethos: "", // DB missing
-      whatItsFor: "", // DB missing
-      features: [], // DB missing
-      images: p.images || [],
-      step: index + 1, // Use order in combo
-      category: p.category?.name || "Product",
-      // Add other required fields with defaults
-      variants: p.variations?.map((v) => ({
-        color: "#000",
-        name: v.name,
-        image: p.images[0] || "",
-      })),
-    };
-  });
+  const bundleProduct: JourneyProduct = {
+    id: combo.slug,
+    comboDbId: combo.id,
+    name: combo.name,
+    sanskritName: "",
+    description: combo.description,
+    specificDescription: combo.description,
+    price: formatComboPrice(totals.original),
+    offerPrice:
+      totals.effective < totals.original
+        ? formatComboPrice(totals.effective)
+        : undefined,
+    ethos: combo.tagline,
+    whatItsFor: `A curated ${combo.tier.toLowerCase()} collection.`,
+    features: combo.products.map(
+      (cp) => `${cp.quantity}x ${cp.product.name}`,
+    ),
+    images: combo.images || [],
+    mobileImages: combo.mobileImages || [],
+    step: 1,
+    category: comboTierToCategoryLabel(combo.tier),
+    variants: [],
+    includedProducts: combo.products.map((cp, index) => ({
+      name: cp.product.name,
+      image: cp.product.images?.[0] || "",
+      url: `/shop/product/${cp.product.id}`,
+      step: index + 1,
+      description: cp.detail || cp.product.description,
+    })),
+  };
 
   return {
-    ...baseChakra, // Inherit mantra, colors, symbol from the chakra
+    ...baseChakra,
     slug: combo.slug,
     name: combo.name,
     tagline: combo.tagline,
     description: combo.description,
     content: {
-      "soul-luxury": journeyProducts,
-      "energy-curious": journeyProducts, // Same content for both types in combos for now
+      "soul-luxury": [bundleProduct],
+      "energy-curious": [bundleProduct],
     },
   };
 }
@@ -71,7 +80,7 @@ export default async function ComboJourneyPage({ params }: PageProps) {
   return (
     <ChakraJourneyTemplate
       chakra={adaptedData}
-      relatedCombos={null} // Don't show related combos endlessly
+      relatedCombos={null}
     />
   );
 }
