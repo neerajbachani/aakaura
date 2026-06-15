@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, {
+  Suspense,
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import { getOptimizedCloudinaryUrl } from "@/utils/cloudinaryDelivery";
 import { ChakraData, JourneyProduct, chakrasData } from "@/data/chakras";
 import { useRevealer } from "@/hooks/useRevealer";
@@ -276,7 +282,7 @@ const FormattedContent: React.FC<FormattedContentProps> = ({ content }) => {
   );
 };
 
-export default function ChakraJourneyTemplate({
+function ChakraJourneyTemplateContent({
   chakra,
   relatedCombos,
 }: ChakraJourneyTemplateProps) {
@@ -1673,5 +1679,21 @@ export default function ChakraJourneyTemplate({
         onClose={() => setShowAuthModal(false)}
       />
     </div>
+  );
+}
+
+const ChakraJourneyTemplateLoading = () => (
+  <div className="min-h-screen bg-[#27190b] flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#BD9958]" />
+  </div>
+);
+
+export default function ChakraJourneyTemplate(
+  props: ChakraJourneyTemplateProps,
+) {
+  return (
+    <Suspense fallback={<ChakraJourneyTemplateLoading />}>
+      <ChakraJourneyTemplateContent {...props} />
+    </Suspense>
   );
 }
