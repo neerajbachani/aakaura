@@ -1,5 +1,22 @@
 import nodemailer from 'nodemailer';
 
+const getFromAddress = () => {
+    const fromEmail = process.env.SMTP_FROM || 'support@aakaura.com';
+    return `Aakaura Support <${fromEmail}>`;
+};
+
+const createTransporter = () => {
+    return nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: Number(process.env.SMTP_PORT) === 465,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+        },
+    });
+};
+
 interface SendWishlistEmailParams {
     userEmail: string;
     productName: string;
@@ -7,19 +24,11 @@ interface SendWishlistEmailParams {
 
 export const sendWishlistEmail = async ({ userEmail, productName }: SendWishlistEmailParams) => {
     try {
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
+        const transporter = createTransporter();
+        const from = getFromAddress();
 
-        // Send email to customer
         const customerMailOptions = {
-            from: process.env.SMTP_USER,
+            from,
             to: userEmail,
             subject: 'You have been added to the Wishlist!',
             html: `
@@ -33,10 +42,9 @@ export const sendWishlistEmail = async ({ userEmail, productName }: SendWishlist
             `,
         };
 
-        // Send email to admin
         const adminEmail = process.env.ADMIN_CONTACT_EMAIL;
         const adminMailOptions = {
-            from: process.env.SMTP_USER,
+            from,
             to: adminEmail,
             subject: 'New Wishlist Addition',
             html: `
@@ -71,15 +79,8 @@ export const sendWishlistEmail = async ({ userEmail, productName }: SendWishlist
 
 export const sendOrderConfirmationEmail = async (orderData: any, userEmail: string, userName: string) => {
     try {
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
+        const transporter = createTransporter();
+        const from = getFromAddress();
 
         const firstItem = orderData.items?.[0];
         const productName = firstItem?.productName || 'Product';
@@ -93,9 +94,8 @@ export const sendOrderConfirmationEmail = async (orderData: any, userEmail: stri
             journeyName = productName.split(' ')[0];
         }
 
-        // Send email to customer
         const customerMailOptions = {
-            from: process.env.SMTP_USER,
+            from,
             to: userEmail,
             subject: `Order Confirmation - ${orderData.orderNumber}`,
             html: `
@@ -112,10 +112,9 @@ export const sendOrderConfirmationEmail = async (orderData: any, userEmail: stri
             `,
         };
 
-        // Send email to admin
         const adminEmail = process.env.ADMIN_CONTACT_EMAIL;
         const adminMailOptions = {
-            from: process.env.SMTP_USER,
+            from,
             to: adminEmail,
             subject: `New Order Received - ${orderData.orderNumber}`,
             html: `
@@ -145,6 +144,50 @@ export const sendOrderConfirmationEmail = async (orderData: any, userEmail: stri
         return { success: true };
     } catch (error) {
         console.error('Error sending order emails:', error);
+        return { success: false, error };
+    }
+};
+
+interface SendPasswordResetEmailParams {
+    userEmail: string;
+    userName?: string | null;
+    resetUrl: string;
+}
+
+export const sendPasswordResetEmail = async ({
+    userEmail,
+    userName,
+    resetUrl,
+}: SendPasswordResetEmailParams) => {
+    try {
+        const transporter = createTransporter();
+        const from = getFromAddress();
+
+        await transporter.sendMail({
+            from,
+            to: userEmail,
+            subject: 'Reset your Aakaura password',
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333; line-height: 1.6;">
+                    <h2 style="color: #BD9958;">Password Reset</h2>
+                    <p>Hello${userName ? ` ${userName}` : ''},</p>
+                    <p>We received a request to reset your Aakaura account password. Click the button below to choose a new password:</p>
+                    <p style="margin: 30px 0;">
+                        <a href="${resetUrl}" style="background-color: #BD9958; color: #27190B; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+                            Reset Password
+                        </a>
+                    </p>
+                    <p>This link will expire in 1 hour. If you did not request a password reset, you can safely ignore this email.</p>
+                    <p>If the button doesn't work, copy and paste this link into your browser:</p>
+                    <p style="word-break: break-all; color: #27190B;">${resetUrl}</p>
+                    <p>Best regards,<br>The Aakaura Team</p>
+                </div>
+            `,
+        });
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error sending password reset email:', error);
         return { success: false, error };
     }
 };

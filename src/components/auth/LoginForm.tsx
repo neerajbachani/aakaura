@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -104,6 +105,15 @@ export function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps) {
               {errors.password.message}
             </p>
           )}
+        </div>
+
+        <div className="text-right -mt-2">
+          <Link
+            href="/auth/forgot-password"
+            className="text-[#BD9958]/70 font-cormorant text-sm hover:text-primaryRed transition-colors"
+          >
+            Forgot password?
+          </Link>
         </div>
 
         {/* Submit Button */}

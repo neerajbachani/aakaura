@@ -6,7 +6,9 @@ import {
   LoginInput, 
   SignupInput, 
   UpdateProfileInput, 
-  ChangePasswordInput 
+  ChangePasswordInput,
+  ForgotPasswordInput,
+  ResetPasswordInput,
 } from '@/lib/validations/auth';
 import { clearGuestCart } from '@/lib/guestCart';
 
@@ -108,6 +110,36 @@ const changePassword = async (passwordData: ChangePasswordInput) => {
     throw new Error(error.error || 'Password change failed');
   }
   
+  return response.json();
+};
+
+const forgotPassword = async (data: ForgotPasswordInput) => {
+  const response = await fetch('/api/auth/forgot-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Failed to send reset email');
+  }
+
+  return response.json();
+};
+
+const resetPassword = async (data: ResetPasswordInput) => {
+  const response = await fetch('/api/auth/reset-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Password reset failed');
+  }
+
   return response.json();
 };
 
@@ -229,6 +261,30 @@ export const useChangePassword = () => {
     },
     onError: (error) => {
       toast.error(error.message || 'Password change failed');
+    },
+  });
+};
+
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: forgotPassword,
+    onError: (error) => {
+      toast.error(error.message || 'Failed to send reset email');
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: resetPassword,
+    onSuccess: (data) => {
+      toast.success(data.message || 'Password reset successfully');
+      router.push('/auth/login');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Password reset failed');
     },
   });
 };

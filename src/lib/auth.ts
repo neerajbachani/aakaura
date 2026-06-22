@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
+
+const PASSWORD_RESET_EXPIRY_MS = 60 * 60 * 1000; // 1 hour
 
 export interface JWTPayload {
   userId?: string;  // Optional for admin tokens
@@ -29,6 +32,37 @@ export const verifyPassword = async (
   hashedPassword: string
 ): Promise<boolean> => {
   return bcrypt.compare(password, hashedPassword);
+};
+
+// Password reset token operations
+export const hashPasswordResetToken = (rawToken: string): string => {
+  return crypto.createHash('sha256').update(rawToken).digest('hex');
+};
+
+export const verifyPasswordResetToken = (
+  rawToken: string,
+  storedHash: string
+): boolean => {
+  const inputHash = hashPasswordResetToken(rawToken);
+  if (inputHash.length !== storedHash.length) {
+    return false;
+  }
+  return crypto.timingSafeEqual(
+    Buffer.from(inputHash, 'hex'),
+    Buffer.from(storedHash, 'hex')
+  );
+};
+
+export const generatePasswordResetToken = (): {
+  rawToken: string;
+  hashedToken: string;
+  expiresAt: Date;
+} => {
+  const rawToken = crypto.randomBytes(32).toString('hex');
+  const hashedToken = hashPasswordResetToken(rawToken);
+  const expiresAt = new Date(Date.now() + PASSWORD_RESET_EXPIRY_MS);
+
+  return { rawToken, hashedToken, expiresAt };
 };
 
 // JWT token operations

@@ -74,8 +74,10 @@ model User {
   emailVerified Boolean        @default(false)
   role          UserRole       @default(USER)
   isActive      Boolean        @default(true)
-  lastLoginAt   DateTime?
-  totalOrders   Int            @default(0)
+  lastLoginAt            DateTime?
+  passwordResetToken     String?
+  passwordResetExpires   DateTime?
+  totalOrders            Int            @default(0)
   totalSpent    Float          @default(0)
   addresses     Address[]
   cartItems     CartItem[]
