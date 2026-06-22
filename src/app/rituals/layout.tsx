@@ -1,9 +1,9 @@
 import { generateSEO } from "@/lib/seo";
 
 export const metadata = generateSEO({
-  title: "Aakaura Ritual Disclaimers & Notes",
+  title: "Aakaura Ritual Interaction Terms & Awareness Guide",
   description:
-    "Honest expectations, foundational awareness, and product interaction guides for Aakaura rituals. Explore chakra philosophy, vibrational consistency, and downloadable ritual PDFs by category.",
+    "Read and agree to the Aakaura ritual interaction terms before proceeding. Awareness-first guidance — not medical or therapeutic treatment — plus downloadable ritual PDFs by product category.",
   url: "https://aakaura.in/rituals",
 });
 

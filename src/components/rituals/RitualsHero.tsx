@@ -21,18 +21,18 @@ export default function RitualsHero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-base md:text-lg lg:text-xl tracking-[0.3em] uppercase mb-4 md:mb-6 text-primaryBeige/60"
+          className="text-base md:text-lg lg:text-xl tracking-[0.15em] uppercase mb-4 md:mb-6 text-[#BD9958] italic font-light"
         >
-          Aakaura
+          Clarity first. Always.
         </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.25 }}
-          className={`${fonts.playfair} text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-primaryBeige tracking-wide leading-tight`}
+          className={`${fonts.playfair} text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-primaryBeige tracking-wide leading-tight`}
         >
-          Ritual Disclaimers & Notes
+          AAKAURA RITUAL INTERACTION TERMS &amp; AWARENESS GUIDE
         </motion.h1>
 
         <motion.div
@@ -46,9 +46,9 @@ export default function RitualsHero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.65 }}
-          className="mt-6 md:mt-8 text-lg md:text-xl lg:text-2xl text-[#BD9958] italic font-light"
+          className="mt-6 md:mt-8 text-base md:text-lg lg:text-xl text-primaryBeige/70 italic font-light"
         >
-          Scientific rituals and products — informative page
+          (Please read &amp; agree fully before proceeding)
         </motion.p>
       </div>
     </section>

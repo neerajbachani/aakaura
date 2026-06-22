@@ -19,4 +19,12 @@ export function getProductSettings(chakra: ChakraData): ProductSettings | undefi
   return chakra.productSettings as ProductSettings | undefined;
 }
 
+export function resolveIsWishlistOnly(
+  chakra: ChakraData,
+  product: JourneyProduct,
+): boolean {
+  if (product.comboDbId || chakra.slug === "combos") return false;
+  return isWishlistOnlyProduct(getProductSettings(chakra), product.id);
+}
+
 export type { ClientType };

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ChakraData, JourneyProduct } from "@/data/chakras";
 import { JourneyPriceDisplay } from "@/components/ui/JourneyPriceDisplay";
 import { WishlistHeartButton } from "./WishlistHeartButton";
-import { isWishlistOnlyProduct, getProductSettings } from "./wishlistUtils";
+import { resolveIsWishlistOnly } from "./wishlistUtils";
 import { useAddToCart } from "@/hooks/useCart";
 import { toast } from "react-hot-toast";
 import {
@@ -96,10 +96,7 @@ export function JourneyProductPanel({
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const addToCart = useAddToCart();
-  const isWishlistOnly = isWishlistOnlyProduct(
-    getProductSettings(chakra),
-    product.id,
-  );
+  const isWishlistOnly = resolveIsWishlistOnly(chakra, product);
 
   const handlePanelAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -111,12 +108,11 @@ export function JourneyProductPanel({
       return;
     }
 
-    addToCart
-      .mutateAsync({
-        productId: product.id,
-        quantity: 1,
-      })
-      .catch(() => toast.error("Failed to add to cart"));
+    const payload = product.comboDbId
+      ? { comboId: product.comboDbId, quantity: 1 }
+      : { productId: product.id, quantity: 1 };
+
+    addToCart.mutateAsync(payload).catch(() => toast.error("Failed to add to cart"));
   };
 
   const panelCartWishlistActions = (

@@ -14,10 +14,10 @@ export default function AboutHeader() {
     offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["20%", "-90%"]);
+  const taglineOpacity = useTransform(scrollYProgress, [0.35, 0.65], [0, 1]);
+  const taglineY = useTransform(scrollYProgress, [0.35, 0.65], [24, 0]);
 
   return (
-    // CHANGED: Reduced height on mobile to speed up scroll-based animation
     <div ref={containerRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen min-h-[100dvh] overflow-hidden">
         {/* Aurora Background */}
@@ -111,20 +111,10 @@ export default function AboutHeader() {
             </div>
           </div>
 
-          {/* REIMAGINED Text Animation */}
           <div className="w-full overflow-hidden pb-4 sm:pb-10">
-            <motion.h2
-              style={{ x }}
-              className="whitespace-nowrap text-center text-[14vw] md:text-[10vw] font-bold leading-none text-[#BD9958]/20 font-cormorant"
-            >
-              NOT ANOTHER ESCAPE.
-            </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-center text-[#BD9958] font-cormorant text-xl md:text-3xl mt-4 md:mt-8 tracking-[0.1em] uppercase max-w-4xl mx-auto px-4"
+              style={{ opacity: taglineOpacity, y: taglineY }}
+              className="text-center text-[#BD9958] font-cormorant text-xl md:text-3xl tracking-[0.1em] uppercase max-w-4xl mx-auto px-4"
             >
               We don’t sell energy. We make people aware of it.
             </motion.p>

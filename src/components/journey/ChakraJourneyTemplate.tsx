@@ -21,7 +21,7 @@ import { JourneyProductPanel } from "./JourneyProductPanel";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { JourneyPriceDisplay } from "@/components/ui/JourneyPriceDisplay";
 import { JourneyProductFooterActions } from "./JourneyProductFooterActions";
-import { isWishlistOnlyProduct, getProductSettings } from "./wishlistUtils";
+import { resolveIsWishlistOnly } from "./wishlistUtils";
 import {
   COMBO_CATEGORY_LINKS,
   getComboCategoryFilterFromSlug,
@@ -1252,14 +1252,10 @@ function ChakraJourneyTemplateContent({
                             isAuthenticated={isAuthenticated}
                             authLoading={authLoading}
                             onAuthRequired={() => setShowAuthModal(true)}
-                            isWishlistOnly={
-                              product.comboDbId || chakra.slug === "combos"
-                                ? false
-                                : isWishlistOnlyProduct(
-                                    getProductSettings(chakra),
-                                    product.id,
-                                  )
-                            }
+                            isWishlistOnly={resolveIsWishlistOnly(
+                              chakra,
+                              product,
+                            )}
                           />
                           {product.category && chakra.slug !== "combos" && (
                             <Link

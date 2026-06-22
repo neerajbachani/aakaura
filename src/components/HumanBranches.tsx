@@ -91,72 +91,75 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                 />
               </div>
 
-              {/* Chakra Symbols Overlaid on "Eclipse" Shapes - Added padding to prevent clipping */}
-              <div className="absolute inset-0 z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-                <svg
-                  viewBox="0 0 900 900"
-                  className="w-full h-full"
-                  style={{ overflow: "visible" }}
-                >
-
-                  {chakras.map((chakra, index) => (
-                    <motion.g
-                      key={chakra.id}
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                      onMouseEnter={() => setHoveredChakra(chakra.name)}
-                      onMouseLeave={() => setHoveredChakra(null)}
-                    >
-                      {/* Glow Effect */}
-                      <circle
-                        cx={chakra.x}
-                        cy={chakra.y}
-                        r="60"
-                        fill={chakra.color}
-                        className="opacity-20"
+              {/* Chakra overlay: square coordinate space matches object-contain background */}
+              <div className="absolute inset-0 z-10 flex items-center justify-center drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                <div className="relative h-full aspect-square max-w-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 900 900"
+                    className="absolute inset-0 w-full h-full pointer-events-none"
+                    style={{ overflow: "visible" }}
+                  >
+                    {chakras.map((chakra, index) => (
+                      <motion.g
+                        key={chakra.id}
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.1, duration: 0.5 }}
                       >
-                        <animate
-                          attributeName="r"
-                          values="60;70;60"
-                          dur="3s"
-                          repeatCount="indefinite"
-                        />
-                        <animate
-                          attributeName="opacity"
-                          values="0.2;0.4;0.2"
-                          dur="3s"
-                          repeatCount="indefinite"
-                        />
-                      </circle>
+                        <circle
+                          cx={chakra.x}
+                          cy={chakra.y}
+                          r="60"
+                          fill={chakra.color}
+                          className="opacity-20"
+                        >
+                          <animate
+                            attributeName="r"
+                            values="60;70;60"
+                            dur="3s"
+                            repeatCount="indefinite"
+                          />
+                          <animate
+                            attributeName="opacity"
+                            values="0.2;0.4;0.2"
+                            dur="3s"
+                            repeatCount="indefinite"
+                          />
+                        </circle>
+                      </motion.g>
+                    ))}
+                  </svg>
 
-                      {/* Chakra symbol image - Increased size */}
-                      <image
-                        href={chakra.symbol}
-                        xlinkHref={chakra.symbol}
-                        x={chakra.x - 50}
-                        y={chakra.y - 50}
-                        width="100"
-                        height="100"
-                        className="cursor-pointer hover:scale-110 transition-transform"
-                        style={{ 
-                          filter: "brightness(1.5)",
-                          transformOrigin: `${chakra.x}px ${chakra.y}px`
+                  {/* Icons as HTML overlay — avoids Safari foreignObject + transform bugs */}
+                  <div className="absolute inset-0">
+                    {chakras.map((chakra, index) => (
+                      <motion.div
+                        key={`${chakra.id}-icon`}
+                        className="absolute cursor-pointer flex items-center justify-center"
+                        style={{
+                          left: `${((chakra.x - 50) / 900) * 100}%`,
+                          top: `${((chakra.y - 50) / 900) * 100}%`,
+                          width: `${(100 / 900) * 100}%`,
+                          height: `${(100 / 900) * 100}%`,
                         }}
-                      />
-                      
-                      {/* Label on Hover Area (invisible but functional) - Larger clickable area */}
-                      <circle
-                        cx={chakra.x}
-                        cy={chakra.y}
-                        r="55"
-                        fill="transparent"
-                        className="cursor-pointer group"
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.1, duration: 0.5 }}
+                        onMouseEnter={() => setHoveredChakra(chakra.name)}
+                        onMouseLeave={() => setHoveredChakra(null)}
                         onClick={() => onChakraClick?.(chakra.id)}
-                      />
-                    </motion.g>
-                  ))}
-                </svg>
+                      >
+                        <img
+                          src={chakra.symbol}
+                          alt={chakra.name}
+                          className="w-full h-full object-contain transition-transform hover:scale-110"
+                          style={{ filter: "brightness(1.5)" }}
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
