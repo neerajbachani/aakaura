@@ -46,5 +46,6 @@ next-env.d.ts
 *.log
 *.txt
 *.sql
+!prisma/migrations/**/*.sql
 products_*.json
 backup-*/
