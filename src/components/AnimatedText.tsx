@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import Script from "next/script";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaWhatsapp } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+// import { useCallback } from "react";
+// import Script from "next/script";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { FaWhatsapp } from "react-icons/fa";
 
 interface AnimatedTextProps {
   text?: string;
   className?: string;
 }
 
-type PaymentStatus = "idle" | "loading" | "verifying" | "success" | "error";
+// type PaymentStatus = "idle" | "loading" | "verifying" | "success" | "error";
 
 export default function AnimatedText({
   text = "Still searching? Your search ends now.",
@@ -21,9 +22,10 @@ export default function AnimatedText({
   const lettersRef = useRef<HTMLSpanElement[]>([]);
 
   const [mounted, setMounted] = useState(false);
-  const [showButton, setShowButton] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
-  const [errorMsg, setErrorMsg] = useState("");
+  // Inner Circle — temporarily disabled, re-enable when ready
+  // const [showButton, setShowButton] = useState(false);
+  // const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
+  // const [errorMsg, setErrorMsg] = useState("");
 
   // Explicit direction sets
   const upChars = new Set(["S", "o", ","]);
@@ -63,7 +65,7 @@ export default function AnimatedText({
       }
 
       // Show button when animation is nearly complete
-      setShowButton(scrollProgress >= 0.9);
+      // setShowButton(scrollProgress >= 0.9);
 
       // Horizontal translate
       const totalWidth = textWrapper.scrollWidth;
@@ -132,6 +134,7 @@ export default function AnimatedText({
     };
   }, [mounted, upChars, downChars]);
 
+  /*
   const handleJoinInnerCircle = useCallback(async () => {
     setPaymentStatus("loading");
     setErrorMsg("");
@@ -232,6 +235,7 @@ export default function AnimatedText({
       setPaymentStatus("error");
     }
   }, []);
+  */
 
   // Split text into letters and spaces
   const renderText = () => {
@@ -253,15 +257,17 @@ export default function AnimatedText({
     });
   };
 
-  const isLoading =
-    paymentStatus === "loading" || paymentStatus === "verifying";
+  // const isLoading =
+  //   paymentStatus === "loading" || paymentStatus === "verifying";
 
   return (
     <>
+      {/* Inner Circle — temporarily disabled, re-enable when ready
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
       />
+      */}
 
       {/* Pin wrapper */}
       <div ref={pinWrapperRef} className="h-[400vh] relative">
@@ -274,7 +280,7 @@ export default function AnimatedText({
             {renderText()}
           </div>
 
-          {/* Inner Circle CTA — fades in at bottom-center when animation nears complete */}
+          {/* Inner Circle CTA — temporarily disabled, re-enable when ready
           <AnimatePresence>
             {showButton && (
               <motion.div
@@ -285,7 +291,6 @@ export default function AnimatedText({
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute top-[65%] sm:top-[60%] md:top-auto md:bottom-10 left-0 w-full flex flex-col items-center justify-center gap-3 z-30 pointer-events-auto px-4"
               >
-                {/* Subtitle */}
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -295,7 +300,6 @@ export default function AnimatedText({
                   An exclusive community for those who have arrived.
                 </motion.p>
 
-                {/* Main CTA Button */}
                 <motion.button
                   id="inner-circle-join-btn"
                   onClick={handleJoinInnerCircle}
@@ -325,7 +329,6 @@ export default function AnimatedText({
                     disabled:opacity-60 disabled:cursor-wait
                   `}
                 >
-                  {/* Shimmer sweep on hover */}
                   {paymentStatus !== "success" && (
                     <span
                       className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent pointer-events-none"
@@ -333,7 +336,6 @@ export default function AnimatedText({
                     />
                   )}
 
-                  {/* Icon */}
                   {paymentStatus === "success" ? (
                     <svg
                       className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 shrink-0"
@@ -372,7 +374,6 @@ export default function AnimatedText({
                     <FaWhatsapp className="w-4 h-4 md:w-5 md:h-5 text-[#BD9958] shrink-0" />
                   )}
 
-                  {/* Label */}
                   <span className="truncate flex items-center">
                     {paymentStatus === "success" ? (
                       "Welcome to the Circle"
@@ -390,7 +391,6 @@ export default function AnimatedText({
                     )}
                   </span>
 
-                  {/* Price tag — shown in idle state only */}
                   {(paymentStatus === "idle" || paymentStatus === "error") && (
                     <span className="ml-0.5 md:ml-1 px-1.5 md:px-2 py-0.5 rounded-full bg-[#BD9958]/20 text-[#BD9958] text-[10px] md:text-xs font-bold tracking-normal border border-[#BD9958]/40 shrink-0">
                       ₹5
@@ -398,7 +398,6 @@ export default function AnimatedText({
                   )}
                 </motion.button>
 
-                {/* Fine print */}
                 {(paymentStatus === "idle" || paymentStatus === "error") && (
                   <motion.p
                     initial={{ opacity: 0 }}
@@ -411,7 +410,6 @@ export default function AnimatedText({
                   </motion.p>
                 )}
 
-                {/* Error message */}
                 <AnimatePresence>
                   {paymentStatus === "error" && errorMsg && (
                     <motion.p
@@ -426,7 +424,6 @@ export default function AnimatedText({
                   )}
                 </AnimatePresence>
 
-                {/* Success hint */}
                 <AnimatePresence>
                   {paymentStatus === "success" && (
                     <motion.p
@@ -443,6 +440,7 @@ export default function AnimatedText({
               </motion.div>
             )}
           </AnimatePresence>
+          */}
         </div>
       </div>
     </>

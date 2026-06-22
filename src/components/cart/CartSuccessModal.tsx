@@ -167,7 +167,7 @@ export default function CartSuccessModal({
                   onClick={onClose}
                   className="px-6 py-3 rounded-full text-sm uppercase tracking-widest border border-[#BD9958]/50 text-[#BD9958] hover:bg-[#BD9958]/10 transition-colors w-full sm:w-auto text-center font-medium"
                 >
-                  Continue Shopping
+                  Close
                 </button>
                 <Link
                   href={context === "cart-page" ? "/checkout" : "/cart"}
