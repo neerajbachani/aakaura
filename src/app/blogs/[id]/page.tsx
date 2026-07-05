@@ -5,13 +5,38 @@ import Link from "next/link";
 import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
 import { getAllBlogs, getBlogById } from "@/lib/api";
 import Blogs from "@/components/Blogs";
-import { generateSEO } from "@/lib/seo";
+import { generateSEO, excerptFromMarkdown, SITE_URL } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import { buildBlogPostingSchema } from "@/lib/seo-schema";
+import type { Metadata } from "next";
+
 export const dynamic = "force-dynamic";
 
-export const metadata = generateSEO({
-  title: "Blog Post",
-  description: "Read the latest blog post from Aakaura.",
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const id = (await params).id;
+  const blog = await getBlogById(id);
+
+  if (!blog) {
+    return generateSEO({
+      title: "Blog Not Found | Aakaura",
+      description: "The requested blog post could not be found.",
+      pathname: `/blogs/${id}`,
+      noIndex: true,
+    });
+  }
+
+  return generateSEO({
+    title: `${blog.title} | Aakaura Speaks`,
+    description: excerptFromMarkdown(blog.content),
+    image: blog.coverImage,
+    pathname: `/blogs/${id}`,
+    type: "article",
+  });
+}
 
 export default async function BlogPage({
   params,
@@ -44,8 +69,20 @@ export default async function BlogPage({
     );
   }
 
+  const blogUrl = `${SITE_URL}/blogs/${blog.id}`;
+  const blogDescription = excerptFromMarkdown(blog.content, 300);
+
   return (
     <section className="pt-4 pb-10">
+      <JsonLd
+        data={buildBlogPostingSchema({
+          title: blog.title,
+          description: blogDescription,
+          url: blogUrl,
+          image: blog.coverImage,
+          datePublished: blog.createdAt.toISOString(),
+        })}
+      />
       <Container>
         {/* Blog Cover Image */}
         <div className="relative w-full h-80 md:h-96 lg:h-[500px] rounded-xl overflow-hidden mb-10">

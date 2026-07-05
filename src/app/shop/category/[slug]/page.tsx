@@ -5,43 +5,42 @@ import { prisma } from "@/lib/prisma";
 import { JourneyProduct, ChakraData } from "@/data/chakras";
 import { getCategoriesWithImages } from "@/actions/get-categories-with-images";
 import CategoryCard from "@/components/ui/CategoryCard";
-
-// Map slug to display category name
-const formatCategoryName = (slug: string) => {
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-};
+import {
+  CATEGORY_SLUGS,
+  getCategorySEO,
+  slugToDbCategory,
+} from "@/config/seo/categories";
+import { generateCategorySEO, SITE_URL } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildBreadcrumbSchema,
+  buildCollectionPageSchema,
+  buildFAQSchema,
+} from "@/lib/seo-schema";
+import type { Metadata } from "next";
 
 async function getProductsByCategoryFromDB(category: string) {
   const journeys = await prisma.journey.findMany();
   const allProducts: { product: JourneyProduct; chakra: ChakraData }[] = [];
 
   journeys.forEach((journey) => {
-    // Cast content to any to access dynamic fields since Prisma JSON is JsonValue
-    const content = journey.content as any;
+    const content = journey.content as Record<string, JourneyProduct[]>;
 
-    // Construct ChakraData object structure needed by the component
-    // Note: We might need to map DB fields to ChakraData interface more strictly if they differ
-    // For now assuming DB structure mirrors ChakraData
     const chakraData: ChakraData = {
       slug: journey.slug,
       name: journey.name,
       tagline: journey.tagline,
       sanskritName: journey.sanskritName,
       tone: journey.tone,
-      colors: journey.colors as any,
+      colors: journey.colors as ChakraData["colors"],
       content: content,
-      productSettings: journey.productSettings as any,
-    } as any;
+      productSettings: journey.productSettings as ChakraData["productSettings"],
+    } as ChakraData;
 
     (["soul-luxury", "energy-curious"] as const).forEach((clientType) => {
       const products = content[clientType] || [];
-      products.forEach((p: any) => {
-        // Case-insensitive match for category
+      products.forEach((p) => {
         if (p.category && p.category.toLowerCase() === category.toLowerCase()) {
-          // Avoid duplicates based on ID
           if (!allProducts.some((item) => item.product.id === p.id)) {
             allProducts.push({ product: p, chakra: chakraData });
           }
@@ -51,6 +50,19 @@ async function getProductsByCategoryFromDB(category: string) {
   });
 
   return allProducts;
+}
+
+export async function generateStaticParams() {
+  return CATEGORY_SLUGS.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  return generateCategorySEO(slug);
 }
 
 export default async function CategoryPage({
@@ -63,26 +75,19 @@ export default async function CategoryPage({
 
   if (!categorySlug) return notFound();
 
-  const categoryName = formatCategoryName(categorySlug);
-
-  // Determine DB category string
-  let dbCategory = "";
-  if (categorySlug === "muffler") dbCategory = "Muffler";
-  else if (categorySlug === "wall-hanging") dbCategory = "Wall Hanging";
-  else {
-    dbCategory = categoryName;
-  }
-
+  const seo = getCategorySEO(categorySlug);
+  const dbCategory = seo?.dbCategory ?? slugToDbCategory(categorySlug);
   const products = await getProductsByCategoryFromDB(dbCategory);
 
   if (!products || products.length === 0) {
     console.log(
       `No products found in DB for category: ${dbCategory} (slug: ${categorySlug})`,
     );
-    // Optional: return notFound() or render empty
   }
 
   const categories = await getCategoriesWithImages();
+  const categoryUrl = `${SITE_URL}/shop/category/${categorySlug}`;
+  const pageName = seo?.h1 ?? dbCategory;
 
   const categoriesSection = (
     <section className="py-16 md:py-24 bg-[#f4f1ea]/5 border-t border-[#f4f1ea]/10">
@@ -115,10 +120,41 @@ export default async function CategoryPage({
   );
 
   return (
-    <CategoryJourneyTemplate
-      categoryName={dbCategory}
-      items={products}
-      relatedCategories={categoriesSection}
-    />
+    <>
+      {seo && (
+        <JsonLd
+          data={[
+            buildBreadcrumbSchema([
+              { name: "Home", url: SITE_URL },
+              { name: pageName, url: categoryUrl },
+            ]),
+            buildCollectionPageSchema({
+              name: seo.h1,
+              description: seo.description,
+              url: categoryUrl,
+              products: products.map(({ product }) => ({
+                name: product.name,
+              })),
+            }),
+            buildFAQSchema(seo.faqs),
+          ]}
+        />
+      )}
+      <CategoryJourneyTemplate
+        categoryName={dbCategory}
+        items={products}
+        relatedCategories={categoriesSection}
+        seo={
+          seo
+            ? {
+                h1: seo.h1,
+                intro: seo.intro,
+                faqs: seo.faqs,
+                relatedLinks: seo.relatedLinks,
+              }
+            : undefined
+        }
+      />
+    </>
   );
 }

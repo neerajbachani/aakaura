@@ -14,8 +14,16 @@ import BlogSection from "@/components/BlogSection";
 import AnimatedText from "@/components/AnimatedText";
 import ScrollTransition from "@/components/ScrollTransition";
 import HumanBranches from "@/components/HumanBranches";
+import { generateSEO } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = generateSEO({
+  title: "Aakaura | Handcrafted Spiritual Wellness & Chakra Products India",
+  description:
+    "Discover Aakaura wellness products — handcrafted Indian spiritual decor, chakra alignment tools, and conscious artisan gifts. Shop wall hangings, jewellery, bonsai and more.",
+  pathname: "/",
+});
 
 const getFeaturedProducts = async (): Promise<Product[]> => {
   try {

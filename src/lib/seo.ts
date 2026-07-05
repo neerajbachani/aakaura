@@ -1,44 +1,107 @@
 import { Metadata } from "next";
+import { getCategorySEO } from "@/config/seo/categories";
+import { siteKeywords } from "@/config/seo/brand";
+
+export const SITE_URL = "https://aakaura.in";
 
 export const defaultSEO = {
   title: "Aakaura - Elevate Your Spiritual Journey & Inner Peace",
   description:
-    "Aakaura is a peaceful space for spirituality, self-healing, and energy awareness. Through thoughtful blogs and handcrafted wellness products, we explore auras, chakras, and mindful living - gently guiding you to embrace life's energies with curiosity and compassion.",
-  keywords:
-    "Aakaura, spirituality, aura, wellness, energy healing, chakra balancing, meditation, mindfulness, positivity, manifestation, self-love, spiritual protection, cleansing rituals, artisans, handcrafted decor, bonsai trees, root connection, personal growth, spiritual journey, holistic healing, self-improvement, zen lifestyle, inner peace, divine energy, yoga, reiki therapy, crystal healing, law of attraction, spiritual awakening, higher consciousness, guided meditation, metaphysical store, esoteric wisdom, soul alignment",
+    "Aakaura is a peaceful space for spirituality, self-healing, and energy awareness. Shop handcrafted Indian spiritual decor, chakra wellness products, and conscious artisan gifts online.",
+  keywords: siteKeywords,
   image: "/splashLogo.png",
-  url: "https://aakaura.in",
+  url: SITE_URL,
 };
+
+export interface SEOOptions {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  keywords?: string;
+  pathname?: string;
+  noIndex?: boolean;
+  type?: "website" | "article";
+}
 
 export function generateSEO({
   title = defaultSEO.title,
   description = defaultSEO.description,
   image = defaultSEO.image,
   url = defaultSEO.url,
-}: Partial<typeof defaultSEO>): Metadata {
+  keywords = defaultSEO.keywords,
+  pathname,
+  noIndex = false,
+  type = "website",
+}: SEOOptions = {}): Metadata {
+  const canonicalUrl = pathname ? `${SITE_URL}${pathname}` : url;
+
   return {
     title,
     description,
-    metadataBase: new URL(url),
+    keywords,
+    metadataBase: new URL(SITE_URL),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    robots: noIndex
+      ? { index: false, follow: false }
+      : { index: true, follow: true },
     openGraph: {
       title,
       description,
-      url,
+      url: canonicalUrl,
+      siteName: "Aakaura",
+      locale: "en_IN",
       images: [
         {
-          url: image,
+          url: image.startsWith("http") ? image : `${SITE_URL}${image}`,
           width: 1200,
           height: 630,
           alt: title,
         },
       ],
-      type: "website",
+      type,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: [image.startsWith("http") ? image : `${SITE_URL}${image}`],
     },
   };
+}
+
+export function generateCategorySEO(slug: string): Metadata {
+  const category = getCategorySEO(slug);
+
+  if (!category) {
+    return generateSEO({
+      title: "Shop Category | Aakaura",
+      description:
+        "Explore handcrafted spiritual wellness products by category at Aakaura.",
+      pathname: `/shop/category/${slug}`,
+    });
+  }
+
+  return generateSEO({
+    title: category.title,
+    description: category.description,
+    keywords: category.keywords.join(", "),
+    pathname: `/shop/category/${slug}`,
+  });
+}
+
+export function truncateDescription(text: string, maxLength = 155): string {
+  const cleaned = text.replace(/\s+/g, " ").trim();
+  if (cleaned.length <= maxLength) return cleaned;
+  return `${cleaned.slice(0, maxLength - 3).trim()}...`;
+}
+
+export function excerptFromMarkdown(content: string, maxLength = 155): string {
+  const plain = content
+    .replace(/[#*_`>\[\]()!-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return truncateDescription(plain, maxLength);
 }

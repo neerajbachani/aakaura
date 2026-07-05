@@ -2,6 +2,12 @@ import "./globals.css";
 import { Cormorant_Garamond } from "next/font/google";
 import ClientLayout from "./ClientLayout";
 import { getUniqueCategories } from "@/actions/get-categories";
+import { generateSEO } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+} from "@/lib/seo-schema";
 
 const CormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -9,10 +15,7 @@ const CormorantGaramond = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
 });
 
-export const metadata = {
-  title: "Aakaura",
-  description: "Aakaura - Journey through Chakras",
-};
+export const metadata = generateSEO();
 
 export default async function RootLayout({
   children,
@@ -22,6 +25,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
+        <JsonLd
+          data={[buildOrganizationSchema(), buildWebSiteSchema()]}
+        />
         <script
           defer
           data-domain="aakaura.in"

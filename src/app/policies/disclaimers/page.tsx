@@ -12,7 +12,7 @@ export default function DisclaimersPage() {
         <p className="text-center text-lg md:text-xl text-secondaryBeige mb-12">
           For ritual philosophy and product interaction guides, see{" "}
           <Link
-            href="/rituals"
+            href="/rituals/awareness-guide"
             className="text-[#BD9958] hover:text-primaryRed underline underline-offset-4 transition-colors"
           >
             Ritual Notes

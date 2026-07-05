@@ -26,6 +26,12 @@ interface CategoryJourneyTemplateProps {
   categoryName: string;
   items: { product: JourneyProduct; chakra: ChakraData }[];
   relatedCategories?: React.ReactNode;
+  seo?: {
+    h1: string;
+    intro: string;
+    faqs: { question: string; answer: string }[];
+    relatedLinks: { label: string; href: string }[];
+  };
 }
 
 type ClientType = "soul-luxury" | "energy-curious";
@@ -190,6 +196,7 @@ export default function CategoryJourneyTemplate({
   categoryName,
   items: initialItems,
   relatedCategories,
+  seo,
 }: CategoryJourneyTemplateProps) {
   const router = useRouter();
 
@@ -395,6 +402,43 @@ export default function CategoryJourneyTemplate({
           }}
         />
       </div>
+
+      {/* SEO intro — visible to crawlers and visitors */}
+      {seo && (
+        <section className="relative z-10 bg-[#27190b] border-b border-[#f4f1ea]/10">
+          <div className="container mx-auto px-6 md:px-16 py-12 md:py-16 max-w-4xl">
+            <nav
+              aria-label="Breadcrumb"
+              className="flex items-center gap-2 text-[#f4f1ea]/50 uppercase tracking-[0.2em] text-xs mb-6"
+            >
+              <Link href="/" className="hover:text-[#f4f1ea] transition-colors">
+                Home
+              </Link>
+              <span>/</span>
+              <span className="text-[#f4f1ea]">{seo.h1}</span>
+            </nav>
+            <h1 className="text-3xl md:text-5xl font-cormorant font-light text-[#f4f1ea] mb-6">
+              {seo.h1}
+            </h1>
+            <p className="text-[#f4f1ea]/75 font-light text-base md:text-lg leading-relaxed">
+              {seo.intro}
+            </p>
+            {seo.relatedLinks.length > 0 && (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {seo.relatedLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-xs uppercase tracking-widest border border-[#f4f1ea]/20 text-[#f4f1ea]/70 px-4 py-2 rounded-full hover:border-[#BD9958] hover:text-[#BD9958] transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Horizontal Scroll Section */}
       <section
@@ -989,6 +1033,30 @@ export default function CategoryJourneyTemplate({
           Back
         </button>
       </div>
+
+      {/* FAQ Section */}
+      {seo && seo.faqs.length > 0 && (
+        <section className="relative z-10 bg-[#27190b] border-t border-[#f4f1ea]/10">
+          <div className="container mx-auto px-6 md:px-16 py-12 md:py-16 max-w-4xl">
+            <h2 className="text-2xl md:text-3xl font-cormorant font-light text-[#f4f1ea] mb-8">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {seo.faqs.map((faq) => (
+                <CollapsibleSection
+                  key={faq.question}
+                  title={faq.question}
+                  defaultOpen={false}
+                >
+                  <p className="font-light text-base leading-relaxed opacity-80">
+                    {faq.answer}
+                  </p>
+                </CollapsibleSection>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Related Categories Section */}
       {relatedCategories}

@@ -3,6 +3,7 @@ import fonts from "@/config/fonts";
 import Link from "next/link";
 import { FaInstagram, FaYoutube, FaXTwitter } from "react-icons/fa6";
 import { SiLinktree } from "react-icons/si";
+import { footerCategoryLinks } from "@/config/seo/categories";
 
 export default function Footer() {
   return (
@@ -16,6 +17,35 @@ export default function Footer() {
           {/* <p className={`text-base ${fonts.mulish}`}>support@aakaura.in</p> */}
           <p className={`text-base ${fonts.merriweather}`}>+91 8619029656</p>
           <p className={`text-base ${fonts.merriweather}`}>Jaipur, Rajasthan</p>
+        </div>
+
+        {/* Shop Categories */}
+        <div>
+          <h3 className={`text-xl font-semibold mb-4 ${fonts.playfair}`}>
+            Shop
+          </h3>
+          <ul className={`space-y-3 ${fonts.merriweather}`}>
+            {footerCategoryLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  title={link.title}
+                  className="hover:text-primaryRed transition"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link
+                href="/combos"
+                title="Shop chakra combo bundles and ritual sets"
+                className="hover:text-primaryRed transition"
+              >
+                Chakra Combo Bundles
+              </Link>
+            </li>
+          </ul>
         </div>
 
         {/* Quick Links */}

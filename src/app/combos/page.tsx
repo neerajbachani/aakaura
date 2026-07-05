@@ -8,8 +8,16 @@ import {
   formatComboPrice,
   resolveComboPricing,
 } from "@/lib/comboPricing";
+import { generateSEO } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = generateSEO({
+  title: "Chakra Combo Bundles | Ritual Sets & Starter Bundles | Aakaura",
+  description:
+    "Shop Aakaura chakra combo bundles — curated ritual sets blending wall hangings, bonsai, mufflers and more. Premium spiritual gifts for meditation lovers.",
+  pathname: "/combos",
+});
 
 export default async function CombosPage() {
   // Query Prisma directly - avoids circular HTTP self-fetch that fails on Vercel SSR

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import fonts from "@/config/fonts";
 import { COMBO_CATEGORY_LINKS } from "@/config/comboCategories";
+import { getCategoryLinkTitle } from "@/config/seo/categories";
 import Image from "next/image";
 import { CartIcon } from "@/components/cart/CartIcon";
 import { CartDrawer } from "@/components/cart/CartDrawer";
@@ -14,7 +15,7 @@ import { useAuthStatus } from "@/hooks/useAuth";
 
 interface NavItemProps {
   title: string;
-  submenuItems: { name: string; href: string }[];
+  submenuItems: { name: string; href: string; title?: string }[];
   onNavigate?: () => void;
 }
 
@@ -57,6 +58,7 @@ const SlideMenuNavItem = ({
               <Link
                 key={item.name}
                 href={item.href}
+                title={item.title}
                 onClick={onNavigate}
                 className={`block px-8 py-3 md:py-4 text-lg md:text-xl text-[#27190b] hover:text-primaryRed transition-colors `}
               >
@@ -134,17 +136,45 @@ export default function Navbar({
         });
 
         return sortedCategories.length > 0
-          ? sortedCategories.map((cat) => ({
-              name: cat,
-              href: `/shop/category/${cat.toLowerCase().replace(/\s+/g, "-")}`,
-            }))
+          ? sortedCategories.map((cat) => {
+              const slug = cat.toLowerCase().replace(/\s+/g, "-");
+              return {
+                name: cat,
+                href: `/shop/category/${slug}`,
+                title: getCategoryLinkTitle(slug),
+              };
+            })
           : [
-              { name: "Wall Hanging", href: "/shop/category/wall-hanging" },
-              { name: "Anchor", href: "/shop/category/anchor" },
-              { name: "Bonsai", href: "/shop/category/bonsai" },
-              { name: "Jewellery", href: "/shop/category/jewellery" },
-              { name: "Muffler", href: "/shop/category/muffler" },
-              { name: "Neck Warmer", href: "/shop/category/neck-warmer" },
+              {
+                name: "Wall Hanging",
+                href: "/shop/category/wall-hanging",
+                title: getCategoryLinkTitle("wall-hanging"),
+              },
+              {
+                name: "Anchor",
+                href: "/shop/category/anchor",
+                title: getCategoryLinkTitle("anchor"),
+              },
+              {
+                name: "Bonsai",
+                href: "/shop/category/bonsai",
+                title: getCategoryLinkTitle("bonsai"),
+              },
+              {
+                name: "Jewellery",
+                href: "/shop/category/jewellery",
+                title: getCategoryLinkTitle("jewellery"),
+              },
+              {
+                name: "Muffler",
+                href: "/shop/category/muffler",
+                title: getCategoryLinkTitle("muffler"),
+              },
+              {
+                name: "Neck Warmer",
+                href: "/shop/category/neck-warmer",
+                title: getCategoryLinkTitle("neck-warmer"),
+              },
             ];
       })(),
     },
