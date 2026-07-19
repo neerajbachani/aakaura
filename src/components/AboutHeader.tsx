@@ -116,7 +116,7 @@ export default function AboutHeader() {
               style={{ opacity: taglineOpacity, y: taglineY }}
               className="text-center text-[#BD9958] font-cormorant text-xl md:text-3xl tracking-[0.1em] uppercase max-w-4xl mx-auto px-4"
             >
-              We don’t sell energy. We make people aware of it.
+              We make you aware of the energy within.
             </motion.p>
           </div>
         </div>

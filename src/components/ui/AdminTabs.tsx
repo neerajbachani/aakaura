@@ -11,6 +11,9 @@ import {
   FaClipboardList,
   FaCog,
   FaLayerGroup,
+  FaCalendarAlt,
+  FaUserMd,
+  FaTag,
 } from "react-icons/fa";
 
 interface AdminTabsProps {
@@ -25,7 +28,11 @@ interface AdminTabsProps {
     | "wishlist"
     | "products-settings"
     | "combos"
-    | "quiz";
+    | "quiz"
+    | "bookings"
+    | "packages"
+    | "practitioners"
+    | "coupon-settings";
 }
 
 export default function AdminTabs({ activeTab }: AdminTabsProps) {
@@ -41,6 +48,30 @@ export default function AdminTabs({ activeTab }: AdminTabsProps) {
       href: "/admin/orders",
       icon: FaShoppingBag,
       active: activeTab === "orders",
+    },
+    {
+      name: "Bookings",
+      href: "/admin/bookings",
+      icon: FaCalendarAlt,
+      active: activeTab === "bookings",
+    },
+    {
+      name: "Ritual Packages",
+      href: "/admin/packages",
+      icon: FaLayerGroup,
+      active: activeTab === "packages",
+    },
+    {
+      name: "Practitioners",
+      href: "/admin/practitioners",
+      icon: FaUserMd,
+      active: activeTab === "practitioners",
+    },
+    {
+      name: "Coupon Settings",
+      href: "/admin/settings/coupon",
+      icon: FaTag,
+      active: activeTab === "coupon-settings",
     },
     {
       name: "Users",

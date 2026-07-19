@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import fonts from "@/config/fonts";
+import BackedByIStart from "@/components/BackedByIStart";
 
 export default function SplashScreen() {
   const pathname = usePathname();
@@ -115,7 +116,7 @@ export default function SplashScreen() {
                 </motion.p>
               </div>
 
-              <div className="absolute bottom-[25%] md:bottom-[35%] left-0 right-0 text-center">
+              <div className="absolute bottom-[18%] md:bottom-[28%] left-0 right-0 text-center">
                 <motion.p
                   className={`${fonts.specialElite} text-base md:text-2xl text-primaryBrown overflow-hidden`}
                   variants={containerVariants}
@@ -136,6 +137,10 @@ export default function SplashScreen() {
                     </motion.span>
                   ))}
                 </motion.p>
+              </div>
+
+              <div className="absolute bottom-[8%] md:bottom-[12%] left-0 right-0 flex justify-center">
+                <BackedByIStart className="text-primaryBrown/80" />
               </div>
             </motion.div>
           </div>

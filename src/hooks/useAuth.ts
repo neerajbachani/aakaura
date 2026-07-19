@@ -17,6 +17,7 @@ export interface User {
   email: string;
   name?: string;
   phone?: string;
+  role?: string;
   createdAt: string;
   updatedAt?: string;
   addresses?: any[];
@@ -175,8 +176,8 @@ export const useLogin = () => {
       
       toast.success('Welcome back!');
       
-      // Redirect to intended page or home
-      const redirectTo = sessionStorage.getItem('redirectAfterLogin') || '/';
+      const redirectTo = sessionStorage.getItem('redirectAfterLogin')
+        || (data.user?.role === 'PRACTITIONER' ? '/practitioner' : '/');
       sessionStorage.removeItem('redirectAfterLogin');
       router.push(redirectTo);
     },

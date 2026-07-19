@@ -5,6 +5,13 @@ import { useState, useEffect } from "react";
 import { useTransitionRouter } from "next-view-transitions";
 import { motion, AnimatePresence } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import HeroPathSelector from "@/components/home/HeroPathSelector";
+import HeroGuidancePanel from "@/components/home/HeroGuidancePanel";
+import HeroBouquetPanel from "@/components/home/HeroBouquetPanel";
+import {
+  DEFAULT_HERO_PATH,
+  type HeroPath,
+} from "@/config/homeHero";
 
 // Chakras configuration array with slug mapping
 // Chakras configuration array with slug mapping
@@ -219,6 +226,7 @@ function ChakraCircle({
 
 export default function BannerImage() {
   const router = useTransitionRouter();
+  const [activePath, setActivePath] = useState<HeroPath>(DEFAULT_HERO_PATH);
   const [hoveredChakra, setHoveredChakra] = useState<
     (typeof chakrasConfig)[0] | null
   >(null);
@@ -236,6 +244,14 @@ export default function BannerImage() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Clear chakra selection when leaving journey tab
+  useEffect(() => {
+    if (activePath !== "journey") {
+      setSelectedChakra(null);
+      setHoveredChakra(null);
+    }
+  }, [activePath]);
 
   const centerChakra = chakrasConfig.find((c) => c.position === "center");
   const upperChakras = chakrasConfig
@@ -267,6 +283,13 @@ export default function BannerImage() {
     router.push(`/journey/${slug}`, {
       onTransitionReady: triggerPageTransition,
     });
+  };
+
+  const panelMotion = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 },
+    transition: { duration: 0.3, ease: "easeOut" as const },
   };
 
   return (
@@ -308,161 +331,179 @@ export default function BannerImage() {
         }
       `}</style>
 
-      {/* Main Layout - Spread Pattern (Visible on all screens) */}
       <div className="flex flex-col items-center gap-2 w-full max-w-7xl mx-auto relative z-10 pt-16 md:pt-0">
-        {/* Header Lines */}
-        <div className="text-center mb-10 md:mb-16 animate-fadeIn z-20 px-4 max-w-4xl mx-auto">
+        {/* Shared welcome — selector sits where "Choose your Journey" used to */}
+        <div className="flex flex-col items-center text-center mb-6 md:mb-8 z-20 w-full px-4 animate-fadeIn">
           <h1 className="text-3xl md:text-4xl lg:text-5xl text-[#BD9958] font-light mb-2 tracking-wide">
             Welcome to Aakaura
           </h1>
           <p className="text-base md:text-xl text-[#BD9958]/80 mb-6 font-light">
             (आकार to your aura);
           </p>
-          <p className="text-sm md:text-lg text-[#BD9958] font-medium tracking-widest uppercase">
-            Choose your Journey
-          </p>
+          <HeroPathSelector activePath={activePath} onChange={setActivePath} />
         </div>
 
-        {/* Center - Crown Chakra */}
-        {centerChakra && (
-          <div className="flex justify-center">
-            <ChakraCircle
-              chakra={centerChakra}
-              onNavigate={handleNavigation}
-              onHover={setHoveredChakra}
-              isMobile={isMobile}
-              onClick={() => setSelectedChakra(centerChakra)}
-            />
-          </div>
-        )}
+        {/* Panel content area — min-height prevents layout jump */}
+        <div className="w-full min-h-[55vh] md:min-h-[65vh] relative flex flex-col items-center">
+          {/* Guidance Panel */}
+          <AnimatePresence mode="wait">
+            {activePath === "guidance" && (
+              <motion.div
+                key="guidance"
+                role="tabpanel"
+                id="hero-panel-guidance"
+                aria-labelledby="hero-tab-guidance"
+                {...panelMotion}
+              >
+                <HeroGuidancePanel />
+              </motion.div>
+            )}
 
-        {/* Upper Row */}
-        <div className="flex justify-between w-[65%]">
-          {upperChakras.map((chakra) => (
-            <ChakraCircle
-              key={chakra.id}
-              chakra={chakra}
-              onNavigate={handleNavigation}
-              onHover={setHoveredChakra}
-              isMobile={isMobile}
-              onClick={() => setSelectedChakra(chakra)}
-            />
-          ))}
-        </div>
+            {activePath === "bouquet" && (
+              <motion.div
+                key="bouquet"
+                role="tabpanel"
+                id="hero-panel-bouquet"
+                aria-labelledby="hero-tab-bouquet"
+                {...panelMotion}
+              >
+                <HeroBouquetPanel />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Middle Row with Central Info Display */}
-        <div className="flex justify-between w-[85%] relative">
-          {middleChakras.map((chakra) => (
-            <ChakraCircle
-              key={chakra.id}
-              chakra={chakra}
-              onNavigate={handleNavigation}
-              onHover={setHoveredChakra}
-              isMobile={isMobile}
-              onClick={() => setSelectedChakra(chakra)}
-            />
-          ))}
-
-          {/* Central Info Display */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-            {hoveredChakra && (
-              <div className="text-white text-center min-w-[420px] max-w-xl animate-fadeIn flex flex-col items-center justify-center">
-                {/* <h3
-                    className="text-3xl font-bold mb-4 drop-shadow-lg"
-                    style={{ 
-                      color: hoveredChakra.color,
-                      textShadow: `0 0 20px ${hoveredChakra.shadow}`
-                    }}
-                  >
-                    {hoveredChakra.name} Chakra
-                  </h3> */}
-                <p
-                  className="text-[#bd9958] text-xs md:text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
-                  style={{ lineHeight: "2.8" }}
-                >
-                  {hoveredChakra.info}
-                </p>
+          {/* Journey Panel — stays mounted to preserve hover state */}
+          <div
+            role="tabpanel"
+            id="hero-panel-journey"
+            aria-labelledby="hero-tab-journey"
+            hidden={activePath !== "journey"}
+            className={
+              activePath === "journey"
+                ? "flex flex-col items-center gap-2 w-full animate-fadeIn"
+                : "hidden"
+            }
+          >
+            {/* Center - Crown Chakra */}
+            {centerChakra && (
+              <div className="flex justify-center w-full">
+                <ChakraCircle
+                  chakra={centerChakra}
+                  onNavigate={handleNavigation}
+                  onHover={setHoveredChakra}
+                  isMobile={isMobile}
+                  onClick={() => setSelectedChakra(centerChakra)}
+                />
               </div>
             )}
-          </div>
-        </div>
 
-        {/* Lower Row */}
-        <div className="flex items-end w-full relative">
-          {/* Left chakra - pinned to left */}
-          {lowerChakras[0] && (
-            <div className="flex-shrink-0">
-              <ChakraCircle
-                chakra={lowerChakras[0]}
-                onNavigate={handleNavigation}
-                onHover={setHoveredChakra}
-                isMobile={isMobile}
-                onClick={() => setSelectedChakra(lowerChakras[0])}
-              />
+            {/* Upper Row */}
+            <div className="flex justify-between w-[65%] mx-auto">
+              {upperChakras.map((chakra) => (
+                <ChakraCircle
+                  key={chakra.id}
+                  chakra={chakra}
+                  onNavigate={handleNavigation}
+                  onHover={setHoveredChakra}
+                  isMobile={isMobile}
+                  onClick={() => setSelectedChakra(chakra)}
+                />
+              ))}
             </div>
-          )}
 
-          {/* CTA - absolutely centered relative to the full row */}
-          <Link
-            href="/journey"
-            className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-4 group flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-500"
-          >
-            <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
-              <span className="relative z-10 font-cormorant text-2xl text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
-                Start With What You Feel
+            {/* Middle Row with Central Info Display */}
+            <div className="flex justify-between w-[85%] mx-auto relative">
+              {middleChakras.map((chakra) => (
+                <ChakraCircle
+                  key={chakra.id}
+                  chakra={chakra}
+                  onNavigate={handleNavigation}
+                  onHover={setHoveredChakra}
+                  isMobile={isMobile}
+                  onClick={() => setSelectedChakra(chakra)}
+                />
+              ))}
+
+              {/* Central Info Display */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                {hoveredChakra && (
+                  <div className="text-white text-center min-w-[420px] max-w-xl animate-fadeIn flex flex-col items-center justify-center">
+                    <p
+                      className="text-[#bd9958] text-xs md:text-xl leading-relaxed text-center whitespace-pre-line font-bold drop-shadow-md"
+                      style={{ lineHeight: "2.8" }}
+                    >
+                      {hoveredChakra.info}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Lower Row */}
+            <div className="flex items-end justify-between w-full mx-auto relative">
+              {lowerChakras[0] && (
+                <div className="flex-shrink-0">
+                  <ChakraCircle
+                    chakra={lowerChakras[0]}
+                    onNavigate={handleNavigation}
+                    onHover={setHoveredChakra}
+                    isMobile={isMobile}
+                    onClick={() => setSelectedChakra(lowerChakras[0])}
+                  />
+                </div>
+              )}
+
+              <Link
+                href="/journey"
+                className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-4 group flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-500"
+              >
+                <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
+                  <span className="relative z-10 font-cormorant text-2xl text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
+                    Start With What You Feel
+                  </span>
+                  <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
+                </div>
+                <span className="text-[10px] text-[#BD9958]/60 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+                  Start Your Journey
+                </span>
+              </Link>
+
+              {lowerChakras[1] && (
+                <div className="flex-shrink-0">
+                  <ChakraCircle
+                    chakra={lowerChakras[1]}
+                    onNavigate={handleNavigation}
+                    onHover={setHoveredChakra}
+                    isMobile={isMobile}
+                    onClick={() => setSelectedChakra(lowerChakras[1])}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Mobile CTA */}
+            <Link
+              href="/journey"
+              className="flex md:hidden group relative flex-col items-center justify-center gap-2 mt-8 hover:scale-105 transition-transform duration-500"
+            >
+              <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
+                <span className="relative z-10 font-cormorant text-lg text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
+                  Start With What You Feel
+                </span>
+                <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
+              </div>
+              <span className="text-[10px] text-[#BD9958]/60 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+                Start Your Journey
               </span>
-
-              {/* Shine Effect */}
-              <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
-            </div>
-
-            <span className="text-[10px] text-[#BD9958]/60 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
-              Start Your Journey
-            </span>
-          </Link>
-
-          {/* Spacer to push right chakra to the edge */}
-          <div className="flex-1" />
-
-          {/* Right chakra - pinned to right */}
-          {lowerChakras[1] && (
-            <div className="flex-shrink-0">
-              <ChakraCircle
-                chakra={lowerChakras[1]}
-                onNavigate={handleNavigation}
-                onHover={setHoveredChakra}
-                isMobile={isMobile}
-                onClick={() => setSelectedChakra(lowerChakras[1])}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Mobile CTA - Begin Where You Are (Mobile Only) */}
-        <Link
-          href="/journey"
-          className="flex md:hidden group relative flex-col items-center justify-center gap-2 mt-8 hover:scale-105 transition-transform duration-500"
-        >
-          <div className="relative overflow-hidden px-8 py-3 border border-[#BD9958]/30 rounded-full bg-[#BD9958]/5 hover:bg-[#BD9958]/10 backdrop-blur-sm transition-all duration-500">
-            <span className="relative z-10 font-cormorant text-lg text-[#BD9958] tracking-widest uppercase group-hover:text-primaryBeige transition-colors duration-300">
-              Start With What You Feel
-            </span>
-
-            {/* Shine Effect */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#BD9958]/20 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
+            </Link>
           </div>
-
-          <span className="text-[10px] text-[#BD9958]/60 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
-            Start Your Journey
-          </span>
-        </Link>
+        </div>
       </div>
 
-      {/* Mobile Bottom Sheet */}
+      {/* Mobile Bottom Sheet — journey only */}
       <AnimatePresence>
-        {isMobile && selectedChakra && (
+        {isMobile && activePath === "journey" && selectedChakra && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -471,7 +512,6 @@ export default function BannerImage() {
               className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100]"
             />
 
-            {/* Bottom Sheet */}
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -479,10 +519,8 @@ export default function BannerImage() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed bottom-0 left-0 right-0 bg-[#27190b] z-[101] rounded-t-[32px] p-8 pb-12 shadow-[0_-20px_40px_rgba(0,0,0,0.5)] border-t border-[#BD9958]/20"
             >
-              {/* Handle Bar */}
               <div className="w-12 h-1 bg-[#BD9958]/20 rounded-full mx-auto mb-8" />
 
-              {/* Close Button */}
               <button
                 onClick={() => setSelectedChakra(null)}
                 className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"

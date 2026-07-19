@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
         email: true,
         name: true,
         phone: true,
+        role: true,
         createdAt: true,
         updatedAt: true,
         addresses: true,

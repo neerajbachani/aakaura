@@ -31,7 +31,7 @@ export async function verifyAdminToken(request: NextRequest) {
 
 export async function verifyUserToken(request: NextRequest) {
   try {
-    const token = request.cookies.get("auth-token")?.value;
+    const token = request.cookies.get("token")?.value;
     
     if (!token) {
       return null;
@@ -48,6 +48,7 @@ export async function verifyUserToken(request: NextRequest) {
         id: true,
         email: true,
         name: true,
+        phone: true,
         role: true
       }
     });
@@ -57,6 +58,26 @@ export async function verifyUserToken(request: NextRequest) {
     console.error("User token verification failed:", error);
     return null;
   }
+}
+
+export async function verifyPractitionerToken(request: NextRequest) {
+  const user = await verifyUserToken(request);
+  if (!user || user.role !== "PRACTITIONER") {
+    return null;
+  }
+
+  const practitioner = await prisma.practitioner.findUnique({
+    where: { userId: user.id },
+    include: {
+      user: { select: { id: true, email: true, name: true, phone: true, role: true } },
+    },
+  });
+
+  if (!practitioner || !practitioner.active) {
+    return null;
+  }
+
+  return practitioner;
 }
 
 export async function authenticate(request: Request | NextRequest) {

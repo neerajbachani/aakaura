@@ -82,9 +82,13 @@ model User {
   addresses     Address[]
   cartItems     CartItem[]
   orders        Order[]
-  wishlistItems WishlistItem[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  wishlistItems     WishlistItem[]
+  guidanceBookings  GuidanceBooking[]
+  coupons           Coupon[]
+  packagePurchases  PackagePurchase[]
+  practitionerProfile Practitioner?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 }
 
 model Address {
@@ -169,7 +173,10 @@ model Order {
   // Shiprocket Tracking
   shiprocketOrderId    String?
   shiprocketShipmentId String?
-  
+
+  // Guidance coupon eligibility (order that qualified a completed guidance call)
+  qualifiedGuidanceBookings GuidanceBooking[] @relation("GuidanceQualifyingOrder")
+
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 }
@@ -227,6 +234,145 @@ enum PaymentMethod {
 enum UserRole {
   USER
   ADMIN
+  PRACTITIONER
+}
+
+enum BookingType {
+  GUIDANCE_CALL
+  PACKAGE_SESSION
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  RESCHEDULED
+  NO_SHOW
+}
+
+enum PackageType {
+  PACKAGE_I
+  PACKAGE_II
+  PACKAGE_III
+}
+
+enum PackageStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+enum CouponDiscountType {
+  PERCENT
+  FIXED
+}
+
+model Practitioner {
+  id              String            @id @default(uuid())
+  userId          String            @unique
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  email           String
+  phone           String?
+  active          Boolean           @default(true)
+  specialization  String?
+  assignedBookings GuidanceBooking[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model GuidanceBooking {
+  id                      String         @id @default(uuid())
+  userId                  String
+  user                    User           @relation(fields: [userId], references: [id])
+  bookingType             BookingType    @default(GUIDANCE_CALL)
+  status                  BookingStatus  @default(PENDING)
+  preferredDate           String?
+  preferredTime           String?
+  preferredPractitioner   String?
+  timezone                String         @default("Asia/Kolkata")
+  meetingDateTime         DateTime?
+  meetingLink             String?
+  assignedPractitionerId  String?
+  assignedPractitioner    Practitioner?  @relation(fields: [assignedPractitionerId], references: [id])
+  duration                Int            @default(20)
+  paymentStatus           PaymentStatus  @default(PENDING)
+  amount                  Float
+  notes                   String?
+  razorpayOrderId         String?
+  razorpayPaymentId       String?        @unique
+  razorpaySignature       String?
+  packagePurchaseId       String?
+  packagePurchase         PackagePurchase? @relation(fields: [packagePurchaseId], references: [id])
+  couponDiscountType      CouponDiscountType?
+  couponDiscountValue     Float?
+  reminderSentAt          Json?
+  completedAt             DateTime?
+  qualifyingOrderId       String?
+  qualifyingOrder         Order?         @relation("GuidanceQualifyingOrder", fields: [qualifyingOrderId], references: [id])
+  qualifyingOrderAt       DateTime?
+  couponEligible          Boolean        @default(false)
+  couponIssuedAt          DateTime?
+  couponIssuedBy          String?
+  coupon                  Coupon?
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([assignedPractitionerId])
+  @@index([meetingDateTime])
+}
+
+model Coupon {
+  id            String             @id @default(uuid())
+  userId        String
+  user          User               @relation(fields: [userId], references: [id])
+  bookingId     String             @unique
+  booking       GuidanceBooking    @relation(fields: [bookingId], references: [id])
+  code          String             @unique
+  discountType  CouponDiscountType
+  discountValue Float
+  applicablePackageType PackageType  @default(PACKAGE_I)
+  validTill     DateTime
+  used          Boolean            @default(false)
+  usedAt        DateTime?
+  createdAt     DateTime           @default(now())
+
+  @@index([userId])
+  @@index([code])
+}
+
+model PackagePurchase {
+  id                String            @id @default(uuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id])
+  packageType       PackageType
+  remainingCalls    Int
+  expiryDate        DateTime?
+  status            PackageStatus     @default(ACTIVE)
+  amount            Float
+  paymentStatus     PaymentStatus     @default(PENDING)
+  razorpayOrderId   String?
+  razorpayPaymentId String?           @unique
+  razorpaySignature String?
+  couponId          String?
+  bookings          GuidanceBooking[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model AppSetting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Journey {

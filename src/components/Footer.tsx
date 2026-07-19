@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FaInstagram, FaYoutube, FaXTwitter } from "react-icons/fa6";
 import { SiLinktree } from "react-icons/si";
 import { footerCategoryLinks } from "@/config/seo/categories";
+import BackedByIStart from "@/components/BackedByIStart";
 
 export default function Footer() {
   return (
@@ -168,6 +169,7 @@ export default function Footer() {
         <p className={`${fonts.specialElite}`}>
           &copy; {new Date().getFullYear()} Aakaura&trade;. All rights reserved.
         </p>
+        <BackedByIStart className="text-primaryBeige/70" />
         <p
           className={`text-xs text-primaryBeige/70 ${fonts.mulish} max-w-2xl mx-auto px-4`}
         >

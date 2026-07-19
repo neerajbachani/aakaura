@@ -17,17 +17,19 @@ export default function ClientLayout({
 }) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith("/admin");
+  const isPractitionerRoute = pathname?.startsWith("/practitioner");
+  const hideChrome = isAdminRoute || isPractitionerRoute;
   const isHomePage = pathname === "/";
 
   return (
     <ViewTransitions>
       <Toaster />
       <QueryProvider>
-        {!isAdminRoute && !isHomePage && <Navbar categories={categories} />}
-        <main className={`${!isAdminRoute}`}>
+        {!hideChrome && !isHomePage && <Navbar categories={categories} />}
+        <main className={`${!hideChrome}`}>
           <SmoothScroll>{children}</SmoothScroll>
         </main>
-        {!isAdminRoute && <Footer />}
+        {!hideChrome && <Footer />}
       </QueryProvider>
     </ViewTransitions>
   );

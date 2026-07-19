@@ -12,6 +12,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { ProfileMenu } from "@/components/user/ProfileMenu";
 import { useAuthStatus } from "@/hooks/useAuth";
+import BackedByIStart from "@/components/BackedByIStart";
 
 interface NavItemProps {
   title: string;
@@ -192,22 +193,25 @@ export default function Navbar({
     <>
       {/* Navbar */}
       <nav className={`${className} `}>
-        <div className="flex items-center justify-between h-20 px-4 md:px-8">
-          <Link href="/" className="w-36 md:w-44 h-14 relative flex">
-            <div className="w-full h-full relative">
-              <Image
-                src="/images/logo.png"
-                alt="Aakaura"
-                fill
-                className="object-contain"
-                quality={100}
-                priority
-              />
-            </div>
-            <span className="absolute -right-2 md:-right-4 top-2 text-sm md:text-xl text-[#764640] font-bold">
-              &trade;
-            </span>
-          </Link>
+        <div className="flex items-center justify-between min-h-20 py-1 px-4 md:px-8">
+          <div className="flex flex-col items-start">
+            <Link href="/" className="w-36 md:w-44 h-14 relative flex">
+              <div className="w-full h-full relative">
+                <Image
+                  src="/images/logo.png"
+                  alt="Aakaura"
+                  fill
+                  className="object-contain"
+                  quality={100}
+                  priority
+                />
+              </div>
+              <span className="absolute -right-2 md:-right-4 top-2 text-sm md:text-xl text-[#764640] font-bold">
+                &trade;
+              </span>
+            </Link>
+            <BackedByIStart className="text-[#764640]/80 mt-0.5" />
+          </div>
         </div>
       </nav>
 
@@ -395,6 +399,20 @@ export default function Navbar({
                     className="block px-6 py-4 text-xl md:text-2xl text-[#27190b] hover:text-primaryRed"
                   >
                     Ritual Notes
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ delay: 0.43, duration: 0.3 }}
+                >
+                  <Link
+                    href="/book-guidance"
+                    onClick={closeMenu}
+                    className="block px-6 py-4 text-xl md:text-2xl text-[#27190b] hover:text-primaryRed"
+                  >
+                    Book Guidance Call
                   </Link>
                 </motion.div>
                 {navItems.map((item, index) => (

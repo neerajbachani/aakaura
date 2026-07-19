@@ -3,9 +3,13 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import crypto from "crypto";
-import { sendOrderConfirmationEmail } from "@/lib/email";
+import {
+  sendOrderConfirmationEmail,
+  sendGuidanceCustomerQualifyingOrderEmail,
+} from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { resolveComboPricing } from "@/lib/comboPricing";
+import { COUPON_MIN_ORDER_TOTAL } from "@/config/guidance";
 
 const orderItemSchema = z
   .object({
@@ -87,6 +91,57 @@ async function orderHasBonsai(
     ),
   );
   return directBonsai || comboBonsai;
+}
+
+// After a qualifying paid order (total > ₹999), link it to the customer's most
+// recent completed guidance call so an admin can manually issue a Package I coupon.
+async function flagCouponEligibility(
+  orderId: string,
+  userId: string,
+  total: number,
+) {
+  try {
+    if (total <= COUPON_MIN_ORDER_TOTAL) return;
+
+    const booking = await prisma.guidanceBooking.findFirst({
+      where: {
+        userId,
+        bookingType: "GUIDANCE_CALL",
+        status: "COMPLETED",
+        completedAt: { not: null },
+        couponEligible: false,
+        coupon: null,
+      },
+      orderBy: { completedAt: "desc" },
+      include: { user: { select: { name: true, email: true } } },
+    });
+
+    if (!booking) return;
+
+    await prisma.guidanceBooking.update({
+      where: { id: booking.id },
+      data: {
+        qualifyingOrderId: orderId,
+        qualifyingOrderAt: new Date(),
+        couponEligible: true,
+      },
+    });
+
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      select: { orderNumber: true },
+    });
+
+    await sendGuidanceCustomerQualifyingOrderEmail({
+      customerName: booking.user.name || booking.user.email,
+      customerEmail: booking.user.email,
+      orderNumber: order?.orderNumber || orderId,
+      orderTotal: total,
+      bookingId: booking.id,
+    });
+  } catch (error) {
+    console.error("[orders] flagCouponEligibility failed:", error);
+  }
 }
 
 // Create order from cart
@@ -317,6 +372,10 @@ export async function POST(request: NextRequest) {
         completeOrder.user.email,
         completeOrder.user.name || "",
       );
+    }
+
+    if (paymentStatus === "PAID") {
+      await flagCouponEligibility(order.id, decoded.userId, total);
     }
 
     return NextResponse.json(completeOrder, { status: 201 });

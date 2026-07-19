@@ -14,9 +14,9 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Muladhara",
     description: "Gift grounding, stability, and a deep connection to the Earth.",
     variants: [
-      { id: "root-main", path: "/bouquet/root-main.webp", label: "Bloom I" },
-      { id: "root-1", path: "/bouquet/root (1).webp", label: "Bloom II" },
-      { id: "root-2", path: "/bouquet/root (2).webp", label: "Bloom III" },
+      { id: "root-1", path: "/bouquet/root (1).webp", label: "Bloom I" },
+      { id: "root-2", path: "/bouquet/root (2).webp", label: "Bloom II" },
+      { id: "root-3", path: "/bouquet/root3.png", label: "Bloom III" },
     ],
   },
   {
@@ -25,9 +25,8 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Svadhisthana",
     description: "Inspire creativity, passion, and emotional flow.",
     variants: [
-      { id: "sacral-main", path: "/bouquet/sacral-main.webp", label: "Bloom I" },
-      { id: "sacral-1", path: "/bouquet/sacral (1).webp", label: "Bloom II" },
-      { id: "sacral-2", path: "/bouquet/sacral (2).webp", label: "Bloom III" },
+      { id: "sacral-1", path: "/bouquet/sacral (1).webp", label: "Bloom I" },
+      { id: "sacral-2", path: "/bouquet/sacral (2).webp", label: "Bloom II" },
     ],
   },
   {
@@ -36,9 +35,9 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Manipura",
     description: "Send confidence, personal power, and radiant energy.",
     variants: [
-      { id: "solar-plexus-main", path: "/bouquet/solar-main.webp", label: "Bloom I" },
-      { id: "solar-plexus-1", path: "/bouquet/solar (3).webp", label: "Bloom II" },
-      { id: "solar-plexus-2", path: "/bouquet/solar (4).webp", label: "Bloom III" },
+      { id: "solar-plexus-1", path: "/bouquet/solar (3).webp", label: "Bloom I" },
+      { id: "solar-plexus-2", path: "/bouquet/solar (4).webp", label: "Bloom II" },
+      { id: "solar-plexus-3", path: "/bouquet/solar.webp", label: "Bloom III" },
     ],
   },
   {
@@ -47,9 +46,8 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Anahata",
     description: "This is for someone you want to send pure love and compassion.",
     variants: [
-      { id: "heart-main", path: "/bouquet/heart-main.webp", label: "Bloom I" },
-      { id: "heart-1", path: "/bouquet/heart (1).webp", label: "Bloom II" },
-      { id: "heart-2", path: "/bouquet/heart (2).webp", label: "Bloom III" },
+      { id: "heart-1", path: "/bouquet/heart (1).webp", label: "Bloom I" },
+      { id: "heart-2", path: "/bouquet/heart (2).webp", label: "Bloom II" },
     ],
   },
   {
@@ -58,9 +56,9 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Vishuddha",
     description: "Encourage truth, clear communication, and authentic expression.",
     variants: [
-      { id: "throat-main", path: "/bouquet/throat-main.webp", label: "Bloom I" },
-      { id: "throat-1", path: "/bouquet/throat (6).webp", label: "Bloom II" },
-      { id: "throat-2", path: "/bouquet/throat (7).webp", label: "Bloom III" },
+      { id: "throat-1", path: "/bouquet/throat (6).webp", label: "Bloom I" },
+      { id: "throat-2", path: "/bouquet/throat (7).webp", label: "Bloom II" },
+      { id: "throat-3", path: "/bouquet/throat3.png", label: "Bloom III" },
     ],
   },
   {
@@ -69,9 +67,9 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Ajna",
     description: "Gift intuition, insight, and deep inner wisdom.",
     variants: [
-      { id: "third-eye-main", path: "/bouquet/thirdeye-main.webp", label: "Bloom I" },
-      { id: "third-eye-1", path: "/bouquet/thirdeye (1).webp", label: "Bloom II" },
-      { id: "third-eye-2", path: "/bouquet/thirdeye (2).webp", label: "Bloom III" },
+      { id: "third-eye-1", path: "/bouquet/thirdeye1.webp", label: "Bloom I" },
+      { id: "third-eye-2", path: "/bouquet/thirdeye2.webp", label: "Bloom II" },
+      { id: "third-eye-3", path: "/bouquet/thirdeye3.webp", label: "Bloom III" },
     ],
   },
   {
@@ -80,9 +78,8 @@ const CHAKRAS_CONFIG = [
     nameSanskrit: "Sahasrara",
     description: "Share spiritual connection, divine light, and universal awareness.",
     variants: [
-      { id: "crown-main", path: "/bouquet/crown-main.webp", label: "Bloom I" },
-      { id: "crown-1", path: "/bouquet/crown (1).webp", label: "Bloom II" },
-      { id: "crown-2", path: "/bouquet/crown (5).webp", label: "Bloom III" },
+      { id: "crown-1", path: "/bouquet/crown (1).webp", label: "Bloom I" },
+      { id: "crown-2", path: "/bouquet/crown (5).webp", label: "Bloom II" },
     ],
   },
 ];
@@ -192,7 +189,13 @@ export default function ChakraSelectionPage() {
         </div>
 
         {/* Variant Picker */}
-        <div className="grid grid-cols-3 gap-4 md:gap-6 mb-10">
+        <div
+          className={`grid gap-4 md:gap-6 mb-10 mx-auto ${
+            chakra.variants.length === 3
+              ? "grid-cols-3 max-w-lg"
+              : "grid-cols-2 max-w-md"
+          }`}
+        >
           {chakra.variants.map((variant) => {
             const count = getVariantCount(variant.id);
             const isSelected = count > 0;

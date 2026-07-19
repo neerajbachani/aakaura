@@ -12,7 +12,7 @@ const CHAKRAS = [
   {
     id: "root",
     name: "Root Chakra",
-    path: "/bouquet/root-main.webp",
+    path: "/bouquet/root (1).webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#ef4444]">Root Chakra ❤️</p>
@@ -21,15 +21,15 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "root-main", path: "/bouquet/root-main.webp", label: "Bloom I" },
-      { id: "root-1", path: "/bouquet/root (1).webp", label: "Bloom II" },
-      { id: "root-2", path: "/bouquet/root (2).webp", label: "Bloom III" },
+      { id: "root-1", path: "/bouquet/root (1).webp", label: "Bloom I" },
+      { id: "root-2", path: "/bouquet/root (2).webp", label: "Bloom II" },
+      { id: "root-3", path: "/bouquet/root3.png", label: "Bloom III" },
     ],
   },
   {
     id: "sacral",
     name: "Sacral Chakra",
-    path: "/bouquet/sacral-main.webp",
+    path: "/bouquet/sacral (1).webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#f97316]">Sacral Chakra 🧡</p>
@@ -38,15 +38,14 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "sacral-main", path: "/bouquet/sacral-main.webp", label: "Bloom I" },
-      { id: "sacral-1", path: "/bouquet/sacral (1).webp", label: "Bloom II" },
-      { id: "sacral-2", path: "/bouquet/sacral (2).webp", label: "Bloom III" },
+      { id: "sacral-1", path: "/bouquet/sacral (1).webp", label: "Bloom I" },
+      { id: "sacral-2", path: "/bouquet/sacral (2).webp", label: "Bloom II" },
     ],
   },
   {
     id: "solar-plexus",
     name: "Solar Plexus Chakra",
-    path: "/bouquet/solar-main.webp",
+    path: "/bouquet/solar (3).webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#eab308]">Solar Plexus Chakra 💛</p>
@@ -55,15 +54,15 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "solar-plexus-main", path: "/bouquet/solar-main.webp", label: "Bloom I" },
-      { id: "solar-plexus-1", path: "/bouquet/solar (3).webp", label: "Bloom II" },
-      { id: "solar-plexus-2", path: "/bouquet/solar (4).webp", label: "Bloom III" },
+      { id: "solar-plexus-1", path: "/bouquet/solar (3).webp", label: "Bloom I" },
+      { id: "solar-plexus-2", path: "/bouquet/solar (4).webp", label: "Bloom II" },
+      { id: "solar-plexus-3", path: "/bouquet/solar.webp", label: "Bloom III" },
     ],
   },
   {
     id: "heart",
     name: "Heart Chakra",
-    path: "/bouquet/heart-main.webp",
+    path: "/bouquet/heart (1).webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#22c55e]">Heart Chakra 💚</p>
@@ -72,15 +71,14 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "heart-main", path: "/bouquet/heart-main.webp", label: "Bloom I" },
-      { id: "heart-1", path: "/bouquet/heart (1).webp", label: "Bloom II" },
-      { id: "heart-2", path: "/bouquet/heart (2).webp", label: "Bloom III" },
+      { id: "heart-1", path: "/bouquet/heart (1).webp", label: "Bloom I" },
+      { id: "heart-2", path: "/bouquet/heart (2).webp", label: "Bloom II" },
     ],
   },
   {
     id: "throat",
     name: "Throat Chakra",
-    path: "/bouquet/throat-main.webp",
+    path: "/bouquet/throat (6).webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#06b6d4]">Throat Chakra 💙</p>
@@ -89,15 +87,15 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "throat-main", path: "/bouquet/throat-main.webp", label: "Bloom I" },
-      { id: "throat-1", path: "/bouquet/throat (6).webp", label: "Bloom II" },
-      { id: "throat-2", path: "/bouquet/throat (7).webp", label: "Bloom III" },
+      { id: "throat-1", path: "/bouquet/throat (6).webp", label: "Bloom I" },
+      { id: "throat-2", path: "/bouquet/throat (7).webp", label: "Bloom II" },
+      { id: "throat-3", path: "/bouquet/throat3.png", label: "Bloom III" },
     ],
   },
   {
     id: "third-eye",
     name: "Third Eye Chakra",
-    path: "/bouquet/thirdeye-main.webp",
+    path: "/bouquet/thirdeye1.webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#3b82f6]">Third Eye Chakra 💜</p>
@@ -106,15 +104,15 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "third-eye-main", path: "/bouquet/thirdeye-main.webp", label: "Bloom I" },
-      { id: "third-eye-1", path: "/bouquet/thirdeye (1).webp", label: "Bloom II" },
-      { id: "third-eye-2", path: "/bouquet/thirdeye (2).webp", label: "Bloom III" },
+      { id: "third-eye-1", path: "/bouquet/thirdeye1.webp", label: "Bloom I" },
+      { id: "third-eye-2", path: "/bouquet/thirdeye2.webp", label: "Bloom II" },
+      { id: "third-eye-3", path: "/bouquet/thirdeye3.webp", label: "Bloom III" },
     ],
   },
   {
     id: "crown",
     name: "Crown Chakra",
-    path: "/bouquet/crown-main.webp",
+    path: "/bouquet/crown (1).webp",
     description: (
       <div className="space-y-1">
         <p className="font-semibold text-[#9333ea]">Crown Chakra 🤍</p>
@@ -123,35 +121,39 @@ const CHAKRAS = [
       </div>
     ),
     variants: [
-      { id: "crown-main", path: "/bouquet/crown-main.webp", label: "Bloom I" },
-      { id: "crown-1", path: "/bouquet/crown (1).webp", label: "Bloom II" },
-      { id: "crown-2", path: "/bouquet/crown (5).webp", label: "Bloom III" },
+      { id: "crown-1", path: "/bouquet/crown (1).webp", label: "Bloom I" },
+      { id: "crown-2", path: "/bouquet/crown (5).webp", label: "Bloom II" },
     ],
   },
 ];
 
 const CHAKRAS_MAP: Record<string, { name: string; path: string }> = {
-  "root-main": { name: "Root Chakra", path: "/bouquet/root-main.webp" },
   "root-1": { name: "Root Chakra", path: "/bouquet/root (1).webp" },
   "root-2": { name: "Root Chakra", path: "/bouquet/root (2).webp" },
-  "sacral-main": { name: "Sacral Chakra", path: "/bouquet/sacral-main.webp" },
+  "root-3": { name: "Root Chakra", path: "/bouquet/root3.png" },
   "sacral-1": { name: "Sacral Chakra", path: "/bouquet/sacral (1).webp" },
   "sacral-2": { name: "Sacral Chakra", path: "/bouquet/sacral (2).webp" },
-  "solar-plexus-main": { name: "Solar Plexus Chakra", path: "/bouquet/solar-main.webp" },
   "solar-plexus-1": { name: "Solar Plexus Chakra", path: "/bouquet/solar (3).webp" },
   "solar-plexus-2": { name: "Solar Plexus Chakra", path: "/bouquet/solar (4).webp" },
-  "heart-main": { name: "Heart Chakra", path: "/bouquet/heart-main.webp" },
+  "solar-plexus-3": { name: "Solar Plexus Chakra", path: "/bouquet/solar.webp" },
   "heart-1": { name: "Heart Chakra", path: "/bouquet/heart (1).webp" },
   "heart-2": { name: "Heart Chakra", path: "/bouquet/heart (2).webp" },
-  "throat-main": { name: "Throat Chakra", path: "/bouquet/throat-main.webp" },
   "throat-1": { name: "Throat Chakra", path: "/bouquet/throat (6).webp" },
   "throat-2": { name: "Throat Chakra", path: "/bouquet/throat (7).webp" },
-  "third-eye-main": { name: "Third Eye Chakra", path: "/bouquet/thirdeye-main.webp" },
-  "third-eye-1": { name: "Third Eye Chakra", path: "/bouquet/thirdeye (1).webp" },
-  "third-eye-2": { name: "Third Eye Chakra", path: "/bouquet/thirdeye (2).webp" },
-  "crown-main": { name: "Crown Chakra", path: "/bouquet/crown-main.webp" },
+  "throat-3": { name: "Throat Chakra", path: "/bouquet/throat3.png" },
+  "third-eye-1": { name: "Third Eye Chakra", path: "/bouquet/thirdeye1.webp" },
+  "third-eye-2": { name: "Third Eye Chakra", path: "/bouquet/thirdeye2.webp" },
+  "third-eye-3": { name: "Third Eye Chakra", path: "/bouquet/thirdeye3.webp" },
   "crown-1": { name: "Crown Chakra", path: "/bouquet/crown (1).webp" },
   "crown-2": { name: "Crown Chakra", path: "/bouquet/crown (5).webp" },
+  // Legacy main variants for older bouquets
+  "root-main": { name: "Root Chakra", path: "/bouquet/root-main.webp" },
+  "sacral-main": { name: "Sacral Chakra", path: "/bouquet/sacral-main.webp" },
+  "solar-plexus-main": { name: "Solar Plexus Chakra", path: "/bouquet/solar-main.webp" },
+  "heart-main": { name: "Heart Chakra", path: "/bouquet/heart-main.webp" },
+  "throat-main": { name: "Throat Chakra", path: "/bouquet/throat-main.webp" },
+  "third-eye-main": { name: "Third Eye Chakra", path: "/bouquet/thirdeye-main.webp" },
+  "crown-main": { name: "Crown Chakra", path: "/bouquet/crown-main.webp" },
 };
 
 const BUSH_OPTIONS = [
@@ -576,7 +578,13 @@ export default function BouquetCreationPage() {
                       ({flowers.length} / 10)
                     </span>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 mb-6">
+                  <div
+                    className={`grid gap-3 mb-6 mx-auto ${
+                      selectedChakraConfig.variants.length === 3
+                        ? "grid-cols-3 max-w-sm"
+                        : "grid-cols-2 max-w-xs"
+                    }`}
+                  >
                     {selectedChakraConfig.variants.map((variant) => {
                       const count = getVariantCount(variant.id);
                       return (
