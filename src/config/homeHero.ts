@@ -32,7 +32,7 @@ export const HERO_GUIDANCE = {
   eyebrow: "Guidance Call",
   headline: "Book Your Demo Guidance Call",
   description:
-    "A 20-minute session with an Aakaura practitioner to understand your chakras, sacred symbols, and the right next steps for your ritual journey.",
+    "A 20-minute session with an Aakaura practitioner to understand your chakras, sacred symbols, and the right next steps for your Aakaura journey.",
   ctaLabel: "Book Now",
   ctaHref: "/book-guidance",
   secondaryLabel: "View ritual support packages",

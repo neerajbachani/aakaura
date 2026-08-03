@@ -34,7 +34,7 @@ export const PACKAGES: Record<
   },
   PACKAGE_III: {
     label: 'Premium Ritual Support',
-    price: 2999,
+    price: 1499,
     calls: 5,
     durationMinutes: 25,
     validityDays: 45,
@@ -69,8 +69,8 @@ export const GUIDANCE_PRACTITIONERS = [
     name: 'Sunaina Aggarwal',
     title: 'Certified Pranic Healer | Energy Practitioner',
     bio: [
-      'We here at Aakaura love talking to Sunaina about her experiences with energy! Sunaina is a Certified Pranic Healer, trained and certified by the Institute for Inner Studies under the World Pranic Healing Foundation, Manila. Her journey into energy work spans over a decade, including advanced training in Clairvoyance and Arhatic Yoga (Level 3.1) under the Master Choa Kok Sui system—a practice rooted in refining perception, energy sensitivity, and inner discipline.',
-      "With this depth of training, Sunaina brings both technical precision and genuine presence to every guidance call. She's someone you can talk to about where your energy feels stuck, which chakra might need attention, and how to actually work with, not just around, what you're feeling.",
+      'Sunaina is a Certified Pranic Healer with over a decade of experience, trained by the Institute for Inner Studies under the World Pranic Healing Foundation. Her advanced training includes Clairvoyance and Arhatic Yoga (Level 3.1) under the Master Choa Kok Sui system.',
+      "She brings technical precision and genuine presence to every guidance call—whether your energy feels stuck, a chakra needs attention, or you want to work with what you're feeling.",
     ],
     imageUrl:
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-1_mi9t6g.png',
@@ -80,8 +80,8 @@ export const GUIDANCE_PRACTITIONERS = [
     name: 'Richa Hapawat',
     title: 'Pranic Healing Practitioner',
     bio: [
-      "Richa's journey into energy work began in 2016 with the Master Choa Kok Sui Basic Pranic Healing Course in Jaipur, and has since grown into a well-rounded practice; including certifications in Psychic Self Defense and Pranic Crystal Healing under the World Pranic Healing Foundation, Manila. She is so cool when it comes to talking to the Gen Zs of Aakaura.",
-      'With nearly a decade of training across foundational and specialized pranic healing techniques, Richa brings a grounded, practical approach to energy work; someone you can talk to about protecting your energy, understanding the basics of your own energetic body.',
+      'Richa has practiced pranic healing since 2016, with certifications in Psychic Self Defense and Pranic Crystal Healing under the World Pranic Healing Foundation.',
+      'She brings a grounded, practical approach to energy work—helpful for protecting your energy and understanding your own energetic body.',
     ],
     imageUrl:
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-2_uf4ddk.png',
@@ -207,15 +207,14 @@ export const PACKAGE_DETAILS: Record<
     plusIncludes: [
       'Easier ritual steps',
       'More customized guidance',
-      'Option to reschedule',
-      'Option to skip a session if required',
+      
     ],
     postPurchase: true,
   },
   PACKAGE_III: {
     label: 'Package III',
     subtitle: 'Premium Ritual Support',
-    price: 2999,
+    price: 1499,
     calls: 5,
     durationMinutes: 25,
     validityDays: 45,
@@ -225,8 +224,6 @@ export const PACKAGE_DETAILS: Record<
     inheritsFrom: 'Package II',
     plusIncludes: [
       'Aakaura Inner Circle practical tips',
-      'Product-related guidance',
-      'Extended practitioner support',
     ],
     postPurchase: true,
   },

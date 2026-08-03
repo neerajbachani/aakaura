@@ -79,7 +79,7 @@ export default function GuidanceCallDetails() {
       </SectionCard>
 
       {/* Guidelines */}
-      <SectionCard title="Important Guidelines">
+      {/* <SectionCard title="Important Guidelines">
         <ul className="space-y-2">
           {GUIDANCE_CALL_GUIDELINES.map((rule) => (
             <li key={rule} className="flex gap-2 text-[#F5E6D3]/95 text-base lg:text-lg">
@@ -88,7 +88,7 @@ export default function GuidanceCallDetails() {
             </li>
           ))}
         </ul>
-      </SectionCard>
+      </SectionCard> */}
 
       {/* Coupon */}
       <SectionCard title={COUPON_POLICY.title}>
@@ -103,7 +103,7 @@ export default function GuidanceCallDetails() {
       </SectionCard>
 
       {/* What to expect */}
-      <SectionCard title="What to Expect During Your Call">
+      {/* <SectionCard title="What to Expect During Your Call">
         <div className="space-y-5">
           {CALL_FLOW.map((block) => (
             <div key={block.duration}>
@@ -122,7 +122,7 @@ export default function GuidanceCallDetails() {
             </div>
           ))}
         </div>
-      </SectionCard>
+      </SectionCard> */}
 
       {/* Session guidelines */}
       <SectionCard title="Session Guidelines">
@@ -167,7 +167,7 @@ export default function GuidanceCallDetails() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-base lg:text-lg text-[#F5E6D3]/85 mb-3">
                   <p>
                     <span className="text-[#F5E6D3]/50">Calls: </span>
-                    {pkg.calls} × {pkg.durationMinutes} min each
+                    {pkg.calls} × {pkg.durationMinutes} min
                   </p>
                   {pkg.validityLabel && (
                     <p>

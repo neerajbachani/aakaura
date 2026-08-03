@@ -139,7 +139,7 @@ export default function BookGuidancePage() {
             </h1>
             <p className="text-[#F5E6D3]/90 text-base lg:text-xl max-w-2xl mx-auto leading-relaxed">
               A 20-minute session with an Aakaura practitioner to understand your chakras,
-              sacred symbols, and the right next steps for your ritual journey.
+              sacred symbols, and the right next steps for your Aakaura journey.
             </p>
           </header>
 
