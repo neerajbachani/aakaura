@@ -244,26 +244,37 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
   bonsai: {
     slug: "bonsai",
     dbCategory: "Bonsai",
-    title: "Chakra Personality Bonsai | Crochet Trunk Spiritual Plants | Aakaura",
+    title:
+      "Living Chakra Bonsai | Real Adenium with Crochet & Handmade Decor | Aakaura",
     description:
-      "Shop crochet trunk chakra bonsai plants, zero-maintenance spiritual desk decor for office and home. Buy online at Aakaura.",
+      "Real living Adenium chakra bonsai with handcrafted crochet yarn spirals and faux decorative orbs. Low-maintenance spiritual desk decor. Buy at Aakaura.",
     h1: "Chakra Personality Bonsai Plants",
     intro:
-      "Bring symbolic energy to your desk with Aakaura's crochet trunk bonsai plants, artistic handmade bonsai trees where each design reflects a chakra-specific personality. These spiritual faux bonsai trees require zero maintenance yet carry deep meaning, making them unique zero maintenance spiritual decor for offices, meditation corners, and gifting. Explore crocheted trunk chakra bonsai aligned to root grounding, heart opening, third eye insight, and more. Each piece is a handcrafted spiritual desk plant that supports chakra alignment without the care demands of living trees, perfect as a symbolic personality alignment gift or chakra alignment tree for those who want beauty, intention, and permanence in one object.",
+      "Bring living energy to your desk with Aakaura's Aarohma Ekam chakra bonsai — real living Adenium (Desert Rose) plants, each hand-finished with crochet-wrapped yarn spirals, suspended orbs, and faux decorative accents aligned to a chakra-specific personality. The plant is alive; the crochet, yarn, and faux elements are artistic adornments on the living tree, not a substitute for it. These resilient, low-maintenance bonsai need bright indirect light and occasional watering, yet carry deep symbolic meaning for offices, meditation corners, and gifting. Explore living chakra bonsai aligned to root grounding, heart opening, third eye insight, and more. Each piece arrives in a handcrafted terracotta pot, pranic-cleansed and finished by hand — a real plant with handmade decor for those who want beauty, intention, and natural growth in one object.",
     keywords: [
-      "crochet trunk bonsai plant",
-      "chakra personality bonsai",
-      "spiritual faux bonsai tree",
-      "artistic handmade bonsai",
-      "handcrafted spiritual desk plant",
+      "living chakra bonsai",
+      "Adenium desert rose bonsai",
+      "crochet yarn bonsai decor",
+      "handmade chakra bonsai",
+      "real bonsai with crochet detailing",
+      "low maintenance living bonsai",
       "chakra alignment tree for office",
-      "unique zero maintenance spiritual decor",
     ],
     faqs: [
       {
         question: "Are Aakaura bonsai plants real or artificial?",
         answer:
-          "Aakaura bonsai plants are artistic handmade pieces with crocheted trunks and crafted foliage, designed as zero-maintenance spiritual decor that lasts without watering or sunlight.",
+          "Yes — every Aarohma Ekam bonsai starts with a real living Adenium (Desert Rose) plant. On top of that, our artisans add handcrafted crochet yarn spirals, suspended orbs, and faux decorative accents as chakra-aligned adornments. The plant is real; the crochet and faux elements are decorative, not a substitute for a living tree.",
+      },
+      {
+        question: "What handmade work goes into each bonsai?",
+        answer:
+          "Each bonsai is hand-finished with aura-toned crochet/yarn spirals wrapped around the live trunk, plus suspended yarn orbs and faux decorative accents chosen for the chakra it represents. Every piece is pranic-cleansed and finished in a handcrafted terracotta pot.",
+      },
+      {
+        question: "How do I care for an Aakaura living bonsai?",
+        answer:
+          "Place your Adenium bonsai in bright, indirect sunlight and water sparingly, allowing the soil to dry between watering. Avoid overwatering and prolonged damp conditions, and protect the plant from extreme cold.",
       },
       {
         question: "How do chakra personality bonsai work?",
@@ -273,7 +284,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       {
         question: "Are bonsai plants good for office desks?",
         answer:
-          "Yes. Aakaura bonsai plants are ideal desk decor, compact, maintenance-free, and symbolically rich. They make excellent chakra alignment gifts for colleagues and loved ones.",
+          "Yes. Aakaura living bonsai plants are ideal desk decor — compact, resilient, and symbolically rich. They make excellent chakra alignment gifts for colleagues and loved ones.",
       },
     ],
     relatedLinks: [
@@ -281,7 +292,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       { label: "Chakra Wall Hangings", href: "/shop/category/wall-hanging" },
       { label: "Aura Colour Mufflers", href: "/shop/category/muffler" },
     ],
-    linkTitle: "Shop chakra personality bonsai and spiritual desk plants",
+    linkTitle: "Shop real living chakra bonsai with crochet and handmade decor",
   },
 };
 
