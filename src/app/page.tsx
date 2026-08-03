@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export const metadata = generateSEO({
   title: "Aakaura | Handcrafted Spiritual Wellness & Chakra Products India",
   description:
-    "Discover Aakaura wellness products — handcrafted Indian spiritual decor, chakra alignment tools, and conscious artisan gifts. Shop wall hangings, jewellery, bonsai and more.",
+    "Discover Aakaura wellness products, handcrafted Indian spiritual decor, chakra alignment tools, and conscious artisan gifts. Shop wall hangings, jewellery, bonsai and more.",
   pathname: "/",
 });
 

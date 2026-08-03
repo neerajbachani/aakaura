@@ -139,7 +139,7 @@ export default function AdminBookingDetailPage({
             </div>
             <div>
               <p className="text-gray-500">Preferred Slot</p>
-              <p>{booking.preferredDate || "—"} {booking.preferredTime ? `at ${booking.preferredTime}` : ""}</p>
+              <p>{booking.preferredDate || "-"} {booking.preferredTime ? `at ${booking.preferredTime}` : ""}</p>
               <p className="text-gray-500 mt-1">Timezone: {booking.timezone}</p>
             </div>
             <div>
@@ -148,7 +148,7 @@ export default function AdminBookingDetailPage({
             </div>
             <div>
               <p className="text-gray-500">Payment</p>
-              <p>{booking.paymentStatus} — ₹{booking.amount}</p>
+              <p>{booking.paymentStatus} · ₹{booking.amount}</p>
             </div>
             {booking.notes && (
               <div className="md:col-span-2">
@@ -284,13 +284,13 @@ export default function AdminBookingDetailPage({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="text-gray-500">Call Completed</p>
-                  <p>{booking.completedAt ? new Date(booking.completedAt).toLocaleString("en-IN") : "—"}</p>
+                  <p>{booking.completedAt ? new Date(booking.completedAt).toLocaleString("en-IN") : "-"}</p>
                 </div>
                 <div>
                   <p className="text-gray-500">Product Order</p>
                   {booking.qualifyingOrder ? (
                     <p>
-                      {booking.qualifyingOrder.orderNumber} — ₹{booking.qualifyingOrder.total}
+                      {booking.qualifyingOrder.orderNumber} · ₹{booking.qualifyingOrder.total}
                       {booking.qualifyingOrder.orderDate
                         ? ` (${new Date(booking.qualifyingOrder.orderDate).toLocaleDateString("en-IN")})`
                         : ""}

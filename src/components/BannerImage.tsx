@@ -332,7 +332,7 @@ export default function BannerImage() {
       `}</style>
 
       <div className="flex flex-col items-center gap-2 w-full max-w-7xl mx-auto relative z-10 pt-16 md:pt-0">
-        {/* Shared welcome — selector sits where "Choose your Journey" used to */}
+        {/* Shared welcome: selector sits where "Choose your Journey" used to */}
         <div className="flex flex-col items-center text-center mb-6 md:mb-8 z-20 w-full px-4 animate-fadeIn">
           <h1 className="text-3xl md:text-4xl lg:text-5xl text-[#BD9958] font-light mb-2 tracking-wide">
             Welcome to Aakaura
@@ -343,7 +343,7 @@ export default function BannerImage() {
           <HeroPathSelector activePath={activePath} onChange={setActivePath} />
         </div>
 
-        {/* Panel content area — min-height prevents layout jump */}
+        {/* Panel content area: min-height prevents layout jump */}
         <div className="w-full min-h-[55vh] md:min-h-[65vh] relative flex flex-col items-center">
           {/* Guidance Panel */}
           <AnimatePresence mode="wait">
@@ -372,7 +372,7 @@ export default function BannerImage() {
             )}
           </AnimatePresence>
 
-          {/* Journey Panel — stays mounted to preserve hover state */}
+          {/* Journey Panel: stays mounted to preserve hover state */}
           <div
             role="tabpanel"
             id="hero-panel-journey"
@@ -500,7 +500,7 @@ export default function BannerImage() {
         </div>
       </div>
 
-      {/* Mobile Bottom Sheet — journey only */}
+      {/* Mobile Bottom Sheet: journey only */}
       <AnimatePresence>
         {isMobile && activePath === "journey" && selectedChakra && (
           <>

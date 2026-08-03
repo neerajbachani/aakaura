@@ -131,7 +131,7 @@ export default function HumanBranches({ onChakraClick }: HumanBranchesProps = {}
                     ))}
                   </svg>
 
-                  {/* Icons as HTML overlay — avoids Safari foreignObject + transform bugs */}
+                  {/* Icons as HTML overlay: avoids Safari foreignObject + transform bugs */}
                   <div className="absolute inset-0">
                     {chakras.map((chakra, index) => (
                       <motion.div

@@ -170,7 +170,7 @@ export default function PackagesTable() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500">
-                    {pkg.expiryDate ? formatDate(pkg.expiryDate) : "—"}
+                    {pkg.expiryDate ? formatDate(pkg.expiryDate) : "-"}
                   </td>
                   <td className="px-6 py-4 text-sm">{formatCurrency(pkg.amount)}</td>
                   <td className="px-6 py-4">

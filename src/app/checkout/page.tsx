@@ -94,7 +94,7 @@ export default function CheckoutPage() {
             ? ` (${bonsaiLabels.join(", ")})`
             : "";
         toast.error(
-          `Your cart includes bonsai${itemHint}. Bonsai can only be delivered to Jaipur — use a pincode starting with 302 or 303. Your pincode ${formData.zipCode.trim()} is outside that area.`,
+          `Your cart includes bonsai${itemHint}. Bonsai can only be delivered to Jaipur: use a pincode starting with 302 or 303. Your pincode ${formData.zipCode.trim()} is outside that area.`,
         );
         return;
       }
@@ -296,7 +296,7 @@ export default function CheckoutPage() {
                 {bonsaiLabels.length > 0
                   ? ` (${bonsaiLabels.join(", ")})`
                   : ""}
-                . Bonsai is only delivered within Jaipur — pincode must start with{" "}
+                . Bonsai is only delivered within Jaipur: pincode must start with{" "}
                 <strong>302</strong> or <strong>303</strong>.
                 {!zipIsJaipur && formData.zipCode.trim() && (
                   <>

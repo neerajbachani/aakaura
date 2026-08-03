@@ -114,7 +114,7 @@ export default function RitualPackagesPage() {
         return;
       }
 
-      // Coupon fully covered the price — no Razorpay checkout needed.
+      // Coupon fully covered the price: no Razorpay checkout needed.
       if (rzpData.free) {
         await finalizePurchase(packageType, appliedCoupon);
         return;
@@ -168,7 +168,7 @@ export default function RitualPackagesPage() {
                 .filter((p) => p.status === "ACTIVE" && p.remainingCalls > 0)
                 .map((p) => (
                   <div key={p.id} className="text-[#F5E6D3] text-sm mb-2">
-                    {p.label} — <strong>{p.remainingCalls}</strong> call(s) remaining
+                    {p.label} · <strong>{p.remainingCalls}</strong> call(s) remaining
                     {p.expiryDate && ` · Expires ${new Date(p.expiryDate).toLocaleDateString("en-IN")}`}
                   </div>
                 ))}

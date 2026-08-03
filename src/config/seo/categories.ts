@@ -36,7 +36,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       "Shop 7 chakra wall hangings handcrafted by Indian artisans. Perfect for meditation rooms and home energy balance. Buy online at Aakaura.",
     h1: "Chakra Wall Hangings",
     intro:
-      "Transform your space with Aakaura's seven chakra wall hangings — handcrafted chakra wall decor designed for those who want their home to feel grounded, balanced, and alive. Each piece is slow-made by Indian artisans, blending sacred geometry with intentional design so your walls do more than decorate: they anchor energy. Whether you are creating a meditation room, aligning your living space with Vastu principles, or searching for seven chakra hanging art that speaks to every energy centre, our collection offers chakra tapestry art with meaning behind every thread. From root grounding to crown expansion, explore wall hangings that support chakra healing, mindful living, and the quiet ritual of coming home to yourself.",
+      "Transform your space with Aakaura's seven chakra wall hangings, handcrafted chakra wall decor designed for those who want their home to feel grounded, balanced, and alive. Each piece is slow-made by Indian artisans, blending sacred geometry with intentional design so your walls do more than decorate: they anchor energy. Whether you are creating a meditation room, aligning your living space with Vastu principles, or searching for seven chakra hanging art that speaks to every energy centre, our collection offers chakra tapestry art with meaning behind every thread. From root grounding to crown expansion, explore wall hangings that support chakra healing, mindful living, and the quiet ritual of coming home to yourself.",
     keywords: [
       "7 chakra wall hanging",
       "chakra wall decor",
@@ -56,7 +56,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       {
         question: "Where should I hang chakra wall decor at home?",
         answer:
-          "Place chakra wall decor in spaces where you rest, meditate, or begin your day — such as a bedroom, living room altar, or home office. Many customers follow Vastu or personal intuition to choose a wall that feels central to the home's energy.",
+          "Place chakra wall decor in spaces where you rest, meditate, or begin your day, such as a bedroom, living room altar, or home office. Many customers follow Vastu or personal intuition to choose a wall that feels central to the home's energy.",
       },
       {
         question: "Are Aakaura wall hangings handcrafted?",
@@ -79,7 +79,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       "Shop heart chakra jhumkis and Anahata pendants handcrafted in India. Jewellery for emotional healing and self-love. Buy online at Aakaura.",
     h1: "Heart Chakra Jewellery",
     intro:
-      "Wear your intention with Aakaura's heart chakra jewellery — handcrafted heart chakra jhumkas and Anahata chakra pendants designed for emotional healing, self-love, and conscious living. Our green chakra earrings and spiritual jhumka earrings carry the energy of the heart centre, making them meaningful gifts for heart chakra opening or everyday alignment. Explore premium heart chakra necklaces in sterling silver, authentic Indian spiritual necklace designs, and love energy jewellery that bridges tradition with modern wellness. Whether you seek jewellery for emotional healing, heart chakra balancing earrings, or a thoughtful gift for someone on a spiritual path, each piece is artisan-made with intention — not mass-produced ornament, but wearable ritual.",
+      "Wear your intention with Aakaura's heart chakra jewellery, handcrafted heart chakra jhumkas and Anahata chakra pendants designed for emotional healing, self-love, and conscious living. Our green chakra earrings and spiritual jhumka earrings carry the energy of the heart centre, making them meaningful gifts for heart chakra opening or everyday alignment. Explore premium heart chakra necklaces in sterling silver, authentic Indian spiritual necklace designs, and love energy jewellery that bridges tradition with modern wellness. Whether you seek jewellery for emotional healing, heart chakra balancing earrings, or a thoughtful gift for someone on a spiritual path, each piece is artisan-made with intention, not mass-produced ornament, but wearable ritual.",
     keywords: [
       "heart chakra jhumkis",
       "green chakra earrings",
@@ -94,7 +94,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       {
         question: "What is heart chakra jewellery?",
         answer:
-          "Heart chakra jewellery is designed to align with Anahata — the fourth chakra associated with love, compassion, and emotional balance. Aakaura's pieces use green tones, intentional craftsmanship, and symbolic design to support heart-centred living.",
+          "Heart chakra jewellery is designed to align with Anahata, the fourth chakra associated with love, compassion, and emotional balance. Aakaura's pieces use green tones, intentional craftsmanship, and symbolic design to support heart-centred living.",
       },
       {
         question: "Are Aakaura jhumkis suitable as spiritual gifts?",
@@ -122,7 +122,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       "Shop Yoga Nidra desk anchors, crown chakra decor, and sound healing wind chimes. Focus tools for work and meditation. Buy at Aakaura.",
     h1: "Yoga Nidra Desk Anchors & Sound Healing",
     intro:
-      "Bring stillness to your desk with Aakaura's Yoga Nidra desk anchors — crown chakra desk decor and third eye focus anchors designed for mental clarity, stress relief, and spiritual focus at work. These are not ordinary office accessories: each anchor is a mindfulness tool rooted in Yoga Nidra practice, helping you pause, breathe, and reset between tasks. Our collection also includes Yoga Nidra wind chimes and spiritual bell windchimes — handmade sound healing chimes that cleanse home energy and support anxiety relief on balconies, patios, and meditation spaces. Whether you need desk decor for stress relief, a crown chakra anchor for deep meditation, or meditative bell chimes for calming sound therapy, Aakaura offers artisan-made spiritual focus tools for the modern workspace and sacred home corner.",
+      "Bring stillness to your desk with Aakaura's Yoga Nidra desk anchors, crown chakra desk decor and third eye focus anchors designed for mental clarity, stress relief, and spiritual focus at work. These are not ordinary office accessories: each anchor is a mindfulness tool rooted in Yoga Nidra practice, helping you pause, breathe, and reset between tasks. Our collection also includes Yoga Nidra wind chimes and spiritual bell windchimes, handmade sound healing chimes that cleanse home energy and support anxiety relief on balconies, patios, and meditation spaces. Whether you need desk decor for stress relief, a crown chakra anchor for deep meditation, or meditative bell chimes for calming sound therapy, Aakaura offers artisan-made spiritual focus tools for the modern workspace and sacred home corner.",
     keywords: [
       "Yoga Nidra desk anchor",
       "crown chakra desk decor",
@@ -165,7 +165,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       "Shop aura colour-coded Himalayan handmade mufflers. Spiritual wool winter wear for conscious living. Buy online at Aakaura.",
     h1: "Aura Colour-Coded Mufflers",
     intro:
-      "Wrap yourself in intentional warmth with Aakaura's aura colour-coded mufflers — Himalayan handmade wool mufflers where every hue carries energetic meaning. These spiritual wool mufflers are more than winter accessories: they are therapeutic colour-coded clothing designed for high-energy wearable winter fashion and conscious artisan winter living. Each muffler is handcrafted from premium Himalayan wool using traditional techniques, making them ideal spiritual gifts for winter or everyday companions for those who dress with awareness. Explore custom aura colour neck warmers aligned to your chakra journey — from root red to crown violet — and discover slow-made pieces that keep you warm while honouring the energy you carry.",
+      "Wrap yourself in intentional warmth with Aakaura's aura colour-coded mufflers, Himalayan handmade wool mufflers where every hue carries energetic meaning. These spiritual wool mufflers are more than winter accessories: they are therapeutic colour-coded clothing designed for high-energy wearable winter fashion and conscious artisan winter living. Each muffler is handcrafted from premium Himalayan wool using traditional techniques, making them ideal spiritual gifts for winter or everyday companions for those who dress with awareness. Explore custom aura colour neck warmers aligned to your chakra journey, from root red to crown violet, and discover slow-made pieces that keep you warm while honouring the energy you carry.",
     keywords: [
       "aura color coded muffler",
       "Himalayan handmade muffler",
@@ -179,7 +179,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       {
         question: "What are aura colour-coded mufflers?",
         answer:
-          "Aura colour-coded mufflers are handcrafted wool mufflers where each colour corresponds to a chakra or energetic quality — such as root grounding red or heart-centred green. They combine warmth with intentional colour therapy.",
+          "Aura colour-coded mufflers are handcrafted wool mufflers where each colour corresponds to a chakra or energetic quality, such as root grounding red or heart-centred green. They combine warmth with intentional colour therapy.",
       },
       {
         question: "Are Aakaura mufflers made from Himalayan wool?",
@@ -207,7 +207,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       "Shop Himalayan handmade neck warmers and aura colour spiritual winter wear. Conscious artisan gifts for cold seasons. Buy at Aakaura.",
     h1: "Himalayan Handmade Neck Warmers",
     intro:
-      "Stay warm with purpose in Aakaura's Himalayan handmade neck warmers — conscious artisan winter clothing that blends comfort with energetic intention. Like our mufflers, these spiritual wool pieces use aura colour coding so your winter wardrobe supports the energy you want to embody. Perfect as warm spiritual gifts for winter, each neck warmer is slow-made by Indian craftspeople using premium yarns and traditional weaving. Whether you style them as a snug neck warmer, light stole, or layered wrap, these pieces offer high-energy wearable winter fashion for meditation lovers, travellers, and anyone who values handmade energy products for inner peace during colder months.",
+      "Stay warm with purpose in Aakaura's Himalayan handmade neck warmers, conscious artisan winter clothing that blends comfort with energetic intention. Like our mufflers, these spiritual wool pieces use aura colour coding so your winter wardrobe supports the energy you want to embody. Perfect as warm spiritual gifts for winter, each neck warmer is slow-made by Indian craftspeople using premium yarns and traditional weaving. Whether you style them as a snug neck warmer, light stole, or layered wrap, these pieces offer high-energy wearable winter fashion for meditation lovers, travellers, and anyone who values handmade energy products for inner peace during colder months.",
     keywords: [
       "Himalayan handmade neck warmer",
       "spiritual wool mufflers",
@@ -226,7 +226,7 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       {
         question: "Are neck warmers suitable as gifts?",
         answer:
-          "Yes. Aakaura neck warmers make thoughtful warm spiritual gifts for winter — ideal for wellness enthusiasts, meditation practitioners, and anyone who appreciates ethical handmade artisan gifts.",
+          "Yes. Aakaura neck warmers make thoughtful warm spiritual gifts for winter, ideal for wellness enthusiasts, meditation practitioners, and anyone who appreciates ethical handmade artisan gifts.",
       },
       {
         question: "How should I care for my Himalayan wool neck warmer?",
@@ -246,10 +246,10 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
     dbCategory: "Bonsai",
     title: "Chakra Personality Bonsai | Crochet Trunk Spiritual Plants | Aakaura",
     description:
-      "Shop crochet trunk chakra bonsai plants — zero-maintenance spiritual desk decor for office and home. Buy online at Aakaura.",
+      "Shop crochet trunk chakra bonsai plants, zero-maintenance spiritual desk decor for office and home. Buy online at Aakaura.",
     h1: "Chakra Personality Bonsai Plants",
     intro:
-      "Bring symbolic energy to your desk with Aakaura's crochet trunk bonsai plants — artistic handmade bonsai trees where each design reflects a chakra-specific personality. These spiritual faux bonsai trees require zero maintenance yet carry deep meaning, making them unique zero maintenance spiritual decor for offices, meditation corners, and gifting. Explore crocheted trunk chakra bonsai aligned to root grounding, heart opening, third eye insight, and more. Each piece is a handcrafted spiritual desk plant that supports chakra alignment without the care demands of living trees — perfect as a symbolic personality alignment gift or chakra alignment tree for those who want beauty, intention, and permanence in one object.",
+      "Bring symbolic energy to your desk with Aakaura's crochet trunk bonsai plants, artistic handmade bonsai trees where each design reflects a chakra-specific personality. These spiritual faux bonsai trees require zero maintenance yet carry deep meaning, making them unique zero maintenance spiritual decor for offices, meditation corners, and gifting. Explore crocheted trunk chakra bonsai aligned to root grounding, heart opening, third eye insight, and more. Each piece is a handcrafted spiritual desk plant that supports chakra alignment without the care demands of living trees, perfect as a symbolic personality alignment gift or chakra alignment tree for those who want beauty, intention, and permanence in one object.",
     keywords: [
       "crochet trunk bonsai plant",
       "chakra personality bonsai",
@@ -263,17 +263,17 @@ export const categorySEO: Record<CategorySlug, CategorySEOEntry> = {
       {
         question: "Are Aakaura bonsai plants real or artificial?",
         answer:
-          "Aakaura bonsai plants are artistic handmade pieces with crocheted trunks and crafted foliage — designed as zero-maintenance spiritual decor that lasts without watering or sunlight.",
+          "Aakaura bonsai plants are artistic handmade pieces with crocheted trunks and crafted foliage, designed as zero-maintenance spiritual decor that lasts without watering or sunlight.",
       },
       {
         question: "How do chakra personality bonsai work?",
         answer:
-          "Each bonsai aligns with a specific chakra and personality archetype — such as root stability or heart compassion — so you can choose a tree that reflects the energy you want to cultivate in your space.",
+          "Each bonsai aligns with a specific chakra and personality archetype, such as root stability or heart compassion, so you can choose a tree that reflects the energy you want to cultivate in your space.",
       },
       {
         question: "Are bonsai plants good for office desks?",
         answer:
-          "Yes. Aakaura bonsai plants are ideal desk decor — compact, maintenance-free, and symbolically rich. They make excellent chakra alignment gifts for colleagues and loved ones.",
+          "Yes. Aakaura bonsai plants are ideal desk decor, compact, maintenance-free, and symbolically rich. They make excellent chakra alignment gifts for colleagues and loved ones.",
       },
     ],
     relatedLinks: [

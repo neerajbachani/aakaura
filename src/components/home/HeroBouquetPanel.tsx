@@ -7,7 +7,7 @@ import { HERO_BOUQUET } from "@/config/homeHero";
 
 type Bloom = (typeof HERO_BOUQUET.previewBlooms)[number];
 
-/** Soft arc — edges low, peak in the middle (flat pyramid) */
+/** Soft arc: edges low, peak in the middle (flat pyramid) */
 const ARC_OFFSETS = ["translate-y-3", "translate-y-1", "-translate-y-1", "-translate-y-3", "-translate-y-1", "translate-y-1", "translate-y-3"];
 
 function BloomFlower({
@@ -107,7 +107,7 @@ export default function HeroBouquetPanel() {
           {HERO_BOUQUET.subline}
         </motion.p>
 
-        {/* Single row — gentle flat-pyramid arc */}
+        {/* Single row: gentle flat-pyramid arc */}
         <div className="flex items-end justify-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 my-4 md:my-6 w-full max-w-3xl mx-auto px-1">
           {blooms.map((bloom, i) => (
             <BloomFlower

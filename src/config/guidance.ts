@@ -70,7 +70,7 @@ export const GUIDANCE_PRACTITIONERS = [
     title: 'Certified Pranic Healer | Energy Practitioner',
     bio: [
       'Sunaina is a Certified Pranic Healer with over a decade of experience, trained by the Institute for Inner Studies under the World Pranic Healing Foundation. Her advanced training includes Clairvoyance and Arhatic Yoga (Level 3.1) under the Master Choa Kok Sui system.',
-      "She brings technical precision and genuine presence to every guidance call—whether your energy feels stuck, a chakra needs attention, or you want to work with what you're feeling.",
+      "She brings technical precision and genuine presence to every guidance call, whether your energy feels stuck, a chakra needs attention, or you want to work with what you're feeling.",
     ],
     imageUrl:
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-1_mi9t6g.png',
@@ -81,7 +81,7 @@ export const GUIDANCE_PRACTITIONERS = [
     title: 'Pranic Healing Practitioner',
     bio: [
       'Richa has practiced pranic healing since 2016, with certifications in Psychic Self Defense and Pranic Crystal Healing under the World Pranic Healing Foundation.',
-      'She brings a grounded, practical approach to energy work—helpful for protecting your energy and understanding your own energetic body.',
+      'She brings a grounded, practical approach to energy work, helpful for protecting your energy and understanding your own energetic body.',
     ],
     imageUrl:
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-2_uf4ddk.png',

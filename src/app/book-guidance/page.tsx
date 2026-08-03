@@ -76,7 +76,7 @@ export default function BookGuidancePage() {
         amount: rzpData.amount,
         currency: rzpData.currency,
         name: "Aakaura",
-        description: "Guidance Call — ₹333",
+        description: "Guidance Call · ₹333",
         order_id: rzpData.id,
         handler: async (paymentResponse: {
           razorpay_payment_id: string;
@@ -149,7 +149,7 @@ export default function BookGuidancePage() {
               <GuidanceCallDetails />
             </div>
 
-            {/* Booking form — sticky on desktop */}
+            {/* Booking form: sticky on desktop */}
             <div className="lg:col-span-2 order-1 lg:order-2 lg:sticky lg:top-28">
               <form
                 onSubmit={handleSubmit}
@@ -230,7 +230,7 @@ export default function BookGuidancePage() {
                 </div>
                 <textarea
                   name="notes"
-                  placeholder="Notes (optional) — share your concerns"
+                  placeholder="Notes (optional): share your concerns"
                   value={form.notes}
                   onChange={handleChange}
                   rows={3}

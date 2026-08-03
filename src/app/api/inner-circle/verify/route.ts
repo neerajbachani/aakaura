@@ -30,12 +30,12 @@ export async function POST(request: NextRequest) {
 
     if (expectedSignature !== razorpay_signature) {
       return NextResponse.json(
-        { success: false, error: 'Payment verification failed — invalid signature' },
+        { success: false, error: 'Payment verification failed: invalid signature' },
         { status: 400 },
       );
     }
 
-    // Signature is valid — return the WhatsApp community link (server-side only, never in client bundle)
+    // Signature is valid: return the WhatsApp community link (server-side only, never in client bundle)
     const whatsappUrl = process.env.WHATSAPP_COMMUNITY_URL;
     if (!whatsappUrl) {
       console.error('[inner-circle/verify] WHATSAPP_COMMUNITY_URL not configured');

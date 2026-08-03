@@ -116,7 +116,7 @@ export default function AdminPackageDetailPage({
             </div>
             <div>
               <p className="text-gray-500">Payment</p>
-              <p className="font-medium">{pkg.paymentStatus} — ₹{pkg.amount}</p>
+              <p className="font-medium">{pkg.paymentStatus} · ₹{pkg.amount}</p>
             </div>
             <div>
               <p className="text-gray-500">Customer Email</p>

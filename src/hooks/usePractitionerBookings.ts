@@ -67,7 +67,7 @@ export function useRescheduleBookingPractitioner() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["practitioner", "bookings"] });
-      toast.success("Reschedule requested — admin will confirm new slot");
+      toast.success("Reschedule requested. Admin will confirm new slot");
     },
     onError: () => toast.error("Failed to request reschedule"),
   });

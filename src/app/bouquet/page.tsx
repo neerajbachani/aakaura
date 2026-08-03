@@ -246,7 +246,7 @@ function DraggableFlower({
         touchAction: "none",
       }}
       drag
-      // Explicit bounds are always correct — no bounding-rect recalculation needed
+      // Explicit bounds are always correct: no bounding-rect recalculation needed
       dragConstraints={dragBounds}
       dragMomentum={false}
       // dragElastic={0}: zero spring so the element never bounces past the wall
@@ -507,7 +507,7 @@ export default function BouquetCreationPage() {
         </div>
 
         {/* ══════════════════════════════════════════════════════════════════════
-            STEP 1 — Choose a chakra
+            STEP 1: Choose a chakra
         ══════════════════════════════════════════════════════════════════════ */}
         {step === 1 && (
           <div className="animate-fadeIn">
@@ -544,7 +544,7 @@ export default function BouquetCreationPage() {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            STEP 2 — Arrange & write card
+            STEP 2: Arrange & write card
         ══════════════════════════════════════════════════════════════════════ */}
         {step === 2 && selectedChakraConfig && (
           <div className="animate-fadeIn max-w-[1400px] mx-auto xl:px-8">

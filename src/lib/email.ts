@@ -436,14 +436,14 @@ export const sendPractitionerScheduleEmail = async (data: {
     const list = data.bookings
       .map(
         (b) =>
-          `<li>${b.customerName} — ${b.meetingDateTime.toLocaleString('en-IN', { timeZone: data.timezone, dateStyle: 'medium', timeStyle: 'short' })} — <a href="${b.meetingLink}">Join</a></li>`,
+          `<li>${b.customerName} · ${b.meetingDateTime.toLocaleString('en-IN', { timeZone: data.timezone, dateStyle: 'medium', timeStyle: 'short' })} · <a href="${b.meetingLink}">Join</a></li>`,
       )
       .join('');
 
     await transporter.sendMail({
       from,
       to: data.practitionerEmail,
-      subject: `${data.label} Schedule — Aakaura`,
+      subject: `${data.label} Schedule | Aakaura`,
       html: emailWrapper(`
         <h2 style="color: #BD9958;">${data.label} Schedule</h2>
         <p>Hello ${data.practitionerName},</p>
@@ -474,7 +474,7 @@ export const sendAdminNoShowEmail = async (data: {
     await transporter.sendMail({
       from,
       to: adminEmail,
-      subject: 'Customer No-Show — Guidance Call',
+      subject: 'Customer No-Show | Guidance Call',
       html: emailWrapper(`
         <h2 style="color: #27190b;">No Show</h2>
         <p><strong>Customer:</strong> ${data.customerName} (${data.customerEmail})</p>

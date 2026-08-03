@@ -27,7 +27,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Modal scrollable body — hidden scrollbar, forced scroll */
+/* Modal scrollable body: hidden scrollbar, forced scroll */
 .modal-scroll-body {
   overflow-y: auto;
   -ms-overflow-style: none;

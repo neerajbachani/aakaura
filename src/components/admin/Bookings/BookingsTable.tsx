@@ -25,7 +25,7 @@ function CouponBadge({
   booking: { status: string; bookingType: string; couponEligible?: boolean; couponIssued?: boolean; couponCode?: string | null };
 }) {
   if (booking.bookingType !== "GUIDANCE_CALL" || booking.status !== "COMPLETED") {
-    return <span className="text-gray-400 text-sm">—</span>;
+    return <span className="text-gray-400 text-sm">-</span>;
   }
   if (booking.couponIssued) {
     return (
@@ -190,13 +190,13 @@ export default function BookingsTable() {
                   )}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">
-                  {booking.preferredDate || "—"}
+                  {booking.preferredDate || "-"}
                   {booking.preferredTime ? ` at ${booking.preferredTime}` : ""}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">
                   {booking.preferredPractitioner
                     ? getPractitionerPreferenceLabel(booking.preferredPractitioner)
-                    : "—"}
+                    : "-"}
                 </td>
                 <td className="px-6 py-4">
                   <BookingStatusBadge status={booking.status} />

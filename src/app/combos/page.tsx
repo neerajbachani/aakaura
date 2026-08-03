@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 export const metadata = generateSEO({
   title: "Chakra Combo Bundles | Ritual Sets & Starter Bundles | Aakaura",
   description:
-    "Shop Aakaura chakra combo bundles — curated ritual sets blending wall hangings, bonsai, mufflers and more. Premium spiritual gifts for meditation lovers.",
+    "Shop Aakaura chakra combo bundles, curated ritual sets blending wall hangings, bonsai, mufflers and more. Premium spiritual gifts for meditation lovers.",
   pathname: "/combos",
 });
 

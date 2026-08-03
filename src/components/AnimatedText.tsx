@@ -22,7 +22,7 @@ export default function AnimatedText({
   const lettersRef = useRef<HTMLSpanElement[]>([]);
 
   const [mounted, setMounted] = useState(false);
-  // Inner Circle — temporarily disabled, re-enable when ready
+  // Inner Circle: temporarily disabled, re-enable when ready
   // const [showButton, setShowButton] = useState(false);
   // const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("idle");
   // const [errorMsg, setErrorMsg] = useState("");
@@ -158,7 +158,7 @@ export default function AnimatedText({
         amount: rzpData.amount,
         currency: rzpData.currency,
         name: "Aakaura",
-        description: "Join the Inner Circle — ₹5 Entry Fee",
+        description: "Join the Inner Circle · ₹5 Entry Fee",
         order_id: rzpData.id,
         theme: { color: "#BD9958" },
         modal: {
@@ -262,7 +262,7 @@ export default function AnimatedText({
 
   return (
     <>
-      {/* Inner Circle — temporarily disabled, re-enable when ready
+      {/* Inner Circle: temporarily disabled, re-enable when ready
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="lazyOnload"
@@ -280,7 +280,7 @@ export default function AnimatedText({
             {renderText()}
           </div>
 
-          {/* Inner Circle CTA — temporarily disabled, re-enable when ready
+          {/* Inner Circle CTA: temporarily disabled, re-enable when ready
           <AnimatePresence>
             {showButton && (
               <motion.div

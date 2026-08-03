@@ -403,7 +403,7 @@ export default function CategoryJourneyTemplate({
         />
       </div>
 
-      {/* SEO intro — visible to crawlers and visitors */}
+      {/* SEO intro: visible to crawlers and visitors */}
       {seo && (
         <section className="relative z-10 bg-[#27190b] border-b border-[#f4f1ea]/10">
           <div className="container mx-auto px-6 md:px-16 py-12 md:py-16 max-w-4xl">

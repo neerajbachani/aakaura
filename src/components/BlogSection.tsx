@@ -229,7 +229,7 @@ export default function BlogSection() {
   });
 
   // --- DESKTOP ANIMATIONS (Scroll Scrub) ---
-  // Header stays static — no scroll animation on it
+  // Header stays static: no scroll animation on it
 
   // SMOOTH SLIDE-UP ANIMATION (No Momentum)
   const card0Y = useTransform(
@@ -351,7 +351,7 @@ export default function BlogSection() {
 
                 return (
                   <div key={index} className="relative pt-8 flex flex-col">
-                    {/* Title — outside the box, top-right */}
+                    {/* Title: outside the box, top-right */}
                     <h3 className="absolute top-0 left-0 font-cormorant text-[#27190B] text-xl sm:text-2xl font-semibold text-right pr-1">
                       {item.title}
                     </h3>
