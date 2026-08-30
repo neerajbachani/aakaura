@@ -1,10 +1,8 @@
 import Link from "next/link";
 import {
   GUIDANCE_CALL,
-  GUIDANCE_CALL_AGENDA,
   GUIDANCE_CALL_GUIDELINES,
   COUPON_POLICY,
-  COUPON_VALIDITY_MONTHS,
   CALL_FLOW,
   SESSION_GUIDELINES,
   PACKAGE_DETAILS,
@@ -55,28 +53,6 @@ export default function GuidanceCallDetails() {
       </SectionCard>
 
       <PractitionerProfiles />
-
-      {/* Agenda table */}
-      <SectionCard title="The Aakaura Practitioner Will Address">
-        <div className="overflow-x-auto">
-          <table className="w-full text-base lg:text-lg">
-            <thead>
-              <tr className="border-b border-[#BD9958]/30">
-                <th className="text-left py-3 pr-4 text-[#BD9958] font-medium">Duration</th>
-                <th className="text-left py-3 text-[#BD9958] font-medium">Topic</th>
-              </tr>
-            </thead>
-            <tbody className="text-[#F5E6D3]/95">
-              {GUIDANCE_CALL_AGENDA.map((row) => (
-                <tr key={row.duration} className="border-b border-[#BD9958]/10">
-                  <td className="py-3 pr-4 whitespace-nowrap text-[#F5E6D3]/80">{row.duration}</td>
-                  <td className="py-3">{row.topic}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </SectionCard>
 
       {/* Guidelines */}
       {/* <SectionCard title="Important Guidelines">
@@ -139,9 +115,7 @@ export default function GuidanceCallDetails() {
       {/* Packages overview */}
       <SectionCard title="Ritual Support Packages">
         <p className="text-[#F5E6D3]/85 text-base lg:text-lg mb-6">
-          Continue your journey after the Guidance Call. Packages II and III become available post-purchase.
-          A Ritual Package I coupon may be issued after a qualifying product order above ₹999, and is valid
-          for {COUPON_VALIDITY_MONTHS} months from issuance.
+          Your journey doesn&apos;t end with the Guidance Call, it continues from here. Packages II and III open up once you&apos;ve made a purchase. And if your order crosses ₹999, a complimentary Ritual Package I coupon comes your way from Aakaura&apos;s side, valid for 3 months.
         </p>
         <div className="space-y-6">
           {PACKAGE_ORDER.map((type) => {
@@ -186,7 +160,7 @@ export default function GuidanceCallDetails() {
 
                 {pkg.includes.length > 0 && (
                   <div className="mb-2">
-                    <p className="text-sm lg:text-base uppercase tracking-wide text-[#BD9958]/90 mb-2">What is Included</p>
+                    <p className="text-sm lg:text-base uppercase tracking-wide text-[#BD9958]/90 mb-2">What&apos;s included</p>
                     <ul className="space-y-1.5">
                       {pkg.includes.map((item) => (
                         <li key={item} className="text-base lg:text-lg text-[#F5E6D3]/90 flex gap-2">
@@ -200,22 +174,19 @@ export default function GuidanceCallDetails() {
 
                 {pkg.inheritsFrom && (
                   <p className="text-base lg:text-lg text-[#F5E6D3]/85 mb-2">
-                    <span className="text-[#BD9958]">✔</span> Everything from {pkg.inheritsFrom}
+                    Everything from {pkg.inheritsFrom}, plus:
                   </p>
                 )}
 
                 {pkg.plusIncludes && pkg.plusIncludes.length > 0 && (
-                  <div>
-                    <p className="text-sm lg:text-base uppercase tracking-wide text-[#BD9958]/90 mb-2">Plus</p>
-                    <ul className="space-y-1.5">
-                      {pkg.plusIncludes.map((item) => (
-                        <li key={item} className="text-base lg:text-lg text-[#F5E6D3]/90 flex gap-2">
-                          <span className="text-[#BD9958]">+</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul className="space-y-1.5">
+                    {pkg.plusIncludes.map((item) => (
+                      <li key={item} className="text-base lg:text-lg text-[#F5E6D3]/90 flex gap-2">
+                        <span className="text-[#BD9958]">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
             );

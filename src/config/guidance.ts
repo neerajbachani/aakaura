@@ -52,16 +52,41 @@ export const COUPON_MIN_ORDER_TOTAL = 999;
 // Manually issued coupons are redeemable on this package only.
 export const COUPON_APPLICABLE_PACKAGE: PackageType = 'PACKAGE_I';
 
-export const GUIDANCE_CALL_AGENDA = [
-  { duration: '0–5 mins', topic: 'Chakra understanding (Basic)' },
-  { duration: '5–12 mins', topic: 'Which chakra to work on?' },
-  { duration: '12–15 mins', topic: 'What are sacred symbols?' },
-  { duration: '15–20 mins', topic: 'Conclusion' },
-] as const;
-
 export const GUIDANCE_CALL_GUIDELINES = [
   'Phone numbers must NOT be exchanged during the call.',
 ] as const;
+
+export const GUIDANCE_INTAKE_LIFE_AREAS = [
+  'Career',
+  'Health',
+  'Relationships',
+  'Money',
+  'Nothing specific- just exploring/ curious',
+] as const;
+
+export const GUIDANCE_INTAKE_LIFE_FEELINGS = [
+  'Anxious/ Fearful/ Tensed',
+  'Numb or distant',
+  'On edge',
+  'Hopeful or excited',
+  'Something else',
+] as const;
+
+export const GUIDANCE_INTAKE_SOMETHING_ELSE = 'Something else' as const;
+
+export const GUIDANCE_INTAKE_ON_MIND_DURATIONS = [
+  'Just started (days to a couple weeks)',
+  'A few months (1-6 months)',
+  'Over a year (1-3 years)',
+  'As long as I can remember (3+ years / most of my life)',
+] as const;
+
+export type GuidanceIntakeResponses = {
+  lifeArea: (typeof GUIDANCE_INTAKE_LIFE_AREAS)[number];
+  lifeAreaFeeling: (typeof GUIDANCE_INTAKE_LIFE_FEELINGS)[number];
+  lifeAreaFeelingOther?: string;
+  onMindDuration: (typeof GUIDANCE_INTAKE_ON_MIND_DURATIONS)[number];
+};
 
 export const GUIDANCE_PRACTITIONERS = [
   {
@@ -103,10 +128,10 @@ export function getPractitionerPreferenceLabel(preference?: string | null) {
 export const COUPON_POLICY = {
   title: 'Product Purchase Coupon',
   points: [
-    'After your Guidance Call, if you purchase Aakaura products from our website with an order total above ₹999, you may receive a Ritual Package I coupon from our team.',
-    'The coupon is issued manually by Aakaura once your qualifying purchase is verified.',
-    'It is valid for 3 months from the date it is issued.',
-    'The coupon is applicable only on Ritual Package I (₹399).',
+    "After your Guidance Call, when you choose to bring an Aakaura piece home with a purchase of ₹999 or more, our team will personally send you a complimentary Ritual Package I coupon; our way of walking this next part of the journey with you.",
+    "The coupon is issued by hand from Aakaura's side, once your purchase has been reviewed and verified; never automated, always a real person on our end making sure it reaches you.",
+    "It stays valid for 3 months from the day it's issued, giving you space to begin your ritual practice whenever you feel ready.",
+    'This coupon is redeemable exclusively toward Ritual Package I (₹399), our first step of guided support as you settle into your piece.',
   ],
 } as const;
 
@@ -152,11 +177,11 @@ export const CALL_FLOW = [
 ] as const;
 
 export const SESSION_GUIDELINES = [
-  'Keep the discussion focused on guidance.',
-  'Concepts are explained in simple, accessible language.',
-  'Sessions are conducted with professionalism throughout.',
-  'Ritual support packages are introduced after the guidance call is complete.',
-  'A Ritual Package I coupon may be issued after a qualifying product purchase above ₹999, valid for 3 months from issuance.',
+  'We keep every conversation focused on you and your guidance.',
+  'Everything is explained simply. No jargon, just clarity.',
+  'Every session is held with care and professionalism.',
+  'Ritual support is only introduced once your guidance call feels complete.',
+  "If you choose a piece above ₹999 afterward, a complimentary Ritual Package I coupon comes your way from Aakaura's side, valid for 3 months.",
 ] as const;
 
 export const PACKAGE_DETAILS: Record<
@@ -186,11 +211,11 @@ export const PACKAGE_DETAILS: Record<
     validityLabel: null,
     scheduling: null,
     includes: [
-      'Start-to-end ritual support',
-      'Support for any help or guidance during the ritual',
-      'Importance of the ritual',
-      'Science behind the ritual',
-      'Better clarity and awareness',
+      'Complete support, start to end, through your ritual',
+      'A real person to guide you through any part of the ritual that feels unclear',
+      'Understanding why this ritual matters, not just how to do it',
+      'The science behind the practice, explained simply',
+      'A little more clarity, a little more awareness; carried with you after the call',
     ],
   },
   PACKAGE_II: {
@@ -201,13 +226,13 @@ export const PACKAGE_DETAILS: Record<
     durationMinutes: 25,
     validityDays: 30,
     validityLabel: '1 Month',
-    scheduling: '3 different days within the month, according to practitioner calendar availability',
+    scheduling:
+      "across 3 different days within the month, worked around your practitioner's availability",
     includes: [],
     inheritsFrom: 'Package I',
     plusIncludes: [
-      'Easier ritual steps',
-      'More customized guidance',
-      
+      'Simpler, easier-to-follow ritual steps',
+      'Guidance shaped more closely around you',
     ],
     postPurchase: true,
   },
@@ -219,12 +244,10 @@ export const PACKAGE_DETAILS: Record<
     durationMinutes: 25,
     validityDays: 45,
     validityLabel: '1.5 Months',
-    scheduling: '5 different days across 1.5 months',
+    scheduling: 'across 5 different days, spread over 1.5 months',
     includes: [],
     inheritsFrom: 'Package II',
-    plusIncludes: [
-      'Aakaura Inner Circle practical tips',
-    ],
+    plusIncludes: ['Practical tips straight from the Aakaura Inner Circle'],
     postPurchase: true,
   },
 };

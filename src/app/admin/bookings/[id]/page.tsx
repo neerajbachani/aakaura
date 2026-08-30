@@ -17,6 +17,7 @@ import {
 } from "@/hooks/admin/useAdminBookings";
 import { useAdminPractitioners } from "@/hooks/admin/useAdminPractitioners";
 import { getPractitionerPreferenceLabel } from "@/config/guidance";
+import GuidanceIntakeSummary from "@/components/guidance/GuidanceIntakeSummary";
 
 export default function AdminBookingDetailPage({
   params,
@@ -154,6 +155,11 @@ export default function AdminBookingDetailPage({
               <div className="md:col-span-2">
                 <p className="text-gray-500">Notes</p>
                 <p>{booking.notes}</p>
+              </div>
+            )}
+            {booking.intakeResponses && (
+              <div className="md:col-span-2">
+                <GuidanceIntakeSummary intakeResponses={booking.intakeResponses} />
               </div>
             )}
             {booking.meetingDateTime && (

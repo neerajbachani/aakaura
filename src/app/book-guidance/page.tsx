@@ -11,6 +11,12 @@ import {
   PRACTITIONER_PREFERENCE_ANY,
 } from "@/config/guidance";
 import GuidanceCallDetails from "@/components/guidance/GuidanceCallDetails";
+import GuidancePromoBanner from "@/components/guidance/GuidancePromoBanner";
+import GuidanceIntakeFields, {
+  validateGuidanceIntake,
+  type GuidanceIntakeFormValues,
+} from "@/components/guidance/GuidanceIntakeFields";
+import { HERO_GUIDANCE } from "@/config/homeHero";
 
 declare global {
   interface Window {
@@ -31,7 +37,22 @@ export default function BookGuidancePage() {
     preferredPractitioner: "",
     timezone: "Asia/Kolkata",
     notes: "",
+    lifeArea: "",
+    lifeAreaFeeling: "",
+    lifeAreaFeelingOther: "",
+    onMindDuration: "",
   });
+
+  const intakeValues: GuidanceIntakeFormValues = {
+    lifeArea: form.lifeArea,
+    lifeAreaFeeling: form.lifeAreaFeeling,
+    lifeAreaFeelingOther: form.lifeAreaFeelingOther,
+    onMindDuration: form.onMindDuration,
+  };
+
+  const handleIntakeChange = (field: keyof GuidanceIntakeFormValues, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     if (user) {
@@ -52,6 +73,12 @@ export default function BookGuidancePage() {
     e.preventDefault();
     if (!form.name || !form.email || !form.phone) {
       toast.error("Please fill in all required fields");
+      return;
+    }
+
+    const intakeError = validateGuidanceIntake(intakeValues);
+    if (intakeError) {
+      toast.error(intakeError);
       return;
     }
 
@@ -88,7 +115,20 @@ export default function BookGuidancePage() {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                ...form,
+                name: form.name,
+                email: form.email,
+                phone: form.phone,
+                preferredDate: form.preferredDate,
+                preferredTime: form.preferredTime,
+                preferredPractitioner: form.preferredPractitioner,
+                timezone: form.timezone,
+                notes: form.notes,
+                intake: {
+                  lifeArea: form.lifeArea,
+                  lifeAreaFeeling: form.lifeAreaFeeling,
+                  lifeAreaFeelingOther: form.lifeAreaFeelingOther || undefined,
+                  onMindDuration: form.onMindDuration,
+                },
                 razorpayPaymentId: paymentResponse.razorpay_payment_id,
                 razorpayOrderId: paymentResponse.razorpay_order_id,
                 razorpaySignature: paymentResponse.razorpay_signature,
@@ -130,16 +170,16 @@ export default function BookGuidancePage() {
   return (
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      <div className="min-h-screen bg-[#27190B] py-12 pt-28">
+      <div className="min-h-screen bg-[#27190B] py-12 ">
         <div className="max-w-6xl mx-auto px-4">
           <header className="text-center mb-10">
+            <GuidancePromoBanner className="mb-8 max-w-3xl mx-auto" />
             <p className="text-[#BD9958]/90 text-sm lg:text-base uppercase tracking-widest mb-2">Guidance Call</p>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-cormorant text-[#BD9958] mb-3">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-cormorant text-[#BD9958] mb-5">
               Book Your Demo Guidance Call
             </h1>
-            <p className="text-[#F5E6D3]/90 text-base lg:text-xl max-w-2xl mx-auto leading-relaxed">
-              A 20-minute session with an Aakaura practitioner to understand your chakras,
-              sacred symbols, and the right next steps for your Aakaura journey.
+            <p className="text-[#F5E6D3]/90 text-base lg:text-xl max-w-6xl mx-auto leading-relaxed">
+              {HERO_GUIDANCE.description}
             </p>
           </header>
 
@@ -187,6 +227,7 @@ export default function BookGuidancePage() {
                   onChange={handleChange}
                   className="w-full bg-white/90 rounded-lg px-4 py-3 text-[#27190B] text-base lg:text-lg"
                 />
+                <GuidanceIntakeFields values={intakeValues} onChange={handleIntakeChange} />
                 <select
                   name="timezone"
                   value={form.timezone}

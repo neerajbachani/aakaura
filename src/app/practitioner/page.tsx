@@ -6,6 +6,7 @@ import {
   useRescheduleBookingPractitioner,
 } from "@/hooks/usePractitionerBookings";
 import LoadingSpinner from "@/components/admin/Shared/LoadingSpinner";
+import GuidanceIntakeSummary from "@/components/guidance/GuidanceIntakeSummary";
 
 function BookingSection({
   title,
@@ -38,6 +39,7 @@ function BookingSection({
             customerEmail: string;
             customerPhone?: string;
             notes?: string;
+            intakeResponses?: unknown;
             packageLabel: string;
             meetingLink?: string;
             meetingDateTime?: string;
@@ -65,6 +67,9 @@ function BookingSection({
               )}
               {booking.notes && (
                 <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded">Notes: {booking.notes}</p>
+              )}
+              {booking.intakeResponses && (
+                <GuidanceIntakeSummary intakeResponses={booking.intakeResponses} />
               )}
               {booking.meetingLink && (
                 <a

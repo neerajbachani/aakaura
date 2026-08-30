@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { GUIDANCE_CALL, GUIDANCE_PRACTITIONERS } from "@/config/guidance";
 import { HERO_GUIDANCE } from "@/config/homeHero";
+import GuidancePromoBanner from "@/components/guidance/GuidancePromoBanner";
 
 export default function HeroGuidancePanel() {
   return (
@@ -19,6 +20,8 @@ export default function HeroGuidancePanel() {
       />
 
       <div className="relative z-10 flex flex-col items-center gap-5 md:gap-6">
+        <GuidancePromoBanner className="w-full max-w-xl mb-1" />
+
         <p className="text-[#BD9958]/90 text-xs md:text-sm uppercase tracking-[0.25em]">
           {HERO_GUIDANCE.eyebrow}
         </p>

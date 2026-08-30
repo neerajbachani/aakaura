@@ -3,8 +3,35 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { verifyRazorpaySignature } from '@/lib/razorpay';
 import { findOrCreateGuidanceUser } from '@/lib/guidance-user';
-import { GUIDANCE_CALL, PRACTITIONER_PREFERENCE_VALUES } from '@/config/guidance';
+import {
+  GUIDANCE_CALL,
+  PRACTITIONER_PREFERENCE_VALUES,
+  GUIDANCE_INTAKE_LIFE_AREAS,
+  GUIDANCE_INTAKE_LIFE_FEELINGS,
+  GUIDANCE_INTAKE_ON_MIND_DURATIONS,
+  GUIDANCE_INTAKE_SOMETHING_ELSE,
+} from '@/config/guidance';
 import { sendBookingReceivedEmail } from '@/lib/email';
+
+const intakeSchema = z
+  .object({
+    lifeArea: z.enum(GUIDANCE_INTAKE_LIFE_AREAS),
+    lifeAreaFeeling: z.enum(GUIDANCE_INTAKE_LIFE_FEELINGS),
+    lifeAreaFeelingOther: z.string().optional(),
+    onMindDuration: z.enum(GUIDANCE_INTAKE_ON_MIND_DURATIONS),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.lifeAreaFeeling === GUIDANCE_INTAKE_SOMETHING_ELSE &&
+      !data.lifeAreaFeelingOther?.trim()
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Please describe how this area feels',
+        path: ['lifeAreaFeelingOther'],
+      });
+    }
+  });
 
 const bookSchema = z.object({
   name: z.string().min(1),
@@ -18,6 +45,7 @@ const bookSchema = z.object({
     .optional(),
   timezone: z.string().default('Asia/Kolkata'),
   notes: z.string().optional(),
+  intake: intakeSchema,
   razorpayOrderId: z.string(),
   razorpayPaymentId: z.string(),
   razorpaySignature: z.string(),
@@ -58,6 +86,14 @@ export async function POST(request: NextRequest) {
         amount: GUIDANCE_CALL.price,
         paymentStatus: 'PAID',
         notes: data.notes,
+        intakeResponses: {
+          lifeArea: data.intake.lifeArea,
+          lifeAreaFeeling: data.intake.lifeAreaFeeling,
+          ...(data.intake.lifeAreaFeelingOther?.trim()
+            ? { lifeAreaFeelingOther: data.intake.lifeAreaFeelingOther.trim() }
+            : {}),
+          onMindDuration: data.intake.onMindDuration,
+        },
         razorpayOrderId: data.razorpayOrderId,
         razorpayPaymentId: data.razorpayPaymentId,
         razorpaySignature: data.razorpaySignature,

@@ -301,6 +301,7 @@ model GuidanceBooking {
   paymentStatus           PaymentStatus  @default(PENDING)
   amount                  Float
   notes                   String?
+  intakeResponses         Json?
   razorpayOrderId         String?
   razorpayPaymentId       String?        @unique
   razorpaySignature       String?

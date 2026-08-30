@@ -54,6 +54,7 @@ export async function GET(request: NextRequest) {
         customerEmail: b.user.email,
         customerPhone: b.user.phone,
         notes: b.notes,
+        intakeResponses: b.intakeResponses,
         bookingType: b.bookingType,
         packageType: b.packagePurchase?.packageType,
         packageLabel: b.packagePurchase
