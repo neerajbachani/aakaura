@@ -4,14 +4,15 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useTransitionRouter } from "next-view-transitions";
 import { motion, AnimatePresence } from "framer-motion";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import HeroPathSelector from "@/components/home/HeroPathSelector";
 import HeroGuidancePanel from "@/components/home/HeroGuidancePanel";
 import HeroBouquetPanel from "@/components/home/HeroBouquetPanel";
+import ChakraInfoBottomSheet from "@/components/home/ChakraInfoBottomSheet";
 import {
   DEFAULT_HERO_PATH,
   type HeroPath,
 } from "@/config/homeHero";
+import { chakraBalanceSheetContent } from "@/config/chakraBalanceSheet";
 
 // Chakras configuration array with slug mapping
 // Chakras configuration array with slug mapping
@@ -502,62 +503,39 @@ export default function BannerImage() {
 
       {/* Mobile Bottom Sheet: journey only */}
       <AnimatePresence>
-        {isMobile && activePath === "journey" && selectedChakra && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedChakra(null)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100]"
-            />
-
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed bottom-0 left-0 right-0 bg-[#27190b] z-[101] rounded-t-[32px] p-8 pb-12 shadow-[0_-20px_40px_rgba(0,0,0,0.5)] border-t border-[#BD9958]/20"
-            >
-              <div className="w-12 h-1 bg-[#BD9958]/20 rounded-full mx-auto mb-8" />
-
-              <button
+        {isMobile &&
+          activePath === "journey" &&
+          selectedChakra &&
+          chakraBalanceSheetContent[selectedChakra.slug] && (
+            <>
+              <motion.div
+                key="chakra-sheet-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 onClick={() => setSelectedChakra(null)}
-                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100]"
+              />
+
+              <motion.div
+                key="chakra-sheet-panel"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed bottom-0 left-0 right-0 bg-[#27190b] z-[101] rounded-t-[32px] px-6 pt-4 pb-10 shadow-[0_-20px_40px_rgba(0,0,0,0.5)] border-t border-[#BD9958]/20"
               >
-                <XMarkIcon className="w-6 h-6 text-[#BD9958]" />
-              </button>
-
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-4">
-                  <h3
-                    className="text-2xl font-bold tracking-widest uppercase mb-1"
-                    style={{ color: selectedChakra.color }}
-                  >
-                    {selectedChakra.name}
-                  </h3>
-                  <p
-                    className="text-lg italic font-light opacity-80"
-                    style={{ color: selectedChakra.color }}
-                  >
-                    {selectedChakra.sanskrit}
-                  </p>
-                </div>
-
-                <p className="text-sm leading-relaxed text-[#f4f1ea]/80 whitespace-pre-line mb-10 max-w-sm">
-                  {selectedChakra.info}
-                </p>
-
-                <button
-                  onClick={() => handleNavigation(selectedChakra.slug)}
-                  className="w-full py-4 rounded-full bg-[#BD9958] text-[#27190b] font-bold uppercase tracking-widest text-sm shadow-lg transform active:scale-95 transition-all"
-                >
-                  Discover {selectedChakra.name} Journey
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
+                <ChakraInfoBottomSheet
+                  chakra={{
+                    name: selectedChakra.name,
+                    slug: selectedChakra.slug,
+                  }}
+                  content={chakraBalanceSheetContent[selectedChakra.slug]}
+                  onDiscover={() => handleNavigation(selectedChakra.slug)}
+                />
+              </motion.div>
+            </>
+          )}
       </AnimatePresence>
     </section>
   );
