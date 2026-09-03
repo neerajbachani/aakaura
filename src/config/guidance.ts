@@ -197,6 +197,8 @@ export const CALL_FLOW = [
 ] as const;
 
 export const SESSION_GUIDELINES = [
+  'All guidance calls are confidential.',
+  'Practitioner exchange of personal contact information (phone numbers, personal social media, etc.) is strictly prohibited and is not sanctioned by Aakaura.',
   'We keep every conversation focused on you and your guidance.',
   'Everything is explained simply. No jargon, just clarity.',
   'Every session is held with care and professionalism.',

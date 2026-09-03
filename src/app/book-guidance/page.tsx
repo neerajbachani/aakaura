@@ -322,6 +322,9 @@ export default function BookGuidancePage() {
                   rows={3}
                   className="w-full bg-white/90 rounded-lg px-4 py-3 text-[#27190B] text-base lg:text-lg"
                 />
+                <p className={`${fonts.mulish} text-[#F5E6D3]/60 text-xs md:text-sm text-center leading-relaxed not-italic`}>
+                  All guidance calls are confidential.
+                </p>
                 <button
                   type="submit"
                   disabled={submitting}

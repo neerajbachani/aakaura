@@ -22,7 +22,9 @@ export default function GuidancePromoBanner({ className = "" }: GuidancePromoBan
         <span className="h-px w-10 md:w-14 bg-gradient-to-l from-transparent to-[#BD9958]/35" aria-hidden="true" />
       </div>
 
-      <p className="font-cormorant text-[#F5E6D3]/90 text-base md:text-lg lg:text-xl font-light leading-relaxed italic max-w-xl mx-auto">
+      <p
+        className={`${fonts.mulish} text-[#F5E6D3]/90 text-sm md:text-base lg:text-lg font-normal leading-relaxed not-italic max-w-xl mx-auto`}
+      >
         The first {GUIDANCE_COMPLIMENTARY_PROMO.limit} guidance calls are complimentary, from
         Aakaura&apos;s side.
       </p>
