@@ -2,11 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { GUIDANCE_CALL, GUIDANCE_PRACTITIONERS } from "@/config/guidance";
+import {
+  GUIDANCE_CALL,
+  GUIDANCE_PRACTITIONERS,
+  isComplimentaryPromoStarted,
+} from "@/config/guidance";
 import { HERO_GUIDANCE } from "@/config/homeHero";
 import GuidancePromoBanner from "@/components/guidance/GuidancePromoBanner";
 
 export default function HeroGuidancePanel() {
+  const promoStarted = isComplimentaryPromoStarted();
+
   return (
     <div className="relative flex flex-col items-center justify-center text-center min-h-[55vh] md:min-h-[60vh] px-4 py-8 max-w-2xl mx-auto">
       {/* Soft radial gold glow */}
@@ -41,7 +47,7 @@ export default function HeroGuidancePanel() {
               Price
             </p>
             <p className="text-xl md:text-2xl font-semibold text-[#F5E6D3]">
-              ₹{GUIDANCE_CALL.price}
+              {promoStarted ? "Free" : `₹${GUIDANCE_CALL.price}`}
             </p>
           </div>
           <div className="px-5 py-2.5 rounded-full border border-[#BD9958]/30 bg-[#BD9958]/10 backdrop-blur-sm">

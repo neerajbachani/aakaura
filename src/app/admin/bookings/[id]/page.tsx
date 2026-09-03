@@ -149,7 +149,16 @@ export default function AdminBookingDetailPage({
             </div>
             <div>
               <p className="text-gray-500">Payment</p>
-              <p>{booking.paymentStatus} · ₹{booking.amount}</p>
+              <p className="flex flex-wrap items-center gap-2">
+                <span>
+                  {booking.paymentStatus} · ₹{booking.amount}
+                </span>
+                {booking.bookingType === "GUIDANCE_CALL" && booking.amount === 0 && (
+                  <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                    Complimentary
+                  </span>
+                )}
+              </p>
             </div>
             {booking.notes && (
               <div className="md:col-span-2">

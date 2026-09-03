@@ -204,8 +204,17 @@ export default function BookingsTable() {
                 <td className="px-6 py-4">
                   <CouponBadge booking={booking} />
                 </td>
-                <td className="px-6 py-4 text-sm">{booking.paymentStatus}</td>
-                <td className="px-6 py-4 text-sm">{formatCurrency(booking.amount)}</td>
+                <td className="px-6 py-4 text-sm">
+                  <div>{booking.paymentStatus}</div>
+                  {booking.bookingType === "GUIDANCE_CALL" && booking.amount === 0 && (
+                    <span className="inline-flex mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                      Complimentary
+                    </span>
+                  )}
+                </td>
+                <td className="px-6 py-4 text-sm">
+                  {booking.amount === 0 ? "₹0" : formatCurrency(booking.amount)}
+                </td>
                 <td className="px-6 py-4 text-sm text-gray-500">{formatDate(booking.createdAt)}</td>
                 <td className="px-6 py-4">
                   <Link

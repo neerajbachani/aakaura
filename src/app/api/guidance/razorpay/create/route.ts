@@ -5,6 +5,7 @@ import { getRazorpayInstance } from '@/lib/razorpay';
 import { GUIDANCE_CALL, PACKAGES } from '@/config/guidance';
 import { calculateDiscountedPrice, validateCoupon } from '@/lib/coupon';
 import { findOrCreateGuidanceUser } from '@/lib/guidance-user';
+import { getComplimentaryEligibility } from '@/lib/guidance-complimentary';
 
 const createOrderSchema = z.object({
   type: z.enum(['guidance', 'package']),
@@ -30,6 +31,17 @@ export async function POST(request: NextRequest) {
     };
 
     if (data.type === 'guidance') {
+      const eligibility = await getComplimentaryEligibility({
+        email: data.customerInfo.email,
+      });
+      if (eligibility.eligible) {
+        return NextResponse.json({
+          free: true,
+          complimentary: true,
+          displayAmount: 0,
+        });
+      }
+
       amount = GUIDANCE_CALL.price;
       receipt = `guidance_${Date.now()}`;
       notes.bookingType = 'GUIDANCE_CALL';

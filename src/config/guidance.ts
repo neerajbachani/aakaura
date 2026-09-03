@@ -5,6 +5,26 @@ export const GUIDANCE_CALL = {
   durationMinutes: 20,
 } as const;
 
+/** First-N complimentary guidance calls promo (server-enforced). */
+export const GUIDANCE_COMPLIMENTARY_PROMO = {
+  enabled: true,
+  /** Midnight IST on this calendar day. */
+  startDate: '2026-09-01',
+  limit: 50,
+  startLabel: 'September 1',
+} as const;
+
+/** Promo start as Date: midnight IST on startDate (YYYY-MM-DD). */
+export function getComplimentaryPromoStartDate(): Date {
+  return new Date(`${GUIDANCE_COMPLIMENTARY_PROMO.startDate}T00:00:00+05:30`);
+}
+
+export function isComplimentaryPromoStarted(now = new Date()): boolean {
+  return (
+    GUIDANCE_COMPLIMENTARY_PROMO.enabled && now >= getComplimentaryPromoStartDate()
+  );
+}
+
 export const PACKAGES: Record<
   PackageType,
   {

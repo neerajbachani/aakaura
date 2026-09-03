@@ -7,8 +7,10 @@ import { toast } from "react-hot-toast";
 import { useAuthStatus } from "@/hooks/useAuth";
 import {
   GUIDANCE_CALL,
+  GUIDANCE_COMPLIMENTARY_PROMO,
   GUIDANCE_PRACTITIONERS,
   PRACTITIONER_PREFERENCE_ANY,
+  isComplimentaryPromoStarted,
 } from "@/config/guidance";
 import GuidanceCallDetails from "@/components/guidance/GuidanceCallDetails";
 import GuidancePromoBanner from "@/components/guidance/GuidancePromoBanner";
@@ -17,6 +19,7 @@ import GuidanceIntakeFields, {
   type GuidanceIntakeFormValues,
 } from "@/components/guidance/GuidanceIntakeFields";
 import { HERO_GUIDANCE } from "@/config/homeHero";
+import fonts from "@/config/fonts";
 
 declare global {
   interface Window {
@@ -43,6 +46,8 @@ export default function BookGuidancePage() {
     onMindDuration: "",
   });
 
+  const promoStarted = isComplimentaryPromoStarted();
+
   const intakeValues: GuidanceIntakeFormValues = {
     lifeArea: form.lifeArea,
     lifeAreaFeeling: form.lifeAreaFeeling,
@@ -67,6 +72,41 @@ export default function BookGuidancePage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const bookingPayload = () => ({
+    name: form.name,
+    email: form.email,
+    phone: form.phone,
+    preferredDate: form.preferredDate,
+    preferredTime: form.preferredTime,
+    preferredPractitioner: form.preferredPractitioner,
+    timezone: form.timezone,
+    notes: form.notes,
+    intake: {
+      lifeArea: form.lifeArea,
+      lifeAreaFeeling: form.lifeAreaFeeling,
+      lifeAreaFeelingOther: form.lifeAreaFeelingOther || undefined,
+      onMindDuration: form.onMindDuration,
+    },
+  });
+
+  const finalizeComplimentaryBooking = async () => {
+    const bookRes = await fetch("/api/guidance/book", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...bookingPayload(),
+        complimentary: true,
+      }),
+    });
+    const result = await bookRes.json();
+    if (!bookRes.ok) {
+      toast.error(result.error || "Booking failed");
+      return;
+    }
+    toast.success("Complimentary booking received! We'll confirm your slot shortly.");
+    router.push(`/booking/${result.booking.id}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,12 +138,17 @@ export default function BookGuidancePage() {
         return;
       }
 
+      if (rzpData.free && rzpData.complimentary) {
+        await finalizeComplimentaryBooking();
+        return;
+      }
+
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
         amount: rzpData.amount,
         currency: rzpData.currency,
         name: "Aakaura",
-        description: "Guidance Call · ₹333",
+        description: `Guidance Call · ₹${GUIDANCE_CALL.price}`,
         order_id: rzpData.id,
         handler: async (paymentResponse: {
           razorpay_payment_id: string;
@@ -115,20 +160,7 @@ export default function BookGuidancePage() {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                name: form.name,
-                email: form.email,
-                phone: form.phone,
-                preferredDate: form.preferredDate,
-                preferredTime: form.preferredTime,
-                preferredPractitioner: form.preferredPractitioner,
-                timezone: form.timezone,
-                notes: form.notes,
-                intake: {
-                  lifeArea: form.lifeArea,
-                  lifeAreaFeeling: form.lifeAreaFeeling,
-                  lifeAreaFeelingOther: form.lifeAreaFeelingOther || undefined,
-                  onMindDuration: form.onMindDuration,
-                },
+                ...bookingPayload(),
                 razorpayPaymentId: paymentResponse.razorpay_payment_id,
                 razorpayOrderId: paymentResponse.razorpay_order_id,
                 razorpaySignature: paymentResponse.razorpay_signature,
@@ -198,8 +230,21 @@ export default function BookGuidancePage() {
                 <div className="mb-2">
                   <h2 className="text-2xl lg:text-3xl font-cormorant text-[#BD9958]">Book Now</h2>
                   <p className="text-[#F5E6D3]/85 text-base lg:text-lg mt-1">
-                    ₹{GUIDANCE_CALL.price} · {GUIDANCE_CALL.durationMinutes} minutes
+                    {promoStarted ? (
+                      <>Complimentary · {GUIDANCE_CALL.durationMinutes} minutes</>
+                    ) : (
+                      <>
+                        ₹{GUIDANCE_CALL.price} · {GUIDANCE_CALL.durationMinutes} minutes
+                      </>
+                    )}
                   </p>
+                  {promoStarted && (
+                    <p className={`${fonts.mulish} text-[#F5E6D3]/65 text-sm mt-1 leading-relaxed not-italic`}>
+                      Complimentary for early bookings from {GUIDANCE_COMPLIMENTARY_PROMO.startLabel}
+                      . After the first {GUIDANCE_COMPLIMENTARY_PROMO.limit} calls, bookings are ₹
+                      {GUIDANCE_CALL.price}.
+                    </p>
+                  )}
                 </div>
 
                 <input
@@ -282,7 +327,11 @@ export default function BookGuidancePage() {
                   disabled={submitting}
                   className="w-full py-4 bg-[#BD9958] text-[#27190B] text-base lg:text-lg font-semibold rounded-lg hover:bg-[#BD9958]/90 disabled:opacity-50 transition-colors"
                 >
-                  {submitting ? "Processing..." : `Pay ₹${GUIDANCE_CALL.price} & Book`}
+                  {submitting
+                    ? "Processing..."
+                    : promoStarted
+                      ? "Book a call"
+                      : `Pay ₹${GUIDANCE_CALL.price} & Book`}
                 </button>
                 <p className="text-sm lg:text-base text-[#F5E6D3]/75 text-center leading-relaxed">
                   Your booking request will be reviewed. Our team will confirm your meeting shortly.
