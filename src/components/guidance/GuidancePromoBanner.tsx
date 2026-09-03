@@ -15,7 +15,7 @@ export default function GuidancePromoBanner({ className = "" }: GuidancePromoBan
       <div className="flex items-center justify-center gap-3 mb-3">
         <span className="h-px w-10 md:w-14 bg-gradient-to-r from-transparent to-[#BD9958]/35" aria-hidden="true" />
         <span
-          className={`${fonts.mulish} text-[#BD9958]/75 text-[10px] md:text-xs uppercase tracking-[0.2em] font-normal not-italic`}
+          className={`${fonts.inter} text-[#BD9958]/75 text-[10px] md:text-xs uppercase tracking-[0.2em] font-normal not-italic`}
         >
           From {GUIDANCE_COMPLIMENTARY_PROMO.startLabel}
         </span>
@@ -23,10 +23,13 @@ export default function GuidancePromoBanner({ className = "" }: GuidancePromoBan
       </div>
 
       <p
-        className={`${fonts.mulish} text-[#F5E6D3]/90 text-sm md:text-base lg:text-lg font-normal leading-relaxed not-italic max-w-xl mx-auto`}
+        className={`${fonts.inter} text-[#F5E6D3]/90 text-sm md:text-base lg:text-lg font-normal leading-relaxed not-italic max-w-xl mx-auto`}
       >
-        The first {GUIDANCE_COMPLIMENTARY_PROMO.limit} guidance calls are complimentary, from
-        Aakaura&apos;s side.
+        The first{" "}
+        <span className="tabular-nums inline-block pr-1">
+          {GUIDANCE_COMPLIMENTARY_PROMO.limit}
+        </span>
+        guidance calls are complimentary, from Aakaura&apos;s side.
       </p>
     </div>
   );
