@@ -15,13 +15,13 @@ export const chakraBalanceSheetContent: Record<
       "Constantly on edge, like something bad is always about to happen",
     tooMuch: "Rigid, controlling, afraid to change anything at all",
     balanced:
-      "Balanced, it's just quiet safety — your body finally believing it's okay to rest.",
+      "Balanced, it's just quiet safety: your body finally believing it's okay to rest.",
   },
   flow: {
     persona: "Someone who wants to feel alive and connected",
     tooLittle: "Numb, disconnected, going through the motions",
     tooMuch:
-      "Emotions take over completely — mood swings, over-attachment, drama that doesn't need to be there",
+      "Emotions take over completely: mood swings, over-attachment, drama that doesn't need to be there",
     balanced:
       "Balanced, you feel things fully, without being ruled by them.",
   },
@@ -32,7 +32,7 @@ export const chakraBalanceSheetContent: Record<
       "Doubt yourself, shrink in rooms, let others decide for you",
     tooMuch: "Control, ego, needing to win every conversation",
     balanced:
-      "Balanced, it's just quiet self-respect — you don't need to prove anything.",
+      "Balanced, it's just quiet self-respect: you don't need to prove anything.",
   },
   love: {
     persona:
@@ -65,7 +65,7 @@ export const chakraBalanceSheetContent: Record<
     persona:
       "Someone who wants to feel connected to something bigger than themselves",
     tooLittle:
-      "Cut off — from purpose, from a higher self, from anything beyond your own noisy thoughts",
+      "Cut off from purpose, from a higher self, from anything beyond your own noisy thoughts",
     tooMuch:
       'Disappear into it, avoid real life by staying "too spiritual" for the everyday',
     balanced:
