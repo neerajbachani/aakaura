@@ -8,9 +8,10 @@ export const GET = errorHandler(async () => {
       where: { isFeatured: true },
       include: {
         variations: true,
+        category: true,
       },
       orderBy: { createdAt: "desc" },
-      take: 6, // Limit to 6 featured products for home page
+      take: 12,
     });
 
     return successResponse(

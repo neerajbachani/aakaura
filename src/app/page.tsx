@@ -14,6 +14,8 @@ import BlogSection from "@/components/BlogSection";
 import AnimatedText from "@/components/AnimatedText";
 import ScrollTransition from "@/components/ScrollTransition";
 import HumanBranches from "@/components/HumanBranches";
+import ProductMosaicGrid from "@/components/ProductMosaicGrid";
+import { sortProductsByCategory } from "@/lib/mosaicProducts";
 import { generateSEO } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -39,6 +41,36 @@ const getFeaturedProducts = async (): Promise<Product[]> => {
   }
 };
 
+const MOSAIC_PRODUCT_COUNT = 60;
+
+const getMosaicProducts = async (
+  featured: Product[],
+): Promise<Product[]> => {
+  try {
+    const res = await fetch(
+      `${env.WEB_CLIENT_URL}/api/products?limit=${MOSAIC_PRODUCT_COUNT}`,
+      { cache: "no-store" },
+    );
+    const result: ApiResponse<{ products: Product[] }> = await res.json();
+    if (!res.ok) throw new Error(result.message);
+
+    const catalog = result.data?.products ?? [];
+    const seen = new Set<string>();
+    const merged: Product[] = [];
+
+    for (const product of [...featured, ...catalog]) {
+      if (seen.has(product.id)) continue;
+      seen.add(product.id);
+      merged.push(product);
+    }
+
+    return sortProductsByCategory(merged);
+  } catch (error) {
+    console.error("Error fetching mosaic products:", error);
+    return sortProductsByCategory(featured);
+  }
+};
+
 const getFeaturedBlogs = async (): Promise<Blog[]> => {
   try {
     const res = await fetch(`${env.WEB_CLIENT_URL}/api/blogs/featured`, {
@@ -58,6 +90,7 @@ export default async function Home() {
     getFeaturedProducts(),
     getFeaturedBlogs(),
   ]);
+  const mosaicProducts = await getMosaicProducts(featuredProducts);
   return (
     <>
       {/* <SplashScreen /> */}
@@ -71,6 +104,7 @@ export default async function Home() {
       {/* Featured Blogs Section */}
 
       <AboutHeader />
+      <ProductMosaicGrid products={mosaicProducts} />
       <ScrollTransition />
       <BlogSection />
       {/* <HumanBranches /> */}

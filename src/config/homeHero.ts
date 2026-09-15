@@ -14,7 +14,7 @@ export const HERO_PATHS: {
   },
   {
     id: "journey",
-    label: "Choose Your Journey",
+    label: "Choose Your Journey Products",
     shortLabel: "Journey",
     panelId: "hero-panel-journey",
   },
