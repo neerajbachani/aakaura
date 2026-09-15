@@ -271,7 +271,7 @@ export default function AnimatedText({
 
       {/* Pin wrapper */}
       <div ref={pinWrapperRef} className="h-[400vh] relative">
-        <div className="sticky top-0 w-screen h-screen flex items-center overflow-hidden bg-[#27190B] text-white">
+        <div className="sticky top-0 w-screen h-screen flex items-center overflow-hidden bg-[#27190B] text-[#BD9958]">
           {/* Scrolling text */}
           <div
             ref={textWrapperRef}
