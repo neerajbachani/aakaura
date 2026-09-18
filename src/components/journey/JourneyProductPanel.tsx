@@ -209,18 +209,12 @@ export function JourneyProductPanel({
   // Find the index of this image in the main product images array
   const activeImageIndex = product.images?.indexOf(activeDesktopImage) ?? -1;
 
-  // If we found an index (meaning it's from the main gallery) and we have a mobile image for it, use it.
-  // Otherwise, if it's a mobile device and we have a mobile image for the FIRST slot (fallback), maybe use that?
-  // The user requirement is 1:1 mapping. If no mapping, show default.
-  // So: Only swap if we can map index-to-index.
-  const mappedMobileImage =
-    activeImageIndex !== -1 && product.mobileImages?.[activeImageIndex]
-      ? product.mobileImages[activeImageIndex]
-      : undefined;
-
+  // On mobile, swap to the mobile image only when this index has one; otherwise use desktop.
   const displayImage =
-    isMobile && (mappedMobileImage || product.mobileImages?.[0])
-      ? mappedMobileImage || product.mobileImages?.[0]
+    isMobile &&
+    activeImageIndex !== -1 &&
+    product.mobileImages?.[activeImageIndex]
+      ? product.mobileImages[activeImageIndex]
       : activeDesktopImage;
 
   return (
@@ -329,7 +323,7 @@ export function JourneyProductPanel({
                   }}
                   className={`w-16 h-16 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 relative flex-shrink-0 bg-black/20 backdrop-blur-sm ${
                     selectedSideImage === img ||
-                    (!selectedSideImage && displayImage === img) // Correct comparison logic needs to be careful here
+                    (!selectedSideImage && activeDesktopImage === img)
                       ? "border-white scale-110 shadow-lg ring-2 ring-white/20 opacity-100"
                       : "border-white/30 hover:border-white/70 opacity-60 hover:opacity-100 hover:scale-105"
                   }`}
