@@ -5,7 +5,7 @@ import Galaxy from "@/components/ui/Galaxy";
 
 export default function HomeHeroSection() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen  pb-10 md:pb-20 overflow-hidden">
       {/* Galaxy Background - Covers navbar + hero section */}
       {/* <div className="absolute inset-0 w-full h-full z-10 pointer-events-none">
         <Galaxy
