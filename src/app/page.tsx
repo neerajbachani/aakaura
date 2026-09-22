@@ -102,9 +102,8 @@ export default async function Home() {
         <ProductsSwiper products={featuredProducts} title="Featured Products" />
       </Container> */}
       {/* Featured Blogs Section */}
-
-      <AboutHeader />
       <ProductMosaicGrid products={mosaicProducts} />
+      <AboutHeader />
       <ScrollTransition />
       <BlogSection />
       {/* <HumanBranches /> */}
