@@ -109,6 +109,14 @@ export default function Footer() {
             </li>
             <li>
               <Link
+                href="/audiobooks"
+                className="hover:text-primaryRed transition"
+              >
+                Audiobook
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/policies/disclaimers"
                 className="hover:text-primaryRed transition"
               >

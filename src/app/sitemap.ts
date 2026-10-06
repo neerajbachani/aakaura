@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { CATEGORY_SLUGS } from "@/config/seo/categories";
+import { audiobooks } from "@/data/audiobooks";
 import { SITE_URL } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -9,6 +10,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blogs`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/rituals`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/audiobooks`, changeFrequency: "monthly", priority: 0.7 },
+    ...audiobooks.map((book) => ({
+      url: `${SITE_URL}/audiobooks/${book.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     {
       url: `${SITE_URL}/rituals/awareness-guide`,
       changeFrequency: "monthly",

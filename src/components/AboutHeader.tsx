@@ -106,6 +106,11 @@ export default function AboutHeader() {
                       Ritual Notes
                     </Link>
                   </li>
+                  <li className="cursor-pointer opacity-60 hover:opacity-100 hover:text-[#FFD700] transition-all">
+                    <Link href="/audiobooks" className="block w-full">
+                      Audiobook
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

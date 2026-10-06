@@ -405,6 +405,20 @@ export default function Navbar({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
+                  transition={{ delay: 0.425, duration: 0.3 }}
+                >
+                  <Link
+                    href="/audiobooks"
+                    onClick={closeMenu}
+                    className="block px-6 py-4 text-xl md:text-2xl text-[#27190b] hover:text-primaryRed"
+                  >
+                    Audiobook
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
                   transition={{ delay: 0.43, duration: 0.3 }}
                 >
                   <Link
