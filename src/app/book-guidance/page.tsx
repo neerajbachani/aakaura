@@ -111,7 +111,7 @@ export default function BookGuidancePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.phone) {
+    if (!form.name || !form.email || !form.phone || !form.preferredDate || !form.preferredTime) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -299,20 +299,32 @@ export default function BookGuidancePage() {
                   ))}
                 </select>
                 <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="date"
-                    name="preferredDate"
-                    value={form.preferredDate}
-                    onChange={handleChange}
-                    className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg"
-                  />
-                  <input
-                    type="time"
-                    name="preferredTime"
-                    value={form.preferredTime}
-                    onChange={handleChange}
-                    className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg"
-                  />
+                  <label className="flex flex-col gap-1">
+                    <span className={`${fonts.mulish} text-[#F5E6D3]/80 text-sm not-italic`}>
+                      Preferred date *
+                    </span>
+                    <input
+                      required
+                      type="date"
+                      name="preferredDate"
+                      value={form.preferredDate}
+                      onChange={handleChange}
+                      className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1">
+                    <span className={`${fonts.mulish} text-[#F5E6D3]/80 text-sm not-italic`}>
+                      Preferred time *
+                    </span>
+                    <input
+                      required
+                      type="time"
+                      name="preferredTime"
+                      value={form.preferredTime}
+                      onChange={handleChange}
+                      className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg"
+                    />
+                  </label>
                 </div>
                 <textarea
                   name="notes"

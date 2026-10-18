@@ -38,8 +38,8 @@ const baseBookFields = {
   name: z.string().min(1),
   email: z.string().email(),
   phone: z.string().min(10),
-  preferredDate: z.string().optional(),
-  preferredTime: z.string().optional(),
+  preferredDate: z.string().min(1, 'Preferred date is required'),
+  preferredTime: z.string().min(1, 'Preferred time is required'),
   preferredPractitioner: z
     .enum([...PRACTITIONER_PREFERENCE_VALUES] as [string, ...string[]])
     .or(z.literal(''))
