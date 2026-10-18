@@ -119,6 +119,7 @@ export const GUIDANCE_PRACTITIONERS = [
     ],
     imageUrl:
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-1_mi9t6g.png',
+    imagePosition: 'center',
   },
   {
     slug: 'richa',
@@ -130,6 +131,7 @@ export const GUIDANCE_PRACTITIONERS = [
     ],
     imageUrl:
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-2_uf4ddk.png',
+    imagePosition: 'center',
   },
 ] as const;
 
