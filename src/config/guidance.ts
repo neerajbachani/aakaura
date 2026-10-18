@@ -133,6 +133,18 @@ export const GUIDANCE_PRACTITIONERS = [
       'https://res.cloudinary.com/dix9x012c/image/upload/v1784492903/practioner-2_uf4ddk.png',
     imagePosition: 'center',
   },
+  {
+    slug: 'kartikeya',
+    name: 'Kartikeya Chauhan',
+    title: 'Certified Sound Healer | Happiness Coach',
+    bio: [
+      'Kartikeya is a Certified Sound Healer, trained through the Sound Healing Teacher Training at Spiritual Light Ashram & Dhyan Kendra. His practice includes singing bowls, crystal bowls, tuning forks, chakra sound healing, sound baths, and yoga nidra.',
+      'He also holds training in Happiness Coaching and Sub-Cognitive Counseling, including CBT, transactional analysis, neuro-linguistic programming, and sub-cognitive reprogramming, and has studied tarot card reading. He brings that mix of sound, listening, and practical guidance to every call.',
+    ],
+    imageUrl:
+      'https://res.cloudinary.com/dkhsnhjrh/image/upload/v1792300544/WhatsApp_Image_2026-10-15_at_18.58.07_kiiiaj.jpg',
+    imagePosition: 'center 18%',
+  },
 ] as const;
 
 export const PRACTITIONER_PREFERENCE_ANY = 'any';
