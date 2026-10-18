@@ -73,6 +73,7 @@ export default function HeroGuidancePanel() {
                   alt={p.name}
                   fill
                   className="object-cover"
+                  style={{ objectPosition: p.imagePosition }}
                   sizes="56px"
                 />
               </div>

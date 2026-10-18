@@ -23,6 +23,7 @@ export default function PractitionerProfiles() {
                 alt={practitioner.name}
                 fill
                 className="object-cover"
+                style={{ objectPosition: practitioner.imagePosition }}
                 sizes="(max-width: 768px) 160px, 176px"
               />
             </div>
