@@ -8,7 +8,7 @@ export default function PractitionerProfiles() {
         Meet Your Practitioners
       </h2>
       <p className="text-[#F5E6D3]/85 text-base lg:text-lg mb-6 leading-relaxed">
-        Your guidance call may be with one of our certified Pranic healers.
+        Your guidance call may be with one of our certified practitioners.
       </p>
 
       <div className="space-y-8">
