@@ -13,6 +13,7 @@ import {
   GUIDANCE_INTAKE_SOMETHING_ELSE,
 } from '@/config/guidance';
 import { sendBookingReceivedEmail } from '@/lib/email';
+import { guidanceSlotError } from '@/lib/guidance-schedule';
 
 const intakeSchema = z
   .object({
@@ -82,6 +83,14 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const data = bookSchema.parse(body);
+    const slotError = guidanceSlotError(
+      data.preferredDate,
+      data.preferredTime,
+      data.timezone,
+    );
+    if (slotError) {
+      return NextResponse.json({ error: slotError }, { status: 400 });
+    }
     const isComplimentary = data.complimentary === true;
 
     if (isComplimentary) {

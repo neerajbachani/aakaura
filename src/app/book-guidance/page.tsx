@@ -20,6 +20,12 @@ import GuidanceIntakeFields, {
 } from "@/components/guidance/GuidanceIntakeFields";
 import { HERO_GUIDANCE } from "@/config/homeHero";
 import fonts from "@/config/fonts";
+import {
+  availableTimesForDate,
+  earliestBookableSlot,
+  formatSlotLabel,
+  guidanceSlotError,
+} from "@/lib/guidance-schedule";
 
 declare global {
   interface Window {
@@ -70,8 +76,21 @@ export default function BookGuidancePage() {
     }
   }, [user]);
 
+  const earliestSlot = earliestBookableSlot(new Date(), form.timezone);
+  const timeOptions = form.preferredDate
+    ? availableTimesForDate(form.preferredDate, form.timezone)
+    : [];
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => {
+      const next = { ...prev, [name]: value };
+      if ((name === "preferredDate" || name === "timezone") && next.preferredDate && next.preferredTime) {
+        const allowed = availableTimesForDate(next.preferredDate, next.timezone);
+        if (!allowed.includes(next.preferredTime)) next.preferredTime = "";
+      }
+      return next;
+    });
   };
 
   const bookingPayload = () => ({
@@ -119,6 +138,12 @@ export default function BookGuidancePage() {
     const intakeError = validateGuidanceIntake(intakeValues);
     if (intakeError) {
       toast.error(intakeError);
+      return;
+    }
+
+    const slotError = guidanceSlotError(form.preferredDate, form.preferredTime, form.timezone);
+    if (slotError) {
+      toast.error(slotError);
       return;
     }
 
@@ -307,6 +332,7 @@ export default function BookGuidancePage() {
                       required
                       type="date"
                       name="preferredDate"
+                      min={earliestSlot.date}
                       value={form.preferredDate}
                       onChange={handleChange}
                       className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg"
@@ -316,16 +342,28 @@ export default function BookGuidancePage() {
                     <span className={`${fonts.mulish} text-[#F5E6D3]/80 text-sm not-italic`}>
                       Preferred time *
                     </span>
-                    <input
+                    <select
                       required
-                      type="time"
                       name="preferredTime"
                       value={form.preferredTime}
                       onChange={handleChange}
-                      className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg"
-                    />
+                      disabled={!form.preferredDate}
+                      className="bg-white/90 rounded-lg px-3 py-3 text-[#27190B] text-base lg:text-lg disabled:opacity-60"
+                    >
+                      <option value="">
+                        {form.preferredDate ? "Select a time" : "Select a date first"}
+                      </option>
+                      {timeOptions.map((time) => (
+                        <option key={time} value={time}>
+                          {formatSlotLabel(time)}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                 </div>
+                <p className={`${fonts.mulish} text-[#F5E6D3]/65 text-xs md:text-sm leading-relaxed not-italic`}>
+                  Calls can be booked at least 24 hours ahead, on the hour or at 15, 30, or 45 minutes.
+                </p>
                 <textarea
                   name="notes"
                   placeholder="Notes (optional): share your concerns"

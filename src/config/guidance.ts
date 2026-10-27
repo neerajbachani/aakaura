@@ -5,6 +5,12 @@ export const GUIDANCE_CALL = {
   durationMinutes: 20,
 } as const;
 
+/** A guidance call must be booked at least this far ahead. */
+export const GUIDANCE_BOOKING_LEAD_HOURS = 24;
+
+/** Allowed minute marks for a preferred call time. */
+export const GUIDANCE_BOOKING_MINUTE_SLOTS = [0, 15, 30, 45] as const;
+
 /** First-N complimentary guidance calls promo (server-enforced). */
 export const GUIDANCE_COMPLIMENTARY_PROMO = {
   enabled: true,
